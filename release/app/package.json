@@ -1,0 +1,24 @@
+{
+  "name": "magiscrita",
+  "version": "0.0.0",
+  "description": "The magic occurs in here",
+  "license": "MIT",
+  "author": {
+    "name": "MagiScrita",
+    "email": "ms@magiscrita.com",
+    "url": "https://magiscrita.com"
+  },
+  "main": "./dist/main/main.js",
+  "scripts": {
+    "rebuild": "node -r ts-node/register ../../.erb/scripts/electron-rebuild.js",
+    "postinstall": "npm run rebuild && npm run link-modules",
+    "link-modules": "node -r ts-node/register ../../.erb/scripts/link-modules.ts",
+    "changeset": "changeset",
+    "version": "changeset version"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.26.2"
+  },
+  "dependencies": {
+  }
+}
