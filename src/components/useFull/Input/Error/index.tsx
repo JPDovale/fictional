@@ -18,7 +18,11 @@ export function Error({
 
   const ErrorElement = asChild ? Slot : 'span';
 
-  return <ErrorElement className={errorStyles({ className })} {...props} />;
+  return (
+    <ErrorElement className={errorStyles({ className })} {...props}>
+      {children}
+    </ErrorElement>
+  );
 }
 
 Error.displayName = 'Input.Error';

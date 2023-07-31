@@ -27,6 +27,7 @@ export class CreateProjectResolver {
       userId: data.userId,
       type: data.getTypeAsString() ?? undefined,
       structure: data.getTypeStructureAsString() ?? undefined,
+      books: data.books ?? [],
     });
 
     if (serviceResponse.isLeft()) {

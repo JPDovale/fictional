@@ -1,12 +1,12 @@
+import { DashboardNavigation } from '@components/DashboardNavigation';
 import { Header } from '@components/Header';
-import { Navigation } from '@components/Navigation';
 import { useNav } from '@hooks/useNav';
 import { useTheme } from '@hooks/useTheme';
 import { mainStyles } from '@styles/theme';
 import { Outlet } from 'react-router-dom';
 
 export function DashboardLayout() {
-  const { linksToShowOnNavigator, isToShoeHeader } = useNav();
+  const { isToShoeHeader } = useNav();
   const { theme } = useTheme();
 
   return (
@@ -15,7 +15,7 @@ export function DashboardLayout() {
         { theme }
       )}`}
     >
-      <Navigation navLinks={linksToShowOnNavigator} />
+      <DashboardNavigation />
       <div className="flex-1 max-h-screen overflow-x-hidden overflow-y-auto">
         {isToShoeHeader && <Header />}
         <Outlet />

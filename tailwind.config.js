@@ -70,12 +70,22 @@ module.exports = {
           '75%': { transform: 'perspective(100px) rotateX(0) rotateY(180deg)' },
           '100%': { transform: 'perspective(100px) rotateX(0) rotateY(0)' },
         },
+        overlayShow: {
+          from: { opacity: 0 },
+          to: { opacity: 1 },
+        },
+        contentShow: {
+          from: { opacity: 0, transform: 'translate(-50%, -48%) scale(0.96)' },
+          to: { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'square-spin':
           'square-spin 3s 0s cubic-bezier(0.09, 0.57, 0.49, 0.9) infinite',
+        overlayShow: 'overlayShow 300ms cubic-bezier(0.16, 1, 0.3, 1)',
+        contentShow: 'contentShow 300ms cubic-bezier(0.16, 1, 0.3, 1)',
       },
       boxShadow: {
         default:

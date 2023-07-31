@@ -17,6 +17,7 @@ module.exports = {
     'import/no-unresolved': 'off',
     'import/no-import-module-exports': 'off',
     'no-shadow': 'off',
+    'no-undef': 'off',
     'no-nested-ternary': 'off',
     'no-unused-vars': 'off',
     'no-use-before-define': 'off',

@@ -20,7 +20,7 @@ export function BlockEditor({ content, title, editor }: BlockEditorProps) {
   const { theme } = useTheme();
 
   return (
-    <div className="pt-16 min-w-[720px] max-w-[720px] w-full flex flex-col">
+    <div className="pt-16 min-w-[38rem] max-w-[38rem] w-full flex flex-col">
       <HoverCard.Root>
         <h1 className={blockEditorTitleStyles({ theme })}>
           {title}

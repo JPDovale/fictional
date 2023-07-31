@@ -3,7 +3,8 @@ import { Optional } from '@shared/core/types/Optional';
 import { AggregateRoot } from '@shared/core/entities/AggregateRoot';
 import { Features } from './valueObjects/Features';
 import { UserInProject } from './valueObjects/UserInProject';
-import { ThreeActsStructure } from '../ThreeActsStructure';
+import { ProjectBookList } from '../ProjectBookList';
+import { ProjectPersonList } from '../ProjectPersonList';
 
 export type ProjectType = 'book' | 'rpg' | 'game-history' | 'roadmap';
 export type ProjectStructureType = 'three-acts' | 'snowflake' | 'hero-journey';
@@ -20,8 +21,8 @@ export interface ProjectProps {
   imageFileName: string | null;
   userId: UniqueEntityId;
   creator: UserInProject | null;
-  threeActsStructure: ThreeActsStructure | null;
-  threeActsStructureId: UniqueEntityId | null;
+  books: ProjectBookList;
+  persons: ProjectPersonList;
 }
 
 export class Project extends AggregateRoot<ProjectProps> {
@@ -36,8 +37,8 @@ export class Project extends AggregateRoot<ProjectProps> {
       | 'imageFileName'
       | 'creator'
       | 'structure'
-      | 'threeActsStructure'
-      | 'threeActsStructureId'
+      | 'books'
+      | 'persons'
     >,
     id?: UniqueEntityId
   ) {
@@ -53,21 +54,12 @@ export class Project extends AggregateRoot<ProjectProps> {
       updatedAt: props.updatedAt ?? new Date(),
       userId: props.userId,
       creator: props.creator ?? null,
-      threeActsStructure: props.threeActsStructure ?? null,
-      threeActsStructureId: props.threeActsStructureId ?? null,
+
+      books: props.books ?? new ProjectBookList(),
+      persons: props.persons ?? new ProjectPersonList(),
     };
 
     const project = new Project(propsProject, id);
-
-    if (
-      !id &&
-      !props.threeActsStructure &&
-      project.structure === 'three-acts'
-    ) {
-      project.threeActsStructure = ThreeActsStructure.create({
-        projectId: project.id,
-      });
-    }
 
     return project;
   }
@@ -120,15 +112,19 @@ export class Project extends AggregateRoot<ProjectProps> {
     return this.props.structure;
   }
 
-  get threeActsStructure() {
-    return this.props.threeActsStructure;
+  get books() {
+    return this.props.books;
   }
 
-  set threeActsStructure(threeActsStructure) {
-    this.props.threeActsStructure = threeActsStructure;
+  set books(books) {
+    this.props.books = books;
   }
 
-  get threeActsStructureId() {
-    return this.props.threeActsStructureId;
+  get persons() {
+    return this.props.persons;
+  }
+
+  set persons(persons) {
+    this.props.persons = persons;
   }
 }

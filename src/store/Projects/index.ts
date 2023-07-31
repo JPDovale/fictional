@@ -1,5 +1,7 @@
 import { Requester } from '@config/requests/requester';
 import { INewProjectFormaData } from '@hooks/useCreateProject/validation';
+import { BookModelResponse } from '@modules/Books/dtos/models/types';
+import { PersonModelResponse } from '@modules/Persons/dtos/models/types';
 import { ProjectModelResponse } from '@modules/Projects/dtos/models/types';
 import { useRoutes } from '@store/Routes';
 import { useUserStore } from '@store/User';
@@ -9,10 +11,12 @@ interface UpdateThreeActsStructureProps {
   act1?: string | null;
   act2?: string | null;
   act3?: string | null;
+  bookId: string;
 }
 
-interface UseProjectsStore {
+interface UseProjects {
   projects: ProjectModelResponse[];
+  persons: PersonModelResponse[];
   currentProject: ProjectModelResponse | null;
   isLoading: boolean;
 
@@ -25,9 +29,10 @@ interface UseProjectsStore {
   ) => Promise<void>;
 }
 
-const useProjectsStore = create<UseProjectsStore>((set, get) => {
+const useProjects = create<UseProjects>((set, get) => {
   return {
     projects: [],
+    persons: [],
     currentProject: null,
     isLoading: true,
 
@@ -44,6 +49,7 @@ const useProjectsStore = create<UseProjectsStore>((set, get) => {
       if (!response.error) {
         const projects = response.data.projects as ProjectModelResponse[];
         set({ projects });
+        return;
       }
 
       set({
@@ -97,19 +103,39 @@ const useProjectsStore = create<UseProjectsStore>((set, get) => {
         },
       });
 
+      let project: ProjectModelResponse | null = null;
+      const persons: PersonModelResponse[] = [];
+
       if (!response.error) {
-        const project = response.data.project as ProjectModelResponse;
-        set({ currentProject: project });
+        project = response.data.project as ProjectModelResponse;
       }
+
+      // if (project && project.features.person) {
+      //   const personsResponse = await Requester.requester({
+      //     access: 'get-project-persons',
+      //     data: {
+      //       userId: user?.account.id,
+      //       projectId: id,
+      //     },
+      //   });
+
+      //   if (!personsResponse.error) {
+      //     persons = personsResponse.data.persons as PersonModelResponse[];
+      //   }
+      // }
 
       set({
         isLoading: false,
+        currentProject: project,
+        persons,
       });
     },
 
     updateThreeActsStructure: async (props) => {
       const { user } = useUserStore.getState();
       const { currentProject } = get();
+
+      console.log(props);
 
       if (currentProject) {
         const response = await Requester.requester({
@@ -122,15 +148,28 @@ const useProjectsStore = create<UseProjectsStore>((set, get) => {
         });
 
         if (!response.error) {
+          const bookToUpdate = currentProject.books.find(
+            (book) => book.id === props.bookId
+          );
+          const indexBookToUpdate = currentProject.books.findIndex(
+            (book) => book.id === props.bookId
+          );
+          const updatedBook: BookModelResponse = {
+            ...bookToUpdate!,
+            threeActsStructure: {
+              act1: props.act1 ?? null,
+              act2: props.act2 ?? null,
+              act3: props.act3 ?? null,
+              id: bookToUpdate!.threeActsStructure!.id,
+            },
+          };
+
+          const updatedBooks = [...currentProject.books];
+          updatedBooks[indexBookToUpdate] = updatedBook;
+
           const updatedProject: ProjectModelResponse = {
             ...currentProject,
-            threeActsStructure: {
-              id: currentProject.threeActsStructure?.id ?? '',
-              act1: currentProject.threeActsStructure?.act1 ?? '',
-              act2: currentProject.threeActsStructure?.act2 ?? '',
-              act3: currentProject.threeActsStructure?.act3 ?? '',
-              ...props,
-            },
+            books: updatedBooks,
           };
 
           set({ currentProject: updatedProject });
@@ -140,4 +179,4 @@ const useProjectsStore = create<UseProjectsStore>((set, get) => {
   };
 });
 
-export { useProjectsStore };
+export { useProjects };

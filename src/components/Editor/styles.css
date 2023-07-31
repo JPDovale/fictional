@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .ProseMirror > * + * {
-  @apply mt-3
+  @apply mt-3;
 }
 
 .ProseMirror p.is-editor-empty:first-child::before {
@@ -19,6 +19,10 @@
 .ProseMirror p.is-empty::before {
   @apply text-text800/50 h-0 float-left pointer-events-none font-bold font-body dark:text-text500/50;
   content: attr(data-placeholder);
+}
+
+.mention {
+  @apply inline mr-1 px-2 py-0.5 bg-gray400 rounded-sm shadow-sm shadow-purple600 cursor-pointer;
 }
 
 mark {

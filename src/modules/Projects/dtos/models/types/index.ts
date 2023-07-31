@@ -5,6 +5,8 @@ import {
 } from '@modules/Projects/models/Project';
 import { ObjectFeatures } from '@modules/Projects/models/Project/valueObjects/Features';
 import { PermissionOfUserOnProject } from '@modules/Projects/models/Project/valueObjects/UserInProject';
+import { PersonModelResponse } from '@modules/Persons/dtos/models/types';
+import { BookModelResponse } from '@modules/Books/dtos/models/types';
 
 export abstract class UserInProjectResponse {
   abstract id: string;
@@ -16,16 +18,6 @@ export abstract class UserInProjectResponse {
   abstract username: string;
 
   abstract email: string;
-}
-
-export abstract class ThreeActsStructureResponse {
-  abstract id: string;
-
-  abstract act1: string | null;
-
-  abstract act2: string | null;
-
-  abstract act3: string | null;
 }
 
 export abstract class ProjectImage {
@@ -55,7 +47,9 @@ export abstract class ProjectModelResponse {
 
   abstract updatedAt: Date;
 
-  abstract threeActsStructure: ThreeActsStructureResponse | null;
+  abstract persons: PersonModelResponse[];
+
+  abstract books: BookModelResponse[];
 }
 
 export abstract class ProjectsResponsePartied {

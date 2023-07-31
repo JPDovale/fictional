@@ -14,7 +14,7 @@ export const newProjectFormSchema = z.object({
   imageUrl: z.string().optional().nullable(),
   features: z
     .object({
-      book: z.boolean().default(false),
+      'multi-book': z.boolean().default(false),
       planet: z.boolean().default(false),
       nation: z.boolean().default(false),
       person: z.boolean().default(false),
@@ -40,13 +40,27 @@ export const newProjectFormSchema = z.object({
         .optional(),
     })
     .optional(),
-  structure: z
-    .object({
-      'three-acts': z.boolean().default(false).optional(),
-      snowflake: z.boolean().default(false).optional(),
-      'hero-journey': z.boolean().default(false).optional(),
+  structure: z.object({
+    'three-acts': z.boolean().default(false).optional(),
+    snowflake: z.boolean().default(false).optional(),
+    'hero-journey': z.boolean().default(false).optional(),
+  }),
+  booksCount: z.coerce
+    .number({
+      invalid_type_error: 'Coloque apenas números',
     })
     .optional(),
+  books: z
+    .array(
+      z.object({
+        title: z
+          .string()
+          .max(60, 'O nome do livro não pode ter mais de 60 caracteres'),
+        imageUrl: z.string().optional().nullable(),
+      })
+    )
+    .optional()
+    .nullable(),
 });
 
 export type ProjectType = 'book' | 'rpg' | 'game-history' | 'roadmap';

@@ -1,13 +1,11 @@
+import { BooksRepository } from '@database/repositories/Book/contracts/BooksRepository';
 import { ProjectsRepository } from '@database/repositories/Project/contracts/ProjectsRepository';
-import { ThreeActsStructuresRepository } from '@database/repositories/Project/contracts/ThreeActsStructuresRepository';
 import { Project } from '@modules/Projects/models/Project';
 import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
 import { Either, left, right } from '@shared/core/error/Either';
 
 export class ProjectsInMemoryRepository implements ProjectsRepository {
-  constructor(
-    private readonly threeActsStructuresRepository: ThreeActsStructuresRepository
-  ) {}
+  constructor(private readonly booksRepository: BooksRepository) {}
 
   private projectsList: Project[] = [];
 
@@ -19,9 +17,14 @@ export class ProjectsInMemoryRepository implements ProjectsRepository {
     try {
       this.projectsList.push(project);
 
-      if (project.threeActsStructure) {
-        this.threeActsStructuresRepository.create(project.threeActsStructure);
-      }
+      const newBooks = project.books.getNewItems();
+      const inserts: Array<Promise<Either<{}, {}>>> = [];
+
+      newBooks.forEach((book) => {
+        inserts.push(this.booksRepository.create(book));
+      });
+
+      await Promise.all(inserts);
 
       return right({});
     } catch (err) {

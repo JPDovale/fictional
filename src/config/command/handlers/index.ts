@@ -12,6 +12,10 @@ function newProject() {
   return useRoutes.getState().setPathname(RoutesAvailable.projects.create);
 }
 
+function newPerson() {
+  return useRoutes.getState().setPathname(RoutesAvailable.persons.create);
+}
+
 function home() {
   return useRoutes.getState().setPathname(RoutesAvailable.default);
 }
@@ -30,4 +34,4 @@ function openDevTools() {
   });
 }
 
-export { commandK, newProject, home, goBackEscape, openDevTools };
+export { commandK, newProject, home, goBackEscape, openDevTools, newPerson };

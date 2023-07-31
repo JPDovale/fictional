@@ -7,6 +7,7 @@ import { Header } from './Header';
 import { Label } from './Label';
 import { Error } from './Error';
 import { Info } from './Info';
+import { Textarea } from './Textarea';
 
 export const Input = {
   Root,
@@ -18,4 +19,5 @@ export const Input = {
   Label,
   Error,
   Info,
+  Textarea,
 };

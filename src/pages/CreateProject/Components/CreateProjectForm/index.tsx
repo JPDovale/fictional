@@ -8,7 +8,7 @@ import {
   ProjectType,
 } from '@hooks/useCreateProject/validation';
 import {
-  Book,
+  BookCopy,
   BookMarked,
   Building2,
   Church,
@@ -31,6 +31,7 @@ import {
   Users,
   Wand2,
 } from 'lucide-react';
+import { useEffect } from 'react';
 
 export function CreateProjectForm() {
   const {
@@ -48,6 +49,8 @@ export function CreateProjectForm() {
     type: watch('type'),
     structure: watch('structure'),
     imageUrl: watch('imageUrl'),
+    booksCount: watch('booksCount'),
+    books: watch('books'),
   };
 
   function selectTypeOfProject(typeProject: ProjectType) {
@@ -67,6 +70,14 @@ export function CreateProjectForm() {
     setValue(`structure.${structure}`, true);
   }
 
+  function handleUpdateTitleOfBook(title: string, index: number) {
+    const books = watchedFields.books ?? [];
+
+    books[index].title = title;
+
+    setValue('books', books);
+  }
+
   async function handleSelectImage() {
     const result = await Requester.requester({
       access: 'open-image-selector',
@@ -78,9 +89,59 @@ export function CreateProjectForm() {
     }
   }
 
+  async function handleSelectImageForBook(index: number) {
+    const result = await Requester.requester({
+      access: 'open-image-selector',
+      data: null,
+    });
+
+    if (result) {
+      const books = watchedFields.books ?? [];
+
+      books[index].imageUrl = result;
+
+      setValue('books', books);
+    }
+  }
+
+  function handleClearImageUrlOfBook(index: number) {
+    const books = watchedFields.books ?? [];
+
+    books[index].imageUrl = '';
+
+    setValue('books', books);
+  }
+
   function handleClearImageUrl() {
     setValue('imageUrl', '');
   }
+
+  useEffect(() => {
+    if (
+      watchedFields.booksCount &&
+      !Number.isNaN(watchedFields.booksCount) &&
+      watchedFields.booksCount >= 2 &&
+      watchedFields.booksCount <= 20
+    ) {
+      const newArrayBooks: {
+        title: string;
+        imageUrl: string | null;
+      }[] = [];
+
+      Array.from({ length: watchedFields.booksCount ?? 0 }).forEach((_, i) => {
+        newArrayBooks.push({
+          title: `${watchedFields.name} - Livro ${i + 1}`,
+          imageUrl: '',
+        });
+      });
+
+      setValue('books', newArrayBooks);
+
+      return;
+    }
+
+    setValue('books', []);
+  }, [watchedFields.booksCount, watchedFields.name, setValue]);
 
   return (
     <form
@@ -90,7 +151,7 @@ export function CreateProjectForm() {
       <h2 className="font-heading text-3xl">Base:</h2>
       <Input.Root>
         <Input.Header>
-          <Input.Label>Nome do projeto</Input.Label>
+          <Input.Label>Nome do projeto *</Input.Label>
 
           <Input.Error>{errors.name?.message}</Input.Error>
         </Input.Header>
@@ -131,7 +192,7 @@ export function CreateProjectForm() {
 
       <Input.Root>
         <Input.Header>
-          <Input.Label>Qual o tipo do seu projeto?</Input.Label>
+          <Input.Label>Qual o tipo do seu projeto? *</Input.Label>
 
           <Input.Error>{errors.type?.message}</Input.Error>
         </Input.Header>
@@ -204,7 +265,7 @@ export function CreateProjectForm() {
 
       <Input.Root>
         <Input.Header>
-          <Input.Label>Modelos usados no projeto</Input.Label>
+          <Input.Label>Modelos usados no projeto *</Input.Label>
 
           <Input.Error>{errors.features?.message}</Input.Error>
         </Input.Header>
@@ -224,15 +285,17 @@ export function CreateProjectForm() {
 
           <Checkbox.Root className="w-full">
             <Checkbox.CheckerRoot
-              onCheckedChange={(e) => setValue('features.book', e as boolean)}
+              onCheckedChange={(e) =>
+                setValue('features.multi-book', e as boolean)
+              }
             >
               <Checkbox.CheckerIndicator />
             </Checkbox.CheckerRoot>
 
-            <Checkbox.Label>Livros</Checkbox.Label>
+            <Checkbox.Label>Múltiplos Livros</Checkbox.Label>
 
             <Checkbox.Icon className="w-6 ml-auto">
-              <Book className="fill-purple900" />
+              <BookCopy className="fill-purple900" />
             </Checkbox.Icon>
           </Checkbox.Root>
 
@@ -389,11 +452,12 @@ export function CreateProjectForm() {
             </Checkbox.Icon>
           </Checkbox.Root>
 
-          <Checkbox.Root>
+          <Checkbox.Root disabled>
             <Checkbox.CheckerRoot
               onCheckedChange={(e) =>
                 setValue('features.time-lines', e as boolean)
               }
+              disabled
             >
               <Checkbox.CheckerIndicator />
             </Checkbox.CheckerRoot>
@@ -410,10 +474,9 @@ export function CreateProjectForm() {
       {watchedFields.features?.structure && (
         <>
           <h2 className="font-heading text-3xl mt-4">Estrutura narrativa:</h2>
-
           <Input.Root>
             <Input.Header>
-              <Input.Label>Escolha a sua estrutura narrativa</Input.Label>
+              <Input.Label>Escolha a sua estrutura narrativa *</Input.Label>
               <Input.Error>{errors.structure?.message}</Input.Error>
             </Input.Header>
 
@@ -472,13 +535,119 @@ export function CreateProjectForm() {
         </>
       )}
 
+      {watchedFields.features['multi-book'] && (
+        <>
+          <h2 className="font-heading text-3xl mt-4">Múltiplos livros:</h2>
+
+          <Input.Root>
+            <Input.Header>
+              <Input.Label>
+                Coloque o número de livros que você irá criar *
+              </Input.Label>
+              <Input.Error>{errors.booksCount?.message}</Input.Error>
+            </Input.Header>
+
+            <Input.Input size="sm">
+              <Input.TextInput
+                placeholder="2 - 20"
+                {...register('booksCount')}
+              />
+            </Input.Input>
+
+            <Input.Info>
+              Isso interfira diretamente na quantidade de editores disponíveis
+              dentro do projeto. Você poderá adicionar ou remover livros depois,
+              então não se preocupe com isso agora
+            </Input.Info>
+          </Input.Root>
+
+          {watchedFields.booksCount &&
+            !Number.isNaN(watchedFields.booksCount) &&
+            watchedFields.booksCount >= 2 &&
+            watchedFields.booksCount <= 20 && (
+              <div className="grid grid-cols-3 gap-8">
+                {Array.from({ length: watchedFields.booksCount }).map(
+                  (_, i) => (
+                    <div
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={i}
+                      className="flex flex-col gap-4 bg-gray400 rounded-md p-4 shadow-lg shadow-black"
+                    >
+                      <Input.Root>
+                        <Input.Header>
+                          <Input.Label>
+                            Preencha o node do livro {i + 1}
+                          </Input.Label>
+                          <Input.Error />
+                        </Input.Header>
+
+                        <Input.Input size="sm">
+                          <Input.TextInput
+                            onChange={(e) =>
+                              handleUpdateTitleOfBook(e.target.value, i)
+                            }
+                            placeholder={`${watchedFields.name} - Livro ${
+                              i + 1
+                            }`}
+                          />
+                        </Input.Input>
+                      </Input.Root>
+
+                      <Input.Root>
+                        <Input.Header>
+                          <Input.Label>
+                            Selecione uma imagem para o livro {i + 1}
+                          </Input.Label>
+
+                          <Input.Error>{errors.imageUrl?.message}</Input.Error>
+                        </Input.Header>
+
+                        <Input.Input size="sm">
+                          <Input.Label className="w-full" asChild>
+                            <button
+                              onClick={() => handleSelectImageForBook(i)}
+                              type="button"
+                            >
+                              {watchedFields.books &&
+                              watchedFields.books[i]?.imageUrl
+                                ? watchedFields.books[i].imageUrl
+                                : 'Escolha uma imagem'}
+                            </button>
+                          </Input.Label>
+                          <button
+                            className="disabled:opacity-50"
+                            onClick={() => handleClearImageUrlOfBook(i)}
+                            type="button"
+                            disabled={
+                              !!(
+                                watchedFields.books &&
+                                !watchedFields.books[i]?.imageUrl
+                              )
+                            }
+                          >
+                            <Trash className="fill-purple900 w-4 h-4" />
+                          </button>
+                        </Input.Input>
+                      </Input.Root>
+                    </div>
+                  )
+                )}
+              </div>
+            )}
+
+          <Input.Info className="-mt-2">
+            Todos os nome e imagens são alteráveis posteriormente
+          </Input.Info>
+        </>
+      )}
+
       {watchedFields.features?.['time-lines'] && (
         <>
           <h2 className="font-heading text-3xl mt-4">Linhas temporais:</h2>
 
           <Input.Root>
             <Input.Header>
-              <Input.Label>Ano em que a história se passa</Input.Label>
+              <Input.Label>Ano em que a história se passa *</Input.Label>
               <Input.Error>{errors.initialDate?.year?.message}</Input.Error>
             </Input.Header>
 

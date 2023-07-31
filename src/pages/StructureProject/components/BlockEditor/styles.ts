@@ -14,7 +14,7 @@ export const blockEditorTitleStyles = cva(
 
 export const hoverContentStyles = cva(
   [
-    'max-w-sm p-2 rounded-sm border border-purple900 shadow-lg shadow-semiTransparentBack',
+    'relative max-w-sm p-2 z-50 rounded-sm border border-purple900 shadow-lg shadow-semiTransparentBack',
   ],
   {
     variants: {

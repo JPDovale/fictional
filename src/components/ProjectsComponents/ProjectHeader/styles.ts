@@ -1,7 +1,9 @@
 import { cva } from 'class-variance-authority';
 
 export const projectHeaderStyles = cva(
-  ['p-2 py-2.5 flex items-center gap-0.5 fixed w-full top-0 z-50'],
+  [
+    'p-2 py-2.5 flex items-center gap-0.5 fixed w-full max-w-full top-0 z-50 ease-in-out duration-300',
+  ],
   {
     variants: {
       theme: {

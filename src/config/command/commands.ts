@@ -4,6 +4,7 @@ import {
   commandK,
   goBackEscape,
   home,
+  newPerson,
   newProject,
   openDevTools,
 } from './handlers';
@@ -34,8 +35,9 @@ export const commands: Commands = {
   },
   'Control+P+N': {
     key: 'CTRL,p,n',
+    execute: newPerson,
     link: {
-      pathname: '',
+      pathname: RoutesAvailable.persons.create,
       label: 'Criar personagem',
       Icon: UserPlus,
     },

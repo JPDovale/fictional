@@ -10,9 +10,9 @@ import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityI
 import { Features } from '@modules/Projects/models/Project/valueObjects/Features';
 import { inject, injectable } from 'tsyringe';
 import InjectableDependencies from '@shared/container/types';
-import { ProjectsToUserRepository } from '@database/repositories/ProjectsToUser/contracts/ProjectsToUserRepository';
+import { BooksRepository } from '@database/repositories/Book/contracts/BooksRepository';
 import { ProjectsRepository } from '../contracts/ProjectsRepository';
-import { ThreeActsStructuresRepository } from '../contracts/ThreeActsStructuresRepository';
+import { ProjectsToUserRepository } from '../contracts/ProjectsToUserRepository';
 
 interface ProjectFile {
   id: string;
@@ -26,7 +26,6 @@ interface ProjectFile {
   image_url: string | null;
   image_filename: string | null;
   user_id: string;
-  three_acts_structure_id: string | null;
 }
 
 @injectable()
@@ -35,27 +34,13 @@ export class ProjectsFilesRepository implements ProjectsRepository {
     @inject(InjectableDependencies.Repositories.ProjectsToUserRepository)
     private readonly projectsToUserRepository: ProjectsToUserRepository,
 
-    @inject(InjectableDependencies.Repositories.ThreeActsStructuresRepository)
-    private readonly threeActsStructuresRepository: ThreeActsStructuresRepository
+    @inject(InjectableDependencies.Repositories.BooksRepository)
+    private readonly booksRepository: BooksRepository
   ) {}
 
   async create(project: Project): Promise<Either<{}, {}>> {
     try {
-      const projectFile: ProjectFile = {
-        id: project.id.toString(),
-        name: project.name,
-        features: project.features.toString(),
-        image_filename: project.imageFileName,
-        created_at: project.createdAt,
-        image_url: project.imageUrl,
-        password: project.password,
-        structure: project.structure,
-        three_acts_structure_id:
-          project.threeActsStructure?.id.toString() ?? null,
-        type: project.type,
-        updated_at: project.updatedAt,
-        user_id: project.userId.toString(),
-      };
+      const projectFile = this.parserToFile(project);
 
       if (!fs.existsSync(dataDirs.projects)) {
         fs.mkdirSync(dataDirs.projects);
@@ -66,20 +51,14 @@ export class ProjectsFilesRepository implements ProjectsRepository {
         JSON.stringify(projectFile, null, 2)
       );
 
-      if (!fs.existsSync(dataFiles.projectsToUser(project.userId.toString()))) {
-        this.projectsToUserRepository.create({
-          userId: project.userId.toString(),
-          projectId: project.id.toString(),
-        });
-      } else {
-        this.projectsToUserRepository.add({
-          userId: project.userId.toString(),
-          projectId: project.id.toString(),
-        });
-      }
+      await this.projectsToUserRepository.createOrAdd({
+        projectId: project.id.toString(),
+        userId: project.userId.toString(),
+      });
 
-      if (project.threeActsStructure) {
-        this.threeActsStructuresRepository.create(project.threeActsStructure);
+      if (project.books) {
+        const booksToAdd = project.books.getNewItems();
+        await this.booksRepository.createMany(booksToAdd);
       }
 
       return right({});
@@ -93,7 +72,7 @@ export class ProjectsFilesRepository implements ProjectsRepository {
   async findManyByUserId(userId: string): Promise<Either<{}, Project[]>> {
     try {
       const projectIdsReceived =
-        this.projectsToUserRepository.getProjectsIdsPerUser(userId);
+        await this.projectsToUserRepository.getProjectsIdsPerUser(userId);
 
       if (projectIdsReceived.isRight()) {
         const projectsIds = projectIdsReceived.value;
@@ -132,17 +111,6 @@ export class ProjectsFilesRepository implements ProjectsRepository {
           : null;
         const project = projectFile ? this.parser(projectFile) : null;
 
-        if (project?.structure === 'three-acts') {
-          const findTASResponse =
-            await this.threeActsStructuresRepository.findById(
-              project.threeActsStructureId!.toString()
-            );
-
-          if (findTASResponse.isRight() && findTASResponse.value) {
-            project.threeActsStructure = findTASResponse.value;
-          }
-        }
-
         return right(project);
       }
 
@@ -167,13 +135,28 @@ export class ProjectsFilesRepository implements ProjectsRepository {
         type: projectReceived.type as ProjectType,
         password: projectReceived.password,
         structure: projectReceived.structure as ProjectStructureType,
-        threeActsStructureId: projectReceived.three_acts_structure_id
-          ? new UniqueEntityId(projectReceived.three_acts_structure_id)
-          : undefined,
       },
       new UniqueEntityId(projectReceived.id)
     );
 
     return project;
+  }
+
+  private parserToFile(project: Project): ProjectFile {
+    const projectFile: ProjectFile = {
+      id: project.id.toString(),
+      name: project.name,
+      features: project.features.toString(),
+      image_filename: project.imageFileName,
+      created_at: project.createdAt,
+      image_url: project.imageUrl,
+      password: project.password,
+      structure: project.structure,
+      type: project.type,
+      updated_at: project.updatedAt,
+      user_id: project.userId.toString(),
+    };
+
+    return projectFile;
   }
 }

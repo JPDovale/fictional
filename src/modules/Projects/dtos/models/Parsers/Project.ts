@@ -1,8 +1,10 @@
 import { Project } from '@modules/Projects/models/Project';
+import { PersonParser } from '@modules/Persons/dtos/models/Parsers/Person';
+import { BookParser } from '@modules/Books/dtos/models/Parsers/Book';
 import { ProjectModelResponse } from '../types';
 
 export function ProjectParser(project: Project): ProjectModelResponse {
-  const projectPartied = {
+  const projectPartied: ProjectModelResponse = {
     id: project.id.toString(),
     createdAt: project.createdAt,
     updatedAt: project.updatedAt,
@@ -27,14 +29,8 @@ export function ProjectParser(project: Project): ProjectModelResponse {
           },
         }
       : null,
-    threeActsStructure: project.threeActsStructure
-      ? {
-          act1: project.threeActsStructure.act1 ?? '',
-          act2: project.threeActsStructure.act2 ?? '',
-          act3: project.threeActsStructure.act3 ?? '',
-          id: project.threeActsStructure.id.toString(),
-        }
-      : null,
+    books: project.books.currentItems.map((book) => BookParser(book)),
+    persons: project.persons.currentItems.map((person) => PersonParser(person)),
   };
 
   return projectPartied;

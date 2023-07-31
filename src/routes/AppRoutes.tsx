@@ -14,6 +14,13 @@ import { useKeyboard } from '@hooks/useKeyboard';
 import { usePreload } from '@hooks/usePreload';
 import { Loading } from '@components/Loading';
 import { useNav } from '@hooks/useNav';
+import { PersonsPage } from '@pages/Persons';
+import { CreatePersonPage } from '@pages/CreatePerson';
+import { PersonPage } from '@pages/Person';
+import { PersonsLayout } from '@layouts/PersonsLayout';
+import { PersonHistoryPage } from '@pages/PersonHistory';
+import { AllPersonsPage } from '@pages/AllPersons';
+import { ProjectConfigPage } from '@pages/ProjectConfig';
 
 export function AppRoutes() {
   useKeyboard();
@@ -48,17 +55,52 @@ export function AppRoutes() {
         />
 
         <Route
+          path={RoutesAvailable.persons.default}
+          element={<AllPersonsPage />}
+        />
+
+        <Route
+          path={RoutesAvailable.persons.create}
+          element={<CreatePersonPage />}
+        />
+      </Route>
+
+      <Route
+        path={RoutesAvailable.projects.id.path}
+        element={<ProjectsLayout />}
+      >
+        <Route
           path={RoutesAvailable.projects.id.path}
-          element={<ProjectsLayout />}
+          element={<ProjectPage />}
+        />
+
+        <Route
+          path={RoutesAvailable.projects.id.structure.path}
+          element={<StructureProjectPage />}
+        />
+
+        <Route
+          path={RoutesAvailable.projects.id.persons.path}
+          element={<PersonsPage />}
+        />
+
+        <Route
+          path={RoutesAvailable.projects.id.settings.path}
+          element={<ProjectConfigPage />}
+        />
+
+        <Route
+          path={RoutesAvailable.projects.id.persons.id.path}
+          element={<PersonsLayout />}
         >
           <Route
-            path={RoutesAvailable.projects.id.path}
-            element={<ProjectPage />}
+            path={RoutesAvailable.projects.id.persons.id.path}
+            element={<PersonPage />}
           />
 
           <Route
-            path={RoutesAvailable.projects.id.structure.path}
-            element={<StructureProjectPage />}
+            path={RoutesAvailable.projects.id.persons.id.history.path}
+            element={<PersonHistoryPage />}
           />
         </Route>
       </Route>

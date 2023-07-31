@@ -5,12 +5,14 @@ import { ProjectsInMemoryRepository } from '@tests/projects/repositories/Project
 import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
 import { makeProject } from '@tests/projects/factories/makeProject';
 import { UserNotFount } from '@modules/Users/services/_errors/UserNotFound';
-import { ThreeActsStructureInMemoryRepository } from '@tests/projects/repositories/ThreeActsStructureInMemoryRepository';
+import { ThreeActsStructureInMemoryRepository } from '@tests/threeActsStructures/repositories/ThreeActsStructureInMemoryRepository';
+import { BooksInMemoryRepository } from '@tests/books/repositories/BooksInMemoryRepository';
 import { GetProjectsService } from '.';
 
 let usersInMemoryRepository: UsersInMemoryRepository;
 let projectsInMemoryRepository: ProjectsInMemoryRepository;
 let threeActsStructuresInMemoryRepository: ThreeActsStructureInMemoryRepository;
+let booksInMemoryRepository: BooksInMemoryRepository;
 
 let sut: GetProjectsService;
 
@@ -19,8 +21,11 @@ describe('Get projects', () => {
     usersInMemoryRepository = new UsersInMemoryRepository();
     threeActsStructuresInMemoryRepository =
       new ThreeActsStructureInMemoryRepository();
-    projectsInMemoryRepository = new ProjectsInMemoryRepository(
+    booksInMemoryRepository = new BooksInMemoryRepository(
       threeActsStructuresInMemoryRepository
+    );
+    projectsInMemoryRepository = new ProjectsInMemoryRepository(
+      booksInMemoryRepository
     );
 
     sut = new GetProjectsService(

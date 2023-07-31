@@ -7,6 +7,7 @@ import {
   type ObjectFeatures,
 } from '@modules/Projects/models/Project/valueObjects/Features';
 import {
+  IsArray,
   IsObject,
   IsOctal,
   IsOptional,
@@ -28,6 +29,11 @@ type TypeStructureProjectReceived = {
   'three-acts'?: boolean;
   'hero-journey'?: boolean;
   snowflake?: boolean;
+};
+
+type BookReceived = {
+  title: string;
+  imageUrl?: string | null;
 };
 
 export class CreateProjectInput {
@@ -73,6 +79,9 @@ export class CreateProjectInput {
   @IsOptional()
   imageUrl?: string | null;
 
+  @IsArray()
+  books?: BookReceived[];
+
   @IsObject()
   @ValidateIf(
     (typeStructureObj: TypeStructureProjectReceived) => {
@@ -104,6 +113,7 @@ export class CreateProjectInput {
     this.imageUrl = data.imageUrl;
     this.userId = data.userId;
     this.structure = data.structure;
+    this.books = data.books;
   }
 
   public getTypeAsString(): ProjectType | null {

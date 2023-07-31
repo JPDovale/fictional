@@ -3,13 +3,24 @@ import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import Typography from '@tiptap/extension-typography';
-import { Editor, useEditor as useTipTapEditor } from '@tiptap/react';
+import {
+  Editor,
+  ReactRenderer,
+  useEditor as useTipTapEditor,
+} from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import Mention from '@tiptap/extension-mention';
 import PlaceholderEditor from '@tiptap/extension-placeholder';
+import { MentionList } from '@components/Editor/components/MentionList';
+import tippy, { Instance, Props } from 'tippy.js';
+import { SuggestionProps } from '@tiptap/suggestion';
+import { ProjectModelResponse } from '@modules/Projects/dtos/models/types';
+import { usePersons } from '@store/Persons';
 
 interface NewEditor {
   id: string;
   preValue: string;
+  useProject?: ProjectModelResponse[];
   onUpdate: (value: string) => void;
 }
 
@@ -25,7 +36,7 @@ interface OBJEditor {
 export function useEditor({ editors }: UseEditorProps) {
   const Editors: { [x: string]: OBJEditor } = {};
 
-  editors.forEach(({ id, onUpdate, preValue }) => {
+  editors.forEach(({ id, onUpdate, preValue, useProject }) => {
     Editors[id] = {
       id,
       // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -42,7 +53,136 @@ export function useEditor({ editors }: UseEditorProps) {
           Color,
           TextStyle,
           Typography,
-          // Mention.configure({}),
+          Mention.configure({
+            HTMLAttributes: {
+              class: 'mention',
+            },
+            renderLabel: ({ node }) => {
+              const name = node.attrs.id.split('<==>')[0];
+              return `@${name}`;
+            },
+            suggestion: {
+              items: ({ query }) => {
+                const { persons, currentPerson } = usePersons.getState();
+
+                const personsThisProject = useProject
+                  ? persons.filter((person) => {
+                      return !!useProject.find(
+                        (project) =>
+                          project.id === person.projectId &&
+                          person.id !== currentPerson?.id
+                      );
+                    })
+                  : [];
+
+                const sugges = personsThisProject.map((person) =>
+                  person.name?.firstName || person.name?.lastName
+                    ? `${person.name.fullName}<==>${person.id}`
+                    : `???????<==>${person.id}<==> | ${person.biography.slice(
+                        0,
+                        70
+                      )}`
+                );
+
+                return sugges
+                  .filter((person) =>
+                    person.toLowerCase().startsWith(query.toLowerCase())
+                  )
+                  .slice(0, 5);
+              },
+
+              render: () => {
+                let component: ReactRenderer<
+                  HTMLElement,
+                  SuggestionProps<any> & React.RefAttributes<HTMLElement>
+                >;
+                let popup: Instance<Props>[];
+
+                return {
+                  onStart: (props) => {
+                    component = new ReactRenderer(MentionList, {
+                      props,
+                      editor: props.editor,
+                    });
+
+                    const clientRect = props.clientRect
+                      ? props.clientRect()
+                      : null;
+
+                    if (!clientRect) {
+                      return;
+                    }
+
+                    popup = tippy('body', {
+                      getReferenceClientRect: () => ({
+                        width: clientRect.width,
+                        height: clientRect.height,
+                        top: clientRect.top,
+                        left: clientRect.left,
+                        right: clientRect.right,
+                        bottom: clientRect.bottom,
+                        toJSON: clientRect.toJSON,
+                        x: clientRect.x,
+                        y: clientRect.y,
+                      }),
+                      appendTo: () => document.body,
+                      content: component.element,
+                      showOnCreate: true,
+                      interactive: true,
+                      trigger: 'manual',
+                      placement: 'bottom-start',
+                    });
+                  },
+
+                  onUpdate: (props) => {
+                    component.updateProps(props);
+
+                    const clientRect = props.clientRect
+                      ? props.clientRect()
+                      : null;
+
+                    if (!clientRect) {
+                      return;
+                    }
+
+                    popup[0].setProps({
+                      getReferenceClientRect: () => ({
+                        width: clientRect.width,
+                        height: clientRect.height,
+                        top: clientRect.top,
+                        left: clientRect.left,
+                        right: clientRect.right,
+                        bottom: clientRect.bottom,
+                        toJSON: clientRect.toJSON,
+                        x: clientRect.x,
+                        y: clientRect.y,
+                      }),
+                    });
+                  },
+
+                  onKeyDown(props) {
+                    if (props.event.key === 'Escape') {
+                      popup[0].hide();
+
+                      return true;
+                    }
+
+                    return (
+                      component.ref?.onkeydown &&
+                      component.ref?.onkeydown!(
+                        props as unknown as KeyboardEvent
+                      )
+                    );
+                  },
+
+                  onExit() {
+                    component.destroy();
+                    popup[0].destroy();
+                  },
+                };
+              },
+            },
+          }),
           Highlight.configure({
             multicolor: true,
           }),

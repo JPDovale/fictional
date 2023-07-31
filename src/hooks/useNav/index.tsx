@@ -2,8 +2,17 @@ import { RoutesAvailable } from '@config/routes/routesAvailable';
 import { useRoutes } from '@store/Routes';
 import { useParams } from 'react-router-dom';
 import { showHeaderInPages } from '@config/header/showHeaderInPages';
-import { configToHandleNavigator, navigators } from '@config/navigation/links';
 import { makePathnameFunc } from './funcs/makePathname';
+
+const possiblesPaths = {
+  projects: 'Projetos',
+  ':id': () => 'name',
+  structure: 'Estrutura',
+  persons: 'Personagens',
+  ':personId': () => 'name.fullName',
+  history: 'História',
+  settings: 'Configurações',
+};
 
 export function useNav() {
   const { indexAndParams, setPathname, pathname } = useRoutes((state) => ({
@@ -69,23 +78,27 @@ export function useNav() {
     return showHeaderInPages.includes(makeBaseUrl(actualPath));
   }
 
-  const isToShoeHeader = verifyIsToShowHeader(pathname);
-  const actualBasePath = makeBaseUrl(pathname);
+  function makePathsOnHeaderProject() {
+    const paths = makeBaseUrl(pathname)
+      .split('/')
+      .filter((slice) => slice !== '');
 
-  const linksToShowOnNavigator =
-    configToHandleNavigator.dashboardNavigatorLinks.includes(actualBasePath)
-      ? navigators.dashboardNavigatorLinks
-      : configToHandleNavigator.projectNavigatorLinks.includes(actualBasePath)
-      ? navigators.projectNavigatorLinks
-      : [];
+    const pathsOnHeader = paths.map(
+      (path) => possiblesPaths[path as keyof typeof possiblesPaths]
+    );
+
+    return pathsOnHeader;
+  }
+
+  const isToShoeHeader = verifyIsToShowHeader(pathname);
 
   return {
     makePathname,
     makeBaseUrl,
     navigate,
+    makePathsOnHeaderProject,
     pathname,
     indexAndParams,
     isToShoeHeader,
-    linksToShowOnNavigator,
   };
 }

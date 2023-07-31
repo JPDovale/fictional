@@ -1,15 +1,25 @@
 import { CreateProjectResolver } from '@modules/Projects/resolvers/CreateProjectResolver';
 import { GetProjectsResolver } from '@modules/Projects/resolvers/GetProjectsResolver';
-import { UpdateThreeActsStructureResolver } from '@modules/Projects/resolvers/UpdateThreeActsStructureResolver';
 import { GetUserResolver } from '@modules/Users/resolvers/GetUserResolver';
 import { GetProjectResolver } from '@modules/Projects/resolvers/GetProjectResolver';
 import { BrowserWindow, app, dialog } from 'electron';
+import { CreatePersonResolver } from '@modules/Persons/resolvers/CreatePersonResolver';
+import { GetProjectPersonsResolver } from '@modules/Persons/resolvers/GetProjectPersonsResolver';
+import { GetPersonResolver } from '@modules/Persons/resolvers/GetPersonResolver';
+import { GetPersonsResolver } from '@modules/Persons/resolvers/GetPersonsResolver';
+import { UpdatePersonHistoryResolver } from '@modules/Persons/resolvers/UpdatePersonHistoryResolver';
+import { UpdateThreeActsStructureResolver } from '@modules/ThreeActsStructures/resolvers/UpdateThreeActsStructureResolver';
 
 const getUserResolver = new GetUserResolver();
 const createProjectResolver = new CreateProjectResolver();
 const getProjectsResolver = new GetProjectsResolver();
 const getProjectResolver = new GetProjectResolver();
 const updateThreeActsStructureResolver = new UpdateThreeActsStructureResolver();
+const createPersonResolver = new CreatePersonResolver();
+const getProjectPersonsResolver = new GetProjectPersonsResolver();
+const getPersonResolver = new GetPersonResolver();
+const getPersonsResolver = new GetPersonsResolver();
+const updatePersonHistoryResolver = new UpdatePersonHistoryResolver();
 
 const accessors = {
   'get-user': async (_data: any, win: BrowserWindow | null) =>
@@ -46,6 +56,21 @@ const accessors = {
 
     return '';
   },
+
+  'create-person': async (_data: any, win: BrowserWindow | null) =>
+    createPersonResolver.handle({ _data, win }),
+
+  'get-project-persons': async (_data: any, win: BrowserWindow | null) =>
+    getProjectPersonsResolver.handle({ _data, win }),
+
+  'get-person': async (_data: any, win: BrowserWindow | null) =>
+    getPersonResolver.handle({ _data, win }),
+
+  'get-persons': async (_data: any, win: BrowserWindow | null) =>
+    getPersonsResolver.handle({ _data, win }),
+
+  'update-person-history': async (_data: any, win: BrowserWindow | null) =>
+    updatePersonHistoryResolver.handle({ _data, win }),
 };
 
 export type Accessors = keyof typeof accessors;

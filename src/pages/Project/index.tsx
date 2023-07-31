@@ -1,118 +1,141 @@
-import { useProjectsStore } from '@store/Projects';
-import { useTheme } from '@hooks/useTheme';
-import { Edit } from 'lucide-react';
+import { useProjects } from '@store/Projects';
+import { Edit, Eye } from 'lucide-react';
 import { RoutesAvailable } from '@config/routes/routesAvailable';
 import { useRoutes } from '@store/Routes';
-import { overlayImageStyles, previewThreeActsStyles } from './styles';
+import { Feature } from '@modules/Projects/models/Project/valueObjects/Features';
+import { featuresIconsAndNameMapper } from '@config/mappers/projects/featuresIconsAndNameMapper';
+import { PersonCard } from '@components/PersonsComponents/PersonCard';
+import { FeatureUsing } from './components/FeatureUsing';
+import { ThreeActsSession } from './components/ThreeActsSession';
 
 export function ProjectPage() {
-  const { theme } = useTheme();
   const { setPathname } = useRoutes();
-  const { currentProject } = useProjectsStore((state) => ({
+  const { currentProject, persons } = useProjects((state) => ({
     currentProject: state.currentProject,
+    persons: state.persons,
   }));
 
-  function handleNavigate() {
+  function handleNavigateToPersons() {
     setPathname({
-      routerParameterized: RoutesAvailable.projects.id.structure.to(
+      routerParameterized: RoutesAvailable.projects.id.persons.to(
         currentProject!.id
       ),
     });
   }
 
+  function handleNavigateToPerson(personId: string) {
+    setPathname({
+      routerParameterized: RoutesAvailable.projects.id.persons.id.to(
+        currentProject!.id,
+        personId
+      ),
+    });
+  }
+
+  function handleNavigateToConfig() {
+    setPathname({
+      routerParameterized: RoutesAvailable.projects.id.settings.to(
+        currentProject!.id
+      ),
+    });
+  }
+
+  console.log(currentProject);
+
   return (
-    <main className="flex-1 py-4">
-      {currentProject?.image.url && (
-        <div className="w-full max-h-[38rem] min-h-[38rem] relative flex items-center overflow-hidden z-0">
-          <img
-            className="w-full h-full object-cover"
-            src={currentProject.image.url}
-            alt={currentProject.image.alt}
+    <main className="flex-1 py-4 min-w-[45rem] mx-auto max-w-[45rem]">
+      <div className="w-full flex flex-col gap-10 mt-32">
+        {currentProject?.features['multi-book'] ? (
+          <>
+            {currentProject.books.map((book) => (
+              <ThreeActsSession
+                key={book.id}
+                multiBooksTitle={book.title}
+                projectId={currentProject!.id}
+                threeActsStructure={book.threeActsStructure}
+              />
+            ))}
+          </>
+        ) : (
+          <ThreeActsSession
+            projectId={currentProject!.id}
+            threeActsStructure={currentProject?.books[0].threeActsStructure}
           />
-          <div className={overlayImageStyles({ theme })} />
+        )}
+
+        <div className="w-full border-l-4 border-base600 border-opacity-75 px-4">
+          <div className="flex justify-between items-center">
+            <h5 className="text-xl uppercase font-bold opacity-60">
+              Você está usando os seguintes modelos:
+            </h5>
+
+            <button
+              type="button"
+              onClick={handleNavigateToConfig}
+              className="focus:scale-[120%] ease-in-out duration-300"
+            >
+              <Edit className="fill-purple900 w-5" />
+            </button>
+          </div>
+
+          <div className="grid grid-cols-4 gap-4 mt-4">
+            {currentProject?.features &&
+              Object.keys(currentProject.features).map((featureName) => {
+                return (
+                  <FeatureUsing
+                    key={featureName}
+                    feature={featureName as Feature}
+                    features={currentProject.features}
+                    name={
+                      featuresIconsAndNameMapper[featureName as Feature].name
+                    }
+                    Icon={
+                      featuresIconsAndNameMapper[featureName as Feature].Icon
+                    }
+                  />
+                );
+              })}
+          </div>
         </div>
-      )}
 
-      <div
-        data-has-image={!!currentProject?.image.url}
-        className="relative pt-16 data-[has-image=true]:pt-0 data-[has-image=true]:-mt-64 z-10 min-w-[45rem] mx-auto max-w-[45rem] w-full flex flex-col pb-40"
-      >
-        <h1 className="text-5xl text-center font-title font-bold text-text600">
-          {currentProject?.name}
-        </h1>
-
-        <div className="w-full flex flex-col gap-10 mt-32">
+        {currentProject?.features.person && (
           <div className="w-full border-l-4 border-base600 border-opacity-75 px-4">
             <div className="flex justify-between items-center">
               <h5 className="text-xl uppercase font-bold opacity-60">
-                Você está usando a estrutura de três atos:
+                Seus personagens:
               </h5>
 
-              <button type="button" onClick={handleNavigate}>
-                <Edit className="fill-purple900 w-5" />
+              <button
+                type="button"
+                onClick={handleNavigateToPersons}
+                className="focus:scale-[120%] ease-in-out duration-300"
+              >
+                <Eye className="fill-purple900 w-5" />
               </button>
             </div>
 
-            <div className="flex flex-col mt-6 gap-12">
-              <div className="flex flex-col gap-2.5">
-                <span className="text-sm uppercase font-bold opacity-40">
-                  Ato 1:
+            <div
+              data-without-person={persons.length === 0}
+              className="grid grid-cols-3 data-[without-person=true]:grid-cols-1 gap-4 mt-4"
+            >
+              {persons.length !== 0 ? (
+                persons
+                  .slice(0, 6)
+                  .map((person) => (
+                    <PersonCard
+                      key={person.id}
+                      person={person}
+                      onClick={handleNavigateToPerson}
+                    />
+                  ))
+              ) : (
+                <span className="text-xs opacity-50">
+                  Nenhum personagem criado para esse projeto
                 </span>
-                {currentProject?.threeActsStructure?.act1 &&
-                currentProject?.threeActsStructure?.act1 !== '<p></p>' ? (
-                  <div
-                    className={previewThreeActsStyles({ theme })}
-                    dangerouslySetInnerHTML={{
-                      __html: currentProject.threeActsStructure.act1,
-                    }}
-                  />
-                ) : (
-                  <div className={previewThreeActsStyles({ theme })}>
-                    <p className="opacity-40">Sem edição</p>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex flex-col gap-2.5">
-                <span className="text-sm uppercase font-bold opacity-40">
-                  Ato 2:
-                </span>
-                {currentProject?.threeActsStructure?.act2 &&
-                currentProject?.threeActsStructure?.act2 !== '<p></p>' ? (
-                  <div
-                    className={previewThreeActsStyles({ theme })}
-                    dangerouslySetInnerHTML={{
-                      __html: currentProject.threeActsStructure.act2,
-                    }}
-                  />
-                ) : (
-                  <div className={previewThreeActsStyles({ theme })}>
-                    <p className="opacity-40">Sem edição</p>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex flex-col gap-2.5">
-                <span className="text-sm uppercase font-bold opacity-40">
-                  Ato 3:
-                </span>
-                {currentProject?.threeActsStructure?.act3 &&
-                currentProject?.threeActsStructure?.act3 !== '<p></p>' ? (
-                  <div
-                    className={previewThreeActsStyles({ theme })}
-                    dangerouslySetInnerHTML={{
-                      __html: currentProject.threeActsStructure.act3,
-                    }}
-                  />
-                ) : (
-                  <div className={previewThreeActsStyles({ theme })}>
-                    <p className="opacity-40">Sem edição</p>
-                  </div>
-                )}
-              </div>
+              )}
             </div>
           </div>
-        </div>
+        )}
       </div>
     </main>
   );

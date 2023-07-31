@@ -1,3 +1,4 @@
+import { localStorageKeys } from '@config/localStorage/keys';
 import { create } from 'zustand';
 
 type Theme = 'dark' | 'light';
@@ -7,9 +8,10 @@ interface UseInterface {
   openNav: () => void;
   closeNav: () => void;
   handleChangeOpenNav: () => void;
+  loadConfig: () => void;
 
   theme: Theme;
-  changeTheme: (newState: Theme) => void;
+  changeTheme: (newState: Theme | 'system') => void;
 
   commandKIsOpen: boolean;
   setCommandKIsOpen: (newState: boolean) => void;
@@ -20,10 +22,49 @@ const useInterface = create<UseInterface>((set, get) => {
   return {
     navIsOpen: false,
     commandKIsOpen: false,
-    theme: 'light',
+    theme: 'dark',
 
-    changeTheme: (newState: Theme) => {
-      set({ theme: newState });
+    loadConfig: () => {
+      const themeSaved = localStorage.getItem(localStorageKeys.theme);
+      let theme: Theme;
+
+      if (!themeSaved || themeSaved === 'system') {
+        if (
+          window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+        ) {
+          theme = 'dark';
+        } else {
+          theme = 'light';
+        }
+      } else {
+        theme = themeSaved as Theme;
+      }
+
+      set({
+        theme,
+      });
+    },
+
+    changeTheme: (newState: Theme | 'system') => {
+      let theme: Theme;
+
+      if (newState === 'system') {
+        if (
+          window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+        ) {
+          theme = 'dark';
+        } else {
+          theme = 'light';
+        }
+      } else {
+        theme = newState;
+      }
+
+      set({ theme });
+
+      localStorage.setItem(localStorageKeys.theme, newState);
     },
     setCommandKIsOpen: (newState: boolean) => set({ commandKIsOpen: newState }),
     closeNav: () => set({ navIsOpen: false }),

@@ -1,7 +1,7 @@
 import { Optional } from '@shared/core/types/Optional';
 
 const acceptedFeatures = [
-  'book',
+  'multi-book',
   'time-lines',
   'structure',
   'planet',
@@ -16,11 +16,11 @@ const acceptedFeatures = [
   'language',
 ] as const;
 
-type Feature = (typeof acceptedFeatures)[number];
+export type Feature = (typeof acceptedFeatures)[number];
 export type FeaturesUsing = Array<Feature> & { 0: Feature };
 
 export interface ObjectFeatures {
-  book: boolean;
+  'multi-book': boolean;
   structure: boolean;
   planet: boolean;
   nation: boolean;
@@ -38,19 +38,28 @@ export interface ObjectFeatures {
 export class Features {
   private _featuresUsing: FeaturesUsing;
 
-  protected constructor(features: FeaturesUsing) {
+  private _invalids: string[];
+
+  protected constructor(features: FeaturesUsing, invalids?: string[]) {
     this._featuresUsing = features;
+    this._invalids = invalids || [];
   }
 
   static createFromString(value: string) {
     const splittedString = value.split('|');
 
+    const featuresInvalid: string[] = [];
     const featuresValid = splittedString.filter((f) => {
       const feature = f as Feature;
-      return acceptedFeatures.includes(feature);
+
+      if (acceptedFeatures.includes(feature)) return true;
+
+      featuresInvalid.push(feature);
+
+      return false;
     }) as FeaturesUsing;
 
-    const features = new Features(featuresValid);
+    const features = new Features(featuresValid, featuresInvalid);
 
     return features;
   }
@@ -58,7 +67,7 @@ export class Features {
   static createFromObject(
     objectFeatures: Optional<
       ObjectFeatures,
-      | 'book'
+      | 'multi-book'
       | 'city'
       | 'family'
       | 'inst'
@@ -74,6 +83,7 @@ export class Features {
     >
   ) {
     const featuresUsing: string[] = [];
+    const invalids: string[] = [];
 
     Object.keys(objectFeatures).forEach((featureNameReceived) => {
       const featureName = featureNameReceived as Feature;
@@ -84,41 +94,63 @@ export class Features {
       }
     });
 
-    const filteredFeatures = featuresUsing.filter((feature) =>
-      acceptedFeatures.includes(feature as Feature)
-    );
-    const features = new Features(filteredFeatures as FeaturesUsing);
+    const filteredFeatures = featuresUsing.filter((feature) => {
+      if (acceptedFeatures.includes(feature as Feature)) return true;
 
+      invalids.push(feature);
+
+      return false;
+    });
+
+    const features = new Features(filteredFeatures as FeaturesUsing, invalids);
     return features;
   }
 
   static create(featuresUsing: FeaturesUsing) {
-    const filteredFeatures = featuresUsing.filter(
-      (feature, i) =>
+    const invalids: string[] = [];
+    const filteredFeatures = featuresUsing.filter((feature, i) => {
+      if (
         featuresUsing.indexOf(feature) === i &&
         acceptedFeatures.includes(feature)
-    );
+      )
+        return true;
 
-    return new Features(filteredFeatures as FeaturesUsing);
+      invalids.push(feature);
+      return false;
+    });
+
+    return new Features(filteredFeatures as FeaturesUsing, invalids);
   }
 
   static isValid(features: string | ObjectFeatures | FeaturesUsing): boolean {
     if (Array.isArray(features)) {
       const instancedFeatures = Features.create(features);
       const featuresLength = instancedFeatures.featuresUsing.length;
-      return featuresLength !== 0 && featuresLength > 0;
+      return (
+        featuresLength !== 0 &&
+        featuresLength > 0 &&
+        instancedFeatures._invalids.length === 0
+      );
     }
 
     if (typeof features === 'string') {
       const instancedFeatures = Features.createFromString(features);
       const featuresLength = instancedFeatures.featuresUsing.length;
-      return featuresLength !== 0 && featuresLength > 0;
+      return (
+        featuresLength !== 0 &&
+        featuresLength > 0 &&
+        instancedFeatures._invalids.length === 0
+      );
     }
 
     if (typeof features === 'object') {
       const instancedFeatures = Features.createFromObject(features);
       const featuresLength = instancedFeatures.featuresUsing.length;
-      return featuresLength !== 0 && featuresLength > 0;
+      return (
+        featuresLength !== 0 &&
+        featuresLength > 0 &&
+        instancedFeatures._invalids.length === 0
+      );
     }
 
     return false;
@@ -144,7 +176,7 @@ export class Features {
 
   toValue() {
     const value = {
-      book: false,
+      'multi-book': false,
       structure: false,
       planet: false,
       nation: false,
@@ -165,6 +197,12 @@ export class Features {
     );
 
     return value;
+  }
+
+  featureIsApplied(feature: Feature): boolean {
+    const features = this.toValue();
+    const featureToVerify = features[feature];
+    return featureToVerify;
   }
 
   get featuresUsing() {
