@@ -11,35 +11,35 @@ import {
 
 export const projectLinks: NavLink[] = [
   {
-    pathname: RoutesAvailable.default,
+    pathname: RoutesAvailable.home.path,
     Icon: Home,
     label: 'Inicio',
   },
   {
-    pathname: RoutesAvailable.projects.id.path,
+    pathname: RoutesAvailable.project.path,
     Icon: FolderRoot,
     label: 'Projeto',
   },
   {
-    pathname: RoutesAvailable.projects.id.structure.path,
+    pathname: RoutesAvailable.projectStructure.path,
     Icon: LayoutPanelTop,
     label: 'Estrutura',
     featureName: 'structure',
   },
   {
-    pathname: RoutesAvailable.projects.id.books.path,
+    pathname: RoutesAvailable.projectBooks.path,
     Icon: BookCopy,
     label: 'Livros',
     featureName: 'multi-book',
   },
   {
-    pathname: RoutesAvailable.projects.id.persons.path,
+    pathname: RoutesAvailable.projectPersons.path,
     Icon: PersonStanding,
     label: 'Personagens',
     featureName: 'person',
   },
   {
-    pathname: RoutesAvailable.projects.id.settings.path,
+    pathname: RoutesAvailable.projectSettings.path,
     Icon: FolderCog,
     label: 'Configurações',
   },

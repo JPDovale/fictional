@@ -27,7 +27,7 @@ export function ProjectImplementsPersons({
 
   function handleNavigateToPersons(personId: string) {
     setPathname({
-      routerParameterized: RoutesAvailable.projects.id.persons.id.to(
+      routerParameterized: RoutesAvailable.projectPerson.to(
         project!.id,
         personId
       ),

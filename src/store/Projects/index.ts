@@ -3,6 +3,9 @@ import { INewProjectFormaData } from '@hooks/useCreateProject/validation';
 import { BookModelResponse } from '@modules/Books/dtos/models/types';
 import { PersonModelResponse } from '@modules/Persons/dtos/models/types';
 import { ProjectModelResponse } from '@modules/Projects/dtos/models/types';
+import { SnowflakeStructureModelResponse } from '@modules/SnowflakeStructures/dtos/models/types';
+import { useBooks } from '@store/Books';
+import { usePersons } from '@store/Persons';
 import { useRoutes } from '@store/Routes';
 import { useUserStore } from '@store/User';
 import { create } from 'zustand';
@@ -11,6 +14,16 @@ interface UpdateThreeActsStructureProps {
   act1?: string | null;
   act2?: string | null;
   act3?: string | null;
+  bookId: string;
+}
+
+interface UpdateSnowflakeStructureProps {
+  centralIdia?: string | null;
+  phrase1?: string | null;
+  phrase2?: string | null;
+  phrase3?: string | null;
+  phrase4?: string | null;
+  phrase5?: string | null;
   bookId: string;
 }
 
@@ -26,6 +39,9 @@ interface UseProjects {
   loadProject: (id: string) => Promise<void>;
   updateThreeActsStructure: (
     props: UpdateThreeActsStructureProps
+  ) => Promise<void>;
+  updateSnowflakeStructure: (
+    props: UpdateSnowflakeStructureProps
   ) => Promise<void>;
 }
 
@@ -94,7 +110,11 @@ const useProjects = create<UseProjects>((set, get) => {
     loadProject: async (id) => {
       set({ isLoading: true, currentProject: null });
       const { user } = useUserStore.getState();
+      const { clearCurrentPerson } = usePersons.getState();
+      const { clearCurrentBook } = useBooks.getState();
 
+      clearCurrentBook();
+      clearCurrentPerson();
       const response = await Requester.requester({
         access: 'get-project',
         data: {
@@ -110,20 +130,6 @@ const useProjects = create<UseProjects>((set, get) => {
         project = response.data.project as ProjectModelResponse;
       }
 
-      // if (project && project.features.person) {
-      //   const personsResponse = await Requester.requester({
-      //     access: 'get-project-persons',
-      //     data: {
-      //       userId: user?.account.id,
-      //       projectId: id,
-      //     },
-      //   });
-
-      //   if (!personsResponse.error) {
-      //     persons = personsResponse.data.persons as PersonModelResponse[];
-      //   }
-      // }
-
       set({
         isLoading: false,
         currentProject: project,
@@ -134,8 +140,6 @@ const useProjects = create<UseProjects>((set, get) => {
     updateThreeActsStructure: async (props) => {
       const { user } = useUserStore.getState();
       const { currentProject } = get();
-
-      console.log(props);
 
       if (currentProject) {
         const response = await Requester.requester({
@@ -162,6 +166,69 @@ const useProjects = create<UseProjects>((set, get) => {
               act3: props.act3 ?? null,
               id: bookToUpdate!.threeActsStructure!.id,
             },
+          };
+
+          const updatedBooks = [...currentProject.books];
+          updatedBooks[indexBookToUpdate] = updatedBook;
+
+          const updatedProject: ProjectModelResponse = {
+            ...currentProject,
+            books: updatedBooks,
+          };
+
+          set({ currentProject: updatedProject });
+        }
+      }
+    },
+
+    updateSnowflakeStructure: async (props) => {
+      const { user } = useUserStore.getState();
+      const { currentProject } = get();
+
+      if (currentProject) {
+        const response = await Requester.requester({
+          access: 'update-snowflake-structure',
+          data: {
+            userId: user?.account.id,
+            projectId: currentProject.id,
+            ...props,
+          },
+        });
+
+        if (!response.error) {
+          const bookToUpdate = currentProject.books.find(
+            (book) => book.id === props.bookId
+          );
+          const indexBookToUpdate = currentProject.books.findIndex(
+            (book) => book.id === props.bookId
+          );
+          const updatedBook: BookModelResponse = {
+            ...bookToUpdate!,
+            snowflakeStructure: {
+              ...bookToUpdate?.snowflakeStructure,
+              centralIdia:
+                props.centralIdia ??
+                bookToUpdate?.snowflakeStructure?.centralIdia,
+              expansionToParagraph: {
+                phrase1:
+                  props.phrase1 ??
+                  bookToUpdate?.snowflakeStructure?.expansionToParagraph
+                    ?.phrase1,
+                phrase2:
+                  props.phrase2 ??
+                  bookToUpdate?.snowflakeStructure?.expansionToParagraph
+                    ?.phrase2,
+                phrase3:
+                  props.phrase3 ??
+                  bookToUpdate?.snowflakeStructure?.expansionToParagraph
+                    ?.phrase3,
+                phrase4:
+                  props.phrase4 ??
+                  bookToUpdate?.snowflakeStructure?.expansionToParagraph
+                    ?.phrase4,
+              },
+              id: bookToUpdate!.snowflakeStructure!.id,
+            } as SnowflakeStructureModelResponse,
           };
 
           const updatedBooks = [...currentProject.books];

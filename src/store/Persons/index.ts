@@ -11,10 +11,12 @@ interface UsePersons {
   isLoading: boolean;
 
   createPerson: (data: any) => Promise<void>;
+  createPersonWithSnowflakeStructure: (data: any) => Promise<void>;
   loadPerson: (id: string) => Promise<void>;
   loadPersons: () => Promise<void>;
   updateHistory: (history: string) => Promise<void>;
   findPerson: (id: string) => PersonModelResponse | null;
+  clearCurrentPerson: () => void;
 }
 
 const usePersons = create<UsePersons>((set, get) => {
@@ -50,6 +52,28 @@ const usePersons = create<UsePersons>((set, get) => {
             routerParameterized: response.redirector.path,
           });
         }
+      }
+    },
+
+    createPersonWithSnowflakeStructure: async (data) => {
+      const { user } = useUserStore.getState();
+
+      const response = await Requester.requester({
+        access: 'create-person-with-snowflake-structure',
+        data: {
+          ...data,
+          userId: user?.account.id,
+        },
+      });
+
+      if (!response.error) {
+        const { persons: actualPersons } = get();
+        const { loadProject } = useProjects.getState();
+
+        const persons = response.data.persons as PersonModelResponse[];
+        set({ persons: [...actualPersons, ...persons] });
+
+        await loadProject(persons[0].projectId);
       }
     },
 
@@ -124,6 +148,10 @@ const usePersons = create<UsePersons>((set, get) => {
       const { persons } = get();
       const person = persons.find((p) => p.id === id);
       return person ?? null;
+    },
+
+    clearCurrentPerson: () => {
+      set({ currentPerson: null });
     },
   };
 });

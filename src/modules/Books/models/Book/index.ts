@@ -1,3 +1,4 @@
+import { SnowflakeStructure } from '@modules/SnowflakeStructures/models/SnowflakeStructure';
 import { ThreeActsStructure } from '@modules/ThreeActsStructures/models/ThreeActsStructure';
 import { AggregateRoot } from '@shared/core/entities/AggregateRoot';
 import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
@@ -15,6 +16,9 @@ export interface BookProps {
 
   threeActsStructure: ThreeActsStructure | null;
   threeActsStructureId: UniqueEntityId | null;
+
+  snowflakeStructure: SnowflakeStructure | null;
+  snowflakeStructureId: UniqueEntityId | null;
 
   imageUrl: string | null;
   imageFilename: string | null;
@@ -34,6 +38,8 @@ export class Book extends AggregateRoot<BookProps> {
       | 'subtitle'
       | 'threeActsStructure'
       | 'threeActsStructureId'
+      | 'snowflakeStructure'
+      | 'snowflakeStructureId'
       | 'updatedAt'
     >,
     id?: UniqueEntityId
@@ -46,6 +52,8 @@ export class Book extends AggregateRoot<BookProps> {
       projectId: props.projectId,
       threeActsStructureId: props.threeActsStructureId ?? null,
       threeActsStructure: props.threeActsStructure ?? null,
+      snowflakeStructure: props.snowflakeStructure ?? null,
+      snowflakeStructureId: props.snowflakeStructureId ?? null,
       imageFilename: props.imageFilename ?? null,
       imageUrl: props.imageUrl ?? null,
       createdAt: props.createdAt ?? new Date(),
@@ -89,6 +97,25 @@ export class Book extends AggregateRoot<BookProps> {
     this.props.threeActsStructure = threeActsStructure;
     this.props.threeActsStructureId = threeActsStructure
       ? threeActsStructure.id
+      : null;
+  }
+
+  get snowflakeStructureId() {
+    return this.props.snowflakeStructureId;
+  }
+
+  set snowflakeStructureId(snowflakeStructureId) {
+    this.props.snowflakeStructureId = snowflakeStructureId;
+  }
+
+  get snowflakeStructure() {
+    return this.props.snowflakeStructure;
+  }
+
+  set snowflakeStructure(snowflakeStructure) {
+    this.props.snowflakeStructure = snowflakeStructure;
+    this.props.snowflakeStructureId = snowflakeStructure
+      ? snowflakeStructure.id
       : null;
   }
 

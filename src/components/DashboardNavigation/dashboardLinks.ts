@@ -4,17 +4,17 @@ import { Folders, Home, PersonStanding } from 'lucide-react';
 
 export const dashboardLinks: NavLink[] = [
   {
-    pathname: RoutesAvailable.default,
+    pathname: RoutesAvailable.home.path,
     Icon: Home,
     label: 'Inicio',
   },
   {
-    pathname: RoutesAvailable.projects.default,
+    pathname: RoutesAvailable.projects.path,
     Icon: Folders,
     label: 'Projetos',
   },
   {
-    pathname: RoutesAvailable.persons.default,
+    pathname: RoutesAvailable.persons.path,
     Icon: PersonStanding,
     label: 'Personagens',
   },

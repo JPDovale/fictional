@@ -36,12 +36,14 @@ export function PersonCard({ person, onClick }: PersonCardProps) {
         {person.name ? person.name.fullName : '??????????'}
       </span>
 
-      <span
-        data-theme={theme}
-        className="text-xs p-3 w-full opacity-60 text-start"
-      >
-        {person.biography.slice(0, 140)}...
-      </span>
+      {person.biography && (
+        <span
+          data-theme={theme}
+          className="text-xs p-3 w-full opacity-60 text-start"
+        >
+          {person.biography.slice(0, 140)}...
+        </span>
+      )}
     </button>
   );
 }

@@ -8,6 +8,13 @@ interface UseInterface {
   openNav: () => void;
   closeNav: () => void;
   handleChangeOpenNav: () => void;
+
+  sideBarIsOpen: boolean;
+  openSideBar: () => void;
+  closeSideBar: () => void;
+  handleChangeOpenSideBar: () => void;
+  setSidBarIsOpen: (newState: Boolean) => void;
+
   loadConfig: () => void;
 
   theme: Theme;
@@ -21,6 +28,7 @@ interface UseInterface {
 const useInterface = create<UseInterface>((set, get) => {
   return {
     navIsOpen: false,
+    sideBarIsOpen: true,
     commandKIsOpen: false,
     theme: 'dark',
 
@@ -68,14 +76,29 @@ const useInterface = create<UseInterface>((set, get) => {
     },
     setCommandKIsOpen: (newState: boolean) => set({ commandKIsOpen: newState }),
     closeNav: () => set({ navIsOpen: false }),
-    openNav: () => set({ navIsOpen: true }),
+    openNav: () => set({ navIsOpen: true, sideBarIsOpen: false }),
     handleChangeOpenNav: () => {
-      const { navIsOpen } = get();
+      const { navIsOpen, openNav, closeNav } = get();
 
-      set({
-        navIsOpen: !navIsOpen,
-      });
+      if (navIsOpen) closeNav();
+      if (!navIsOpen) openNav();
     },
+
+    closeSideBar: () => set({ sideBarIsOpen: false }),
+    openSideBar: () => set({ navIsOpen: false, sideBarIsOpen: true }),
+    handleChangeOpenSideBar: () => {
+      const { openSideBar, closeSideBar, sideBarIsOpen } = get();
+
+      if (sideBarIsOpen) closeSideBar();
+      if (!sideBarIsOpen) openSideBar();
+    },
+    setSidBarIsOpen: (newSideBarIsOpen) => {
+      const { openSideBar, closeSideBar } = get();
+
+      if (newSideBarIsOpen) openSideBar();
+      if (!newSideBarIsOpen) closeSideBar();
+    },
+
     handleChangeOpenCommandK: () => {
       const { commandKIsOpen } = get();
 

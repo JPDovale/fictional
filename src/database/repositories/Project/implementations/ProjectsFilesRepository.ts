@@ -1,32 +1,13 @@
-import {
-  Project,
-  ProjectStructureType,
-  ProjectType,
-} from '@modules/Projects/models/Project';
+import { Project } from '@modules/Projects/models/Project';
 import { Either, left, right } from '@shared/core/error/Either';
 import fs from 'fs';
 import { dataDirs, dataFiles } from '@config/files';
-import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
-import { Features } from '@modules/Projects/models/Project/valueObjects/Features';
 import { inject, injectable } from 'tsyringe';
 import InjectableDependencies from '@shared/container/types';
 import { BooksRepository } from '@database/repositories/Book/contracts/BooksRepository';
 import { ProjectsRepository } from '../contracts/ProjectsRepository';
 import { ProjectsToUserRepository } from '../contracts/ProjectsToUserRepository';
-
-interface ProjectFile {
-  id: string;
-  name: string;
-  password: string | null;
-  type: string;
-  structure: string;
-  created_at: Date;
-  updated_at: Date;
-  features: string;
-  image_url: string | null;
-  image_filename: string | null;
-  user_id: string;
-}
+import { ProjectFile } from '../types';
 
 @injectable()
 export class ProjectsFilesRepository implements ProjectsRepository {
@@ -40,7 +21,7 @@ export class ProjectsFilesRepository implements ProjectsRepository {
 
   async create(project: Project): Promise<Either<{}, {}>> {
     try {
-      const projectFile = this.parserToFile(project);
+      const projectFile = ProjectsRepository.parserToFile(project);
 
       if (!fs.existsSync(dataDirs.projects)) {
         fs.mkdirSync(dataDirs.projects);
@@ -86,7 +67,7 @@ export class ProjectsFilesRepository implements ProjectsRepository {
             );
             const projectFile: ProjectFile = JSON.parse(projectFileReceived);
 
-            const project = this.parser(projectFile);
+            const project = ProjectsRepository.parser(projectFile);
 
             projects.push(project);
           }
@@ -109,7 +90,9 @@ export class ProjectsFilesRepository implements ProjectsRepository {
         const projectFile: ProjectFile | null = projectReceived.includes(id)
           ? JSON.parse(projectReceived)
           : null;
-        const project = projectFile ? this.parser(projectFile) : null;
+        const project = projectFile
+          ? ProjectsRepository.parser(projectFile)
+          : null;
 
         return right(project);
       }
@@ -120,43 +103,5 @@ export class ProjectsFilesRepository implements ProjectsRepository {
 
       return left({});
     }
-  }
-
-  private parser(projectReceived: ProjectFile): Project {
-    const project = Project.create(
-      {
-        features: Features.createFromString(projectReceived.features),
-        name: projectReceived.name,
-        userId: new UniqueEntityId(projectReceived.user_id),
-        createdAt: projectReceived.created_at,
-        updatedAt: projectReceived.updated_at,
-        imageUrl: projectReceived.image_url,
-        imageFileName: projectReceived.image_filename,
-        type: projectReceived.type as ProjectType,
-        password: projectReceived.password,
-        structure: projectReceived.structure as ProjectStructureType,
-      },
-      new UniqueEntityId(projectReceived.id)
-    );
-
-    return project;
-  }
-
-  private parserToFile(project: Project): ProjectFile {
-    const projectFile: ProjectFile = {
-      id: project.id.toString(),
-      name: project.name,
-      features: project.features.toString(),
-      image_filename: project.imageFileName,
-      created_at: project.createdAt,
-      image_url: project.imageUrl,
-      password: project.password,
-      structure: project.structure,
-      type: project.type,
-      updated_at: project.updatedAt,
-      user_id: project.userId.toString(),
-    };
-
-    return projectFile;
   }
 }

@@ -1,5 +1,6 @@
 import { Book } from '@modules/Books/models/Book';
 import { ThreeActsStructureParser } from '@modules/ThreeActsStructures/dtos/models/Parsers/ThreeActsStructure';
+import { SnowflakeStructureParser } from '@modules/SnowflakeStructures/dtos/models/Parsers/SnowflakeStructureParser';
 import { BookModelResponse } from '../types';
 
 export function BookParser(book: Book): BookModelResponse {
@@ -18,6 +19,9 @@ export function BookParser(book: Book): BookModelResponse {
     projectId: book.projectId.toString(),
     threeActsStructure: book.threeActsStructure
       ? ThreeActsStructureParser(book.threeActsStructure)
+      : null,
+    snowflakeStructure: book.snowflakeStructure
+      ? SnowflakeStructureParser(book.snowflakeStructure)
       : null,
   };
 

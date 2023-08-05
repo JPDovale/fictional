@@ -13,10 +13,12 @@ import { Features } from '@modules/Projects/models/Project/valueObjects/Features
 import { UnexpectedError } from '@shared/errors/UnexpectedError';
 import { ThreeActsStructureInMemoryRepository } from '@tests/threeActsStructures/repositories/ThreeActsStructureInMemoryRepository';
 import { BooksInMemoryRepository } from '@tests/books/repositories/BooksInMemoryRepository';
+import { SnowflakeStructuresInMemoryRepository } from '@tests/snowflakeStructures/repositories/SnowflakeStructuresInMemoryRepository';
 import { GetProjectPersonsService } from '.';
 
 let usersInMemoryRepository: UsersInMemoryRepository;
 let threeActsStructureInMemoryRepository: ThreeActsStructureInMemoryRepository;
+let snowflakeStructuresInMemoryRepository: SnowflakeStructuresInMemoryRepository;
 let booksInMemoryRepository: BooksInMemoryRepository;
 let projectsInMemoryRepository: ProjectsInMemoryRepository;
 let personsInMemoryRepository: PersonsInMemoryRepository;
@@ -28,8 +30,11 @@ describe('Get project persons', () => {
     usersInMemoryRepository = new UsersInMemoryRepository();
     threeActsStructureInMemoryRepository =
       new ThreeActsStructureInMemoryRepository();
+    snowflakeStructuresInMemoryRepository =
+      new SnowflakeStructuresInMemoryRepository();
     booksInMemoryRepository = new BooksInMemoryRepository(
-      threeActsStructureInMemoryRepository
+      threeActsStructureInMemoryRepository,
+      snowflakeStructuresInMemoryRepository
     );
     projectsInMemoryRepository = new ProjectsInMemoryRepository(
       booksInMemoryRepository
@@ -48,6 +53,9 @@ describe('Get project persons', () => {
     const project = makeProject(
       {
         userId: new UniqueEntityId('user-1'),
+        features: Features.createFromObject({
+          person: true,
+        }),
       },
       new UniqueEntityId('project-1')
     );
@@ -81,12 +89,18 @@ describe('Get project persons', () => {
     const project = makeProject(
       {
         userId: new UniqueEntityId('user-1'),
+        features: Features.createFromObject({
+          person: true,
+        }),
       },
       new UniqueEntityId('project-1')
     );
     const project2 = makeProject(
       {
         userId: new UniqueEntityId('user-1'),
+        features: Features.createFromObject({
+          person: true,
+        }),
       },
       new UniqueEntityId('project-2')
     );
@@ -160,6 +174,9 @@ describe('Get project persons', () => {
     const project = makeProject(
       {
         userId: new UniqueEntityId('user-2'),
+        features: Features.createFromObject({
+          person: true,
+        }),
       },
       new UniqueEntityId('project-1')
     );
@@ -191,7 +208,7 @@ describe('Get project persons', () => {
       {
         features: Features.createFromObject({
           person: false,
-          'milt-book': true,
+          'multi-book': true,
           city: true,
           family: true,
           inst: true,

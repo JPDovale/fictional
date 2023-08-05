@@ -19,7 +19,7 @@ export const commands: Commands = {
     key: 'CTRL,SHIFT,h',
     execute: home,
     link: {
-      pathname: RoutesAvailable.default,
+      pathname: RoutesAvailable.home.path,
       Icon: Home,
       label: 'Inicio',
     },
@@ -28,7 +28,7 @@ export const commands: Commands = {
     key: 'CTRL,n',
     execute: newProject,
     link: {
-      pathname: RoutesAvailable.projects.create,
+      pathname: RoutesAvailable.createProject.path,
       Icon: FilePlus,
       label: 'Criar projeto',
     },
@@ -37,7 +37,7 @@ export const commands: Commands = {
     key: 'CTRL,p,n',
     execute: newPerson,
     link: {
-      pathname: RoutesAvailable.persons.create,
+      pathname: RoutesAvailable.createPerson.path,
       label: 'Criar personagem',
       Icon: UserPlus,
     },

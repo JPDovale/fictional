@@ -8,11 +8,12 @@ import { useEffect } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { useNav } from '@hooks/useNav';
 import { usePersons } from '@store/Persons';
+import { useBooks } from '@store/Books';
 import { overlayImageStyles } from './styles';
 
 export function ProjectsLayout() {
   const { theme } = useTheme();
-  const { id, personId } = useParams();
+  const { id, personId, bookId } = useParams();
   const { loadProject, currentProject, isLoading } = useProjects((state) => ({
     loadProject: state.loadProject,
     currentProject: state.currentProject,
@@ -25,6 +26,11 @@ export function ProjectsLayout() {
       isLoadingPerson: state.isLoading,
     })
   );
+  const { loadBook, currentBook, isLoadingBook } = useBooks((state) => ({
+    loadBook: state.loadBook,
+    currentBook: state.currentBook,
+    isLoadingBook: state.isLoading,
+  }));
   const { makePathsOnHeaderProject } = useNav();
   const pathsOnHeaderProject = makePathsOnHeaderProject();
 
@@ -36,9 +42,33 @@ export function ProjectsLayout() {
     if (personId && personId !== currentPerson?.id) {
       loadPerson(personId);
     }
-  }, [id, personId, loadProject, loadPerson, currentPerson, currentProject]);
 
-  if (isLoading || isLoadingPerson || !currentProject) return <Loading />;
+    if (bookId && bookId !== currentBook?.id) {
+      loadBook(bookId);
+    }
+  }, [
+    id,
+    personId,
+    bookId,
+    loadProject,
+    loadPerson,
+    loadBook,
+    currentPerson,
+    currentProject,
+    currentBook,
+  ]);
+
+  if (isLoading || isLoadingPerson || isLoadingBook || !currentProject)
+    return <Loading />;
+
+  const imageUrl =
+    currentBook && currentBook.image.url
+      ? currentBook.image.url
+      : currentProject.image.url;
+  const imageAlt =
+    currentBook && currentBook.image.url
+      ? currentBook.image.alt
+      : currentProject.image.alt;
 
   return (
     <div
@@ -52,19 +82,19 @@ export function ProjectsLayout() {
       <div className="flex-1 max-h-screen overflow-x-hidden overflow-y-scroll">
         <div className="flex-1">
           <ProjectHeader project={currentProject} />
-          {currentProject?.image.url && (
-            <div className="w-full mt-8 max-h-[38rem] min-h-[38rem] relative flex items-center overflow-hidden z-0">
+          {imageUrl && (
+            <div className="w-full max-h-[38rem] min-h-[38rem] relative flex items-center overflow-hidden z-0">
               <img
                 className="w-full h-full object-cover"
-                src={currentProject.image.url}
-                alt={currentProject.image.alt}
+                src={imageUrl}
+                alt={imageAlt}
               />
               <div className={overlayImageStyles({ theme })} />
             </div>
           )}
 
           <div
-            data-has-image={!!currentProject?.image.url}
+            data-has-image={!!imageUrl}
             data-without-title={pathsOnHeaderProject.length !== 2}
             className="relative pt-16 data-[has-image=true]:pt-0 data-[has-image=true]:-mt-64 z-10 w-full flex flex-col pb-40"
           >
@@ -74,7 +104,9 @@ export function ProjectsLayout() {
               </h1>
             )}
 
-            <Outlet />
+            <div className="flex justify-between">
+              <Outlet />
+            </div>
           </div>
         </div>
       </div>

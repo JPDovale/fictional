@@ -1,3 +1,17 @@
+export abstract class PersonsSnowflakeStructureBaseResponse {
+  abstract function: string | null;
+
+  abstract objective: string | null;
+
+  abstract motivation: string | null;
+
+  abstract obstacle: string | null;
+
+  abstract apprenticeship: string | null;
+
+  abstract povByThisEye: string | null;
+}
+
 export abstract class PersonNameResponse {
   abstract firstName: string | null;
 
@@ -21,13 +35,15 @@ export abstract class PersonModelResponse {
 
   abstract age: number | null;
 
-  abstract biography: string;
+  abstract biography: string | null;
 
   abstract image: PersonImage;
 
   abstract userId: string;
 
   abstract projectId: string;
+
+  abstract snowflakeStructureBase: PersonsSnowflakeStructureBaseResponse | null;
 
   abstract createdAt: Date;
 

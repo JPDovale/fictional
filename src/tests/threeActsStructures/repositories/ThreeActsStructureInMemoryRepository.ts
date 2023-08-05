@@ -1,12 +1,12 @@
 import { ThreeActsStructuresRepository } from '@database/repositories/ThreeActsStructure/contracts/ThreeActsStructuresRepository';
+import { ThreeActsStructureFile } from '@database/repositories/ThreeActsStructure/types';
 import { ThreeActsStructure } from '@modules/ThreeActsStructures/models/ThreeActsStructure';
-import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
 import { Either, left, right } from '@shared/core/error/Either';
 
 export class ThreeActsStructureInMemoryRepository
   implements ThreeActsStructuresRepository
 {
-  private threeActsStructuresList: ThreeActsStructure[] = [];
+  private threeActsStructuresList: ThreeActsStructureFile[] = [];
 
   get threeActsStructures() {
     return this.threeActsStructuresList;
@@ -16,7 +16,9 @@ export class ThreeActsStructureInMemoryRepository
     threeActsStructure: ThreeActsStructure
   ): Promise<Either<{}, {}>> {
     try {
-      this.threeActsStructuresList.push(threeActsStructure);
+      this.threeActsStructuresList.push(
+        ThreeActsStructuresRepository.parserToFile(threeActsStructure)
+      );
       return right({});
     } catch (err) {
       return left({});
@@ -26,11 +28,12 @@ export class ThreeActsStructureInMemoryRepository
   async save(threeActsStructure: ThreeActsStructure): Promise<Either<{}, {}>> {
     try {
       const threeActsStructureIndex = this.threeActsStructuresList.findIndex(
-        (threeStructure) => threeStructure.id.equals(threeActsStructure.id)
+        (threeStructure) =>
+          threeStructure.id === threeActsStructure.id.toString()
       );
 
       this.threeActsStructuresList[threeActsStructureIndex] =
-        threeActsStructure;
+        ThreeActsStructuresRepository.parserToFile(threeActsStructure);
       return right({});
     } catch (err) {
       return left({});
@@ -40,9 +43,13 @@ export class ThreeActsStructureInMemoryRepository
   async findById(id: string): Promise<Either<{}, ThreeActsStructure | null>> {
     try {
       const threeActsStructure = this.threeActsStructuresList.find(
-        (TAStructure) => TAStructure.id.equals(new UniqueEntityId(id))
+        (TAStructure) => TAStructure.id === id
       );
-      return right(threeActsStructure ?? null);
+      return right(
+        threeActsStructure
+          ? ThreeActsStructuresRepository.parser(threeActsStructure)
+          : null
+      );
     } catch (err) {
       return left({});
     }
@@ -53,11 +60,14 @@ export class ThreeActsStructureInMemoryRepository
   ): Promise<Either<{}, ThreeActsStructure | null>> {
     try {
       const threeActsStructure = this.threeActsStructuresList.find(
-        (TAStructure) =>
-          TAStructure.implementorId.equals(new UniqueEntityId(projectId))
+        (TAStructure) => TAStructure.implementor_id === projectId
       );
 
-      return right(threeActsStructure ?? null);
+      return right(
+        threeActsStructure
+          ? ThreeActsStructuresRepository.parser(threeActsStructure)
+          : null
+      );
     } catch (err) {
       return left({});
     }

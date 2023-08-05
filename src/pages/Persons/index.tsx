@@ -1,3 +1,4 @@
+import { Page404 } from '@components/404';
 import { PersonCard } from '@components/PersonsComponents/PersonCard';
 import { RoutesAvailable } from '@config/routes/routesAvailable';
 import { useProjects } from '@store/Projects';
@@ -12,12 +13,14 @@ export function PersonsPage() {
 
   function handleNavigateToPerson(personId: string) {
     setPathname({
-      routerParameterized: RoutesAvailable.projects.id.persons.id.to(
+      routerParameterized: RoutesAvailable.projectPerson.to(
         currentProject!.id,
         personId
       ),
     });
   }
+
+  if (currentProject?.structure === 'snowflake') return <Page404 />;
 
   return (
     <main className="flex-1 p-4 flex flex-col gap-4 min-w-[45rem] mx-auto max-w-[45rem]">

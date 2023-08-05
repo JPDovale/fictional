@@ -5,11 +5,15 @@ const databaseDir = getDatabasePath();
 export const dataDirs = {
   projects: `${databaseDir}/projects`,
   projectsToUser: `${databaseDir}/projects-to-user`,
+
   threeActsStructures: `${databaseDir}/three-acts-structures`,
+
+  snowflakeStructures: `${databaseDir}/snowflake-structures`,
 
   persons: `${databaseDir}/persons`,
   personsToProject: `${databaseDir}/persons-to-project`,
   personsToUser: `${databaseDir}/persons-to-user`,
+  personsToSnowflakeStructure: `${databaseDir}/persons-to-snowflake-structure`,
 
   books: `${databaseDir}/books`,
   booksToProject: `${databaseDir}/books-to-project`,
@@ -32,6 +36,9 @@ export const dataFiles = {
   threeActsStructure: (id: string) =>
     `${dataDirs.threeActsStructures}/${id}-three-acts-structure${exts.ocurredmagic}`,
 
+  snowflakeStructure: (id: string) =>
+    `${dataDirs.snowflakeStructures}/${id}-snowflake-structure${exts.ocurredmagic}`,
+
   person: (id: string) =>
     `${dataDirs.persons}/${id}-person${exts.ocurredmagic}`,
 
@@ -40,6 +47,9 @@ export const dataFiles = {
 
   personsToUser: (userId: string) =>
     `${dataDirs.personsToUser}/${userId}-persons-to-user${exts.ocurredmagic}`,
+
+  personsToSnowflakeStructure: (snowflakeStructureId: string) =>
+    `${dataDirs.personsToSnowflakeStructure}/${snowflakeStructureId}-persons-to-snowflake-structure${exts.ocurredmagic}`,
 
   book: (id: string) => `${dataDirs.books}/${id}-book${exts.ocurredmagic}`,
 

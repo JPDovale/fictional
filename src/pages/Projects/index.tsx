@@ -13,7 +13,7 @@ export function ProjectsPage() {
 
   function navigateToProject(id: string) {
     setPathname({
-      routerParameterized: RoutesAvailable.projects.id.to(id),
+      routerParameterized: RoutesAvailable.project.to(id),
     });
   }
 

@@ -12,6 +12,7 @@ import {
 } from '@modules/Projects/models/Project/valueObjects/Features';
 import { UserInProject } from '@modules/Projects/models/Project/valueObjects/UserInProject';
 import { ProjectBookList } from '@modules/Projects/models/ProjectBookList';
+import { SnowflakeStructure } from '@modules/SnowflakeStructures/models/SnowflakeStructure';
 import { ThreeActsStructure } from '@modules/ThreeActsStructures/models/ThreeActsStructure';
 import { UserNotFount } from '@modules/Users/services/_errors/UserNotFound';
 import InjectableDependencies from '@shared/container/types';
@@ -108,13 +109,26 @@ export class CreateProjectService {
             imageUrl: book.imageUrl,
             projectId: project.id,
             userId: user.id,
+            structure,
           });
 
-          const threeActsForBook = ThreeActsStructure.create({
-            implementorId: newBook.id,
-          });
+          if (newBook.structure === 'three-acts') {
+            const threeActsForBook = ThreeActsStructure.create({
+              implementorId: newBook.id,
+            });
 
-          newBook.threeActsStructure = threeActsForBook;
+            newBook.threeActsStructure = threeActsForBook;
+          }
+
+          if (newBook.structure === 'snowflake') {
+            project.features.enable('person');
+
+            const snowflakeForBook = SnowflakeStructure.create({
+              implementorId: newBook.id,
+            });
+
+            newBook.snowflakeStructure = snowflakeForBook;
+          }
 
           books.push(newBook);
         });
@@ -124,13 +138,24 @@ export class CreateProjectService {
           title: booksReceived[0]?.title ?? project.name,
           userId: user.id,
           imageUrl: booksReceived[0]?.imageUrl ?? project.imageUrl,
+          structure,
         });
 
-        const threeActsForBook = ThreeActsStructure.create({
-          implementorId: newBook.id,
-        });
+        if (newBook.structure === 'three-acts') {
+          const threeActsForBook = ThreeActsStructure.create({
+            implementorId: newBook.id,
+          });
 
-        newBook.threeActsStructure = threeActsForBook;
+          newBook.threeActsStructure = threeActsForBook;
+        }
+
+        if (newBook.structure === 'snowflake') {
+          const snowflakeForBook = SnowflakeStructure.create({
+            implementorId: newBook.id,
+          });
+
+          newBook.snowflakeStructure = snowflakeForBook;
+        }
 
         books.push(newBook);
       }

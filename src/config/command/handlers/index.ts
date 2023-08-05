@@ -9,15 +9,15 @@ function commandK() {
 }
 
 function newProject() {
-  return useRoutes.getState().setPathname(RoutesAvailable.projects.create);
+  return useRoutes.getState().setPathname(RoutesAvailable.createProject.path);
 }
 
 function newPerson() {
-  return useRoutes.getState().setPathname(RoutesAvailable.persons.create);
+  return useRoutes.getState().setPathname(RoutesAvailable.createPerson.path);
 }
 
 function home() {
-  return useRoutes.getState().setPathname(RoutesAvailable.default);
+  return useRoutes.getState().setPathname(RoutesAvailable.home.path);
 }
 
 function goBackEscape() {

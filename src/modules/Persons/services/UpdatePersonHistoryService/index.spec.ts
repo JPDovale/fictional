@@ -13,10 +13,12 @@ import { UnexpectedError } from '@shared/errors/UnexpectedError';
 import { PermissionDenied } from '@shared/errors/PermissionDenied';
 import { ThreeActsStructureInMemoryRepository } from '@tests/threeActsStructures/repositories/ThreeActsStructureInMemoryRepository';
 import { BooksInMemoryRepository } from '@tests/books/repositories/BooksInMemoryRepository';
+import { SnowflakeStructuresInMemoryRepository } from '@tests/snowflakeStructures/repositories/SnowflakeStructuresInMemoryRepository';
 import { UpdatePersonHistoryService } from '.';
 
 let usersInMemoryRepository: UsersInMemoryRepository;
 let threeActsStructureInMemoryRepository: ThreeActsStructureInMemoryRepository;
+let snowflakeStructuresInMemoryRepository: SnowflakeStructuresInMemoryRepository;
 let booksInMemoryRepository: BooksInMemoryRepository;
 let projectsInMemoryRepository: ProjectsInMemoryRepository;
 let personsInMemoryRepository: PersonsInMemoryRepository;
@@ -28,8 +30,11 @@ describe('Update person history', () => {
     usersInMemoryRepository = new UsersInMemoryRepository();
     threeActsStructureInMemoryRepository =
       new ThreeActsStructureInMemoryRepository();
+    snowflakeStructuresInMemoryRepository =
+      new SnowflakeStructuresInMemoryRepository();
     booksInMemoryRepository = new BooksInMemoryRepository(
-      threeActsStructureInMemoryRepository
+      threeActsStructureInMemoryRepository,
+      snowflakeStructuresInMemoryRepository
     );
     projectsInMemoryRepository = new ProjectsInMemoryRepository(
       booksInMemoryRepository
@@ -48,6 +53,9 @@ describe('Update person history', () => {
     const project = makeProject(
       {
         userId: new UniqueEntityId('user-1'),
+        features: Features.createFromObject({
+          person: true,
+        }),
       },
       new UniqueEntityId('project-1')
     );
@@ -150,7 +158,7 @@ describe('Update person history', () => {
       {
         features: Features.createFromObject({
           person: false,
-          'milt-book': true,
+          'multi-book': true,
         }),
         userId: new UniqueEntityId('user-1'),
       },
@@ -189,6 +197,9 @@ describe('Update person history', () => {
     const project = makeProject(
       {
         userId: new UniqueEntityId('user-2'),
+        features: Features.createFromObject({
+          person: true,
+        }),
       },
       new UniqueEntityId('project-1')
     );
@@ -226,6 +237,9 @@ describe('Update person history', () => {
     const project = makeProject(
       {
         userId: new UniqueEntityId('user-1'),
+        features: Features.createFromObject({
+          person: true,
+        }),
       },
       new UniqueEntityId('project-1')
     );

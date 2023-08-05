@@ -156,6 +156,19 @@ export class Features {
     return false;
   }
 
+  enable(feature: Feature) {
+    const featureIsApplied = this._featuresUsing.find((f) => f === feature);
+
+    if (featureIsApplied) return;
+
+    this._featuresUsing.push(feature);
+  }
+
+  disable(feature: Feature) {
+    const newFeatures = this._featuresUsing.filter((f) => f !== feature);
+    this._featuresUsing = newFeatures as FeaturesUsing;
+  }
+
   isValid(): boolean {
     return Features.isValid(this.featuresUsing);
   }

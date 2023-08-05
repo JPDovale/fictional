@@ -7,11 +7,13 @@ import { UserNotFount } from '@modules/Users/services/_errors/UserNotFound';
 import { BooksInMemoryRepository } from '@tests/books/repositories/BooksInMemoryRepository';
 import { UnexpectedError } from '@shared/errors/UnexpectedError';
 import { ThreeActsStructureInMemoryRepository } from '@tests/threeActsStructures/repositories/ThreeActsStructureInMemoryRepository';
+import { SnowflakeStructuresInMemoryRepository } from '@tests/snowflakeStructures/repositories/SnowflakeStructuresInMemoryRepository';
 import { CreateProjectService } from '.';
 
 let usersInMemoryRepository: UsersInMemoryRepository;
 let threeActsStructureInMemoryRepository: ThreeActsStructureInMemoryRepository;
 let projectsInMemoryRepository: ProjectsInMemoryRepository;
+let snowflakeStructuresInMemoryRepository: SnowflakeStructuresInMemoryRepository;
 let booksInMemoryRepository: BooksInMemoryRepository;
 
 let sut: CreateProjectService;
@@ -21,8 +23,11 @@ describe('Create project', () => {
     usersInMemoryRepository = new UsersInMemoryRepository();
     threeActsStructureInMemoryRepository =
       new ThreeActsStructureInMemoryRepository();
+    snowflakeStructuresInMemoryRepository =
+      new SnowflakeStructuresInMemoryRepository();
     booksInMemoryRepository = new BooksInMemoryRepository(
-      threeActsStructureInMemoryRepository
+      threeActsStructureInMemoryRepository,
+      snowflakeStructuresInMemoryRepository
     );
     projectsInMemoryRepository = new ProjectsInMemoryRepository(
       booksInMemoryRepository
@@ -52,21 +57,55 @@ describe('Create project', () => {
 
     if (result.isRight()) {
       expect(projectsInMemoryRepository.projects[0].id).toEqual(
-        result.value.project.id
+        result.value.project.id.toString()
       );
-      expect(projectsInMemoryRepository.projects[0].userId.toString()).toEqual(
-        'user-1'
-      );
+      expect(projectsInMemoryRepository.projects[0].user_id).toEqual('user-1');
       expect(booksInMemoryRepository.books).toHaveLength(1);
-      expect(booksInMemoryRepository.books[0].projectId).toEqual(
-        result.value.project.id
+      expect(booksInMemoryRepository.books[0].project_id).toEqual(
+        result.value.project.id.toString()
       );
       expect(
         threeActsStructureInMemoryRepository.threeActsStructures
       ).toHaveLength(1);
       expect(
         threeActsStructureInMemoryRepository.threeActsStructures[0]
-          .implementorId
+          .implementor_id
+      ).toEqual(booksInMemoryRepository.books[0].id);
+    }
+  });
+
+  it('should be able to create an new project of type "book" and structure type "snowflake"', async () => {
+    const user = makeUser({}, new UniqueEntityId('user-1'));
+    await usersInMemoryRepository.create(user);
+
+    const result = await sut.execute({
+      name: 'teste',
+      structure: 'snowflake',
+      type: 'book',
+      features: {
+        structure: true,
+      },
+      books: [],
+      userId: 'user-1',
+    });
+
+    expect(result.isRight()).toEqual(true);
+
+    if (result.isRight()) {
+      expect(projectsInMemoryRepository.projects[0].id).toEqual(
+        result.value.project.id.toString()
+      );
+      expect(projectsInMemoryRepository.projects[0].user_id).toEqual('user-1');
+      expect(booksInMemoryRepository.books).toHaveLength(1);
+      expect(booksInMemoryRepository.books[0].project_id).toEqual(
+        result.value.project.id.toString()
+      );
+      expect(
+        snowflakeStructuresInMemoryRepository.snowflakeStructures
+      ).toHaveLength(1);
+      expect(
+        snowflakeStructuresInMemoryRepository.snowflakeStructures[0]
+          .implementor_id
       ).toEqual(booksInMemoryRepository.books[0].id);
     }
   });
@@ -99,20 +138,63 @@ describe('Create project', () => {
 
     if (result.isRight()) {
       expect(projectsInMemoryRepository.projects[0].id).toEqual(
-        result.value.project.id
+        result.value.project.id.toString()
       );
-      expect(projectsInMemoryRepository.projects[0].userId.toString()).toEqual(
-        'user-1'
-      );
+      expect(projectsInMemoryRepository.projects[0].user_id).toEqual('user-1');
       expect(booksInMemoryRepository.books).toHaveLength(2);
-      expect(booksInMemoryRepository.books[0].projectId).toEqual(
-        result.value.project.id
+      expect(booksInMemoryRepository.books[0].project_id).toEqual(
+        result.value.project.id.toString()
       );
-      expect(booksInMemoryRepository.books[1].projectId).toEqual(
-        result.value.project.id
+      expect(booksInMemoryRepository.books[1].project_id).toEqual(
+        result.value.project.id.toString()
       );
       expect(
         threeActsStructureInMemoryRepository.threeActsStructures
+      ).toHaveLength(2);
+    }
+  });
+
+  it('should be able to create an new project of type "book" whit multi books using structure snowflake', async () => {
+    const user = makeUser({}, new UniqueEntityId('user-1'));
+    await usersInMemoryRepository.create(user);
+
+    const result = await sut.execute({
+      name: 'teste',
+      type: 'book',
+      structure: 'snowflake',
+      features: {
+        structure: true,
+        'multi-book': true,
+      },
+      books: [
+        {
+          title: 'teste 1',
+          imageUrl: null,
+        },
+        {
+          title: 'teste 2',
+          imageUrl: null,
+        },
+      ],
+      userId: 'user-1',
+    });
+
+    expect(result.isRight()).toEqual(true);
+
+    if (result.isRight()) {
+      expect(projectsInMemoryRepository.projects[0].id).toEqual(
+        result.value.project.id.toString()
+      );
+      expect(projectsInMemoryRepository.projects[0].user_id).toEqual('user-1');
+      expect(booksInMemoryRepository.books).toHaveLength(2);
+      expect(booksInMemoryRepository.books[0].project_id).toEqual(
+        result.value.project.id.toString()
+      );
+      expect(booksInMemoryRepository.books[1].project_id).toEqual(
+        result.value.project.id.toString()
+      );
+      expect(
+        snowflakeStructuresInMemoryRepository.snowflakeStructures
       ).toHaveLength(2);
     }
   });

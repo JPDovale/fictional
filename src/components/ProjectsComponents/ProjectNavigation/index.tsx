@@ -26,6 +26,17 @@ export function ProjectNavigation() {
         return nothing;
       }
 
+      if (link.featureName === 'person') {
+        const personIsApplied = project?.features.person;
+        const structureOfProjectIsSnowflake =
+          project?.structure === 'snowflake';
+
+        if (personIsApplied && structureOfProjectIsSnowflake) return nothing;
+        if (!personIsApplied) return nothing;
+
+        return finalLinks.push(link);
+      }
+
       const featureInProject = project?.features[link.featureName];
 
       if (featureInProject) {

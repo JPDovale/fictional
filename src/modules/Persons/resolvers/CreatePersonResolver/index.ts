@@ -44,7 +44,7 @@ export class CreatePersonResolver {
       },
       redirector: {
         isToRedirect: true,
-        path: RoutesAvailable.projects.id.persons.id.to(
+        path: RoutesAvailable.projectPerson.to(
           serviceResponse.value.person.projectId.toString(),
           serviceResponse.value.person.id.toString()
         ),

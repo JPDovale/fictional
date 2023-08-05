@@ -8,11 +8,12 @@ export const navigationStyles = cva(
     'border-r-[1px]',
     'ease-in-out',
     'duration-300',
+    'px-0.5',
   ],
   {
     variants: {
       navIsOpen: {
-        true: ['w-[18%] px-2.5 py-4'],
+        true: ['w-[16%] '],
         false: ['w-[4%]'],
       },
 

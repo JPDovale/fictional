@@ -29,6 +29,7 @@ const buttonRootStyles = cva(
         md: ['p-4'],
         sm: ['p-3'],
         xs: ['p-2'],
+        xxs: ['p-1.5'],
       },
 
       width: {

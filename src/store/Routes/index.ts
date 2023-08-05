@@ -66,14 +66,12 @@ const useRoutes = create<Routes>((set, get) => ({
       const routeBlocks = routerUnParameterized?.split('/');
       const indexAndParams: { [x: number]: string }[] = [];
 
-      routeBlocks?.map((block, i) => {
+      routeBlocks?.forEach((block, i) => {
         const isBlockWithParams = block.includes(':');
 
         if (isBlockWithParams) {
           indexAndParams.push({ [i]: block });
         }
-
-        return undefined;
       });
 
       const newHistory = upToHistoryNavigation(newRoute.routerParameterized);

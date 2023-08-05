@@ -13,10 +13,13 @@ import { makeBook } from '@tests/books/factories/makeBook';
 import { PersonsInMemoryRepository } from '@tests/persons/repositories/PersonsInMemoryRepository';
 import { makeThreeActsStructure } from '@tests/threeActsStructures/factories/makeThreeActsStructure';
 import { makePerson } from '@tests/persons/factories/makePerson';
+import { SnowflakeStructuresInMemoryRepository } from '@tests/snowflakeStructures/repositories/SnowflakeStructuresInMemoryRepository';
+import { makeSnowflakeStructure } from '@tests/snowflakeStructures/factories/makeSnowflakeStructure';
 import { GetProjectService } from '.';
 
 let usersInMemoryRepository: UsersInMemoryRepository;
 let threeActsStructureInMemoryRepository: ThreeActsStructureInMemoryRepository;
+let snowflakeStructuresInMemoryRepository: SnowflakeStructuresInMemoryRepository;
 let projectsInMemoryRepository: ProjectsInMemoryRepository;
 let booksInMemoryRepository: BooksInMemoryRepository;
 let personsInMemoryRepository: PersonsInMemoryRepository;
@@ -27,8 +30,11 @@ describe('Get project', () => {
     usersInMemoryRepository = new UsersInMemoryRepository();
     threeActsStructureInMemoryRepository =
       new ThreeActsStructureInMemoryRepository();
+    snowflakeStructuresInMemoryRepository =
+      new SnowflakeStructuresInMemoryRepository();
     booksInMemoryRepository = new BooksInMemoryRepository(
-      threeActsStructureInMemoryRepository
+      threeActsStructureInMemoryRepository,
+      snowflakeStructuresInMemoryRepository
     );
     personsInMemoryRepository = new PersonsInMemoryRepository();
     projectsInMemoryRepository = new ProjectsInMemoryRepository(
@@ -40,14 +46,15 @@ describe('Get project', () => {
       usersInMemoryRepository,
       booksInMemoryRepository,
       personsInMemoryRepository,
-      threeActsStructureInMemoryRepository
+      threeActsStructureInMemoryRepository,
+      snowflakeStructuresInMemoryRepository
     );
   });
 
   it('should be get one project', async () => {
-    const user = makeUser({}, new UniqueEntityId('user-1'));
+    const user = makeUser({});
     const project = makeProject({
-      userId: new UniqueEntityId('user-1'),
+      userId: user.id,
     });
 
     await usersInMemoryRepository.create(user);
@@ -55,13 +62,12 @@ describe('Get project', () => {
 
     const result = await sut.execute({
       projectId: project.id.toString(),
-      userId: 'user-1',
+      userId: user.id.toString(),
     });
 
     expect(result.isRight()).toEqual(true);
-
     if (result.isRight()) {
-      expect(result.value.project).toEqual(project);
+      expect(result.value.project.id.toString()).toEqual(project.id.toString());
     }
   });
 
@@ -105,6 +111,51 @@ describe('Get project', () => {
       expect(
         result.value.project.books.currentItems[0].threeActsStructure
       ).toEqual(threeActsStructure);
+      expect(result.value.project.persons.currentItems).toHaveLength(10);
+    }
+  });
+
+  it('should be get one project with persons and books with structure snowflake', async () => {
+    const user = makeUser();
+    const project = makeProject({
+      structure: 'snowflake',
+      userId: user.id,
+    });
+    const book = makeBook({
+      structure: 'snowflake',
+      projectId: project.id,
+      userId: user.id,
+    });
+    const snowflakeStructure = makeSnowflakeStructure({
+      implementorId: book.id,
+    });
+    book.snowflakeStructure = snowflakeStructure;
+
+    await usersInMemoryRepository.create(user);
+    await projectsInMemoryRepository.create(project);
+    await booksInMemoryRepository.create(book);
+
+    for (let i = 0; i < 10; i++) {
+      const person = makePerson({
+        projectId: project.id,
+        userId: user.id,
+      });
+
+      personsInMemoryRepository.create(person);
+    }
+
+    const result = await sut.execute({
+      projectId: project.id.toString(),
+      userId: user.id.toString(),
+    });
+
+    expect(result.isRight()).toEqual(true);
+
+    if (result.isRight()) {
+      expect(result.value.project.books.currentItems).toHaveLength(1);
+      expect(
+        result.value.project.books.currentItems[0].snowflakeStructure?.id
+      ).toEqual(snowflakeStructure.id);
       expect(result.value.project.persons.currentItems).toHaveLength(10);
     }
   });

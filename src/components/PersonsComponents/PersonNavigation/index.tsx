@@ -9,7 +9,7 @@ import { useNav } from '@hooks/useNav';
 import { RoutesAvailable } from '@config/routes/routesAvailable';
 import { useRoutes } from '@store/Routes';
 import { useTheme } from '@hooks/useTheme';
-import { avatarStyles, personNavStyles } from './styles';
+import { avatarImageStyles, avatarStyles, personNavStyles } from './styles';
 
 export function PersonNavigate() {
   const [isOpen, setIsOpen] = useState(true);
@@ -94,7 +94,7 @@ export function PersonNavigate() {
 
           <Avatar.Root className={avatarStyles({ isOpen })}>
             <Avatar.Image
-              className="ease-in-out duration-300 w-full flex items-center justify-center rounded-full bg-transparent overflow-hidden"
+              className={avatarImageStyles({ isOpen })}
               src={person?.image.url ?? undefined}
               alt={person?.image.alt}
             />
@@ -160,16 +160,14 @@ export function PersonNavigate() {
               <Button.Root
                 size="xs"
                 active={
-                  RoutesAvailable.projects.id.persons.id.path ===
-                  makeBaseUrl(pathname)
+                  RoutesAvailable.projectPerson.path === makeBaseUrl(pathname)
                 }
                 onClick={() =>
                   setPathname({
-                    routerParameterized:
-                      RoutesAvailable.projects.id.persons.id.to(
-                        person!.projectId,
-                        person!.id
-                      ),
+                    routerParameterized: RoutesAvailable.projectPerson.to(
+                      person!.projectId,
+                      person!.id
+                    ),
                   })
                 }
               >
@@ -181,13 +179,13 @@ export function PersonNavigate() {
               <Button.Root
                 size="xs"
                 active={
-                  RoutesAvailable.projects.id.persons.id.history.path ===
+                  RoutesAvailable.projectPersonHistory.path ===
                   makeBaseUrl(pathname)
                 }
                 onClick={() =>
                   setPathname({
                     routerParameterized:
-                      RoutesAvailable.projects.id.persons.id.history.to(
+                      RoutesAvailable.projectPersonHistory.to(
                         person!.projectId,
                         person!.id
                       ),

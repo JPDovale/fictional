@@ -13,6 +13,7 @@ import { inject, injectable } from 'tsyringe';
 interface Request {
   userId: string;
   projectId: string;
+  bookId?: string;
   name?: string;
   biographic: string;
   lastName?: string;

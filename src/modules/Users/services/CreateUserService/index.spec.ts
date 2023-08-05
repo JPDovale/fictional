@@ -22,7 +22,9 @@ describe('Create user', () => {
     expect(result.isRight()).toEqual(true);
 
     if (result.isRight()) {
-      expect(usersInMemoryRepository.users[0].id).toEqual(result.value.user.id);
+      expect(usersInMemoryRepository.users[0].id).toEqual(
+        result.value.user.id.toString()
+      );
     }
   });
 });

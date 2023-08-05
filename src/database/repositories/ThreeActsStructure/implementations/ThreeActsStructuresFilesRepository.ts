@@ -1,17 +1,9 @@
 import { Either, left, right } from '@shared/core/error/Either';
 import fs from 'node:fs';
 import { dataDirs, dataFiles } from '@config/files';
-import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
 import { ThreeActsStructure } from '@modules/ThreeActsStructures/models/ThreeActsStructure';
 import { ThreeActsStructuresRepository } from '../contracts/ThreeActsStructuresRepository';
-
-interface ThreeActsStructureFile {
-  id: string;
-  act_1: string | null;
-  act_2: string | null;
-  act_3: string | null;
-  implementor_id: string;
-}
+import { ThreeActsStructureFile } from '../types';
 
 export class ThreeActsStructuresFilesRepository
   implements ThreeActsStructuresRepository
@@ -20,13 +12,8 @@ export class ThreeActsStructuresFilesRepository
     threeActsStructure: ThreeActsStructure
   ): Promise<Either<{}, {}>> {
     try {
-      const threeActsStructureFile: ThreeActsStructureFile = {
-        id: threeActsStructure.id.toString(),
-        act_1: threeActsStructure.act1 ?? null,
-        act_2: threeActsStructure.act2 ?? null,
-        act_3: threeActsStructure.act3 ?? null,
-        implementor_id: threeActsStructure.implementorId.toString(),
-      };
+      const threeActsStructureFile =
+        ThreeActsStructuresRepository.parserToFile(threeActsStructure);
 
       if (!fs.existsSync(dataDirs.threeActsStructures)) {
         fs.mkdirSync(dataDirs.threeActsStructures);
@@ -50,13 +37,10 @@ export class ThreeActsStructuresFilesRepository
 
       if (response.isRight() && response.value) {
         const threeActsStructureReceived = response.value;
-        const threeActsStructureFile: ThreeActsStructureFile = {
-          id: threeActsStructureReceived.id.toString(),
-          act_1: threeActsStructure.act1 ?? null,
-          act_2: threeActsStructure.act2 ?? null,
-          act_3: threeActsStructure.act3 ?? null,
-          implementor_id: threeActsStructure.implementorId.toString(),
-        };
+        const threeActsStructureFile =
+          ThreeActsStructuresRepository.parserToFile(
+            threeActsStructureReceived
+          );
 
         fs.writeFileSync(
           dataFiles.threeActsStructure(threeActsStructure.id.toString()),
@@ -85,7 +69,7 @@ export class ThreeActsStructuresFilesRepository
             ? JSON.parse(threeActsStructureReceived)
             : null;
         const threeActsStructure = threeActsStructureFile
-          ? this.parser(threeActsStructureFile)
+          ? ThreeActsStructuresRepository.parser(threeActsStructureFile)
           : null;
         return right(threeActsStructure);
       }
@@ -123,22 +107,4 @@ export class ThreeActsStructuresFilesRepository
   //     return left({});
   //   }
   // }
-
-  private parser(
-    threeActsStructureReceived: ThreeActsStructureFile
-  ): ThreeActsStructure {
-    const threeActsStructure = ThreeActsStructure.create(
-      {
-        implementorId: new UniqueEntityId(
-          threeActsStructureReceived.implementor_id
-        ),
-        act1: threeActsStructureReceived.act_1 ?? undefined,
-        act2: threeActsStructureReceived.act_2 ?? undefined,
-        act3: threeActsStructureReceived.act_3 ?? undefined,
-      },
-      new UniqueEntityId(threeActsStructureReceived.id)
-    );
-
-    return threeActsStructure;
-  }
 }

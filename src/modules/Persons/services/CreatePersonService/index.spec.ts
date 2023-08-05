@@ -9,10 +9,13 @@ import { ResourceNotFount } from '@shared/errors/ResourceNotFound';
 import { UserNotFount } from '@modules/Users/services/_errors/UserNotFound';
 import { ThreeActsStructureInMemoryRepository } from '@tests/threeActsStructures/repositories/ThreeActsStructureInMemoryRepository';
 import { BooksInMemoryRepository } from '@tests/books/repositories/BooksInMemoryRepository';
+import { SnowflakeStructuresInMemoryRepository } from '@tests/snowflakeStructures/repositories/SnowflakeStructuresInMemoryRepository';
+import { Features } from '@modules/Projects/models/Project/valueObjects/Features';
 import { CreatePersonService } from '.';
 
 let usersInMemoryRepository: UsersInMemoryRepository;
 let threeActsStructureInMemoryRepository: ThreeActsStructureInMemoryRepository;
+let snowflakeStructuresInMemoryRepository: SnowflakeStructuresInMemoryRepository;
 let booksInMemoryRepository: BooksInMemoryRepository;
 let projectsInMemoryRepository: ProjectsInMemoryRepository;
 let personsInMemoryRepository: PersonsInMemoryRepository;
@@ -22,15 +25,18 @@ let sut: CreatePersonService;
 describe('Create person', () => {
   beforeEach(() => {
     usersInMemoryRepository = new UsersInMemoryRepository();
+    personsInMemoryRepository = new PersonsInMemoryRepository();
     threeActsStructureInMemoryRepository =
       new ThreeActsStructureInMemoryRepository();
+    snowflakeStructuresInMemoryRepository =
+      new SnowflakeStructuresInMemoryRepository(personsInMemoryRepository);
     booksInMemoryRepository = new BooksInMemoryRepository(
-      threeActsStructureInMemoryRepository
+      threeActsStructureInMemoryRepository,
+      snowflakeStructuresInMemoryRepository
     );
     projectsInMemoryRepository = new ProjectsInMemoryRepository(
       booksInMemoryRepository
     );
-    personsInMemoryRepository = new PersonsInMemoryRepository();
 
     sut = new CreatePersonService(
       usersInMemoryRepository,
@@ -41,7 +47,14 @@ describe('Create person', () => {
 
   it('should be able to create an new person in project', async () => {
     const user = makeUser({}, new UniqueEntityId('user-1'));
-    const project = makeProject({}, new UniqueEntityId('project-1'));
+    const project = makeProject(
+      {
+        features: Features.createFromObject({
+          person: true,
+        }),
+      },
+      new UniqueEntityId('project-1')
+    );
 
     await usersInMemoryRepository.create(user);
     await projectsInMemoryRepository.create(project);
@@ -58,11 +71,9 @@ describe('Create person', () => {
 
     if (result.isRight()) {
       expect(personsInMemoryRepository.persons[0].id).toEqual(
-        result.value.person.id
+        result.value.person.id.toString()
       );
-      expect(personsInMemoryRepository.persons[0].userId.toString()).toEqual(
-        'user-1'
-      );
+      expect(personsInMemoryRepository.persons[0].user_id).toEqual('user-1');
     }
   });
 

@@ -23,6 +23,16 @@ export function PersonParser(person: Person): PersonModelResponse {
     projectId: person.projectId.toString(),
     updatedAt: person.updatedAt,
     userId: person.userId.toString(),
+    snowflakeStructureBase: person.snowflakeStructureBase
+      ? {
+          apprenticeship: person.snowflakeStructureBase.apprenticeship,
+          function: person.snowflakeStructureBase.function,
+          motivation: person.snowflakeStructureBase.motivation,
+          objective: person.snowflakeStructureBase.objective,
+          obstacle: person.snowflakeStructureBase.obstacle,
+          povByThisEye: person.snowflakeStructureBase.povByThisEye,
+        }
+      : null,
   };
 
   return personPartied;

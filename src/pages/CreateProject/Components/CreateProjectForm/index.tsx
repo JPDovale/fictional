@@ -68,6 +68,10 @@ export function CreateProjectForm() {
     setValue('structure.three-acts', false);
 
     setValue(`structure.${structure}`, true);
+
+    if (structure === 'snowflake') {
+      setValue('features.person', true);
+    }
   }
 
   function handleUpdateTitleOfBook(title: string, index: number) {
@@ -331,6 +335,7 @@ export function CreateProjectForm() {
 
           <Checkbox.Root>
             <Checkbox.CheckerRoot
+              checked={watchedFields.features.person}
               onCheckedChange={(e) => setValue('features.person', e as boolean)}
             >
               <Checkbox.CheckerIndicator />
@@ -497,17 +502,16 @@ export function CreateProjectForm() {
                 </Checkbox.Icon>
               </Checkbox.Root>
 
-              <Checkbox.Root disabled>
+              <Checkbox.Root>
                 <Checkbox.CheckerRoot
                   onCheckedChange={() =>
                     selectStructureTypeOfProject('snowflake')
                   }
-                  disabled
                 >
                   <Checkbox.CheckerIndicator />
                 </Checkbox.CheckerRoot>
 
-                <Checkbox.Label>Snow Flake</Checkbox.Label>
+                <Checkbox.Label>Snowflake</Checkbox.Label>
 
                 <Checkbox.Icon className="w-6 ml-auto">
                   <Snowflake className="fill-purple900" />

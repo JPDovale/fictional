@@ -18,6 +18,10 @@ const buttonIconStyles = cva([
   'group-data-[size=xs]:first:h-4',
   'group-data-[size=xs]:last:w-4',
   'group-data-[size=xs]:last:h-4',
+  'group-data-[size=xxs]:first:w-3.5',
+  'group-data-[size=xxs]:first:h-3.5',
+  'group-data-[size=xxs]:last:w-3.5',
+  'group-data-[size=xxs]:last:h-3.5',
   'group-data-[active=true]:text-text300',
 ]);
 

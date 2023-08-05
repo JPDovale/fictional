@@ -6,7 +6,7 @@ import { validate } from 'class-validator';
 import { container } from 'tsyringe';
 
 export class UpdateThreeActsStructureResolver {
-  private readonly updateThreeActsStructureResolver: UpdateThreeActsStructureService =
+  private readonly updateThreeActsStructureService: UpdateThreeActsStructureService =
     container.resolve(UpdateThreeActsStructureService);
 
   async handle({ _data }: RequesterType<UpdateThreeActsStructureInput>) {
@@ -21,16 +21,14 @@ export class UpdateThreeActsStructureResolver {
       );
     }
 
-    const serviceResponse = await this.updateThreeActsStructureResolver.execute(
-      {
-        userId: data.userId,
-        projectId: data.projectId,
-        act1: data.act1,
-        act2: data.act2,
-        act3: data.act3,
-        bookId: data.bookId,
-      }
-    );
+    const serviceResponse = await this.updateThreeActsStructureService.execute({
+      userId: data.userId,
+      projectId: data.projectId,
+      act1: data.act1,
+      act2: data.act2,
+      act3: data.act3,
+      bookId: data.bookId,
+    });
 
     if (serviceResponse.isLeft()) {
       return updateThreeActsStructureResponse.send({

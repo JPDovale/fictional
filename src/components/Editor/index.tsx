@@ -39,7 +39,7 @@ export function Editor({ editor }: EditorProps) {
 
     if (person) {
       setPathname({
-        routerParameterized: RoutesAvailable.projects.id.persons.id.to(
+        routerParameterized: RoutesAvailable.projectPerson.to(
           person.projectId,
           person.id
         ),

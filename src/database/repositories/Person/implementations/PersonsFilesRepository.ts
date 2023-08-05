@@ -4,43 +4,11 @@ import fs from 'node:fs';
 import { dataDirs, dataFiles } from '@config/files';
 import { inject, injectable } from 'tsyringe';
 import InjectableDependencies from '@shared/container/types';
-import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
 import { PersonsRepository } from '../contracts/PersonsRepository';
 import { PersonsToProjectRepository } from '../contracts/PersonsToProjectRepository';
 import { PersonsToUserRepository } from '../contracts/PersonsToUserRepository';
-
-interface PersonFile {
-  id: string;
-  name: string | null;
-  last_name: string | null;
-  biographic: string;
-  age: number | null;
-  history: string | null;
-  image_url: string | null;
-  image_filename: string | null;
-  project_id: string;
-  user_id: string;
-  created_at: Date;
-  updated_at: Date;
-  born_date: string | null;
-  born_date_timestamp: number | null;
-  born_date_year: number | null;
-  born_date_month: number | null;
-  born_date_day: number | null;
-  born_date_hour: number | null;
-  born_date_minute: number | null;
-  born_date_second: number | null;
-  born_date_time_christ: 'A.C.' | 'D.C.' | null;
-  death_date: string | null;
-  death_date_timestamp: number | null;
-  death_date_year: number | null;
-  death_date_month: number | null;
-  death_date_day: number | null;
-  death_date_hour: number | null;
-  death_date_minute: number | null;
-  death_date_second: number | null;
-  death_date_time_christ: 'A.C.' | 'D.C.' | null;
-}
+import { PersonFile } from '../types';
+import { PersonsToSnowflakeStructureRepository } from '../contracts/PersonsToSnowflakeStructureRepository';
 
 @injectable()
 export class PersonsFilesRepository implements PersonsRepository {
@@ -49,12 +17,17 @@ export class PersonsFilesRepository implements PersonsRepository {
     private readonly personsToProjectRepository: PersonsToProjectRepository,
 
     @inject(InjectableDependencies.Repositories.PersonsToUserRepository)
-    private readonly personsToUserRepository: PersonsToUserRepository
+    private readonly personsToUserRepository: PersonsToUserRepository,
+
+    @inject(
+      InjectableDependencies.Repositories.PersonsToSnowflakeStructureRepository
+    )
+    private readonly personsToSnowflakeStructureRepository: PersonsToSnowflakeStructureRepository
   ) {}
 
   async create(person: Person): Promise<Either<{}, {}>> {
     try {
-      const personFile = this.parserToFile(person);
+      const personFile = PersonsRepository.parserToFile(person);
 
       if (!fs.existsSync(dataDirs.persons)) {
         fs.mkdirSync(dataDirs.persons);
@@ -98,6 +71,21 @@ export class PersonsFilesRepository implements PersonsRepository {
     }
   }
 
+  async createMany(persons: Person[]): Promise<Either<{}, {}>> {
+    try {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const person of persons) {
+        // eslint-disable-next-line no-await-in-loop
+        await this.create(person);
+      }
+
+      return right({});
+    } catch (err) {
+      console.log(err);
+      return left({});
+    }
+  }
+
   async findByProjectId(projectId: string): Promise<Either<{}, Person[]>> {
     try {
       const personIdsReceived =
@@ -116,7 +104,7 @@ export class PersonsFilesRepository implements PersonsRepository {
               'utf-8'
             );
             const personFile: PersonFile = JSON.parse(personFileReceived);
-            const person = this.parser(personFile);
+            const person = PersonsRepository.parser(personFile);
 
             persons.push(person);
           }
@@ -142,7 +130,7 @@ export class PersonsFilesRepository implements PersonsRepository {
         const personFile: PersonFile | null = personFileReceived.includes(id)
           ? JSON.parse(personFileReceived)
           : null;
-        const person = personFile ? this.parser(personFile) : null;
+        const person = personFile ? PersonsRepository.parser(personFile) : null;
 
         return right(person);
       }
@@ -170,7 +158,7 @@ export class PersonsFilesRepository implements PersonsRepository {
               'utf-8'
             );
             const personFile: PersonFile = JSON.parse(personFileReceived);
-            const person = this.parser(personFile);
+            const person = PersonsRepository.parser(personFile);
 
             persons.push(person);
           }
@@ -186,10 +174,47 @@ export class PersonsFilesRepository implements PersonsRepository {
     }
   }
 
+  async findBySnowflakeStructureId(
+    snowflakeStructureId: string
+  ): Promise<Either<{}, Person[]>> {
+    try {
+      const personIdsReceived =
+        await this.personsToSnowflakeStructureRepository.getPersonsIdsPerSnowflakeStructure(
+          snowflakeStructureId
+        );
+
+      if (personIdsReceived.isRight()) {
+        const personsIds = personIdsReceived.value;
+        const persons: Person[] = [];
+
+        personsIds.forEach((personId) => {
+          if (fs.existsSync(dataFiles.person(personId))) {
+            const personFileReceived = fs.readFileSync(
+              dataFiles.person(personId),
+              'utf-8'
+            );
+
+            const personFile: PersonFile = JSON.parse(personFileReceived);
+            const person = PersonsRepository.parser(personFile);
+
+            persons.push(person);
+          }
+        });
+
+        return right(persons);
+      }
+
+      throw new Error('error in getPersonsIdsPerSnowflakeStructure');
+    } catch (err) {
+      console.log(err);
+      return left({});
+    }
+  }
+
   async save(person: Person): Promise<Either<{}, {}>> {
     try {
       if (fs.existsSync(dataFiles.person(person.id.toString()))) {
-        const personFile = this.parserToFile(person);
+        const personFile = PersonsRepository.parserToFile(person);
 
         fs.writeFileSync(
           dataFiles.person(person.id.toString()),
@@ -204,63 +229,5 @@ export class PersonsFilesRepository implements PersonsRepository {
       console.log(err);
       return left({});
     }
-  }
-
-  private parser(personReceived: PersonFile): Person {
-    const person = Person.create(
-      {
-        biographic: personReceived.biographic,
-        projectId: new UniqueEntityId(personReceived.project_id),
-        userId: new UniqueEntityId(personReceived.user_id),
-        age: personReceived.age,
-        createdAt: personReceived.created_at,
-        history: personReceived.history,
-        imageFilename: personReceived.image_filename,
-        imageUrl: personReceived.image_url,
-        name: personReceived.name,
-        lastName: personReceived.last_name,
-        updatedAt: personReceived.updated_at,
-      },
-      new UniqueEntityId(personReceived.id)
-    );
-
-    return person;
-  }
-
-  private parserToFile(person: Person): PersonFile {
-    const personFile: PersonFile = {
-      id: person.id.toString(),
-      name: person.name,
-      last_name: person.lastName,
-      biographic: person.biographic,
-      age: person.age,
-      born_date: person.bornDate?.bornDate ?? null,
-      born_date_day: person.bornDate?.bornDateDay ?? null,
-      born_date_hour: person.bornDate?.bornDateHour ?? null,
-      born_date_minute: person.bornDate?.bornDateMinute ?? null,
-      born_date_month: person.bornDate?.bornDateMonth ?? null,
-      born_date_second: person.bornDate?.bornDateSecond ?? null,
-      born_date_timestamp: person.bornDate?.bornDateTimestamp ?? null,
-      born_date_time_christ: person.bornDate?.bornDateTimeChrist ?? null,
-      born_date_year: person.bornDate?.bornDateYear ?? null,
-      death_date: person.deathDate?.deathDate ?? null,
-      death_date_year: person.deathDate?.deathDateYear ?? null,
-      death_date_day: person.deathDate?.deathDateDay ?? null,
-      death_date_hour: person.deathDate?.deathDateHour ?? null,
-      death_date_minute: person.deathDate?.deathDateMinute ?? null,
-      death_date_month: person.deathDate?.deathDateMonth ?? null,
-      death_date_second: person.deathDate?.deathDateSecond ?? null,
-      death_date_timestamp: person.deathDate?.deathDateTimestamp ?? null,
-      death_date_time_christ: person.deathDate?.deathDateTimeChrist ?? null,
-      created_at: person.createdAt,
-      history: person.history,
-      image_filename: person.imageFilename,
-      image_url: person.imageUrl,
-      project_id: person.projectId.toString(),
-      user_id: person.userId.toString(),
-      updated_at: person.updatedAt,
-    };
-
-    return personFile;
   }
 }

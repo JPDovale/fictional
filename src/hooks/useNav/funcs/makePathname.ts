@@ -37,5 +37,6 @@ export function makePathnameFunc({
 
     return finalPath;
   }
+
   return pathname;
 }

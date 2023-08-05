@@ -44,7 +44,7 @@ export class CreateProjectResolver {
       },
       redirector: {
         isToRedirect: true,
-        path: RoutesAvailable.projects.id.to(
+        path: RoutesAvailable.project.to(
           serviceResponse.value.project.id.toString()
         ),
       },

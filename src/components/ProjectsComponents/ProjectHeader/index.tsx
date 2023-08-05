@@ -2,6 +2,7 @@ import { useTheme } from '@hooks/useTheme';
 import { useNav } from '@hooks/useNav';
 import { ProjectModelResponse } from '@modules/Projects/dtos/models/types';
 import { usePersons } from '@store/Persons';
+import { useParams } from 'react-router-dom';
 import { divider, pathOnHeaderStyles, projectHeaderStyles } from './styles';
 
 interface ProjectHeaderProps {
@@ -9,6 +10,7 @@ interface ProjectHeaderProps {
 }
 
 export function ProjectHeader({ project }: ProjectHeaderProps) {
+  const { bookId } = useParams();
   const { theme } = useTheme();
   const { makePathsOnHeaderProject } = useNav();
   const { currentPerson } = usePersons((state) => ({
@@ -50,6 +52,18 @@ export function ProjectHeader({ project }: ProjectHeaderProps) {
                 (currentPerson.name?.firstName || currentPerson?.name?.lastName)
                   ? currentPerson.name?.fullName
                   : '????????????'}
+              </span>
+              <span className={divider()}>/</span>
+            </div>
+          );
+        }
+
+        if (path.name === ':bookId') {
+          return (
+            <div className="flex items-center gap-0.5" key={path()}>
+              <span className={pathOnHeaderStyles()}>
+                {project &&
+                  project.books.find((book) => book.id === bookId)?.title}
               </span>
               <span className={divider()}>/</span>
             </div>

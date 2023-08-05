@@ -9,6 +9,8 @@ import { GetPersonResolver } from '@modules/Persons/resolvers/GetPersonResolver'
 import { GetPersonsResolver } from '@modules/Persons/resolvers/GetPersonsResolver';
 import { UpdatePersonHistoryResolver } from '@modules/Persons/resolvers/UpdatePersonHistoryResolver';
 import { UpdateThreeActsStructureResolver } from '@modules/ThreeActsStructures/resolvers/UpdateThreeActsStructureResolver';
+import { UpdateSnowflakeStructureResolver } from '@modules/SnowflakeStructures/resolvers/UpdateSnowflakeStructureResolver';
+import { CreatePersonWithSnowflakeStructureResolver } from '@modules/Persons/resolvers/CreatePersonWithSnowflakeStructureResolver';
 
 const getUserResolver = new GetUserResolver();
 const createProjectResolver = new CreateProjectResolver();
@@ -16,10 +18,13 @@ const getProjectsResolver = new GetProjectsResolver();
 const getProjectResolver = new GetProjectResolver();
 const updateThreeActsStructureResolver = new UpdateThreeActsStructureResolver();
 const createPersonResolver = new CreatePersonResolver();
+const createPersonWithSnowflakeStructureResolver =
+  new CreatePersonWithSnowflakeStructureResolver();
 const getProjectPersonsResolver = new GetProjectPersonsResolver();
 const getPersonResolver = new GetPersonResolver();
 const getPersonsResolver = new GetPersonsResolver();
 const updatePersonHistoryResolver = new UpdatePersonHistoryResolver();
+const updateSnowflakeStructureResolver = new UpdateSnowflakeStructureResolver();
 
 const accessors = {
   'get-user': async (_data: any, win: BrowserWindow | null) =>
@@ -71,6 +76,14 @@ const accessors = {
 
   'update-person-history': async (_data: any, win: BrowserWindow | null) =>
     updatePersonHistoryResolver.handle({ _data, win }),
+
+  'update-snowflake-structure': async (_data: any, win: BrowserWindow | null) =>
+    updateSnowflakeStructureResolver.handle({ _data, win }),
+
+  'create-person-with-snowflake-structure': async (
+    _data: any,
+    win: BrowserWindow | null
+  ) => createPersonWithSnowflakeStructureResolver.handle({ _data, win }),
 };
 
 export type Accessors = keyof typeof accessors;

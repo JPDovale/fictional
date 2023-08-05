@@ -34,6 +34,37 @@ describe('Features data', () => {
     expect(features.isValid()).toEqual(true);
   });
 
+  it('should be able to enable an new features', () => {
+    const features = Features.createFromObject({
+      'time-lines': true,
+      city: true,
+    });
+
+    features.enable('multi-book');
+
+    expect(features.featuresUsing).includes('time-lines');
+    expect(features.featuresUsing).includes('city');
+    expect(features.featuresUsing).includes('multi-book');
+    expect(features.featuresUsing).toHaveLength(3);
+    expect(features.isValid()).toEqual(true);
+  });
+
+  it('should be able to disable an features', () => {
+    const features = Features.createFromObject({
+      'time-lines': true,
+      city: true,
+      'multi-book': true,
+    });
+
+    features.disable('multi-book');
+
+    expect(features.featuresUsing).includes('time-lines');
+    expect(features.featuresUsing).includes('city');
+    expect(features.featuresUsing).not.includes('multi-book');
+    expect(features.featuresUsing).toHaveLength(2);
+    expect(features.isValid()).toEqual(true);
+  });
+
   it('should be able to create an new features object by string', () => {
     const features = Features.createFromString('time-lines|city|planet');
 

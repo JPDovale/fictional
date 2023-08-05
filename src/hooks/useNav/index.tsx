@@ -12,6 +12,11 @@ const possiblesPaths = {
   ':personId': () => 'name.fullName',
   history: 'História',
   settings: 'Configurações',
+  books: 'Livros',
+  ':bookId': () => 'title',
+  centralIdia: 'Ideia central',
+  paragraph: 'Ao paragrafo',
+  personsBase: 'Sobre quem?',
 };
 
 export function useNav() {
@@ -20,10 +25,12 @@ export function useNav() {
     setPathname: state.setPathname,
     pathname: state.pathname,
   }));
-  const { id } = useParams();
+  const { id, personId, bookId } = useParams();
 
   const finalParams = {
     ':id': id,
+    ':personId': personId,
+    ':bookId': bookId,
   };
 
   function makePathname(path: string) {

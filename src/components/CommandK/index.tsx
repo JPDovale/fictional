@@ -100,7 +100,7 @@ export function CommandK() {
                     align="start"
                     onClick={() =>
                       setPathname({
-                        routerParameterized: RoutesAvailable.projects.id.to(
+                        routerParameterized: RoutesAvailable.project.to(
                           project.id
                         ),
                       })
@@ -127,11 +127,10 @@ export function CommandK() {
                     align="start"
                     onClick={() =>
                       setPathname({
-                        routerParameterized:
-                          RoutesAvailable.projects.id.persons.id.to(
-                            person.projectId,
-                            person.id
-                          ),
+                        routerParameterized: RoutesAvailable.projectPerson.to(
+                          person.projectId,
+                          person.id
+                        ),
                       })
                     }
                   >

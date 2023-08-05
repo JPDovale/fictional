@@ -6,6 +6,7 @@ const buttonTextStyles = cva([
   'text-text100',
   'group-data-[size=sm]:text-sm',
   'group-data-[size=xs]:text-xs',
+  'group-data-[size=xxs]:text-xs',
   'group-data-[active=true]:text-text300',
 ]);
 

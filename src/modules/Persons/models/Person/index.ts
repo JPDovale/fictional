@@ -3,11 +3,12 @@ import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityI
 import { Optional } from '@shared/core/types/Optional';
 import { BornDate } from './valueObjects/BornDate';
 import { DeathDate } from './valueObjects/DeathDate';
+import { PersonSnowflakeStructureBase } from './valueObjects/PersonSnowflakeStructureBase';
 
 export interface PersonProps {
   name: string | null;
   lastName: string | null;
-  biographic: string;
+  biographic: string | null;
   imageUrl: string | null;
   imageFilename: string | null;
   age: number | null;
@@ -17,6 +18,9 @@ export interface PersonProps {
 
   createdAt: Date;
   updatedAt: Date;
+
+  // Snowflake
+  snowflakeStructureBase: PersonSnowflakeStructureBase | null;
 
   userId: UniqueEntityId;
   projectId: UniqueEntityId;
@@ -36,13 +40,15 @@ export class Person extends AggregateRoot<PersonProps> {
       | 'updatedAt'
       | 'name'
       | 'lastName'
+      | 'snowflakeStructureBase'
+      | 'biographic'
     >,
     id?: UniqueEntityId
   ) {
     const personProps: PersonProps = {
       name: props.name ?? null,
       lastName: props.lastName ?? null,
-      biographic: props.biographic,
+      biographic: props.biographic ?? null,
       imageUrl: props.imageUrl ?? null,
       age: props.age ?? null,
       bornDate: props.bornDate ?? null,
@@ -53,6 +59,7 @@ export class Person extends AggregateRoot<PersonProps> {
       updatedAt: props.updatedAt ?? new Date(),
       userId: props.userId,
       projectId: props.projectId,
+      snowflakeStructureBase: props.snowflakeStructureBase ?? null,
     };
 
     const person = new Person(personProps, id);
@@ -114,5 +121,9 @@ export class Person extends AggregateRoot<PersonProps> {
 
   get projectId() {
     return this.props.projectId;
+  }
+
+  get snowflakeStructureBase() {
+    return this.props.snowflakeStructureBase;
   }
 }

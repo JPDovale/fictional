@@ -30,7 +30,7 @@ interface HeaderLinks {
 export const headerLinks: HeaderLinks = {
   left: [
     {
-      pathname: RoutesAvailable.projects.create,
+      pathname: RoutesAvailable.createProject.path,
       Icon: FilePlus,
       label: 'Criar projeto',
       existesTo: 'Esse botão existe para criar um projeto.',
@@ -43,13 +43,13 @@ export const headerLinks: HeaderLinks = {
       ],
     },
     {
-      pathname: RoutesAvailable.persons.create,
+      pathname: RoutesAvailable.createPerson.path,
       label: 'Criar personagem',
       Icon: UserPlus,
       infos: [],
     },
     {
-      pathname: RoutesAvailable.boxes.create,
+      pathname: RoutesAvailable.createBox.path,
       label: 'Criar caixote',
       Icon: PackagePlus,
       infos: [],
@@ -57,19 +57,19 @@ export const headerLinks: HeaderLinks = {
   ],
   right: [
     {
-      pathname: RoutesAvailable.pro.sync,
+      pathname: RoutesAvailable.proSync.path,
       label: 'Sincronizar',
       Icon: Cloud,
       infos: [],
     },
     {
-      pathname: RoutesAvailable.settings.default,
+      pathname: RoutesAvailable.settings.path,
       label: 'Configurações',
       Icon: Settings,
       infos: [],
     },
     {
-      pathname: RoutesAvailable.pro.default,
+      pathname: RoutesAvailable.pro.path,
       label: 'Plus',
       Icon: Gem,
       infos: [],

@@ -14,10 +14,12 @@ import { ProjectBookList } from '@modules/Projects/models/ProjectBookList';
 import { makeBook } from '@tests/books/factories/makeBook';
 import { makeThreeActsStructure } from '@tests/threeActsStructures/factories/makeThreeActsStructure';
 import { Features } from '@modules/Projects/models/Project/valueObjects/Features';
+import { SnowflakeStructuresInMemoryRepository } from '@tests/snowflakeStructures/repositories/SnowflakeStructuresInMemoryRepository';
 import { UpdateThreeActsStructureService } from '.';
 
 let usersInMemoryRepository: UsersInMemoryRepository;
 let threeActsStructureInMemoryRepository: ThreeActsStructureInMemoryRepository;
+let snowflakeStructuresInMemoryRepository: SnowflakeStructuresInMemoryRepository;
 let booksInMemoryRepository: BooksInMemoryRepository;
 let projectsInMemoryRepository: ProjectsInMemoryRepository;
 
@@ -28,8 +30,11 @@ describe('Update three acts structure', () => {
     usersInMemoryRepository = new UsersInMemoryRepository();
     threeActsStructureInMemoryRepository =
       new ThreeActsStructureInMemoryRepository();
+    snowflakeStructuresInMemoryRepository =
+      new SnowflakeStructuresInMemoryRepository();
     booksInMemoryRepository = new BooksInMemoryRepository(
-      threeActsStructureInMemoryRepository
+      threeActsStructureInMemoryRepository,
+      snowflakeStructuresInMemoryRepository
     );
     projectsInMemoryRepository = new ProjectsInMemoryRepository(
       booksInMemoryRepository
@@ -89,13 +94,13 @@ describe('Update three acts structure', () => {
 
     if (result.isRight()) {
       expect(
-        threeActsStructureInMemoryRepository.threeActsStructures[0].act1
+        threeActsStructureInMemoryRepository.threeActsStructures[0].act_1
       ).toEqual('Test');
       expect(
-        threeActsStructureInMemoryRepository.threeActsStructures[0].act2
+        threeActsStructureInMemoryRepository.threeActsStructures[0].act_2
       ).toEqual('over');
       expect(
-        threeActsStructureInMemoryRepository.threeActsStructures[0].act3
+        threeActsStructureInMemoryRepository.threeActsStructures[0].act_3
       ).toEqual('update');
     }
   });
