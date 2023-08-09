@@ -1,20 +1,7 @@
 import { Button } from '@components/useFull/Button';
 import * as Tabs from '@radix-ui/react-tabs';
 import * as Avatar from '@radix-ui/react-avatar';
-import {
-  ArrowDownWideNarrow,
-  Book,
-  BookOpen,
-  BookUp2,
-  FileStack,
-  Fingerprint,
-  Focus,
-  LayoutPanelTop,
-  PilcrowSquare,
-  UnfoldHorizontal,
-  UserSquare,
-  VenetianMask,
-} from 'lucide-react';
+import { Book, BookOpen, LayoutPanelTop } from 'lucide-react';
 import { useBooks } from '@store/Books';
 import { getDate } from '@utils/dates/getDate';
 import { useEffect, useState } from 'react';
@@ -23,6 +10,7 @@ import { RoutesAvailable } from '@config/routes/routesAvailable';
 import { useRoutes } from '@store/Routes';
 import { useTheme } from '@hooks/useTheme';
 import { useInterface } from '@store/Interface';
+import { useSnowflakeStructure } from '@hooks/useSnowflakeStructure';
 import { avatarImageStyles, avatarStyles, personNavStyles } from './styles';
 
 export function BookNavigate() {
@@ -38,6 +26,11 @@ export function BookNavigate() {
   const { setPathname } = useRoutes((state) => ({
     setPathname: state.setPathname,
   }));
+  const { useSnowflakeStructureVerifications, snowflakeEditorButtons } =
+    useSnowflakeStructure();
+  const { verifications } = useSnowflakeStructureVerifications(
+    book?.snowflakeStructure
+  );
 
   function handleChangeTab(tab: string) {
     const tabIsOpem = tab !== 'editor';
@@ -208,152 +201,32 @@ export function BookNavigate() {
                 </Button.Icon>
               </Button.Root>
 
-              <Button.Root
-                size="xs"
-                active={
-                  RoutesAvailable.projectBookStructureCentralIdia.path ===
-                  makeBaseUrl(pathname)
-                }
-                onClick={() =>
-                  setPathname({
-                    routerParameterized:
-                      RoutesAvailable.projectBookStructureCentralIdia.to(
-                        book!.projectId,
-                        book!.id
-                      ),
-                  })
-                }
-              >
-                <Button.Icon>
-                  <Focus />
-                </Button.Icon>
-              </Button.Root>
+              {snowflakeEditorButtons.map(({ Icon, keyOfVerify, title }) => {
+                const { activeInProject, disabled, redirectorBook } =
+                  verifications[keyOfVerify as keyof typeof verifications]();
 
-              <Button.Root
-                size="xs"
-                disabled={!book?.snowflakeStructure?.centralIdia}
-                active={
-                  RoutesAvailable.projectBookStructureParagraph.path ===
-                  makeBaseUrl(pathname)
-                }
-                onClick={() =>
-                  setPathname({
-                    routerParameterized:
-                      RoutesAvailable.projectBookStructureParagraph.to(
-                        book!.projectId,
-                        book!.id
-                      ),
-                  })
-                }
-              >
-                <Button.Icon>
-                  <PilcrowSquare />
-                </Button.Icon>
-              </Button.Root>
-
-              <Button.Root
-                size="xs"
-                disabled={
-                  !book?.snowflakeStructure?.expansionToParagraph?.phrase1
-                }
-                active={
-                  RoutesAvailable.projectStructureCentralIdia.path ===
-                  makeBaseUrl(pathname)
-                }
-                onClick={() => {}}
-              >
-                <Button.Icon>
-                  <VenetianMask />
-                </Button.Icon>
-              </Button.Root>
-
-              <Button.Root
-                size="xs"
-                disabled
-                active={
-                  RoutesAvailable.projectStructureCentralIdia.path ===
-                  makeBaseUrl(pathname)
-                }
-                onClick={() => {}}
-              >
-                <Button.Icon>
-                  <UnfoldHorizontal />
-                </Button.Icon>
-              </Button.Root>
-
-              <Button.Root
-                size="xs"
-                disabled={
-                  !book?.snowflakeStructure?.expansionToPage?.paragraph1
-                }
-                active={
-                  RoutesAvailable.projectStructureCentralIdia.path ===
-                  makeBaseUrl(pathname)
-                }
-                onClick={() => {}}
-              >
-                <Button.Icon>
-                  <UserSquare />
-                </Button.Icon>
-              </Button.Root>
-
-              <Button.Root
-                size="xs"
-                disabled
-                active={
-                  RoutesAvailable.projectStructureCentralIdia.path ===
-                  makeBaseUrl(pathname)
-                }
-                onClick={() => {}}
-              >
-                <Button.Icon>
-                  <ArrowDownWideNarrow />
-                </Button.Icon>
-              </Button.Root>
-
-              <Button.Root
-                size="xs"
-                disabled={
-                  !book?.snowflakeStructure?.interweavingPersonsAndExpansion
-                }
-                active={
-                  RoutesAvailable.projectStructureCentralIdia.path ===
-                  makeBaseUrl(pathname)
-                }
-                onClick={() => {}}
-              >
-                <Button.Icon>
-                  <Fingerprint />
-                </Button.Icon>
-              </Button.Root>
-
-              <Button.Root
-                size="xs"
-                disabled
-                active={
-                  RoutesAvailable.projectStructureCentralIdia.path ===
-                  makeBaseUrl(pathname)
-                }
-                onClick={() => {}}
-              >
-                <Button.Icon>
-                  <FileStack />
-                </Button.Icon>
-              </Button.Root>
-
-              <Button.Root
-                size="xs"
-                disabled
-                active={
-                  RoutesAvailable.projectStructureCentralIdia.path ===
-                  makeBaseUrl(pathname)
-                }
-                onClick={() => {}}
-              >
-                <Button.Icon>
-                  <BookUp2 />
-                </Button.Icon>
-              </Button.Root>
+                return (
+                  <Button.Root
+                    key={title}
+                    title={title}
+                    size="xs"
+                    disabled={disabled}
+                    active={activeInProject}
+                    onClick={() =>
+                      setPathname({
+                        routerParameterized: redirectorBook(
+                          book!.projectId,
+                          book!.id
+                        ),
+                      })
+                    }
+                  >
+                    <Button.Icon>
+                      <Icon />
+                    </Button.Icon>
+                  </Button.Root>
+                );
+              })}
             </div>
           </Tabs.Content>
         </Tabs.Root>

@@ -2,7 +2,7 @@ import { cva } from 'class-variance-authority';
 
 export const snowflakeStructurePreFloat = cva(
   [
-    'fixed flex flex-col min-w-[18rem] shadow-xl shadow-black max-w-[18rem] h-full overflow-h-auto p-4 border border-purple400 top-8',
+    'fixed flex flex-col min-w-[18rem] shadow-xl gap-8 shadow-black max-w-[18rem] h-full overflow-h-auto p-4 border border-purple400 top-8',
   ],
   {
     variants: {

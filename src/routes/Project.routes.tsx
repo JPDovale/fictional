@@ -4,6 +4,7 @@ import { PersonsPage } from '@pages/Persons';
 import { ProjectPage } from '@pages/Project';
 import { ProjectConfigPage } from '@pages/ProjectConfig';
 import { SnowflakeStructureCentralIdiaPage } from '@pages/SnowflakeStructureCentralIdia';
+import { SnowflakeStructureExpansionToPagePage } from '@pages/SnowflakeStructureExpansionToPage';
 import { SnowflakeStructureExpansionToParagraphPage } from '@pages/SnowflakeStructureExpansionToParagraph';
 import { SnowflakeStructurePersonsBasePage } from '@pages/SnowflakeStructurePersonsBase';
 import { StructureProjectPage } from '@pages/StructureProject';
@@ -31,6 +32,11 @@ export function ProjectRoutes() {
     <Route
       path={RoutesAvailable.projectStructurePersonsBase.path}
       element={<SnowflakeStructurePersonsBasePage />}
+    />,
+
+    <Route
+      path={RoutesAvailable.projectStructurePage.path}
+      element={<SnowflakeStructureExpansionToPagePage />}
     />,
 
     <Route

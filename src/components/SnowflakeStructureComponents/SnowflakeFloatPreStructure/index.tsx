@@ -23,7 +23,7 @@ export function SnowflakeFloatPreStructure({
         </span>
 
         {types.map((type) => (
-          <div key={type.html} className="mt-4">
+          <div key={type.html}>
             {type.title && (
               <span className="text-bold uppercase text-xs opacity-50">
                 {type.title}:

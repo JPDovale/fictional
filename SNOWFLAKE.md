@@ -6,7 +6,7 @@ O Método Snowflake enfatiza a estrutura e o planejamento cuidadoso antes de ini
 
 ---
 
-### **1. Frase central** [==]
+### **1. Frase central** [=X=]
 
 ###### | _Descrição_:
 
@@ -18,7 +18,7 @@ Escreva uma única frase que resuma a ideia central da sua história. Tente torn
 
 ---
 
-### **2. Parágrafo de resumo** [===]
+### **2. Parágrafo de resumo** [=X=]
 
 ###### | _Descrição_:
 

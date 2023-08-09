@@ -8,7 +8,13 @@ export function SnowflakeStructureParser(
   const snowflakeStructurePartied: SnowflakeStructureModelResponse = {
     centralIdia: snowflakeStructure.centralIdia ?? null,
     createdAt: snowflakeStructure.createdAt,
-    expansionToPage: snowflakeStructure.expansionToPage,
+    expansionToPage: {
+      paragraph1: snowflakeStructure.expansionToPage.paragraph1 ?? null,
+      paragraph2: snowflakeStructure.expansionToPage.paragraph2 ?? null,
+      paragraph3: snowflakeStructure.expansionToPage.paragraph3 ?? null,
+      paragraph4: snowflakeStructure.expansionToPage.paragraph4 ?? null,
+      paragraph5: snowflakeStructure.expansionToPage.paragraph5 ?? null,
+    },
     expansionToParagraph: {
       phrase1: snowflakeStructure.expansionToParagraph?.phrase1 ?? null,
       phrase2: snowflakeStructure.expansionToParagraph?.phrase2 ?? null,

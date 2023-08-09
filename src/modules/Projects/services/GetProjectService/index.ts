@@ -157,7 +157,6 @@ export class GetProjectService {
     }
 
     project.creator = UserInProject.createCreator(user);
-    console.log(project.books.currentItems);
 
     return right({ project });
   }

@@ -12,6 +12,7 @@ interface UseBooks {
   clearCurrentBook: () => void;
   findBook: (bookId: string) => BookModelResponse | null;
   addPersonInBook: (bookId: string, person: PersonModelResponse) => void;
+  setBook: (book: BookModelResponse) => void;
 }
 
 const useBooks = create<UseBooks>((set, get) => {
@@ -45,6 +46,20 @@ const useBooks = create<UseBooks>((set, get) => {
 
     clearCurrentBook: () => {
       set({ currentBook: null });
+    },
+
+    setBook: (book) => {
+      const { books, currentBook } = get();
+      const updatedBooks = books;
+
+      const indexToSet = books.findIndex((b) => b.id === book.id);
+      updatedBooks[indexToSet] = book;
+
+      if (currentBook?.id === book.id) {
+        set({ currentBook: book });
+      }
+
+      set({ books: updatedBooks });
     },
   };
 });

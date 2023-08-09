@@ -62,6 +62,41 @@ export class UpdateSnowflakeStructureInput {
   @IsOptional()
   phrase5?: string | null;
 
+  @IsString({
+    always: true,
+    message: 'Paragraph 1 can be an valid string',
+  })
+  @IsOptional()
+  paragraph1?: string | null;
+
+  @IsString({
+    always: true,
+    message: 'Paragraph 2 can be an valid string',
+  })
+  @IsOptional()
+  paragraph2?: string | null;
+
+  @IsString({
+    always: true,
+    message: 'Paragraph 3 can be an valid string',
+  })
+  @IsOptional()
+  paragraph3?: string | null;
+
+  @IsString({
+    always: true,
+    message: 'Paragraph 4 can be an valid string',
+  })
+  @IsOptional()
+  paragraph4?: string | null;
+
+  @IsString({
+    always: true,
+    message: 'Paragraph 5 can be an valid string',
+  })
+  @IsOptional()
+  paragraph5?: string | null;
+
   constructor(data: UpdateSnowflakeStructureInput) {
     this.userId = data.userId;
     this.projectId = data.projectId;
@@ -72,5 +107,10 @@ export class UpdateSnowflakeStructureInput {
     this.phrase3 = data.phrase3;
     this.phrase4 = data.phrase4;
     this.phrase5 = data.phrase5;
+    this.paragraph1 = data.paragraph1;
+    this.paragraph2 = data.paragraph2;
+    this.paragraph3 = data.paragraph3;
+    this.paragraph4 = data.paragraph4;
+    this.paragraph5 = data.paragraph5;
   }
 }

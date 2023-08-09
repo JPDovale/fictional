@@ -134,6 +134,36 @@ export class SnowflakeStructure extends AggregateRoot<SnowflakeStructureProps> {
     return this.props.expansionToPage;
   }
 
+  set expansionToPage(
+    expansionToPage: Optional<
+      ExpansionToPage,
+      'paragraph1' | 'paragraph2' | 'paragraph3' | 'paragraph4' | 'paragraph5'
+    >
+  ) {
+    this.props.expansionToPage = {
+      paragraph1:
+        expansionToPage.paragraph1 === null
+          ? ''
+          : expansionToPage.paragraph1 || this.props.expansionToPage.paragraph1,
+      paragraph2:
+        expansionToPage.paragraph2 === null
+          ? ''
+          : expansionToPage.paragraph2 || this.props.expansionToPage.paragraph2,
+      paragraph3:
+        expansionToPage.paragraph3 === null
+          ? ''
+          : expansionToPage.paragraph3 || this.props.expansionToPage.paragraph3,
+      paragraph4:
+        expansionToPage.paragraph4 === null
+          ? ''
+          : expansionToPage.paragraph4 || this.props.expansionToPage.paragraph4,
+      paragraph5:
+        expansionToPage.paragraph5 === null
+          ? ''
+          : expansionToPage.paragraph5 || this.props.expansionToPage.paragraph5,
+    };
+  }
+
   get persons() {
     return this.props.persons;
   }

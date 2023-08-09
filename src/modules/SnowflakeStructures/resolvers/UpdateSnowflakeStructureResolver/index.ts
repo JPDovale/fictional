@@ -31,6 +31,11 @@ export class UpdateSnowflakeStructureResolver {
       phrase3: data.phrase3,
       phrase4: data.phrase4,
       phrase5: data.phrase5,
+      paragraph1: data.paragraph1,
+      paragraph2: data.paragraph2,
+      paragraph3: data.paragraph3,
+      paragraph4: data.paragraph4,
+      paragraph5: data.paragraph5,
     });
 
     if (serviceResponse.isLeft()) {

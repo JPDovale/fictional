@@ -21,25 +21,25 @@ export abstract class SnowflakeStructuresRepository {
       central_idia: snowflakeStructure.centralIdia ?? null,
       created_at: snowflakeStructure.createdAt,
       expansion_to_page_paragraph_1:
-        snowflakeStructure.expansionToPage.paragraph1,
+        snowflakeStructure.expansionToPage.paragraph1 ?? null,
       expansion_to_page_paragraph_2:
-        snowflakeStructure.expansionToPage.paragraph2,
+        snowflakeStructure.expansionToPage.paragraph2 ?? null,
       expansion_to_page_paragraph_3:
-        snowflakeStructure.expansionToPage.paragraph3,
+        snowflakeStructure.expansionToPage.paragraph3 ?? null,
       expansion_to_page_paragraph_4:
-        snowflakeStructure.expansionToPage.paragraph4,
+        snowflakeStructure.expansionToPage.paragraph4 ?? null,
       expansion_to_page_paragraph_5:
-        snowflakeStructure.expansionToPage.paragraph5,
+        snowflakeStructure.expansionToPage.paragraph5 ?? null,
       expansion_to_paragraph_phrase_1:
-        snowflakeStructure.expansionToParagraph.phrase1,
+        snowflakeStructure.expansionToParagraph.phrase1 ?? null,
       expansion_to_paragraph_phrase_2:
-        snowflakeStructure.expansionToParagraph.phrase2,
+        snowflakeStructure.expansionToParagraph.phrase2 ?? null,
       expansion_to_paragraph_phrase_3:
-        snowflakeStructure.expansionToParagraph.phrase3,
+        snowflakeStructure.expansionToParagraph.phrase3 ?? null,
       expansion_to_paragraph_phrase_4:
-        snowflakeStructure.expansionToParagraph.phrase4,
+        snowflakeStructure.expansionToParagraph.phrase4 ?? null,
       expansion_to_paragraph_phrase_5:
-        snowflakeStructure.expansionToParagraph.phrase5,
+        snowflakeStructure.expansionToParagraph.phrase5 ?? null,
       id: snowflakeStructure.id.toString(),
       implementor_id: snowflakeStructure.implementorId.toString(),
       interweaving_persons_and_expansion:

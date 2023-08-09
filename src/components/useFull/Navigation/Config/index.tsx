@@ -4,11 +4,18 @@ import { Button } from '@components/useFull/Button';
 import { useState } from 'react';
 import { useTheme } from '@hooks/useTheme';
 import { localStorageKeys } from '@config/localStorage/keys';
+import { useInterface } from '@store/Interface';
 import { configContentStyle } from './styles';
 
 export function Config() {
   const [configIsOpen, setConfigIsOpen] = useState(false);
   const { theme, changeTheme } = useTheme();
+  const { setLockSnowflakeSteps, lockSnowflakeSteps } = useInterface(
+    (state) => ({
+      setLockSnowflakeSteps: state.setLockSnowflakeSteps,
+      lockSnowflakeSteps: state.lockSnowflakeSteps,
+    })
+  );
 
   const configTheme = localStorage.getItem(localStorageKeys.theme);
 
@@ -79,6 +86,30 @@ export function Config() {
                     <Computer />
                   </Button.Icon>
                   <Button.Text>Sistema</Button.Text>
+                </Button.Root>
+              </div>
+            </div>
+
+            <div className="flex flex-col justify-center gap-1">
+              <span className="text-sm">Travar passos no mode snowflake</span>
+
+              <div className="flex justify-between gap-2">
+                <Button.Root
+                  onClick={() => setLockSnowflakeSteps(true)}
+                  size="xs"
+                  width="full"
+                  active={lockSnowflakeSteps === true}
+                >
+                  <Button.Text>Sim</Button.Text>
+                </Button.Root>
+
+                <Button.Root
+                  onClick={() => setLockSnowflakeSteps(false)}
+                  size="xs"
+                  width="full"
+                  active={lockSnowflakeSteps === false}
+                >
+                  <Button.Text>Não</Button.Text>
                 </Button.Root>
               </div>
             </div>

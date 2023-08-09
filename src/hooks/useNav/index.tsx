@@ -17,6 +17,7 @@ const possiblesPaths = {
   centralIdia: 'Ideia central',
   paragraph: 'Ao paragrafo',
   personsBase: 'Sobre quem?',
+  page: 'Expansão',
 };
 
 export function useNav() {

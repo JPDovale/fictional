@@ -21,6 +21,11 @@ interface Request {
   phrase3?: string | null;
   phrase4?: string | null;
   phrase5?: string | null;
+  paragraph1?: string | null;
+  paragraph2?: string | null;
+  paragraph3?: string | null;
+  paragraph4?: string | null;
+  paragraph5?: string | null;
 }
 
 type Response = Promise<
@@ -56,6 +61,11 @@ export class UpdateSnowflakeStructureService {
     phrase3,
     phrase4,
     phrase5,
+    paragraph1,
+    paragraph2,
+    paragraph3,
+    paragraph4,
+    paragraph5,
   }: Request): Response {
     const findUserResponse = await this.usersRepository.findById(userId);
     if (!findUserResponse.value || findUserResponse.isLeft())
@@ -132,6 +142,13 @@ export class UpdateSnowflakeStructureService {
       phrase3,
       phrase4,
       phrase5,
+    };
+    snowflakeStructure.expansionToPage = {
+      paragraph1,
+      paragraph2,
+      paragraph3,
+      paragraph4,
+      paragraph5,
     };
 
     const saveSnowflakeStructureResponse =

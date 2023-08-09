@@ -12,8 +12,8 @@ import {
 } from 'lucide-react';
 import { BookModelResponse } from '@modules/Books/dtos/models/types';
 import { useRoutes } from '@store/Routes';
-import { RoutesAvailable } from '@config/routes/routesAvailable';
 import { useProjects } from '@store/Projects';
+import { useSnowflakeStructure } from '@hooks/useSnowflakeStructure';
 import { SnowflakeStepButton } from '../SnowflakeStepButton';
 
 interface SnowflakeStructureProps {
@@ -31,32 +31,27 @@ export function SnowflakeStructure({ book }: SnowflakeStructureProps) {
   const bookReceived = book || project?.books[0];
   const isToMultiBook = project?.features['multi-book'] ?? false;
 
-  function handleNavigateToStep(step: 'centalIdia' | 'expansionToParagraph') {
-    switch (step) {
-      case 'centalIdia': {
-        if (isToMultiBook) {
-          return setPathname({
-            routerParameterized:
-              RoutesAvailable.projectBookStructureCentralIdia.to(
-                bookReceived!.projectId,
-                bookReceived!.id
-              ),
-          });
-        }
+  const { useSnowflakeStructureVerifications } = useSnowflakeStructure();
+  const { verifications } = useSnowflakeStructureVerifications(
+    bookReceived?.snowflakeStructure
+  );
 
-        return setPathname({
-          routerParameterized: RoutesAvailable.projectStructureCentralIdia.to(
-            bookReceived!.projectId
-          ),
-        });
-      }
+  function handleNavigateToStep(step: keyof typeof verifications) {
+    const { redirectorBook, redirectorProject } = verifications[step]();
 
-      default:
-        return null;
+    if (isToMultiBook) {
+      return setPathname({
+        routerParameterized: redirectorBook(
+          bookReceived!.projectId,
+          bookReceived!.id
+        ),
+      });
     }
-  }
 
-  console.log(bookReceived);
+    return setPathname({
+      routerParameterized: redirectorProject(bookReceived!.projectId),
+    });
+  }
 
   return (
     <main className="flex-1 py-4 min-w-[45rem] mx-auto max-w-[45rem]">
@@ -89,79 +84,63 @@ export function SnowflakeStructure({ book }: SnowflakeStructureProps) {
 
       <div className="grid grid-cols-3 mt-4 gap-4">
         <SnowflakeStepButton
-          onClick={() => handleNavigateToStep('centalIdia')}
+          onClick={() => handleNavigateToStep('verifyCentralIdia')}
           Icon={Focus}
           text="Ideia central"
         />
         <SnowflakeStepButton
-          onClick={() => {}}
+          onClick={() => handleNavigateToStep('verifyParagraph')}
           Icon={PilcrowSquare}
           text="Ao paragrafo"
-          disabled={
-            !bookReceived?.snowflakeStructure?.centralIdia ||
-            bookReceived?.snowflakeStructure?.centralIdia === '<p></p>'
-          }
+          disabled={verifications.verifyParagraph().disabled}
         />
         <SnowflakeStepButton
-          onClick={() => {}}
+          onClick={() => handleNavigateToStep('verifyPersonsBase')}
           Icon={VenetianMask}
           text="Sobre quem?"
-          disabled={
-            !bookReceived?.snowflakeStructure?.expansionToParagraph?.phrase1 ||
-            bookReceived?.snowflakeStructure?.expansionToParagraph?.phrase1 ===
-              '<p></p>'
-          }
+          disabled={verifications.verifyPersonsBase().disabled}
         />
         <SnowflakeStepButton
-          onClick={() => {}}
+          onClick={() => handleNavigateToStep('verifyPage')}
           Icon={UnfoldHorizontal}
           text="Expansão"
-          disabled
+          disabled={verifications.verifyPage().disabled}
         />
         <SnowflakeStepButton
-          onClick={() => {}}
+          onClick={() => handleNavigateToStep('verifyPersonsExpansion')}
           Icon={UserSquare}
           text="Quanto mais real, melhor"
-          disabled={
-            !bookReceived?.snowflakeStructure?.expansionToPage?.paragraph1 ||
-            bookReceived?.snowflakeStructure?.expansionToPage?.paragraph1 ===
-              '<p></p>'
-          }
+          disabled={verifications.verifyPersonsExpansion().disabled}
         />
         <SnowflakeStepButton
-          onClick={() => {}}
+          onClick={() => handleNavigateToStep('verifyInterweaving')}
           Icon={ArrowDownWideNarrow}
           text="Entrelaçamento"
-          disabled
+          disabled={verifications.verifyInterweaving().disabled}
         />
         <SnowflakeStepButton
-          onClick={() => {}}
+          onClick={() => handleNavigateToStep('verifyPersonsFinal')}
           Icon={Fingerprint}
           text="Os detalhes"
-          disabled={
-            !bookReceived?.snowflakeStructure
-              ?.interweavingPersonsAndExpansion ||
-            bookReceived?.snowflakeStructure
-              ?.interweavingPersonsAndExpansion === '<p></p>'
-          }
+          disabled={verifications.verifyPersonsFinal().disabled}
         />
         <SnowflakeStepButton
-          onClick={() => {}}
+          onClick={() => handleNavigateToStep('verifyFragmentation')}
           Icon={FileStack}
           text="Fragmentação"
-          disabled
+          disabled={verifications.verifyFragmentation().disabled}
         />
         <SnowflakeStepButton
-          onClick={() => {}}
+          onClick={() => handleNavigateToStep('verifySlicesExpansion')}
           Icon={LayoutList}
           text=" Do macro ao micro"
-          disabled
+          disabled={verifications.verifySlicesExpansion().disabled}
         />
         <SnowflakeStepButton
-          onClick={() => {}}
+          onClick={() => handleNavigateToStep('verifyFinalText')}
           Icon={BookUp2}
           text="O fim?"
-          disabled
+          disabled={verifications.verifyFinalText().disabled}
         />
       </div>
     </main>

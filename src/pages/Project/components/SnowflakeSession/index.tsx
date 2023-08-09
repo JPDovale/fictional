@@ -29,10 +29,16 @@ export function SnowflakeSession() {
             multiBooksTitle={book.title}
             projectId={currentProject!.id}
             redirectorMultiBook={() => handleNavigateToBookStructure(book.id)}
+            bookReceived={book}
           />
         ))}
       </>
     );
 
-  return <SnowflakeInnerSession projectId={currentProject!.id} />;
+  return (
+    <SnowflakeInnerSession
+      projectId={currentProject!.id}
+      bookReceived={currentProject?.books[0] ?? null}
+    />
+  );
 }

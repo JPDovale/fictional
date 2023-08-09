@@ -15,6 +15,9 @@ interface UseInterface {
   handleChangeOpenSideBar: () => void;
   setSidBarIsOpen: (newState: Boolean) => void;
 
+  lockSnowflakeSteps: boolean;
+  setLockSnowflakeSteps: (newState: boolean) => void;
+
   loadConfig: () => void;
 
   theme: Theme;
@@ -28,12 +31,28 @@ interface UseInterface {
 const useInterface = create<UseInterface>((set, get) => {
   return {
     navIsOpen: false,
+    lockSnowflakeSteps: true,
     sideBarIsOpen: true,
     commandKIsOpen: false,
     theme: 'dark',
 
+    setLockSnowflakeSteps: (newState) => {
+      localStorage.setItem(
+        localStorageKeys.lockSnowflakeSteps,
+        JSON.stringify(newState)
+      );
+
+      set({ lockSnowflakeSteps: newState });
+    },
+
     loadConfig: () => {
       const themeSaved = localStorage.getItem(localStorageKeys.theme);
+      const lockSnowflakeStepsSaved = localStorage.getItem(
+        localStorageKeys.lockSnowflakeSteps
+      );
+      const lockSnowflakeSteps: boolean = lockSnowflakeStepsSaved
+        ? JSON.parse(lockSnowflakeStepsSaved)
+        : true;
       let theme: Theme;
 
       if (!themeSaved || themeSaved === 'system') {
@@ -51,6 +70,7 @@ const useInterface = create<UseInterface>((set, get) => {
 
       set({
         theme,
+        lockSnowflakeSteps,
       });
     },
 

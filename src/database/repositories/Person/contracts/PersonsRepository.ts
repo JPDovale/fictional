@@ -32,11 +32,11 @@ export abstract class PersonsRepository {
     } = personReceived;
 
     const itIsWithSnowflakeStructure =
-      !!snowflake_structure_base_apprenticeship ??
-      !!snowflake_structure_base_function ??
-      !!snowflake_structure_base_motivation ??
-      !!snowflake_structure_base_objective ??
-      !!snowflake_structure_base_obstacle ??
+      !!snowflake_structure_base_apprenticeship ||
+      !!snowflake_structure_base_function ||
+      !!snowflake_structure_base_motivation ||
+      !!snowflake_structure_base_objective ||
+      !!snowflake_structure_base_obstacle ||
       !!snowflake_structure_base_pov_by_this_eye;
 
     const person = Person.create(

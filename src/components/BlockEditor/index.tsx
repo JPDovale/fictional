@@ -12,7 +12,7 @@ import {
 
 interface BlockEditorProps {
   title: string;
-  content: ReactNode;
+  content?: ReactNode;
   editor: EditorTipTap | null;
 }
 
@@ -24,18 +24,22 @@ export function BlockEditor({ content, title, editor }: BlockEditorProps) {
       <HoverCard.Root>
         <h1 className={blockEditorTitleStyles({ theme })}>
           {title}
-          <HoverCard.Trigger>
-            <InfoIcon size={16} className="cursor-pointer" />
-          </HoverCard.Trigger>
+          {content && (
+            <HoverCard.Trigger>
+              <InfoIcon size={16} className="cursor-pointer" />
+            </HoverCard.Trigger>
+          )}
         </h1>
 
         <HoverCard.Portal>
-          <HoverCard.Content className={hoverContentStyles({ theme })}>
-            <span className={hoverInnerContentStyles({ theme })}>
-              {content}
-            </span>
-            <HoverCard.Arrow className="fill-purple900" />
-          </HoverCard.Content>
+          {content && (
+            <HoverCard.Content className={hoverContentStyles({ theme })}>
+              <span className={hoverInnerContentStyles({ theme })}>
+                {content}
+              </span>
+              <HoverCard.Arrow className="fill-purple900" />
+            </HoverCard.Content>
+          )}
         </HoverCard.Portal>
       </HoverCard.Root>
 
