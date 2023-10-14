@@ -36,11 +36,8 @@ export class ThreeActsStructuresFilesRepository
       const response = await this.findById(threeActsStructure.id.toString());
 
       if (response.isRight() && response.value) {
-        const threeActsStructureReceived = response.value;
         const threeActsStructureFile =
-          ThreeActsStructuresRepository.parserToFile(
-            threeActsStructureReceived
-          );
+          ThreeActsStructuresRepository.parserToFile(threeActsStructure);
 
         fs.writeFileSync(
           dataFiles.threeActsStructure(threeActsStructure.id.toString()),

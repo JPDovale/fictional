@@ -18,14 +18,17 @@ import { Requester } from '@config/requests';
 import { getDatabasePath } from '@config/files/getDatabasePath';
 import { dataFiles } from '@config/files';
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
-import MenuBuilder from './menu';
+// import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
 class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
     autoUpdater.logger = log;
-    autoUpdater.checkForUpdatesAndNotify();
+    autoUpdater.checkForUpdatesAndNotify({
+      title: 'Magic!',
+      body: 'Nova versão disponível! Baixe agora',
+    });
   }
 }
 
@@ -90,9 +93,10 @@ const createWindow = async () => {
   }
 
   mainWindow = new BrowserWindow({
-    show: false,
-    minWidth: 1200,
-    minHeight: 700,
+    minWidth: 1300,
+    minHeight: 500,
+    resizable: true,
+    autoHideMenuBar: !!app.isPackaged,
     icon: getAssetPath('icon.png'),
     webPreferences: {
       preload: app.isPackaged
@@ -120,8 +124,8 @@ const createWindow = async () => {
     mainWindow = null;
   });
 
-  const menuBuilder = new MenuBuilder(mainWindow);
-  menuBuilder.buildMenu();
+  // const menuBuilder = new MenuBuilder(mainWindow);
+  // menuBuilder.buildMenu();
 
   // Open urls in the user's browser
   mainWindow.webContents.setWindowOpenHandler((edata) => {

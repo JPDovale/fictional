@@ -1,6 +1,6 @@
 {
   "name": "magiscrita",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "The magic occurs in here",
   "license": "MIT",
   "author": {
@@ -19,6 +19,5 @@
   "devDependencies": {
     "@changesets/cli": "^2.26.2"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

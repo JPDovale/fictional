@@ -1,7 +1,7 @@
 {
   "name": "magiscrita",
   "description": "The magic occurs in here",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "keywords": [
     "electron",
     "boilerplate",
@@ -249,7 +249,14 @@
     },
     "linux": {
       "target": [
-        "AppImage"
+        "AppImage",
+        "deb"
+      ],
+      "fileAssociations": [
+        {
+          "ext": "ocurredmagic",
+          "icon": "assets/fileicon.png"
+        }
       ],
       "category": "Development"
     },
