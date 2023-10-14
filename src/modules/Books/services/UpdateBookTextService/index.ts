@@ -1,36 +1,31 @@
-import { PersonsRepository } from '@database/repositories/Person/contracts/PersonsRepository';
+import { BooksRepository } from '@database/repositories/Book/contracts/BooksRepository';
 import { ProjectsRepository } from '@database/repositories/Project/contracts/ProjectsRepository';
 import { UsersRepository } from '@database/repositories/User/contracts/UsersRepository';
-import { Person } from '@modules/Persons/models/Person';
+import { Book } from '@modules/Books/models/Book';
 import { UserNotFount } from '@modules/Users/services/_errors/UserNotFound';
 import InjectableDependencies from '@shared/container/types';
 import { Either, left, right } from '@shared/core/error/Either';
-import { ResourceNotCreated } from '@shared/errors/ResourceNotCreated';
+import { PermissionDenied } from '@shared/errors/PermissionDenied';
 import { ResourceNotFount } from '@shared/errors/ResourceNotFound';
 import { UnexpectedError } from '@shared/errors/UnexpectedError';
 import { inject, injectable } from 'tsyringe';
 
 interface Request {
-  userId: string;
+  bookId: string;
   projectId: string;
-  bookId?: string;
-  name?: string;
-  biographic: string;
-  lastName?: string;
-  age?: number;
-  history?: string;
-  imageUrl?: string;
+  userId: string;
+  text: string | null;
 }
 
 type Response = Promise<
   Either<
-    ResourceNotCreated | ResourceNotFount | UserNotFount | UnexpectedError,
-    { person: Person }
+    ResourceNotFount | UserNotFount | PermissionDenied | UnexpectedError,
+    { book: Book }
   >
 >;
 
 @injectable()
-export class CreatePersonService {
+export class UpdateBookTextService {
   constructor(
     @inject(InjectableDependencies.Repositories.UsersRepository)
     private readonly usersRepository: UsersRepository,
@@ -38,20 +33,11 @@ export class CreatePersonService {
     @inject(InjectableDependencies.Repositories.ProjectsRepository)
     private readonly projectsRepository: ProjectsRepository,
 
-    @inject(InjectableDependencies.Repositories.PersonsRepository)
-    private readonly personsRepository: PersonsRepository
+    @inject(InjectableDependencies.Repositories.BooksRepository)
+    private readonly booksRepository: BooksRepository
   ) {}
 
-  async execute({
-    projectId,
-    userId,
-    name,
-    biographic,
-    lastName,
-    age,
-    imageUrl,
-    history,
-  }: Request): Response {
+  async execute({ bookId, text, projectId, userId }: Request): Response {
     const findUserResponse = await this.usersRepository.findById(userId);
     if (!findUserResponse.value || findUserResponse.isLeft()) {
       return left(new UserNotFount());
@@ -64,29 +50,31 @@ export class CreatePersonService {
       return left(new ResourceNotFount());
     }
 
+    const findBookResponse = await this.booksRepository.findById(bookId);
+    if (!findBookResponse.value || findBookResponse.isLeft()) {
+      return left(new ResourceNotFount());
+    }
+
     const user = findUserResponse.value;
     const project = findProjectResponse.value;
+    const book = findBookResponse.value;
 
-    if (!project.features.featureIsApplied('person')) {
+    if (project.type !== 'book') {
       return left(new UnexpectedError());
     }
 
-    const person = Person.create({
-      name,
-      biographic,
-      lastName,
-      age,
-      history,
-      projectId: project.id,
-      userId: user.id,
-      imageUrl:
-        imageUrl && process.platform === 'linux'
-          ? `file://${imageUrl}`
-          : imageUrl,
-    });
+    if (!book.userId.equals(user.id) || !project.userId.equals(user.id)) {
+      return left(new PermissionDenied());
+    }
 
-    await this.personsRepository.create(person);
+    book.text = text;
 
-    return right({ person });
+    const updateHistoryResponse = await this.booksRepository.save(book);
+
+    if (updateHistoryResponse.isLeft()) {
+      return left(new UnexpectedError());
+    }
+
+    return right({ book });
   }
 }

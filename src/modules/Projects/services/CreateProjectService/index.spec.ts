@@ -8,9 +8,11 @@ import { BooksInMemoryRepository } from '@tests/books/repositories/BooksInMemory
 import { UnexpectedError } from '@shared/errors/UnexpectedError';
 import { ThreeActsStructureInMemoryRepository } from '@tests/threeActsStructures/repositories/ThreeActsStructureInMemoryRepository';
 import { SnowflakeStructuresInMemoryRepository } from '@tests/snowflakeStructures/repositories/SnowflakeStructuresInMemoryRepository';
+import { PersonsInMemoryRepository } from '@tests/persons/repositories/PersonsInMemoryRepository';
 import { CreateProjectService } from '.';
 
 let usersInMemoryRepository: UsersInMemoryRepository;
+let personsInMemoryRepository: PersonsInMemoryRepository;
 let threeActsStructureInMemoryRepository: ThreeActsStructureInMemoryRepository;
 let projectsInMemoryRepository: ProjectsInMemoryRepository;
 let snowflakeStructuresInMemoryRepository: SnowflakeStructuresInMemoryRepository;
@@ -21,10 +23,11 @@ let sut: CreateProjectService;
 describe('Create project', () => {
   beforeEach(() => {
     usersInMemoryRepository = new UsersInMemoryRepository();
+    personsInMemoryRepository = new PersonsInMemoryRepository();
     threeActsStructureInMemoryRepository =
       new ThreeActsStructureInMemoryRepository();
     snowflakeStructuresInMemoryRepository =
-      new SnowflakeStructuresInMemoryRepository();
+      new SnowflakeStructuresInMemoryRepository(personsInMemoryRepository);
     booksInMemoryRepository = new BooksInMemoryRepository(
       threeActsStructureInMemoryRepository,
       snowflakeStructuresInMemoryRepository

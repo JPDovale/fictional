@@ -1,14 +1,15 @@
 import { Page404 } from '@components/404';
 import { PersonCard } from '@components/PersonsComponents/PersonCard';
+import { Button } from '@components/useFull/Button';
 import { RoutesAvailable } from '@config/routes/routesAvailable';
 import { useProjects } from '@store/Projects';
 import { useRoutes } from '@store/Routes';
+import { UserPlus } from 'lucide-react';
 
 export function PersonsPage() {
   const { setPathname } = useRoutes();
-  const { currentProject, persons } = useProjects((state) => ({
+  const { currentProject } = useProjects((state) => ({
     currentProject: state.currentProject,
-    persons: state.persons,
   }));
 
   function handleNavigateToPerson(personId: string) {
@@ -46,12 +47,22 @@ export function PersonsPage() {
         Seus personagens:
       </h2>
 
+      <Button.Root
+        size="xxs"
+        onClick={() => setPathname(RoutesAvailable.createPerson.path)}
+      >
+        <Button.Icon>
+          <UserPlus />
+        </Button.Icon>
+        <Button.Text>Criar um novo personagem</Button.Text>
+      </Button.Root>
+
       <div
-        data-without-person={persons.length === 0}
+        data-without-person={currentProject?.persons.length === 0}
         className="grid grid-cols-3 data-[without-person=true]:grid-cols-1  gap-x-6 gap-y-4"
       >
-        {persons.length !== 0 ? (
-          persons.map((person) => (
+        {currentProject?.persons.length !== 0 ? (
+          currentProject?.persons.map((person) => (
             <PersonCard
               key={person.id}
               person={person}

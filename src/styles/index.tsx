@@ -63,12 +63,14 @@ export function useEditor({ editors }: UseEditorProps) {
             },
             suggestion: {
               items: ({ query }) => {
-                const { persons } = usePersons.getState();
+                const { persons, currentPerson } = usePersons.getState();
 
                 const personsThisProject = useProject
                   ? persons.filter((person) => {
                       return !!useProject.find(
-                        (project) => project.id === person.projectId
+                        (project) =>
+                          project.id === person.projectId &&
+                          person.id !== currentPerson?.id
                       );
                     })
                   : [];

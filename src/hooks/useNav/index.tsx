@@ -18,6 +18,7 @@ const possiblesPaths = {
   paragraph: 'Ao paragrafo',
   personsBase: 'Sobre quem?',
   page: 'Expansão',
+  text: 'Texto',
 };
 
 export function useNav() {

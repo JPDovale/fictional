@@ -17,6 +17,14 @@ export const ProjectBooksRoutes = {
       )}`,
   },
 
+  projectBookText: {
+    path: '/projects/:id/books/:bookId/text',
+    to: (id: string, bookId: string) =>
+      `/projects/${id}/books/${bookId}/text${makeParameterizedRouter(
+        RoutesAvailable.projectBookText.path
+      )}`,
+  },
+
   projectBookStructure: {
     path: '/projects/:id/books/:bookId/structure',
     to: (id: string, bookId: string) =>

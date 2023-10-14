@@ -3,7 +3,6 @@ import { usePersons } from '@store/Persons';
 import { useBooks } from '@store/Books';
 import { Requester } from '@config/requests/requester';
 import { ProjectModelResponse } from '@modules/Projects/dtos/models/types';
-import { PersonModelResponse } from '@modules/Persons/dtos/models/types';
 import { GetUseProjects, SetUseProjects } from '..';
 
 export async function loadProject(
@@ -26,8 +25,9 @@ export async function loadProject(
     },
   });
 
+  console.log(response);
+
   let project: ProjectModelResponse | null = null;
-  const persons: PersonModelResponse[] = [];
 
   if (!response.error) {
     project = response.data.project as ProjectModelResponse;
@@ -36,6 +36,5 @@ export async function loadProject(
   set({
     isLoading: false,
     currentProject: project,
-    persons,
   });
 }

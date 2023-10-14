@@ -12,6 +12,8 @@ export abstract class BooksRepository {
 
   abstract findByProjectId(projectId: string): Promise<Either<{}, Book[]>>;
 
+  abstract save(book: Book): Promise<Either<{}, {}>>;
+
   static parserToFile(book: Book): BookFile {
     const bookFile: BookFile = {
       id: book.id.toString(),
@@ -26,6 +28,7 @@ export abstract class BooksRepository {
       title: book.title,
       updated_at: book.updatedAt,
       user_id: book.userId.toString(),
+      text: book.text,
     };
 
     return bookFile;
@@ -49,6 +52,7 @@ export abstract class BooksRepository {
         snowflakeStructureId: bookReceived.snowflake_structure_id
           ? new UniqueEntityId(bookReceived.snowflake_structure_id)
           : null,
+        text: bookReceived.text,
       },
       new UniqueEntityId(bookReceived.id)
     );

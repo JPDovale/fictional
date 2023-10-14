@@ -54,7 +54,7 @@ export function CommandK() {
           <CommandEmpty>Nenhum resultado encontrado.</CommandEmpty>
           {commandInterfaces.map((ci) => (
             <CommandGroup key={ci.title} className="pb-4" heading={ci.title}>
-              {ci.commands.map(({ link, key }) => {
+              {ci.commands.map(({ link, key, disabled = false }) => {
                 if (!link) return null;
 
                 const { Icon, label, pathname } = link;
@@ -67,6 +67,7 @@ export function CommandK() {
                       width="full"
                       align="start"
                       onClick={() => setPathname(pathname)}
+                      disabled={disabled}
                     >
                       <Button.Icon>
                         <Icon />
@@ -141,7 +142,7 @@ export function CommandK() {
                     <Button.Text className="flex-1">
                       {person.name?.firstName || person.name?.lastName
                         ? person.name.fullName
-                        : `????????? | ${person.biography.slice(1, 60)}`}
+                        : `????????? | ${person.biography?.slice(1, 60)}`}
                     </Button.Text>
                   </Button.Root>
                 </CommandItem>

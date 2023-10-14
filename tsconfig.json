@@ -84,6 +84,7 @@
     "test",
     "release/build",
     "release/app/dist",
+    "node_modules",
     ".erb/dll"
   ]
 }

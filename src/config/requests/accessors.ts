@@ -11,6 +11,7 @@ import { UpdatePersonHistoryResolver } from '@modules/Persons/resolvers/UpdatePe
 import { UpdateThreeActsStructureResolver } from '@modules/ThreeActsStructures/resolvers/UpdateThreeActsStructureResolver';
 import { UpdateSnowflakeStructureResolver } from '@modules/SnowflakeStructures/resolvers/UpdateSnowflakeStructureResolver';
 import { CreatePersonWithSnowflakeStructureResolver } from '@modules/Persons/resolvers/CreatePersonWithSnowflakeStructureResolver';
+import { UpdateBookTextResolver } from '@modules/Books/resolvers/UpdateBookTextResolver';
 
 const getUserResolver = new GetUserResolver();
 const createProjectResolver = new CreateProjectResolver();
@@ -25,6 +26,7 @@ const getPersonResolver = new GetPersonResolver();
 const getPersonsResolver = new GetPersonsResolver();
 const updatePersonHistoryResolver = new UpdatePersonHistoryResolver();
 const updateSnowflakeStructureResolver = new UpdateSnowflakeStructureResolver();
+const updateBookTextResolver = new UpdateBookTextResolver();
 
 const accessors = {
   'get-user': async (_data: any, win: BrowserWindow | null) =>
@@ -84,6 +86,9 @@ const accessors = {
     _data: any,
     win: BrowserWindow | null
   ) => createPersonWithSnowflakeStructureResolver.handle({ _data, win }),
+
+  'update-book-text': async (_data: any, win: BrowserWindow | null) =>
+    updateBookTextResolver.handle({ _data, win }),
 };
 
 export type Accessors = keyof typeof accessors;

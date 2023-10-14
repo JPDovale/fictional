@@ -20,6 +20,7 @@ export interface HeaderLink {
   existesTo?: string;
   label: string;
   infos: Info[];
+  disabled: boolean;
 }
 
 interface HeaderLinks {
@@ -41,18 +42,21 @@ export const headerLinks: HeaderLinks = {
             'Os projetos são o coração das suas histórias, são neles que você ira difundir tudo o que sua criatividade deixar e criar uma história marcante',
         },
       ],
+      disabled: false,
     },
     {
       pathname: RoutesAvailable.createPerson.path,
       label: 'Criar personagem',
       Icon: UserPlus,
       infos: [],
+      disabled: false,
     },
     {
       pathname: RoutesAvailable.createBox.path,
       label: 'Criar caixote',
       Icon: PackagePlus,
       infos: [],
+      disabled: true,
     },
   ],
   right: [
@@ -61,18 +65,21 @@ export const headerLinks: HeaderLinks = {
       label: 'Sincronizar',
       Icon: Cloud,
       infos: [],
+      disabled: true,
     },
     {
       pathname: RoutesAvailable.settings.path,
       label: 'Configurações',
       Icon: Settings,
       infos: [],
+      disabled: true,
     },
     {
       pathname: RoutesAvailable.pro.path,
       label: 'Plus',
       Icon: Gem,
       infos: [],
+      disabled: true,
     },
   ],
 };

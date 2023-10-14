@@ -86,7 +86,10 @@ export class CreateProjectService {
 
     const project = Project.create({
       name,
-      imageUrl,
+      imageUrl:
+        imageUrl && process.platform === 'linux'
+          ? `file://${imageUrl}`
+          : imageUrl,
       features: Features.createFromObject(features),
       userId: user.id,
       password,
@@ -106,7 +109,10 @@ export class CreateProjectService {
         booksReceived.forEach((book) => {
           const newBook = Book.create({
             title: book.title,
-            imageUrl: book.imageUrl,
+            imageUrl:
+              book.imageUrl && process.platform === 'linux'
+                ? `file://${book.imageUrl}`
+                : book.imageUrl,
             projectId: project.id,
             userId: user.id,
             structure,

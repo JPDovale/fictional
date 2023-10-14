@@ -31,4 +31,5 @@ export interface BookFile {
   image_url: string | null;
   created_at: Date;
   updated_at: Date;
+  text: string | null;
 }

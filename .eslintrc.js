@@ -36,6 +36,7 @@ module.exports = {
     'jest/no-conditional-expect': 'off',
     camelcase: 'off',
     'global-require': 'off',
+    'jest/no-commented-out-tests': 'off',
   },
   parserOptions: {
     ecmaVersion: 2020,

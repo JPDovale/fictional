@@ -15,6 +15,8 @@ export abstract class BookModelResponse {
 
   abstract subtitle: string | null;
 
+  abstract text: string | null;
+
   abstract structure: BookStructureType;
 
   abstract image: BookImage;

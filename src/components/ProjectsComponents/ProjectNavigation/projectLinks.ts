@@ -7,6 +7,7 @@ import {
   Home,
   LayoutPanelTop,
   PersonStanding,
+  Text,
 } from 'lucide-react';
 
 export const projectLinks: NavLink[] = [
@@ -37,6 +38,11 @@ export const projectLinks: NavLink[] = [
     Icon: PersonStanding,
     label: 'Personagens',
     featureName: 'person',
+  },
+  {
+    pathname: RoutesAvailable.projectText.path,
+    Icon: Text,
+    label: 'Texto',
   },
   {
     pathname: RoutesAvailable.projectSettings.path,

@@ -10,6 +10,7 @@ export interface Command {
   key: string;
   link?: CommandLink;
   execute?: () => void;
+  disabled?: boolean;
 }
 
 export interface Commands {

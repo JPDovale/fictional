@@ -20,7 +20,7 @@ export function PersonCard({ person, onClick }: PersonCardProps) {
     >
       <Avatar.Root className="bg-transparent max-w-[8rem] min-w-[8rem] max-h-[8rem] min-h-[8rem] flex items-center justify-center rounded-full overflow-hidden mt-4 border border-purple900">
         <Avatar.Image
-          className="rounded-full bg-transparent overflow-hidden"
+          className="rounded-full bg-transparent h-full w-full overflow-hidden"
           src={person.image.url ?? undefined}
           alt={person.image.alt}
         />

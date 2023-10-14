@@ -8,7 +8,7 @@ interface HeaderButtonProps {
 }
 
 export function HeaderButton({
-  link: { Icon, infos, pathname, existesTo },
+  link: { Icon, infos, pathname, existesTo, disabled },
 }: HeaderButtonProps) {
   const { setPathname, pathname: actualPathname } = useRoutes((state) => ({
     setPathname: state.setPathname,
@@ -22,7 +22,8 @@ export function HeaderButton({
           className="shadow-none"
           size="xs"
           active={actualPathname === pathname}
-          onClick={() => setPathname(pathname)}
+          onClick={() => !disabled && setPathname(pathname)}
+          disabled={disabled}
         >
           <Button.Icon>
             <Icon />

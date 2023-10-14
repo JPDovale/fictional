@@ -1,4 +1,5 @@
 import { RoutesAvailable } from '@config/routes/routesAvailable';
+import { BookTextPage } from '@pages/BookText';
 import { BooksPage } from '@pages/Books';
 import { PersonsPage } from '@pages/Persons';
 import { ProjectPage } from '@pages/Project';
@@ -13,6 +14,11 @@ import { Route } from 'react-router-dom';
 export function ProjectRoutes() {
   return [
     <Route path={RoutesAvailable.project.path} element={<ProjectPage />} />,
+
+    <Route
+      path={RoutesAvailable.projectText.path}
+      element={<BookTextPage />}
+    />,
 
     <Route
       path={RoutesAvailable.projectStructure.path}

@@ -71,4 +71,8 @@ export class BooksInMemoryRepository implements BooksRepository {
       return left({});
     }
   }
+
+  save(): Promise<Either<{}, {}>> {
+    throw new Error('Method not implemented.');
+  }
 }

@@ -1,6 +1,14 @@
 import { RoutesAvailable, makeParameterizedRouter } from '../routesAvailable';
 
 export const ProjectStructureRoutes = {
+  projectText: {
+    path: '/projects/:id/text',
+    to: (id: string) =>
+      `/projects/${id}/text${makeParameterizedRouter(
+        RoutesAvailable.projectText.path
+      )}`,
+  },
+
   projectStructure: {
     path: '/projects/:id/structure',
     to: (id: string) =>

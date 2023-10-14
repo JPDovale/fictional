@@ -12,6 +12,7 @@ export function BookParser(book: Book): BookModelResponse {
     title: book.title,
     updatedAt: book.updatedAt,
     userId: book.userId.toString(),
+    text: book.text,
     image: {
       alt: book.title,
       url: book.imageUrl,

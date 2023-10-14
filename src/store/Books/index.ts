@@ -1,6 +1,8 @@
+import { Requester } from '@config/requests/requester';
 import { BookModelResponse } from '@modules/Books/dtos/models/types';
 import { PersonModelResponse } from '@modules/Persons/dtos/models/types';
 import { useProjects } from '@store/Projects';
+import { useUserStore } from '@store/User';
 import { create } from 'zustand';
 
 interface UseBooks {
@@ -13,6 +15,7 @@ interface UseBooks {
   findBook: (bookId: string) => BookModelResponse | null;
   addPersonInBook: (bookId: string, person: PersonModelResponse) => void;
   setBook: (book: BookModelResponse) => void;
+  updateText: (text: string) => Promise<void>;
 }
 
 const useBooks = create<UseBooks>((set, get) => {
@@ -22,14 +25,17 @@ const useBooks = create<UseBooks>((set, get) => {
     isLoading: false,
 
     loadBook: async (id) => {
-      set({ isLoading: false, currentBook: null });
+      set({ isLoading: true, currentBook: null });
 
       const { currentProject } = useProjects.getState();
       if (!currentProject) return;
 
       const book = currentProject.books.find((b) => b.id === id);
 
-      set({ currentBook: book ?? null, isLoading: false });
+      set({
+        currentBook: book ?? currentProject.books[0] ?? null,
+        isLoading: false,
+      });
     },
 
     addPersonInBook: (bookId, person) => {
@@ -60,6 +66,32 @@ const useBooks = create<UseBooks>((set, get) => {
       }
 
       set({ books: updatedBooks });
+    },
+
+    updateText: async (text) => {
+      const { user } = useUserStore.getState();
+      const { currentBook } = get();
+
+      if (currentBook) {
+        const response = await Requester.requester({
+          access: 'update-book-text',
+          data: {
+            bookId: currentBook.id,
+            text,
+            userId: user?.account.id,
+            projectId: currentBook.projectId,
+          },
+        });
+
+        if (!response.error) {
+          const updatedBook: BookModelResponse = {
+            ...currentBook,
+            text,
+          };
+
+          set({ currentBook: updatedBook });
+        }
+      }
     },
   };
 });

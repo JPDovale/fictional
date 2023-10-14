@@ -9,9 +9,11 @@ import { PersonsInMemoryRepository } from '@tests/persons/repositories/PersonsIn
 import { makePerson } from '@tests/persons/factories/makePerson';
 import { ThreeActsStructureInMemoryRepository } from '@tests/threeActsStructures/repositories/ThreeActsStructureInMemoryRepository';
 import { BooksInMemoryRepository } from '@tests/books/repositories/BooksInMemoryRepository';
+import { SnowflakeStructuresInMemoryRepository } from '@tests/snowflakeStructures/repositories/SnowflakeStructuresInMemoryRepository';
 import { GetPersonsService } from '.';
 
 let usersInMemoryRepository: UsersInMemoryRepository;
+let snowflakeStructureInMemoryRepository: SnowflakeStructuresInMemoryRepository;
 let threeActsStructureInMemoryRepository: ThreeActsStructureInMemoryRepository;
 let booksInMemoryRepository: BooksInMemoryRepository;
 let projectsInMemoryRepository: ProjectsInMemoryRepository;
@@ -22,15 +24,18 @@ let sut: GetPersonsService;
 describe('Get persons', () => {
   beforeEach(() => {
     usersInMemoryRepository = new UsersInMemoryRepository();
+    personsInMemoryRepository = new PersonsInMemoryRepository();
+    snowflakeStructureInMemoryRepository =
+      new SnowflakeStructuresInMemoryRepository(personsInMemoryRepository);
     threeActsStructureInMemoryRepository =
       new ThreeActsStructureInMemoryRepository();
     booksInMemoryRepository = new BooksInMemoryRepository(
-      threeActsStructureInMemoryRepository
+      threeActsStructureInMemoryRepository,
+      snowflakeStructureInMemoryRepository
     );
     projectsInMemoryRepository = new ProjectsInMemoryRepository(
       booksInMemoryRepository
     );
-    personsInMemoryRepository = new PersonsInMemoryRepository();
 
     sut = new GetPersonsService(
       usersInMemoryRepository,

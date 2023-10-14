@@ -20,7 +20,7 @@ export const ProjectPersonsRoutes = {
   projectPersonHistory: {
     path: '/projects/:id/persons/:personId/history',
     to: (id: string, personId: string) =>
-      `/projects/${id}/persons/${personId}${makeParameterizedRouter(
+      `/projects/${id}/persons/${personId}/history${makeParameterizedRouter(
         RoutesAvailable.projectPersonHistory.path
       )}`,
   },

@@ -66,4 +66,27 @@ export class PersonsInMemoryRepository implements PersonsRepository {
       return left({});
     }
   }
+
+  async createMany(persons: Person[]): Promise<Either<{}, {}>> {
+    try {
+      this.personsList = this.persons.concat(
+        persons.map((person) => PersonsRepository.parserToFile(person))
+      );
+      return right({});
+    } catch (err) {
+      console.log(err);
+      return left({});
+    }
+  }
+
+  async findBySnowflakeStructureId(): // snowflakeStructureId: string
+  Promise<Either<{}, Person[]>> {
+    try {
+      const persons = this.personsList.filter((person) => person);
+      return right(persons.map(PersonsRepository.parser));
+    } catch (err) {
+      console.log(err);
+      return left({});
+    }
+  }
 }

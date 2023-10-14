@@ -1,12 +1,8 @@
-import { useUser } from '@hooks/useUser';
-
 export function HomePage() {
-  const { data } = useUser();
-
   return (
-    <main className="flex-1 p-6">
-      <h1 className="text-2xl font-bold text-text600">
-        Modelos {data?.user?.infos.name}
+    <main className="flex justify-center p-6">
+      <h1 className="text-6xl mt-[23%] max-w-4xl text-center font-title text-text600">
+        Welcome to the most magical world
       </h1>
     </main>
   );

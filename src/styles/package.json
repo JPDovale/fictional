@@ -1,0 +1,287 @@
+{
+  "name": "magiscrita",
+  "description": "The magic occurs in here",
+  "version": "0.0.0",
+  "keywords": [
+    "electron",
+    "boilerplate",
+    "react",
+    "typescript",
+    "ts",
+    "sass",
+    "webpack",
+    "hot",
+    "reload"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "João Paulo do Vale de Oliveira",
+    "email": "ms@magiscrita.com"
+  },
+  "main": "./src/main/main.ts",
+  "iconDefinitions": {
+    "file-ocurredmagic": "./assets/icon.svg"
+  },
+  "scripts": {
+    "build": "concurrently \"npm run build:main\" \"npm run build:renderer\"",
+    "build:main": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.main.prod.ts",
+    "build:renderer": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.prod.ts",
+    "postinstall": "ts-node .erb/scripts/check-native-dep.js && electron-builder install-app-deps && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.ts",
+    "lint": "cross-env NODE_ENV=development eslint . --ext .js,.jsx,.ts,.tsx",
+    "package": "ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish never",
+    "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir release/app",
+    "start": "ts-node ./.erb/scripts/check-port-in-use.js && npm run start:renderer",
+    "start:main": "cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only -r tsconfig-paths/register .",
+    "start:preload": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.preload.dev.ts",
+    "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
+    "test": "vitest run",
+    "test:w": "vitest",
+    "test:ui": "vitest --ui",
+    "changeset": "changeset",
+    "version": "changeset version"
+  },
+  "browserslist": [],
+  "prettier": {
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": [
+          ".prettierrc",
+          ".eslintrc"
+        ],
+        "options": {
+          "parser": "json"
+        }
+      }
+    ]
+  },
+  "dependencies": {
+    "@faker-js/faker": "8.0.2",
+    "@hookform/resolvers": "3.1.1",
+    "@phosphor-icons/react": "2.0.10",
+    "@prisma/client": "^5.0.0",
+    "@radix-ui/react-avatar": "^1.0.3",
+    "@radix-ui/react-checkbox": "1.0.4",
+    "@radix-ui/react-dialog": "^1.0.4",
+    "@radix-ui/react-hover-card": "1.0.6",
+    "@radix-ui/react-popover": "1.0.6",
+    "@radix-ui/react-scroll-area": "1.0.4",
+    "@radix-ui/react-select": "^1.2.2",
+    "@radix-ui/react-slot": "1.0.2",
+    "@radix-ui/react-tabs": "^1.0.4",
+    "@tailwindcss/typography": "0.5.9",
+    "@tiptap/extension-bubble-menu": "2.0.4",
+    "@tiptap/extension-bullet-list": "2.0.4",
+    "@tiptap/extension-color": "2.0.4",
+    "@tiptap/extension-dropcursor": "2.0.4",
+    "@tiptap/extension-floating-menu": "2.0.4",
+    "@tiptap/extension-highlight": "2.0.4",
+    "@tiptap/extension-image": "2.0.4",
+    "@tiptap/extension-list-item": "2.0.4",
+    "@tiptap/extension-mention": "2.0.4",
+    "@tiptap/extension-placeholder": "2.0.4",
+    "@tiptap/extension-text-align": "2.0.4",
+    "@tiptap/extension-text-style": "2.0.4",
+    "@tiptap/extension-typography": "2.0.4",
+    "@tiptap/pm": "^2.0.4",
+    "@tiptap/react": "^2.0.4",
+    "@tiptap/starter-kit": "2.0.4",
+    "@tiptap/suggestion": "2.0.4",
+    "bcryptjs": "2.4.3",
+    "class-validator": "0.14.0",
+    "class-variance-authority": "^0.6.1",
+    "clsx": "1.2.1",
+    "cmdk": "0.2.0",
+    "dayjs": "^1.11.9",
+    "electron-debug": "^3.2.0",
+    "electron-log": "^4.4.8",
+    "electron-updater": "^5.3.0",
+    "iconv-lite": "0.6.3",
+    "lodash": "4.17.21",
+    "lucide-react": "^0.263.1",
+    "node-abi": "^3.45.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "7.45.2",
+    "react-icons": "4.10.1",
+    "react-query": "3.39.3",
+    "react-router-dom": "^6.11.2",
+    "reflect-metadata": "0.1.13",
+    "tailwind-merge": "1.13.2",
+    "tailwindcss-animate": "1.0.6",
+    "tippy.js": "6.3.7",
+    "tsyringe": "4.8.0",
+    "vitest": "0.33.0",
+    "zod": "3.21.4",
+    "zustand": "4.3.9"
+  },
+  "devDependencies": {
+    "@changesets/cli": "2.26.2",
+    "@electron-toolkit/preload": "2.0.0",
+    "@electron/notarize": "^1.2.3",
+    "@electron/rebuild": "^3.2.13",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
+    "@rocketseat/eslint-config": "1.2.0",
+    "@svgr/webpack": "^8.0.1",
+    "@teamsupercell/typings-for-css-modules-loader": "^2.5.2",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
+    "@types/bcryptjs": "2.4.2",
+    "@types/jest": "^29.5.2",
+    "@types/lodash": "4.14.195",
+    "@types/node": "20.2.5",
+    "@types/react": "^18.2.8",
+    "@types/react-dom": "^18.2.4",
+    "@types/react-test-renderer": "^18.0.0",
+    "@types/terser-webpack-plugin": "^5.0.4",
+    "@types/webpack-bundle-analyzer": "^4.6.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.8",
+    "@typescript-eslint/parser": "^5.59.8",
+    "@vitest/coverage-v8": "^0.33.0",
+    "@vitest/ui": "0.33.0",
+    "autoprefixer": "^10.4.14",
+    "browserslist-config-erb": "^0.0.3",
+    "chalk": "^4.1.2",
+    "concurrently": "^8.1.0",
+    "core-js": "^3.30.2",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.8.1",
+    "css-minimizer-webpack-plugin": "^5.0.0",
+    "detect-port": "^1.5.1",
+    "electron": "^25.0.1",
+    "electron-builder": "^24.2.1",
+    "electron-devtools-installer": "^3.2.0",
+    "electronmon": "^2.0.2",
+    "eslint": "^8.42.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-erb": "^4.0.6",
+    "eslint-import-resolver-typescript": "^3.5.5",
+    "eslint-import-resolver-webpack": "^0.13.2",
+    "eslint-plugin-compat": "^4.1.4",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jest": "^27.2.1",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "0.3.4",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest-environment-jsdom": "^29.5.0",
+    "mini-css-extract-plugin": "^2.7.6",
+    "postcss": "^8.4.24",
+    "postcss-loader": "^7.3.3",
+    "prettier": "^2.8.8",
+    "prisma": "^5.0.0",
+    "react-refresh": "^0.14.0",
+    "react-test-renderer": "^18.2.0",
+    "rimraf": "^5.0.1",
+    "sass": "^1.62.1",
+    "sass-loader": "^13.3.1",
+    "style-loader": "^3.3.3",
+    "tailwindcss": "^3.3.2",
+    "terser-webpack-plugin": "^5.3.9",
+    "ts-jest": "^29.1.0",
+    "ts-loader": "^9.4.3",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
+    "typescript": "^5.1.3",
+    "url-loader": "^4.1.1",
+    "vite": "4.3.9",
+    "webpack": "^5.85.0",
+    "webpack-bundle-analyzer": "^4.9.0",
+    "webpack-cli": "^5.1.1",
+    "webpack-dev-server": "^4.15.0",
+    "webpack-merge": "^5.9.0"
+  },
+  "build": {
+    "productName": "MagiScrita",
+    "executableName": "MagicInstaller",
+    "appId": "com.magiscrita",
+    "asar": true,
+    "asarUnpack": "**\\*.{node,dll}",
+    "files": [
+      "dist",
+      "node_modules",
+      "package.json"
+    ],
+    "afterSign": ".erb/scripts/notarize.js",
+    "mac": {
+      "target": {
+        "target": "default",
+        "arch": [
+          "arm64",
+          "x64"
+        ]
+      },
+      "type": "distribution",
+      "hardenedRuntime": true,
+      "entitlements": "assets/entitlements.mac.plist",
+      "entitlementsInherit": "assets/entitlements.mac.plist",
+      "gatekeeperAssess": false
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "fileAssociations": [
+        {
+          "ext": "ocurredmagic",
+          "icon": "assets/fileicon.png"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Development"
+    },
+    "directories": {
+      "app": "release/app",
+      "buildResources": "assets",
+      "output": "release/build/${version}"
+    },
+    "extraResources": [
+      "./assets/**"
+    ],
+    "publish": {
+      "provider": "github",
+      "owner": "magiscrita",
+      "repo": "ms-desktop"
+    }
+  },
+  "devEngines": {
+    "node": ">=14.x",
+    "npm": ">=7.x"
+  },
+  "electronmon": {
+    "patterns": [
+      "!**/**",
+      "src/main/**",
+      "src/config/**",
+      "src/database/**",
+      "src/modules/**",
+      "src/providers/**",
+      "src/shared/**",
+      "src/utils/**"
+    ],
+    "logLevel": "quiet"
+  }
+}

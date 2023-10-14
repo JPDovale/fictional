@@ -28,10 +28,11 @@ let sut: UpdatePersonHistoryService;
 describe('Update person history', () => {
   beforeEach(() => {
     usersInMemoryRepository = new UsersInMemoryRepository();
+    personsInMemoryRepository = new PersonsInMemoryRepository();
     threeActsStructureInMemoryRepository =
       new ThreeActsStructureInMemoryRepository();
     snowflakeStructuresInMemoryRepository =
-      new SnowflakeStructuresInMemoryRepository();
+      new SnowflakeStructuresInMemoryRepository(personsInMemoryRepository);
     booksInMemoryRepository = new BooksInMemoryRepository(
       threeActsStructureInMemoryRepository,
       snowflakeStructuresInMemoryRepository
@@ -39,7 +40,6 @@ describe('Update person history', () => {
     projectsInMemoryRepository = new ProjectsInMemoryRepository(
       booksInMemoryRepository
     );
-    personsInMemoryRepository = new PersonsInMemoryRepository();
 
     sut = new UpdatePersonHistoryService(
       usersInMemoryRepository,

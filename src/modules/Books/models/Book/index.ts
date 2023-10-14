@@ -10,6 +10,7 @@ export interface BookProps {
   title: string;
   subtitle: string | null;
   structure: BookStructureType;
+  text: string | null;
 
   userId: UniqueEntityId;
   projectId: UniqueEntityId;
@@ -38,6 +39,7 @@ export class Book extends AggregateRoot<BookProps> {
       | 'subtitle'
       | 'threeActsStructure'
       | 'threeActsStructureId'
+      | 'text'
       | 'snowflakeStructure'
       | 'snowflakeStructureId'
       | 'updatedAt'
@@ -58,6 +60,7 @@ export class Book extends AggregateRoot<BookProps> {
       imageUrl: props.imageUrl ?? null,
       createdAt: props.createdAt ?? new Date(),
       updatedAt: props.updatedAt ?? new Date(),
+      text: props.text ?? null,
     };
 
     const book = new Book(propsBook, id);
@@ -71,6 +74,14 @@ export class Book extends AggregateRoot<BookProps> {
 
   get subtitle() {
     return this.props.subtitle;
+  }
+
+  get text() {
+    return this.props.text;
+  }
+
+  set text(text: string | null) {
+    this.props.text = text;
   }
 
   get structure() {

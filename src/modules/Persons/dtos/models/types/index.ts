@@ -45,7 +45,7 @@ export abstract class PersonModelResponse {
 
   abstract snowflakeStructureBase: PersonsSnowflakeStructureBaseResponse | null;
 
-  abstract snowflakeStructureExpansion: null;
+  abstract snowflakeStructureExpansion: string | null;
 
   abstract createdAt: Date;
 

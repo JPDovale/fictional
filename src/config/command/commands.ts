@@ -49,6 +49,7 @@ export const commands: Commands = {
       label: 'Criar caixote',
       Icon: PackagePlus,
     },
+    disabled: true,
   },
   'Shift+Backspace': {
     key: 'Shift+Backspace',

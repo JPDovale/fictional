@@ -134,4 +134,24 @@ export class BooksFilesRepository implements BooksRepository {
       return left({});
     }
   }
+
+  async save(book: Book): Promise<Either<{}, {}>> {
+    try {
+      const bookFile: BookFile = BooksRepository.parserToFile(book);
+
+      if (!fs.existsSync(dataDirs.books)) {
+        fs.mkdirSync(dataDirs.books);
+      }
+
+      fs.writeFileSync(
+        dataFiles.book(book.id.toString()),
+        JSON.stringify(bookFile, null, 2)
+      );
+
+      return right({});
+    } catch (err) {
+      console.log(err);
+      return left({});
+    }
+  }
 }

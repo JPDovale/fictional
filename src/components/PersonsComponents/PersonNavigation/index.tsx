@@ -43,6 +43,8 @@ export function PersonNavigate() {
     return () => clearTimeout(timeoutId);
   }, [isOpen]);
 
+  console.log(pathname);
+
   return (
     <>
       <div className={personNavStyles({ isOpen, theme })}>

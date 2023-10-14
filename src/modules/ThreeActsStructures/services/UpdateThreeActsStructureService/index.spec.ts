@@ -15,9 +15,11 @@ import { makeBook } from '@tests/books/factories/makeBook';
 import { makeThreeActsStructure } from '@tests/threeActsStructures/factories/makeThreeActsStructure';
 import { Features } from '@modules/Projects/models/Project/valueObjects/Features';
 import { SnowflakeStructuresInMemoryRepository } from '@tests/snowflakeStructures/repositories/SnowflakeStructuresInMemoryRepository';
+import { PersonsInMemoryRepository } from '@tests/persons/repositories/PersonsInMemoryRepository';
 import { UpdateThreeActsStructureService } from '.';
 
 let usersInMemoryRepository: UsersInMemoryRepository;
+let personsInMemoryRepository: PersonsInMemoryRepository;
 let threeActsStructureInMemoryRepository: ThreeActsStructureInMemoryRepository;
 let snowflakeStructuresInMemoryRepository: SnowflakeStructuresInMemoryRepository;
 let booksInMemoryRepository: BooksInMemoryRepository;
@@ -28,10 +30,11 @@ let sut: UpdateThreeActsStructureService;
 describe('Update three acts structure', () => {
   beforeEach(() => {
     usersInMemoryRepository = new UsersInMemoryRepository();
+    personsInMemoryRepository = new PersonsInMemoryRepository();
     threeActsStructureInMemoryRepository =
       new ThreeActsStructureInMemoryRepository();
     snowflakeStructuresInMemoryRepository =
-      new SnowflakeStructuresInMemoryRepository();
+      new SnowflakeStructuresInMemoryRepository(personsInMemoryRepository);
     booksInMemoryRepository = new BooksInMemoryRepository(
       threeActsStructureInMemoryRepository,
       snowflakeStructuresInMemoryRepository

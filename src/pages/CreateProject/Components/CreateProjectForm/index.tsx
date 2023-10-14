@@ -287,7 +287,7 @@ export function CreateProjectForm() {
             </Checkbox.Icon>
           </Checkbox.Root>
 
-          <Checkbox.Root className="w-full">
+          <Checkbox.Root className="w-full" disabled>
             <Checkbox.CheckerRoot
               onCheckedChange={(e) =>
                 setValue('features.multi-book', e as boolean)
@@ -502,7 +502,7 @@ export function CreateProjectForm() {
                 </Checkbox.Icon>
               </Checkbox.Root>
 
-              <Checkbox.Root>
+              <Checkbox.Root disabled>
                 <Checkbox.CheckerRoot
                   onCheckedChange={() =>
                     selectStructureTypeOfProject('snowflake')

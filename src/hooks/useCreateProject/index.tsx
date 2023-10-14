@@ -19,14 +19,14 @@ export function useCreateProject() {
   }));
 
   async function handleCreateProject(data: INewProjectFormaData) {
-    if (data.features.book && !data.booksCount) {
+    if (data.features['multi-book'] && !data.booksCount) {
       form.setError('booksCount', {
         message: 'Esse campo é obrigatório',
       });
       return;
     }
 
-    if (data.features.book && data.booksCount && data.booksCount < 2) {
+    if (data.features['multi-book'] && data.booksCount && data.booksCount < 2) {
       form.setError('booksCount', {
         message: 'O modelo de múltiplos livros deve conter pelo menos 2 livros',
       });
@@ -34,7 +34,11 @@ export function useCreateProject() {
       return;
     }
 
-    if (data.features.book && data.booksCount && data.booksCount > 20) {
+    if (
+      data.features['multi-book'] &&
+      data.booksCount &&
+      data.booksCount > 20
+    ) {
       form.setError('booksCount', {
         message: 'O modelo de múltiplos livros deve conter até 20 livros',
       });

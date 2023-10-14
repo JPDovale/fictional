@@ -13,6 +13,7 @@ export function PersonParser(person: Person): PersonModelResponse {
           }
         : null,
     age: person.age,
+    snowflakeStructureExpansion: null,
     biography: person.biographic,
     createdAt: person.createdAt,
     history: person.history,
