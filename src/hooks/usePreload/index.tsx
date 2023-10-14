@@ -1,3 +1,4 @@
+import { localStorageKeys } from '@config/localStorage/keys';
 import { useUser } from '@hooks/useUser';
 import { useInterface } from '@store/Interface';
 import { usePersons } from '@store/Persons';
@@ -23,6 +24,8 @@ export function usePreload() {
   }));
 
   useEffect(() => {
+    localStorage.setItem(localStorageKeys.navigationHistory, '[]');
+
     loadConfig();
     recoveryHistory();
 

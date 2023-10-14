@@ -11,7 +11,7 @@
 import 'reflect-metadata';
 import '@shared/container/index';
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { Requester } from '@config/requests';
@@ -25,10 +25,7 @@ class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
     autoUpdater.logger = log;
-    autoUpdater.checkForUpdatesAndNotify({
-      title: 'Magic!',
-      body: 'Nova versão disponível! Baixe agora',
-    });
+    autoUpdater.checkForUpdates();
   }
 }
 
@@ -141,6 +138,40 @@ const createWindow = async () => {
 /**
  * Add event listeners...
  */
+autoUpdater.on('update-available', ({ releaseNotes, version }) => {
+  dialog.showMessageBox({
+    type: 'info',
+    buttons: ['OK'],
+    title: `MagiScrita update available ${version}`,
+    message: releaseNotes?.toString() ?? 'New version has created',
+    detail: 'A new version is being downloaded',
+  });
+});
+
+autoUpdater.on('update-downloaded', () => {
+  dialog
+    .showMessageBox({
+      type: 'info',
+      buttons: ['Restart'],
+      title: `Updating`,
+      message: 'Restart the app for use new version',
+      detail: 'A new version is being installed',
+    })
+    .then(() => {
+      autoUpdater.quitAndInstall();
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
+autoUpdater.on('checking-for-update', () => {
+  console.log('Checking for update');
+});
+
+autoUpdater.on('update-not-available', () => {
+  console.log('Noting to update');
+});
 
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
