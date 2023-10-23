@@ -92,10 +92,6 @@ const createWindow = async () => {
 
   await db.migrate.latest();
 
-  const users = await db('users');
-
-  console.log(users);
-
   mainWindow = new BrowserWindow({
     minWidth: 1300,
     minHeight: 500,

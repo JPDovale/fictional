@@ -1,8 +1,14 @@
+import { onUpdateTrigger } from '@database/utils/onUpdateTrigger';
 import { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
-  return knex.schema.createTable('projects', (table) => {
-    table.string('id').unique().notNullable().defaultTo(knex.fn.uuid());
+  await knex.schema.createTable('projects', (table) => {
+    table
+      .string('id')
+      .primary()
+      .unique()
+      .notNullable()
+      .defaultTo(knex.fn.uuid());
     table.string('name').notNullable();
     table.string('image_url').defaultTo(null);
     table.string('image_filename').defaultTo(null);
@@ -23,6 +29,8 @@ export async function up(knex: Knex): Promise<void> {
       .notNullable()
       .onDelete('CASCADE');
   });
+
+  await knex.schema.raw(onUpdateTrigger('projects'));
 }
 
 export async function down(knex: Knex): Promise<void> {

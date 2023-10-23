@@ -1,8 +1,14 @@
+import { onUpdateTrigger } from '@database/utils/onUpdateTrigger';
 import { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
-  return knex.schema.createTable('persons', (table) => {
-    table.string('id').unique().notNullable().defaultTo(knex.fn.uuid());
+  await knex.schema.createTable('persons', (table) => {
+    table
+      .string('id')
+      .primary()
+      .unique()
+      .notNullable()
+      .defaultTo(knex.fn.uuid());
     table.integer('age').defaultTo(null);
     table.string('name').defaultTo(null);
     table.string('lastname').defaultTo(null);
@@ -52,6 +58,8 @@ export async function up(knex: Knex): Promise<void> {
       .onDelete('CASCADE');
     table.string('book_id').references('books.id').notNullable();
   });
+
+  await knex.schema.raw(onUpdateTrigger('persons'));
 }
 
 export async function down(knex: Knex): Promise<void> {
