@@ -19,6 +19,7 @@ import { getDatabasePath } from '@config/files/getDatabasePath';
 import { dataFiles } from '@config/files';
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 // import MenuBuilder from './menu';
+import { db } from '@database/index';
 import { resolveHtmlPath } from './util';
 
 class AppUpdater {
@@ -88,6 +89,12 @@ const createWindow = async () => {
   if (!existsSync(dataUserSavedIn)) {
     writeFileSync(dataUserSavedIn, '');
   }
+
+  await db.migrate.latest();
+
+  const users = await db('users');
+
+  console.log(users);
 
   mainWindow = new BrowserWindow({
     minWidth: 1300,
