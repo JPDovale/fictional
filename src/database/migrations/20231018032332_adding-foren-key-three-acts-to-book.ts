@@ -5,7 +5,6 @@ export async function up(knex: Knex): Promise<void> {
     table
       .string('three_acts_structure_id')
       .references('three_acts_structures.id')
-      .unique()
       .onDelete('CASCADE')
       .defaultTo(null);
   });

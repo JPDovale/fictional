@@ -16,8 +16,7 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { Requester } from '@config/requests';
 import { getDatabasePath } from '@config/files/getDatabasePath';
-import { dataFiles } from '@config/files';
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync } from 'fs';
 // import MenuBuilder from './menu';
 import { db } from '@database/index';
 import { resolveHtmlPath } from './util';
@@ -76,7 +75,6 @@ const createWindow = async () => {
     ? path.join(process.resourcesPath, 'assets')
     : path.join(__dirname, '../../assets');
   const databaseDir = getDatabasePath();
-  const dataUserSavedIn = path.join(dataFiles.user());
 
   const getAssetPath = (...paths: string[]): string => {
     return path.join(RESOURCES_PATH, ...paths);
@@ -84,10 +82,6 @@ const createWindow = async () => {
 
   if (!existsSync(databaseDir)) {
     mkdirSync(databaseDir);
-  }
-
-  if (!existsSync(dataUserSavedIn)) {
-    writeFileSync(dataUserSavedIn, '');
   }
 
   await db.migrate.latest();

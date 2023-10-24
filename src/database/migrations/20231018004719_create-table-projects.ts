@@ -15,6 +15,7 @@ export async function up(knex: Knex): Promise<void> {
     table.dateTime('created_at').notNullable().defaultTo(knex.fn.now());
     table.dateTime('updated_at').defaultTo(null);
     table.string('password').defaultTo(null);
+    table.string('features').notNullable();
     table
       .enum('type', ['book', 'rpg', 'game-history', 'roadmap'])
       .notNullable()

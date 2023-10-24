@@ -12,8 +12,8 @@ export interface ProjectFile {
   id: string;
   name: string;
   password: string | null;
-  type: string;
-  structure: string;
+  type: 'book' | 'rpg' | 'game-history' | 'roadmap';
+  structure: 'snowflake' | 'three-acts' | 'hero-journey';
   created_at: Date;
   updated_at: Date;
   features: string;

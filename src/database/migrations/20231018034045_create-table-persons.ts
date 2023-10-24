@@ -27,7 +27,7 @@ export async function up(knex: Knex): Promise<void> {
     table.integer('born_date_second').defaultTo(null);
     table.integer('born_date_timestamp').defaultTo(null);
     table.integer('born_date_year').defaultTo(null);
-    table.enum('born_date_time_christ', ['A.C.', 'D.C.']).defaultTo(null);
+    table.enum('born_date_time_christ', ['A.C.', 'D.C.', null]).defaultTo(null);
     table.string('death_date').defaultTo(null);
 
     table.integer('death_date_day').defaultTo(null);
@@ -37,7 +37,9 @@ export async function up(knex: Knex): Promise<void> {
     table.integer('death_date_second').defaultTo(null);
     table.integer('death_date_timestamp').defaultTo(null);
     table.integer('death_date_year').defaultTo(null);
-    table.enum('death_date_time_christ', ['A.C.', 'D.C.']).defaultTo(null);
+    table
+      .enum('death_date_time_christ', ['A.C.', 'D.C.', null])
+      .defaultTo(null);
 
     table.string('snowflake_structure_base_apprenticeship').defaultTo(null);
     table.string('snowflake_structure_base_function').defaultTo(null);
@@ -56,7 +58,6 @@ export async function up(knex: Knex): Promise<void> {
       .references('projects.id')
       .notNullable()
       .onDelete('CASCADE');
-    table.string('book_id').references('books.id').notNullable();
   });
 
   await knex.schema.raw(onUpdateTrigger('persons'));
