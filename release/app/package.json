@@ -20,6 +20,7 @@
     "@changesets/cli": "^2.26.2"
   },
   "dependencies": {
+    "knex": "^3.0.1",
     "sqlite3": "^5.1.6"
   }
 }
