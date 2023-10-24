@@ -10,7 +10,7 @@
     "jsx": "react-jsx",
     "strict": true,
     "sourceMap": true,
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -21,58 +21,58 @@
     "emitDecoratorMetadata": true,
     "paths": {
       "@components/*": [
-        "./components/*"
+        "./src/components/*"
       ],
       "@contexts/*": [
-        "./contexts/*"
+        "./src/contexts/*"
       ],
       "@hooks/*": [
-        "./hooks/*"
+        "./src/hooks/*"
       ],
       "@pages/*": [
-        "./pages/*"
+        "./src/pages/*"
       ],
       "@services/*": [
-        "./services/*"
+        "./src/services/*"
       ],
       "@styles/*": [
-        "./styles/*"
+        "./src/styles/*"
       ],
       "@routes/*": [
-        "./routes/*"
+        "./src/routes/*"
       ],
       "@layouts/*": [
-        "./layouts/*"
+        "./src/layouts/*"
       ],
       "@store/*": [
-        "./store/*"
+        "./src/store/*"
       ],
       "@@types/*": [
-        "./@types/*"
+        "./src/@types/*"
       ],
       "@modules/*": [
-        "./modules/*"
+        "./src/modules/*"
       ],
       "@config/*": [
-        "./config/*"
+        "./src/config/*"
       ],
       "@shared/*": [
-        "./shared/*"
+        "./src/shared/*"
       ],
       "@env/*": [
-        "./env/*"
+        "./src/env/*"
       ],
       "@utils/*": [
-        "./utils/*"
+        "./src/utils/*"
       ],
       "@database/*": [
-        "./database/*"
+        "./src/database/*"
       ],
       "@providers/*": [
-        "./providers/*"
+        "./src/providers/*"
       ],
       "@tests/*": [
-        "./tests/*"
+        "./src/tests/*"
       ]
     },
     "types": [
@@ -84,7 +84,6 @@
     "test",
     "release/build",
     "release/app/dist",
-    "node_modules",
     ".erb/dll"
   ]
 }

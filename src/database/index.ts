@@ -8,6 +8,7 @@ const db = knex({
     filename: `${getDatabasePath()}/db.sqlite3`,
     database: 'magiscrita-dev',
   },
+  useNullAsDefault: true,
   migrations: {
     directory: `${path.join(__dirname, 'migrations')}`,
   },
