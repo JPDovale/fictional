@@ -37,6 +37,14 @@ export class BooksKnexRepository implements BooksRepository {
         books.map((book) => db('books').insert(BooksKnexMapper.toKnex(book)))
       );
 
+      await Promise.all(
+        books.map(
+          (book) =>
+            book.threeActsStructure &&
+            this.threeActsStructuresRepository.create(book.threeActsStructure)
+        )
+      );
+
       return right({});
     } catch (err) {
       console.log(err);
