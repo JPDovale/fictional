@@ -1,7 +1,4 @@
-import { onUpdateTrigger } from '@database/utils/onUpdateTrigger';
-import { Knex } from 'knex';
-
-export async function up(knex: Knex): Promise<void> {
+exports.up = async function up(knex) {
   await knex.schema.createTable('persons', (table) => {
     table
       .string('id')
@@ -59,10 +56,8 @@ export async function up(knex: Knex): Promise<void> {
       .notNullable()
       .onDelete('CASCADE');
   });
+};
 
-  await knex.schema.raw(onUpdateTrigger('persons'));
-}
-
-export async function down(knex: Knex): Promise<void> {
+exports.down = async function down(knex) {
   return knex.schema.dropTable('persons');
-}
+};

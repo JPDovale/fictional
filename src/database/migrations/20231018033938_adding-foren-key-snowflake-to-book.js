@@ -1,6 +1,4 @@
-import { Knex } from 'knex';
-
-export async function up(knex: Knex): Promise<void> {
+exports.up = async function up(knex) {
   return knex.schema.alterTable('books', (table) => {
     table
       .string('snowflake_structure_id')
@@ -8,10 +6,10 @@ export async function up(knex: Knex): Promise<void> {
       .onDelete('CASCADE')
       .defaultTo(null);
   });
-}
+};
 
-export async function down(knex: Knex): Promise<void> {
+exports.down = async function down(knex) {
   return knex.schema.alterTable('books', (table) => {
     table.dropColumn('snowflake_id');
   });
-}
+};
