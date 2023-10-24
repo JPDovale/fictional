@@ -11,10 +11,10 @@ export interface UserProps {
   sex: string;
   admin: boolean;
   createdAt: Date;
+  updatedAt: Date | null;
   avatarUrl: string | null;
   avatarFileName: string | null;
   newNotifications: number;
-  customerId: string | null;
 }
 
 export class User extends Entity<UserProps> {
@@ -27,10 +27,10 @@ export class User extends Entity<UserProps> {
       | 'avatarFileName'
       | 'avatarUrl'
       | 'createdAt'
-      | 'customerId'
       | 'emailVerified'
       | 'newNotifications'
       | 'username'
+      | 'updatedAt'
     >,
     id?: UniqueEntityId
   ) {
@@ -40,9 +40,9 @@ export class User extends Entity<UserProps> {
       avatarFileName: props.avatarFileName ?? null,
       avatarUrl: props.avatarUrl ?? null,
       createdAt: props.createdAt ?? new Date(),
-      customerId: props.customerId ?? null,
       emailVerified: props.emailVerified ?? null,
       newNotifications: props.newNotifications ?? 0,
+      updatedAt: props.updatedAt ?? null,
       sex: props.sex ?? 'non-set',
       username:
         props.username ??
@@ -93,16 +93,16 @@ export class User extends Entity<UserProps> {
     return this.props.emailVerified;
   }
 
-  get customerId() {
-    return this.props.customerId;
-  }
-
   get newNotifications() {
     return this.props.newNotifications;
   }
 
   get createdAt() {
     return this.props.createdAt;
+  }
+
+  get updatedAt() {
+    return this.props.updatedAt;
   }
 
   get admin() {

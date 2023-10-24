@@ -15,10 +15,13 @@ import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { Requester } from '@config/requests';
-import { getDatabasePath } from '@config/files/getDatabasePath';
-import { dataFiles } from '@config/files';
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import {
+  getDatabaseImagesPath,
+  getDatabasePath,
+} from '@config/files/getDatabasePath';
+import { existsSync, mkdirSync } from 'fs';
 // import MenuBuilder from './menu';
+import { db } from '@database/index';
 import { resolveHtmlPath } from './util';
 
 class AppUpdater {
@@ -75,7 +78,6 @@ const createWindow = async () => {
     ? path.join(process.resourcesPath, 'assets')
     : path.join(__dirname, '../../assets');
   const databaseDir = getDatabasePath();
-  const dataUserSavedIn = path.join(dataFiles.user());
 
   const getAssetPath = (...paths: string[]): string => {
     return path.join(RESOURCES_PATH, ...paths);
@@ -85,9 +87,11 @@ const createWindow = async () => {
     mkdirSync(databaseDir);
   }
 
-  if (!existsSync(dataUserSavedIn)) {
-    writeFileSync(dataUserSavedIn, '');
+  if (!existsSync(getDatabaseImagesPath())) {
+    mkdirSync(getDatabaseImagesPath());
   }
+
+  await db.migrate.latest();
 
   mainWindow = new BrowserWindow({
     minWidth: 1300,

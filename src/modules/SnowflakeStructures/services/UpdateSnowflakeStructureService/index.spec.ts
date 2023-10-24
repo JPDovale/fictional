@@ -67,7 +67,6 @@ describe('Update snowflake structure', () => {
       projectId: project.id,
     });
     const snowflakeStructure = makeSnowflakeStructure({
-      implementorId: book.id,
       centralIdia: 'Initial Central idia',
       expansionToParagraph: {
         phrase1: 'phrase 1',
@@ -136,7 +135,6 @@ describe('Update snowflake structure', () => {
       projectId: project.id,
     });
     const snowflakeStructure = makeSnowflakeStructure({
-      implementorId: book.id,
       centralIdia: 'Initial Central idia',
     });
 
@@ -210,7 +208,6 @@ describe('Update snowflake structure', () => {
         i === 5 ? idOfTest : undefined
       );
       const snowflakeStructure = makeSnowflakeStructure({
-        implementorId: book.id,
         centralIdia: 'Initial Central idia',
       });
 
@@ -254,7 +251,6 @@ describe('Update snowflake structure', () => {
       projectId: project.id,
     });
     const snowflakeStructure = makeSnowflakeStructure({
-      implementorId: book.id,
       centralIdia: 'Initial Central idia',
     });
 
@@ -284,7 +280,6 @@ describe('Update snowflake structure', () => {
       projectId: project.id,
     });
     const snowflakeStructure = makeSnowflakeStructure({
-      implementorId: book.id,
       centralIdia: 'Initial Central idia',
     });
 
@@ -310,7 +305,6 @@ describe('Update snowflake structure', () => {
       projectId: new UniqueEntityId('inexistent-project'),
     });
     const snowflakeStructure = makeSnowflakeStructure({
-      implementorId: book.id,
       centralIdia: 'Initial Central idia',
     });
 
@@ -345,7 +339,6 @@ describe('Update snowflake structure', () => {
       projectId: project.id,
     });
     const snowflakeStructure = makeSnowflakeStructure({
-      implementorId: book.id,
       centralIdia: 'Initial Central idia',
     });
 

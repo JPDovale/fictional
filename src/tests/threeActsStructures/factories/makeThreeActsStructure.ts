@@ -11,7 +11,6 @@ export function makeThreeActsStructure(
 ) {
   const threeActsStructure = ThreeActsStructure.create(
     {
-      implementorId: new UniqueEntityId(),
       act1: fakerPT_BR.lorem.paragraphs(4),
       act2: fakerPT_BR.lorem.paragraphs(4),
       act3: fakerPT_BR.lorem.paragraphs(4),

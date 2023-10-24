@@ -55,16 +55,11 @@ export class UpdateBookTextService {
       return left(new ResourceNotFount());
     }
 
-    const user = findUserResponse.value;
     const project = findProjectResponse.value;
     const book = findBookResponse.value;
 
     if (project.type !== 'book') {
       return left(new UnexpectedError());
-    }
-
-    if (!book.userId.equals(user.id) || !project.userId.equals(user.id)) {
-      return left(new PermissionDenied());
     }
 
     book.text = text;

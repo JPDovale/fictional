@@ -1,3 +1,5 @@
+import { BookStructureType } from '@modules/Books/models/Book';
+
 export interface CreatePropsBooksToProject {
   bookId: string;
   projectId: string;
@@ -22,7 +24,7 @@ export interface BookFile {
   id: string;
   title: string;
   subtitle: string | null;
-  structure: string;
+  structure: BookStructureType;
   user_id: string;
   project_id: string;
   three_acts_structure_id: string | null;

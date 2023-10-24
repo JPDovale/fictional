@@ -28,8 +28,6 @@ export interface SnowflakeStructureProps {
 
   createdAt: Date;
   updatedAt: Date;
-
-  implementorId: UniqueEntityId;
 }
 
 export class SnowflakeStructure extends AggregateRoot<SnowflakeStructureProps> {
@@ -47,7 +45,6 @@ export class SnowflakeStructure extends AggregateRoot<SnowflakeStructureProps> {
     id?: UniqueEntityId
   ) {
     const propsSnowflakeStructure: SnowflakeStructureProps = {
-      implementorId: props.implementorId,
       persons: props.persons ?? null,
       createdAt: props.createdAt ?? new Date(),
       updatedAt: props.updatedAt ?? new Date(),
@@ -76,10 +73,6 @@ export class SnowflakeStructure extends AggregateRoot<SnowflakeStructureProps> {
     );
 
     return snowflakeStructure;
-  }
-
-  get implementorId() {
-    return this.props.implementorId;
   }
 
   get centralIdia() {
