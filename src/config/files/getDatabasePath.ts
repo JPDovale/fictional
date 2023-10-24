@@ -32,3 +32,7 @@ export function getDatabasePath() {
     'database'
   );
 }
+
+export function getDatabaseImagesPath() {
+  return path.join(getDatabasePath(), 'images');
+}

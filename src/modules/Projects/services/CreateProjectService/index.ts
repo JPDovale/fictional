@@ -1,3 +1,4 @@
+import { getDatabaseImagesPath } from '@config/files/getDatabasePath';
 import { ProjectsRepository } from '@database/repositories/Project/contracts/ProjectsRepository';
 import { UsersRepository } from '@database/repositories/User/contracts/UsersRepository';
 import { Book } from '@modules/Books/models/Book';
@@ -20,7 +21,10 @@ import { Either, left, right } from '@shared/core/error/Either';
 import { Optional } from '@shared/core/types/Optional';
 import { ResourceNotCreated } from '@shared/errors/ResourceNotCreated';
 import { UnexpectedError } from '@shared/errors/UnexpectedError';
+import path from 'path';
+import fs from 'fs/promises';
 import { inject, injectable } from 'tsyringe';
+import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
 
 interface BookRequest {
   title: string;
@@ -84,12 +88,22 @@ export class CreateProjectService {
 
     const user = findUserResponse.value;
 
+    let dest: string | null = null;
+
+    if (imageUrl) {
+      const destination = path.join(
+        getDatabaseImagesPath(),
+        new UniqueEntityId().toString().concat(path.basename(imageUrl))
+      );
+
+      await fs.copyFile(imageUrl, destination);
+
+      dest = destination;
+    }
+
     const project = Project.create({
       name,
-      imageUrl:
-        imageUrl && process.platform === 'linux'
-          ? `file://${imageUrl}`
-          : imageUrl,
+      imageUrl: dest && process.platform === 'linux' ? `file://${dest}` : dest,
       features: Features.createFromObject(features),
       userId: user.id,
       password,

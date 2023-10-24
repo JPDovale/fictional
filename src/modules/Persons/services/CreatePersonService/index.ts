@@ -9,6 +9,10 @@ import { ResourceNotCreated } from '@shared/errors/ResourceNotCreated';
 import { ResourceNotFount } from '@shared/errors/ResourceNotFound';
 import { UnexpectedError } from '@shared/errors/UnexpectedError';
 import { inject, injectable } from 'tsyringe';
+import fs from 'fs/promises';
+import path from 'path';
+import { getDatabaseImagesPath } from '@config/files/getDatabasePath';
+import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
 
 interface Request {
   userId: string;
@@ -71,6 +75,19 @@ export class CreatePersonService {
       return left(new UnexpectedError());
     }
 
+    let dest: string | null = null;
+
+    if (imageUrl) {
+      const destination = path.join(
+        getDatabaseImagesPath(),
+        new UniqueEntityId().toString().concat(path.basename(imageUrl))
+      );
+
+      await fs.copyFile(imageUrl, destination);
+
+      dest = destination;
+    }
+
     const person = Person.create({
       name,
       biographic,
@@ -79,10 +96,7 @@ export class CreatePersonService {
       history,
       projectId: project.id,
       userId: user.id,
-      imageUrl:
-        imageUrl && process.platform === 'linux'
-          ? `file://${imageUrl}`
-          : imageUrl,
+      imageUrl: dest && process.platform === 'linux' ? `file://${dest}` : dest,
     });
 
     await this.personsRepository.create(person);

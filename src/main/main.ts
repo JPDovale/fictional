@@ -15,7 +15,10 @@ import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { Requester } from '@config/requests';
-import { getDatabasePath } from '@config/files/getDatabasePath';
+import {
+  getDatabaseImagesPath,
+  getDatabasePath,
+} from '@config/files/getDatabasePath';
 import { existsSync, mkdirSync } from 'fs';
 // import MenuBuilder from './menu';
 import { db } from '@database/index';
@@ -82,6 +85,10 @@ const createWindow = async () => {
 
   if (!existsSync(databaseDir)) {
     mkdirSync(databaseDir);
+  }
+
+  if (!existsSync(getDatabaseImagesPath())) {
+    mkdirSync(getDatabaseImagesPath());
   }
 
   await db.migrate.latest();
