@@ -4,13 +4,13 @@ import { ProjectsRepository } from '@database/repositories/Project/contracts/Pro
 import { SnowflakeStructuresRepository } from '@database/repositories/SnowflakeStructure/contracts/SnowflakeStructuresRepository';
 import { ThreeActsStructuresRepository } from '@database/repositories/ThreeActsStructure/contracts/ThreeActsStructuresRepository';
 import { UsersRepository } from '@database/repositories/User/contracts/UsersRepository';
-import { Person } from '@modules/Persons/models/Person';
+// import { Person } from '@modules/Persons/models/Person';
 import { Project } from '@modules/Projects/models/Project';
 import { UserInProject } from '@modules/Projects/models/Project/valueObjects/UserInProject';
 import { ProjectBookList } from '@modules/Projects/models/ProjectBookList';
 import { ProjectPersonList } from '@modules/Projects/models/ProjectPersonList';
 import { SnowflakeStructure } from '@modules/SnowflakeStructures/models/SnowflakeStructure';
-import { SnowflakeStructurePersonList } from '@modules/SnowflakeStructures/models/SnowflakeStructurePersonList';
+// import { SnowflakeStructurePersonList } from '@modules/SnowflakeStructures/models/SnowflakeStructurePersonList';
 import { ThreeActsStructure } from '@modules/ThreeActsStructures/models/ThreeActsStructure';
 import { UserNotFount } from '@modules/Users/services/_errors/UserNotFound';
 import InjectableDependencies from '@shared/container/types';
@@ -114,44 +114,46 @@ export class GetProjectService {
       const threeActsStructuresResponses = await Promise.all(
         findThreeActsOfBooks
       );
-      const snowflakeStructuresResponses = await Promise.all(
-        findSnowflakeOfBooks
-      );
+      // const snowflakeStructuresResponses = await Promise.all(
+      //   findSnowflakeOfBooks
+      // );
 
       threeActsStructuresResponses.forEach((TASRes) => {
         if (TASRes.isRight()) {
-          const implementorIndex = books.findIndex((b) =>
-            b.id.equals(TASRes.value!.implementorId)
-          );
+          if (!TASRes.value) return;
 
-          books[implementorIndex].threeActsStructure = TASRes.value;
+          books.forEach((b) => {
+            if (b.threeActsStructureId?.equals(TASRes.value!.id)) {
+              b.threeActsStructure = TASRes.value;
+            }
+          });
         }
       });
 
       // eslint-disable-next-line no-restricted-syntax
-      for (const SFRes of snowflakeStructuresResponses) {
-        if (SFRes.isRight() && SFRes.value) {
-          const SFS = SFRes.value;
-          const implementorIndex = books.findIndex((b) =>
-            b.id.equals(SFS.implementorId)
-          );
-          const personsThisSFSResponse =
-            // eslint-disable-next-line no-await-in-loop
-            await this.personsRepository.findBySnowflakeStructureId(
-              SFS.id.toString()
-            );
-          const personsThisSFS: Person[] = [];
+      // for (const SFRes of snowflakeStructuresResponses) {
+      //   if (SFRes.isRight() && SFRes.value) {
+      //     const SFS = SFRes.value;
+      //     const implementorIndex = books.findIndex((b) =>
+      //       b.id.equals(SFS.implementorId)
+      //     );
+      //     const personsThisSFSResponse =
+      //       // eslint-disable-next-line no-await-in-loop
+      //       await this.personsRepository.findBySnowflakeStructureId(
+      //         SFS.id.toString()
+      //       );
+      //     const personsThisSFS: Person[] = [];
 
-          if (personsThisSFSResponse.isRight()) {
-            personsThisSFSResponse.value.forEach((person) =>
-              personsThisSFS.push(person)
-            );
-          }
+      //     if (personsThisSFSResponse.isRight()) {
+      //       personsThisSFSResponse.value.forEach((person) =>
+      //         personsThisSFS.push(person)
+      //       );
+      //     }
 
-          SFS.persons = new SnowflakeStructurePersonList(personsThisSFS);
-          books[implementorIndex].snowflakeStructure = SFS;
-        }
-      }
+      //     SFS.persons = new SnowflakeStructurePersonList(personsThisSFS);
+      //     books[implementorIndex].snowflakeStructure = SFS;
+      //   }
+      // }
 
       project.books = new ProjectBookList(books);
     }

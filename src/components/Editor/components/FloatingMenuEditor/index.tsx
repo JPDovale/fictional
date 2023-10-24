@@ -1,9 +1,9 @@
 import { FloatingMenu, Editor } from '@tiptap/react';
 import { RxText } from 'react-icons/rx';
 import { useTheme } from '@hooks/useTheme';
-import { EditorState } from '@tiptap/pm/state';
 import { Heading1, Heading2, Heading3, Heading4, List } from 'lucide-react';
 import * as Popover from '@radix-ui/react-popover';
+import * as State from '@tiptap/pm/state';
 import { MenuOption } from './MenuOption';
 import { floatingMenuStyles } from './styles';
 
@@ -12,7 +12,7 @@ interface FloatingMenuEditorProps {
 }
 
 interface ItShouldShowProps {
-  state: EditorState;
+  state: State.EditorState;
 }
 
 export function FloatingMenuEditor({ editor }: FloatingMenuEditorProps) {

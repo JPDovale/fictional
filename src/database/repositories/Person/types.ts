@@ -31,7 +31,7 @@ export interface PersonToSnowflakeStructureAddProps {
 export interface PersonFile {
   id: string;
   name: string | null;
-  last_name: string | null;
+  lastname: string | null;
   biographic: string | null;
   age: number | null;
   history: string | null;

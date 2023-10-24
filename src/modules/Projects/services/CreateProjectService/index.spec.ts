@@ -70,10 +70,6 @@ describe('Create project', () => {
       expect(
         threeActsStructureInMemoryRepository.threeActsStructures
       ).toHaveLength(1);
-      expect(
-        threeActsStructureInMemoryRepository.threeActsStructures[0]
-          .implementor_id
-      ).toEqual(booksInMemoryRepository.books[0].id);
     }
   });
 
@@ -106,10 +102,6 @@ describe('Create project', () => {
       expect(
         snowflakeStructuresInMemoryRepository.snowflakeStructures
       ).toHaveLength(1);
-      expect(
-        snowflakeStructuresInMemoryRepository.snowflakeStructures[0]
-          .implementor_id
-      ).toEqual(booksInMemoryRepository.books[0].id);
     }
   });
 

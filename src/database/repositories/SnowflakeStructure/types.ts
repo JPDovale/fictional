@@ -14,5 +14,4 @@ export interface SnowflakeStructureFile {
   interweaving_persons_and_expansion: string | null;
   created_at: Date;
   updated_at: Date;
-  implementor_id: string;
 }

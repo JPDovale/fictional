@@ -1,7 +1,7 @@
 {
   "name": "magiscrita",
   "description": "The magic occurs in here",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "keywords": [
     "electron",
     "boilerplate",
@@ -29,6 +29,7 @@
     "postinstall": "ts-node .erb/scripts/check-native-dep.js && electron-builder install-app-deps && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.ts",
     "lint": "cross-env NODE_ENV=development eslint . --ext .js,.jsx,.ts,.tsx",
     "package": "ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish always",
+    "package:dev": "ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish never",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir release/app",
     "start": "ts-node ./.erb/scripts/check-port-in-use.js && npm run start:renderer",
     "start:main": "cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only -r tsconfig-paths/register .",
@@ -56,10 +57,8 @@
     ]
   },
   "dependencies": {
-    "@faker-js/faker": "8.0.2",
     "@hookform/resolvers": "3.1.1",
     "@phosphor-icons/react": "2.0.10",
-    "@prisma/client": "^5.0.0",
     "@radix-ui/react-avatar": "^1.0.3",
     "@radix-ui/react-checkbox": "1.0.4",
     "@radix-ui/react-dialog": "^1.0.4",
@@ -97,6 +96,7 @@
     "electron-log": "^4.4.8",
     "electron-updater": "^5.3.0",
     "iconv-lite": "0.6.3",
+    "knex": "^3.0.1",
     "lodash": "4.17.21",
     "lucide-react": "^0.263.1",
     "node-abi": "^3.45.0",
@@ -120,6 +120,7 @@
     "@electron-toolkit/preload": "2.0.0",
     "@electron/notarize": "^1.2.3",
     "@electron/rebuild": "^3.2.13",
+    "@faker-js/faker": "8.0.2",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@rocketseat/eslint-config": "1.2.0",
     "@svgr/webpack": "^8.0.1",
@@ -140,6 +141,7 @@
     "@vitest/coverage-v8": "^0.33.0",
     "@vitest/ui": "0.33.0",
     "autoprefixer": "^10.4.14",
+    "better-sqlite3": "9.0.0",
     "browserslist-config-erb": "^0.0.3",
     "chalk": "^4.1.2",
     "concurrently": "^8.1.0",
@@ -170,6 +172,11 @@
     "identity-obj-proxy": "^3.0.0",
     "jest-environment-jsdom": "^29.5.0",
     "mini-css-extract-plugin": "^2.7.6",
+    "mysql": "2.18.1",
+    "mysql2": "3.6.2",
+    "oracledb": "6.2.0",
+    "pg": "8.11.3",
+    "pg-query-stream": "4.5.3",
     "postcss": "^8.4.24",
     "postcss-loader": "^7.3.3",
     "prettier": "^2.8.8",
@@ -179,8 +186,10 @@
     "rimraf": "^5.0.1",
     "sass": "^1.62.1",
     "sass-loader": "^13.3.1",
+    "sqlite3": "5.1.6",
     "style-loader": "^3.3.3",
     "tailwindcss": "^3.3.2",
+    "tedious": "16.5.0",
     "terser-webpack-plugin": "^5.3.9",
     "ts-jest": "^29.1.0",
     "ts-loader": "^9.4.3",
@@ -199,13 +208,13 @@
   "build": {
     "productName": "MagiScrita",
     "executableName": "MagicInstaller",
-    "appId": "com.github.JPDovale.ms-desktop",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
       "dist",
       "node_modules",
-      "package.json"
+      "package.json",
+      "src/database/migrations"
     ],
     "afterSign": ".erb/scripts/notarize.js",
     "mac": {
@@ -237,6 +246,7 @@
       ]
     },
     "win": {
+      "appId": "com.github.JPDovale.ms-desktop",
       "target": [
         "nsis"
       ],
@@ -246,6 +256,11 @@
           "icon": "assets/fileicon.png"
         }
       ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "license": "assets/eula.txt"
     },
     "linux": {
       "target": [

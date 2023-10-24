@@ -11,7 +11,6 @@ export function makeSnowflakeStructure(
 ) {
   const threeActsStructure = SnowflakeStructure.create(
     {
-      implementorId: new UniqueEntityId(),
       centralIdia: fakerPT_BR.lorem.words(8),
       expansionToParagraph: {
         phrase1: fakerPT_BR.lorem.words(8),
