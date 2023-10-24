@@ -119,9 +119,7 @@ export class CreateProjectService {
           });
 
           if (newBook.structure === 'three-acts') {
-            const threeActsForBook = ThreeActsStructure.create({
-              implementorId: newBook.id,
-            });
+            const threeActsForBook = ThreeActsStructure.create({});
 
             newBook.threeActsStructure = threeActsForBook;
           }
@@ -129,9 +127,7 @@ export class CreateProjectService {
           if (newBook.structure === 'snowflake') {
             project.features.enable('person');
 
-            const snowflakeForBook = SnowflakeStructure.create({
-              implementorId: newBook.id,
-            });
+            const snowflakeForBook = SnowflakeStructure.create({});
 
             newBook.snowflakeStructure = snowflakeForBook;
           }
@@ -148,18 +144,12 @@ export class CreateProjectService {
         });
 
         if (newBook.structure === 'three-acts') {
-          const threeActsForBook = ThreeActsStructure.create({
-            implementorId: newBook.id,
-          });
-
+          const threeActsForBook = ThreeActsStructure.create({});
           newBook.threeActsStructure = threeActsForBook;
         }
 
         if (newBook.structure === 'snowflake') {
-          const snowflakeForBook = SnowflakeStructure.create({
-            implementorId: newBook.id,
-          });
-
+          const snowflakeForBook = SnowflakeStructure.create({});
           newBook.snowflakeStructure = snowflakeForBook;
         }
 

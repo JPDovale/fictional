@@ -73,9 +73,7 @@ describe('Update three acts structure', () => {
       new UniqueEntityId('book-1')
     );
     const threeActsStructure = makeThreeActsStructure(
-      {
-        implementorId: new UniqueEntityId('book-1'),
-      },
+      {},
       new UniqueEntityId('three-acts-structure-1')
     );
 
@@ -130,9 +128,7 @@ describe('Update three acts structure', () => {
       new UniqueEntityId('book-1')
     );
     const threeActsStructure = makeThreeActsStructure(
-      {
-        implementorId: new UniqueEntityId('book-1'),
-      },
+      {},
       new UniqueEntityId('three-acts-structure-1')
     );
     const book2 = makeBook(
@@ -143,9 +139,7 @@ describe('Update three acts structure', () => {
       new UniqueEntityId('book-2')
     );
     const threeActsStructure2 = makeThreeActsStructure(
-      {
-        implementorId: new UniqueEntityId('book-2'),
-      },
+      {},
       new UniqueEntityId('three-acts-structure-2')
     );
 

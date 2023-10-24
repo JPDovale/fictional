@@ -22,7 +22,6 @@ export abstract class ThreeActsStructuresRepository {
       act_1: threeActsStructure.act1 ?? null,
       act_2: threeActsStructure.act2 ?? null,
       act_3: threeActsStructure.act3 ?? null,
-      implementor_id: threeActsStructure.implementorId.toString(),
     };
 
     return threeActsStructureFile;
@@ -33,9 +32,6 @@ export abstract class ThreeActsStructuresRepository {
   ): ThreeActsStructure {
     const threeActsStructure = ThreeActsStructure.create(
       {
-        implementorId: new UniqueEntityId(
-          threeActsStructureReceived.implementor_id
-        ),
         act1: threeActsStructureReceived.act_1 ?? undefined,
         act2: threeActsStructureReceived.act_2 ?? undefined,
         act3: threeActsStructureReceived.act_3 ?? undefined,

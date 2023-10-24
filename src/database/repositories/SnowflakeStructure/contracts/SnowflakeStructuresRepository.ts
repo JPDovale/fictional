@@ -41,7 +41,6 @@ export abstract class SnowflakeStructuresRepository {
       expansion_to_paragraph_phrase_5:
         snowflakeStructure.expansionToParagraph.phrase5 ?? null,
       id: snowflakeStructure.id.toString(),
-      implementor_id: snowflakeStructure.implementorId.toString(),
       interweaving_persons_and_expansion:
         snowflakeStructure.interweavingPersonsAndExpansion,
       updated_at: snowflakeStructure.updatedAt,
@@ -55,9 +54,6 @@ export abstract class SnowflakeStructuresRepository {
   ): SnowflakeStructure {
     const snowflakeStructure = SnowflakeStructure.create(
       {
-        implementorId: new UniqueEntityId(
-          snowflakeStructureReceived.implementor_id
-        ),
         centralIdia: snowflakeStructureReceived.central_idia,
         expansionToParagraph: {
           phrase1: snowflakeStructureReceived.expansion_to_paragraph_phrase_1,

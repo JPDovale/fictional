@@ -62,9 +62,7 @@ describe('Create person with snowflake structure', () => {
       userId: user.id,
       structure: 'snowflake',
     });
-    const snowflakeStructure = makeSnowflakeStructure({
-      implementorId: book.id,
-    });
+    const snowflakeStructure = makeSnowflakeStructure({});
 
     book.snowflakeStructure = snowflakeStructure;
     project.books.add(book);
