@@ -11,6 +11,8 @@ import { UpdatePersonHistoryResolver } from '@modules/Persons/resolvers/UpdatePe
 import { UpdateThreeActsStructureResolver } from '@modules/ThreeActsStructures/resolvers/UpdateThreeActsStructureResolver';
 import { UpdateSnowflakeStructureResolver } from '@modules/SnowflakeStructures/resolvers/UpdateSnowflakeStructureResolver';
 import { CreatePersonWithSnowflakeStructureResolver } from '@modules/Persons/resolvers/CreatePersonWithSnowflakeStructureResolver';
+import { container } from 'tsyringe';
+import InjectableDependencies from '@shared/container/types';
 import { UpdateBookTextResolver } from '@modules/Books/resolvers/UpdateBookTextResolver';
 
 const getUserResolver = new GetUserResolver();
@@ -26,9 +28,23 @@ const getPersonResolver = new GetPersonResolver();
 const getPersonsResolver = new GetPersonsResolver();
 const updatePersonHistoryResolver = new UpdatePersonHistoryResolver();
 const updateSnowflakeStructureResolver = new UpdateSnowflakeStructureResolver();
-const updateBookTextResolver = new UpdateBookTextResolver();
 
-const accessors = {
+const [updateBookTextResolver] = [
+  container.resolve<UpdateBookTextResolver>(
+    InjectableDependencies.Resolvers.UpdateBookTextResolver
+  ),
+];
+
+interface AccessorsDataType {
+  _data: any;
+  win: BrowserWindow | null;
+}
+
+interface AccessorsType {
+  [x: string]: (props: AccessorsDataType) => Promise<any>;
+}
+
+const accessors: AccessorsType = {
   'get-user': async (_data: any, win: BrowserWindow | null) =>
     getUserResolver.handle({ _data, win }),
 
@@ -87,8 +103,7 @@ const accessors = {
     win: BrowserWindow | null
   ) => createPersonWithSnowflakeStructureResolver.handle({ _data, win }),
 
-  'update-book-text': async (_data: any, win: BrowserWindow | null) =>
-    updateBookTextResolver.handle({ _data, win }),
+  'update-book-text': (props) => updateBookTextResolver.handle(props),
 };
 
 export type Accessors = keyof typeof accessors;
