@@ -32,28 +32,23 @@ export class GetProjectsService {
   ) {}
 
   async execute({ userId }: Request): Response {
-    const findUserResponse = await this.usersRepository.findById(userId);
-
-    if (!findUserResponse.value || findUserResponse.isLeft())
+    const user = await this.usersRepository.findById(userId);
+    if (!user) {
       return left(new UserNotFount());
+    }
 
-    const user = findUserResponse.value;
-
-    const getProjectsResponse = await this.projectsRepository.findManyByUserId(
+    const projectsOnDatabase = await this.projectsRepository.findManyByUserId(
       userId
     );
 
-    if (getProjectsResponse.isRight()) {
-      const projects = getProjectsResponse.value.map((project) => {
-        const projectCreator = UserInProject.createCreator(user);
-        project.creator = projectCreator;
-        return project;
-      });
+    const projects = projectsOnDatabase.map((project) => {
+      const projectCreator = UserInProject.createCreator(user);
+      project.creator = projectCreator;
+      return project;
+    });
 
-      return right({
-        projects,
-      });
-    }
-    return left(new UnexpectedError());
+    return right({
+      projects,
+    });
   }
 }

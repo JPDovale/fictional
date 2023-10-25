@@ -19,13 +19,11 @@ export class GetUserService {
   ) {}
 
   async execute({ id }: IRequest): Promise<IResponse> {
-    const response = await this.usersRepository.findById(id);
+    const user = await this.usersRepository.findById(id);
 
-    if (!response.value) {
+    if (!user) {
       return left(new ResourceNotFount());
     }
-
-    const user = response.value as User;
 
     return right({ user });
   }

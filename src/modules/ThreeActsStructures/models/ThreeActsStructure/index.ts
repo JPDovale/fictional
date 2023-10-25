@@ -38,7 +38,7 @@ export class ThreeActsStructure extends AggregateRoot<ThreeActsStructureProps> {
     return this.props.act1;
   }
 
-  set act1(act1: string | null) {
+  set act1(act1: string | null | undefined) {
     this.props.act1 = act1 === null ? '' : act1 || this.props.act1;
   }
 
@@ -46,7 +46,7 @@ export class ThreeActsStructure extends AggregateRoot<ThreeActsStructureProps> {
     return this.props.act2;
   }
 
-  set act2(act2: string | null) {
+  set act2(act2: string | null | undefined) {
     this.props.act2 = act2 === null ? '' : act2 || this.props.act2;
   }
 
@@ -54,7 +54,7 @@ export class ThreeActsStructure extends AggregateRoot<ThreeActsStructureProps> {
     return this.props.act3;
   }
 
-  set act3(act3: string | null) {
+  set act3(act3: string | null | undefined) {
     this.props.act3 = act3 === null ? '' : act3 || this.props.act3;
   }
 

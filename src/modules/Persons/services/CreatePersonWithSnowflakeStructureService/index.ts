@@ -53,26 +53,21 @@ export class CreatePersonWithSnowflakeStructureService {
     imageUrl,
     bookId,
   }: Request): Response {
-    const findUserResponse = await this.usersRepository.findById(userId);
-    if (!findUserResponse.value || findUserResponse.isLeft()) {
+    const user = await this.usersRepository.findById(userId);
+    if (!user) {
       return left(new UserNotFount());
     }
 
-    const findProjectResponse = await this.projectsRepository.findById(
-      projectId
-    );
-    if (!findProjectResponse.value || findProjectResponse.isLeft()) {
+    const project = await this.projectsRepository.findById(projectId);
+    if (!project) {
       return left(new ResourceNotFount());
     }
 
-    const findBookResponse = await this.booksRepository.findById(bookId);
-    if (!findBookResponse.value || findBookResponse.isLeft()) {
+    const book = await this.booksRepository.findById(bookId);
+    if (!book) {
       return left(new ResourceNotFount());
     }
 
-    const user = findUserResponse.value;
-    const project = findProjectResponse.value;
-    const book = findBookResponse.value;
     const { snowflakeStructureId } = book;
 
     if (
@@ -83,18 +78,13 @@ export class CreatePersonWithSnowflakeStructureService {
       return left(new UnexpectedError());
     }
 
-    const findSnowflakeStructureResponse =
+    const snowflakeStructure =
       await this.snowflakeStructuresRepository.findById(
         snowflakeStructureId.toString()
       );
-    if (
-      !findSnowflakeStructureResponse.value ||
-      findSnowflakeStructureResponse.isLeft()
-    ) {
+    if (!snowflakeStructure) {
       return left(new ResourceNotFount());
     }
-
-    const snowflakeStructure = findSnowflakeStructureResponse.value;
 
     const person = Person.create({
       name,
@@ -108,12 +98,7 @@ export class CreatePersonWithSnowflakeStructureService {
     snowflakeStructure.persons = new SnowflakeStructurePersonList();
     snowflakeStructure.persons.add(person);
 
-    const snowflakeStructureSaveResponse =
-      await this.snowflakeStructuresRepository.save(snowflakeStructure);
-
-    if (snowflakeStructureSaveResponse.isLeft()) {
-      return left(new UnexpectedError());
-    }
+    await this.snowflakeStructuresRepository.save(snowflakeStructure);
 
     return right({ person });
   }

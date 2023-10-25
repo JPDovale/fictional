@@ -1,5 +1,4 @@
 import { Project } from '@modules/Projects/models/Project';
-import { Either, left, right } from '@shared/core/error/Either';
 import { db } from '@database/index';
 import { inject, injectable } from 'tsyringe';
 import InjectableDependencies from '@shared/container/types';
@@ -14,43 +13,26 @@ export class ProjectsKnexRepository implements ProjectsRepository {
     private readonly booksRepository: BooksRepository
   ) {}
 
-  async create(project: Project): Promise<Either<{}, {}>> {
-    try {
-      await db('projects').insert(ProjectsKnexMapper.toKnex(project));
+  async create(project: Project): Promise<void> {
+    await db('projects').insert(ProjectsKnexMapper.toKnex(project));
 
-      if (project.books) {
-        const booksToAdd = project.books.getNewItems();
-        await this.booksRepository.createMany(booksToAdd);
-      }
-
-      return right({});
-    } catch (err) {
-      console.log(err);
-      return left({});
+    if (project.books) {
+      const booksToAdd = project.books.getNewItems();
+      await this.booksRepository.createMany(booksToAdd);
     }
   }
 
-  async findManyByUserId(userId: string): Promise<Either<{}, Project[]>> {
-    try {
-      const projects = await db('projects').where({ user_id: userId });
+  async findManyByUserId(userId: string): Promise<Project[]> {
+    const projects = await db('projects').where({ user_id: userId });
 
-      return right(projects.map(ProjectsKnexMapper.toEntity));
-    } catch (err) {
-      console.log(err);
-      return left({});
-    }
+    return projects.map(ProjectsKnexMapper.toEntity);
   }
 
-  async findById(id: string): Promise<Either<{}, Project | null>> {
-    try {
-      const project = await db('projects').where({ id }).first();
+  async findById(id: string): Promise<Project | null> {
+    const project = await db('projects').where({ id }).first();
 
-      if (!project) return right(null);
+    if (!project) return null;
 
-      return right(ProjectsKnexMapper.toEntity(project));
-    } catch (err) {
-      console.log(err);
-      return left({});
-    }
+    return ProjectsKnexMapper.toEntity(project);
   }
 }

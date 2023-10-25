@@ -20,9 +20,9 @@ export class ThreeActsStructuresKnexMapper {
     threeActsStructure: ThreeActsStructure
   ): ThreeActsStructureFile {
     return {
-      act_1: threeActsStructure.act1,
-      act_2: threeActsStructure.act2,
-      act_3: threeActsStructure.act3,
+      act_1: threeActsStructure.act1 ?? null,
+      act_2: threeActsStructure.act2 ?? null,
+      act_3: threeActsStructure.act3 ?? null,
       created_at: threeActsStructure.createdAt,
       updated_at: threeActsStructure.updatedAt,
       id: threeActsStructure.id.toString(),

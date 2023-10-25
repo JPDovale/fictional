@@ -51,20 +51,15 @@ export class UpdateThreeActsStructureService {
     act2,
     act3,
   }: Request): Response {
-    const findUserResponse = await this.usersRepository.findById(userId);
-    if (!findUserResponse.value || findUserResponse.isLeft()) {
+    const user = await this.usersRepository.findById(userId);
+    if (!user) {
       return left(new UserNotFount());
     }
 
-    const findProjectResponse = await this.projectsRepository.findById(
-      projectId
-    );
-    if (!findProjectResponse.value || findProjectResponse.isLeft()) {
+    const project = await this.projectsRepository.findById(projectId);
+    if (!project) {
       return left(new ResourceNotFount());
     }
-
-    const user = findUserResponse.value;
-    const project = findProjectResponse.value;
 
     let threeActsStructure: ThreeActsStructure | null;
 
@@ -75,12 +70,11 @@ export class UpdateThreeActsStructureService {
     if (project.features.featureIsApplied('multi-book')) {
       if (!bookId) return left(new UnexpectedError());
 
-      const findBookResponse = await this.booksRepository.findById(bookId);
-      if (!findBookResponse.value || findBookResponse.isLeft()) {
+      const book = await this.booksRepository.findById(bookId);
+      if (!book) {
         return left(new ResourceNotFount());
       }
 
-      const book = findBookResponse.value;
       if (!book.userId.equals(user.id)) {
         return left(new PermissionDenied());
       }
@@ -89,43 +83,38 @@ export class UpdateThreeActsStructureService {
         return left(new UnexpectedError());
       }
 
-      const findThreeActsStructureResponse =
+      const threeActsStructureOnDatabase =
         await this.threeActsStructuresRepository.findById(
           book.threeActsStructureId.toString()
         );
-      if (
-        !findThreeActsStructureResponse.value ||
-        findThreeActsStructureResponse.isLeft()
-      ) {
+
+      if (!threeActsStructureOnDatabase) {
         return left(new ResourceNotFount());
       }
 
-      threeActsStructure = findThreeActsStructureResponse.value;
+      threeActsStructure = threeActsStructureOnDatabase;
     } else {
-      const findBooksResponse = await this.booksRepository.findByProjectId(
+      const books = await this.booksRepository.findByProjectId(
         project.id.toString()
       );
 
-      if (findBooksResponse.isRight() && findBooksResponse.value.length === 1) {
-        const book = findBooksResponse.value[0];
+      if (books[0]) {
+        const book = books[0];
 
         if (book.structure !== 'three-acts' || !book.threeActsStructureId) {
           return left(new UnexpectedError());
         }
 
-        const findThreeActsStructureResponse =
+        const threeActsStructureOnDatabase =
           await this.threeActsStructuresRepository.findById(
             book.threeActsStructureId.toString()
           );
 
-        if (
-          !findThreeActsStructureResponse.value ||
-          findThreeActsStructureResponse.isLeft()
-        ) {
+        if (!threeActsStructureOnDatabase) {
           return left(new ResourceNotFount());
         }
 
-        threeActsStructure = findThreeActsStructureResponse.value;
+        threeActsStructure = threeActsStructureOnDatabase;
       } else {
         return left(new UnexpectedError());
       }

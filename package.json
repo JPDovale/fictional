@@ -284,7 +284,7 @@
       "./assets/**"
     ],
     "publish": {
-      "provider": "github",
+      "provider": "https://magiscrita.com",
       "owner": "JPDovale",
       "repo": "ms-desktop"
     }

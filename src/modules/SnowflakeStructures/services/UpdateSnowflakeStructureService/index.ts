@@ -67,19 +67,14 @@ export class UpdateSnowflakeStructureService {
     paragraph4,
     paragraph5,
   }: Request): Response {
-    const findUserResponse = await this.usersRepository.findById(userId);
-    if (!findUserResponse.value || findUserResponse.isLeft())
-      return left(new UserNotFount());
+    const user = await this.usersRepository.findById(userId);
+    if (!user) return left(new UserNotFount());
 
-    const findProjectResponse = await this.projectsRepository.findById(
-      projectId
-    );
-    if (!findProjectResponse.value || findProjectResponse.isLeft()) {
+    const project = await this.projectsRepository.findById(projectId);
+    if (!project) {
       return left(new ResourceNotFount());
     }
 
-    const user = findUserResponse.value;
-    const project = findProjectResponse.value;
     let bookIdStructureToUpdate: string;
 
     if (!project.userId.equals(user.id)) {
@@ -95,45 +90,36 @@ export class UpdateSnowflakeStructureService {
 
       bookIdStructureToUpdate = bookId;
     } else {
-      const findBooksResponse = await this.booksRepository.findByProjectId(
+      const books = await this.booksRepository.findByProjectId(
         project.id.toString()
       );
-      if (findBooksResponse.isRight() && findBooksResponse.value.length === 1) {
-        const books = findBooksResponse.value;
-        project.books = new ProjectBookList(books);
 
+      if (books && books.length === 1) {
+        project.books = new ProjectBookList(books);
         bookIdStructureToUpdate = books[0].id.toString();
       } else {
         return left(new UnexpectedError());
       }
     }
 
-    const findBookResponse = await this.booksRepository.findById(
-      bookIdStructureToUpdate
-    );
-    if (!findBookResponse.value || findBookResponse.isLeft()) {
+    const book = await this.booksRepository.findById(bookIdStructureToUpdate);
+    if (!book) {
       return left(new ResourceNotFount());
     }
 
-    const book = findBookResponse.value;
     const { snowflakeStructureId } = book;
 
     if (!snowflakeStructureId) {
       return left(new UnexpectedError());
     }
 
-    const findSnowflakeStructureResponse =
+    const snowflakeStructure =
       await this.snowflakeStructuresRepository.findById(
         snowflakeStructureId.toString()
       );
-    if (
-      !findSnowflakeStructureResponse.value ||
-      findSnowflakeStructureResponse.isLeft()
-    ) {
+    if (!snowflakeStructure) {
       return left(new ResourceNotFount());
     }
-
-    const snowflakeStructure = findSnowflakeStructureResponse.value;
 
     snowflakeStructure.centralIdia = centralIdia;
     snowflakeStructure.expansionToParagraph = {
@@ -151,11 +137,7 @@ export class UpdateSnowflakeStructureService {
       paragraph5,
     };
 
-    const saveSnowflakeStructureResponse =
-      await this.snowflakeStructuresRepository.save(snowflakeStructure);
-    if (saveSnowflakeStructureResponse.isLeft()) {
-      return left(new UnexpectedError());
-    }
+    await this.snowflakeStructuresRepository.save(snowflakeStructure);
 
     return right({});
   }

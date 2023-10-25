@@ -38,25 +38,20 @@ export class UpdateBookTextService {
   ) {}
 
   async execute({ bookId, text, projectId, userId }: Request): Response {
-    const findUserResponse = await this.usersRepository.findById(userId);
-    if (!findUserResponse.value || findUserResponse.isLeft()) {
+    const user = await this.usersRepository.findById(userId);
+    if (!user) {
       return left(new UserNotFount());
     }
 
-    const findProjectResponse = await this.projectsRepository.findById(
-      projectId
-    );
-    if (!findProjectResponse.value || findProjectResponse.isLeft()) {
+    const project = await this.projectsRepository.findById(projectId);
+    if (!project) {
       return left(new ResourceNotFount());
     }
 
-    const findBookResponse = await this.booksRepository.findById(bookId);
-    if (!findBookResponse.value || findBookResponse.isLeft()) {
+    const book = await this.booksRepository.findById(bookId);
+    if (!book) {
       return left(new ResourceNotFount());
     }
-
-    const project = findProjectResponse.value;
-    const book = findBookResponse.value;
 
     if (project.type !== 'book') {
       return left(new UnexpectedError());
@@ -64,11 +59,7 @@ export class UpdateBookTextService {
 
     book.text = text;
 
-    const updateHistoryResponse = await this.booksRepository.save(book);
-
-    if (updateHistoryResponse.isLeft()) {
-      return left(new UnexpectedError());
-    }
+    await this.booksRepository.save(book);
 
     return right({ book });
   }
