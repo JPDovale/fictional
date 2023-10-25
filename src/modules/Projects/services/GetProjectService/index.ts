@@ -55,108 +55,92 @@ export class GetProjectService {
   ) {}
 
   async execute({ projectId, userId }: Request): Response {
-    const findUserResponse = await this.usersRepository.findById(userId);
-    if (!findUserResponse.value || findUserResponse.isLeft()) {
+    const user = await this.usersRepository.findById(userId);
+    if (!user) {
       return left(new UserNotFount());
     }
 
-    const findProjectResponse = await this.projectsRepository.findById(
-      projectId
-    );
-    if (!findProjectResponse.value || findProjectResponse.isLeft()) {
+    const project = await this.projectsRepository.findById(projectId);
+    if (!project) {
       return left(new ResourceNotFount());
     }
-
-    const user = findUserResponse.value;
-    const project = findProjectResponse.value;
 
     if (!project.userId.equals(user.id)) {
       return left(new PermissionDenied());
     }
 
-    const findPersonsResponse = await this.personsRepository.findByProjectId(
+    const persons = await this.personsRepository.findByProjectId(
       project.id.toString()
     );
-    if (findPersonsResponse.isRight()) {
-      project.persons = new ProjectPersonList(findPersonsResponse.value);
-    }
 
-    const findBooksResponse = await this.booksRepository.findByProjectId(
+    project.persons = new ProjectPersonList(persons);
+
+    const books = await this.booksRepository.findByProjectId(
       project.id.toString()
     );
-    if (findBooksResponse.isRight()) {
-      const books = findBooksResponse.value;
-      const findThreeActsOfBooks: Array<
-        Promise<Either<{}, ThreeActsStructure | null>>
-      > = [];
-      const findSnowflakeOfBooks: Array<
-        Promise<Either<{}, SnowflakeStructure | null>>
-      > = [];
 
-      books.forEach((book) => {
-        if (book.structure === 'three-acts') {
-          findThreeActsOfBooks.push(
-            this.threeActsStructuresRepository.findById(
-              book.threeActsStructureId!.toString()
-            )
-          );
-        }
+    const findThreeActsOfBooks: Array<Promise<ThreeActsStructure | null>> = [];
+    const findSnowflakeOfBooks: Array<Promise<SnowflakeStructure | null>> = [];
 
-        if (book.structure === 'snowflake') {
-          findSnowflakeOfBooks.push(
-            this.snowflakeStructuresRepository.findById(
-              book.snowflakeStructureId!.toString()
-            )
-          );
-        }
-      });
+    books.forEach((book) => {
+      if (book.structure === 'three-acts') {
+        findThreeActsOfBooks.push(
+          this.threeActsStructuresRepository.findById(
+            book.threeActsStructureId!.toString()
+          )
+        );
+      }
 
-      const threeActsStructuresResponses = await Promise.all(
-        findThreeActsOfBooks
-      );
-      // const snowflakeStructuresResponses = await Promise.all(
-      //   findSnowflakeOfBooks
-      // );
+      if (book.structure === 'snowflake') {
+        findSnowflakeOfBooks.push(
+          this.snowflakeStructuresRepository.findById(
+            book.snowflakeStructureId!.toString()
+          )
+        );
+      }
+    });
 
-      threeActsStructuresResponses.forEach((TASRes) => {
-        if (TASRes.isRight()) {
-          if (!TASRes.value) return;
+    const threeActsStructures = await Promise.all(findThreeActsOfBooks);
+    // const snowflakeStructuresResponses = await Promise.all(
+    //   findSnowflakeOfBooks
+    // );
 
-          books.forEach((b) => {
-            if (b.threeActsStructureId?.equals(TASRes.value!.id)) {
-              b.threeActsStructure = TASRes.value;
-            }
-          });
+    threeActsStructures.forEach((TAS) => {
+      if (!TAS) return;
+
+      books.forEach((b) => {
+        if (b.threeActsStructureId?.equals(TAS.id)) {
+          b.threeActsStructure = TAS;
         }
       });
+    });
 
-      // eslint-disable-next-line no-restricted-syntax
-      // for (const SFRes of snowflakeStructuresResponses) {
-      //   if (SFRes.isRight() && SFRes.value) {
-      //     const SFS = SFRes.value;
-      //     const implementorIndex = books.findIndex((b) =>
-      //       b.id.equals(SFS.implementorId)
-      //     );
-      //     const personsThisSFSResponse =
-      //       // eslint-disable-next-line no-await-in-loop
-      //       await this.personsRepository.findBySnowflakeStructureId(
-      //         SFS.id.toString()
-      //       );
-      //     const personsThisSFS: Person[] = [];
+    // eslint-disable-next-line no-restricted-syntax
+    // for (const SFRes of snowflakeStructuresResponses) {
+    //   if (SFRes.isRight() && SFRes.value) {
+    //     const SFS = SFRes.value;
+    //     const implementorIndex = books.findIndex((b) =>
+    //       b.id.equals(SFS.implementorId)
+    //     );
+    //     const personsThisSFSResponse =
+    //       // eslint-disable-next-line no-await-in-loop
+    //       await this.personsRepository.findBySnowflakeStructureId(
+    //         SFS.id.toString()
+    //       );
+    //     const personsThisSFS: Person[] = [];
 
-      //     if (personsThisSFSResponse.isRight()) {
-      //       personsThisSFSResponse.value.forEach((person) =>
-      //         personsThisSFS.push(person)
-      //       );
-      //     }
+    //     if (personsThisSFSResponse.isRight()) {
+    //       personsThisSFSResponse.value.forEach((person) =>
+    //         personsThisSFS.push(person)
+    //       );
+    //     }
 
-      //     SFS.persons = new SnowflakeStructurePersonList(personsThisSFS);
-      //     books[implementorIndex].snowflakeStructure = SFS;
-      //   }
-      // }
+    //     SFS.persons = new SnowflakeStructurePersonList(personsThisSFS);
+    //     books[implementorIndex].snowflakeStructure = SFS;
+    //   }
+    // }
 
-      project.books = new ProjectBookList(books);
-    }
+    project.books = new ProjectBookList(books);
 
     project.creator = UserInProject.createCreator(user);
 

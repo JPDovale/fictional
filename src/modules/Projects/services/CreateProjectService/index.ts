@@ -82,11 +82,10 @@ export class CreateProjectService {
     structure,
     books: booksReceived,
   }: Request): Promise<Response> {
-    const findUserResponse = await this.usersRepository.findById(userId);
-    if (!findUserResponse.value || findUserResponse.isLeft())
+    const user = await this.usersRepository.findById(userId);
+    if (!user) {
       return left(new UserNotFount());
-
-    const user = findUserResponse.value;
+    }
 
     let dest: string | null = null;
 
@@ -175,11 +174,7 @@ export class CreateProjectService {
         project.books.add(book);
       });
 
-      const response = await this.projectsRepository.create(project);
-
-      if (response.isLeft()) {
-        return left(new ResourceNotCreated());
-      }
+      await this.projectsRepository.create(project);
 
       return right({
         project,
