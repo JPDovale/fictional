@@ -20,18 +20,43 @@ const createProjectResolver = new CreateProjectResolver();
 const getProjectsResolver = new GetProjectsResolver();
 const getProjectResolver = new GetProjectResolver();
 const updateThreeActsStructureResolver = new UpdateThreeActsStructureResolver();
-const createPersonResolver = new CreatePersonResolver();
-const createPersonWithSnowflakeStructureResolver =
-  new CreatePersonWithSnowflakeStructureResolver();
-const getProjectPersonsResolver = new GetProjectPersonsResolver();
-const getPersonResolver = new GetPersonResolver();
-const getPersonsResolver = new GetPersonsResolver();
-const updatePersonHistoryResolver = new UpdatePersonHistoryResolver();
 const updateSnowflakeStructureResolver = new UpdateSnowflakeStructureResolver();
 
-const [updateBookTextResolver] = [
+const [
+  updateBookTextResolver,
+  createPersonResolver,
+  createPersonWithSnowflakeStructureResolver,
+  getPersonResolver,
+  getPersonsResolver,
+  getProjectPersonsResolver,
+  updatePersonHistoryResolver,
+] = [
   container.resolve<UpdateBookTextResolver>(
     InjectableDependencies.Resolvers.UpdateBookTextResolver
+  ),
+
+  container.resolve<CreatePersonResolver>(
+    InjectableDependencies.Resolvers.CreatePersonResolver
+  ),
+
+  container.resolve<CreatePersonWithSnowflakeStructureResolver>(
+    InjectableDependencies.Resolvers.CreatePersonWithSnowflakeStructureResolver
+  ),
+
+  container.resolve<GetPersonResolver>(
+    InjectableDependencies.Resolvers.GetPersonResolver
+  ),
+
+  container.resolve<GetPersonsResolver>(
+    InjectableDependencies.Resolvers.GetPersonsResolver
+  ),
+
+  container.resolve<GetProjectPersonsResolver>(
+    InjectableDependencies.Resolvers.GetProjectPersonsResolver
+  ),
+
+  container.resolve<UpdatePersonHistoryResolver>(
+    InjectableDependencies.Resolvers.UpdatePersonHistoryResolver
   ),
 ];
 
@@ -80,29 +105,16 @@ const accessors: AccessorsType = {
     return '';
   },
 
-  'create-person': async (_data: any, win: BrowserWindow | null) =>
-    createPersonResolver.handle({ _data, win }),
-
-  'get-project-persons': async (_data: any, win: BrowserWindow | null) =>
-    getProjectPersonsResolver.handle({ _data, win }),
-
-  'get-person': async (_data: any, win: BrowserWindow | null) =>
-    getPersonResolver.handle({ _data, win }),
-
-  'get-persons': async (_data: any, win: BrowserWindow | null) =>
-    getPersonsResolver.handle({ _data, win }),
-
-  'update-person-history': async (_data: any, win: BrowserWindow | null) =>
-    updatePersonHistoryResolver.handle({ _data, win }),
+  'create-person': (props) => createPersonResolver.handle(props),
+  'get-project-persons': (props) => getProjectPersonsResolver.handle(props),
+  'get-person': (props) => getPersonResolver.handle(props),
+  'get-persons': (props) => getPersonsResolver.handle(props),
+  'update-person-history': (props) => updatePersonHistoryResolver.handle(props),
 
   'update-snowflake-structure': async (_data: any, win: BrowserWindow | null) =>
     updateSnowflakeStructureResolver.handle({ _data, win }),
-
-  'create-person-with-snowflake-structure': async (
-    _data: any,
-    win: BrowserWindow | null
-  ) => createPersonWithSnowflakeStructureResolver.handle({ _data, win }),
-
+  'create-person-with-snowflake-structure': (props) =>
+    createPersonWithSnowflakeStructureResolver.handle(props),
   'update-book-text': (props) => updateBookTextResolver.handle(props),
 };
 
