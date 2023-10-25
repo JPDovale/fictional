@@ -26,21 +26,14 @@ export class GetPersonsService {
   ) {}
 
   async execute({ userId }: Request): Response {
-    const findUserResponse = await this.usersRepository.findById(userId);
-    if (!findUserResponse.value || findUserResponse.isLeft()) {
+    const user = await this.usersRepository.findById(userId);
+    if (!user) {
       return left(new UserNotFount());
     }
 
-    const findPersonsResponse = await this.personsRepository.findByUserId(
-      userId
-    );
-
-    if (findPersonsResponse.isRight()) {
-      return right({
-        persons: findPersonsResponse.value,
-      });
-    }
-
-    return left(new UnexpectedError());
+    const persons = await this.personsRepository.findByUserId(userId);
+    return right({
+      persons,
+    });
   }
 }

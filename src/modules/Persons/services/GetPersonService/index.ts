@@ -32,30 +32,22 @@ export class GetPersonService {
   ) {}
 
   async execute({ personId, userId }: Request): Response {
-    const findUserResponse = await this.usersRepository.findById(userId);
-    if (!findUserResponse.value || findUserResponse.isLeft()) {
+    const user = await this.usersRepository.findById(userId);
+    if (!user) {
       return left(new UserNotFount());
     }
 
-    const findPersonResponse = await this.personsRepository.findById(personId);
-
-    if (!findPersonResponse.value || findPersonResponse.isLeft()) {
+    const person = await this.personsRepository.findById(personId);
+    if (!person) {
       return left(new ResourceNotFount());
     }
-
-    const user = findUserResponse.value;
-    const person = findPersonResponse.value;
 
     if (!person.userId.equals(user.id)) {
       return left(new PermissionDenied());
     }
 
-    if (findPersonResponse.isRight()) {
-      return right({
-        person: findPersonResponse.value,
-      });
-    }
-
-    return left(new UnexpectedError());
+    return right({
+      person,
+    });
   }
 }

@@ -38,26 +38,20 @@ export class UpdatePersonHistoryService {
   ) {}
 
   async execute({ history, personId, projectId, userId }: Request): Response {
-    const findUserResponse = await this.usersRepository.findById(userId);
-    if (!findUserResponse.value || findUserResponse.isLeft()) {
+    const user = await this.usersRepository.findById(userId);
+    if (!user) {
       return left(new UserNotFount());
     }
 
-    const findProjectResponse = await this.projectsRepository.findById(
-      projectId
-    );
-    if (!findProjectResponse.value || findProjectResponse.isLeft()) {
+    const project = await this.projectsRepository.findById(projectId);
+    if (!project) {
       return left(new ResourceNotFount());
     }
 
-    const findPersonResponse = await this.personsRepository.findById(personId);
-    if (!findPersonResponse.value || findPersonResponse.isLeft()) {
+    const person = await this.personsRepository.findById(personId);
+    if (!person) {
       return left(new ResourceNotFount());
     }
-
-    const user = findUserResponse.value;
-    const project = findProjectResponse.value;
-    const person = findPersonResponse.value;
 
     if (!project.features.featureIsApplied('person')) {
       return left(new UnexpectedError());
@@ -69,11 +63,7 @@ export class UpdatePersonHistoryService {
 
     person.history = history;
 
-    const updateHistoryResponse = await this.personsRepository.save(person);
-
-    if (updateHistoryResponse.isLeft()) {
-      return left(new UnexpectedError());
-    }
+    await this.personsRepository.save(person);
 
     return right({ person });
   }

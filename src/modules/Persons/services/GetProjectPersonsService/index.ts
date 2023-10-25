@@ -36,20 +36,15 @@ export class GetProjectPersonsService {
   ) {}
 
   async execute({ projectId, userId }: Request): Response {
-    const findUserResponse = await this.usersRepository.findById(userId);
-    if (!findUserResponse.value || findUserResponse.isLeft()) {
+    const user = await this.usersRepository.findById(userId);
+    if (!user) {
       return left(new UserNotFount());
     }
 
-    const findProjectResponse = await this.projectsRepository.findById(
-      projectId
-    );
-    if (!findProjectResponse.value || findProjectResponse.isLeft()) {
+    const project = await this.projectsRepository.findById(projectId);
+    if (!project) {
       return left(new ResourceNotFount());
     }
-
-    const user = findUserResponse.value;
-    const project = findProjectResponse.value;
 
     if (!project.features.featureIsApplied('person')) {
       return left(new UnexpectedError());
@@ -59,16 +54,10 @@ export class GetProjectPersonsService {
       return left(new PermissionDenied());
     }
 
-    const findPersonsResponse = await this.personsRepository.findByProjectId(
-      projectId
-    );
+    const persons = await this.personsRepository.findByProjectId(projectId);
 
-    if (findPersonsResponse.isRight()) {
-      return right({
-        persons: findPersonsResponse.value,
-      });
-    }
-
-    return left(new UnexpectedError());
+    return right({
+      persons,
+    });
   }
 }
