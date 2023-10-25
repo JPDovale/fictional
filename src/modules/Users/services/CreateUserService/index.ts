@@ -1,10 +1,9 @@
 import InjectableDependencies from '@shared/container/types';
-import { Either, left, right } from '@shared/core/error/Either';
+import { Either, right } from '@shared/core/error/Either';
 import { inject, injectable } from 'tsyringe';
 
 import { UsersRepository } from '@database/repositories/User/contracts/UsersRepository';
 import { User } from '@modules/Users/models/User';
-import { ResourceNotCreated } from '@shared/errors/ResourceNotCreated';
 
 interface IRequest {
   name: string;
@@ -15,7 +14,7 @@ interface IRequest {
   avatarUrl?: string;
 }
 
-type IResponse = Either<ResourceNotCreated, { user: User }>;
+type IResponse = Either<null, { user: User }>;
 
 @injectable()
 export class CreateUserService {
@@ -32,11 +31,10 @@ export class CreateUserService {
     username,
     avatarUrl,
   }: IRequest): Promise<IResponse> {
-    const getUserResponse = await this.usersRepository.findByEmail(email);
-
-    if (getUserResponse.value instanceof User) {
+    const userExistes = await this.usersRepository.findByEmail(email);
+    if (userExistes instanceof User) {
       return right({
-        user: getUserResponse.value,
+        user: userExistes,
       });
     }
 
@@ -48,11 +46,8 @@ export class CreateUserService {
       username,
       avatarUrl,
     });
-    const createUserResponse = await this.usersRepository.create(user);
 
-    if (createUserResponse.isLeft()) {
-      return left(new ResourceNotCreated());
-    }
+    await this.usersRepository.create(user);
 
     return right({
       user,
