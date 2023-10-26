@@ -11,4 +11,8 @@ export enum Services {
   CreateProjectService = 'CreateProjectService',
   GetProjectService = 'GetProjectService',
   GetProjectsService = 'GetProjectsService',
+
+  UpdateSnowflakeStructureService = 'UpdateSnowflakeStructureService',
+
+  UpdateThreeActsStructureService = 'UpdateThreeActsStructureResolver',
 }

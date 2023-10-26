@@ -1,7 +1,5 @@
 import { GetUserResolver } from '@modules/Users/resolvers/GetUserResolver';
 import { BrowserWindow, app, dialog } from 'electron';
-import { UpdateThreeActsStructureResolver } from '@modules/ThreeActsStructures/resolvers/UpdateThreeActsStructureResolver';
-import { UpdateSnowflakeStructureResolver } from '@modules/SnowflakeStructures/resolvers/UpdateSnowflakeStructureResolver';
 import { container } from 'tsyringe';
 import InjectableDependencies from '@shared/container/types';
 
@@ -15,8 +13,6 @@ interface AccessorsType {
 }
 
 const getUserResolver = new GetUserResolver();
-const updateThreeActsStructureResolver = new UpdateThreeActsStructureResolver();
-const updateSnowflakeStructureResolver = new UpdateSnowflakeStructureResolver();
 
 const [
   updateBookTextResolver,
@@ -31,6 +27,10 @@ const [
   createProjectResolver,
   getProjectResolver,
   getProjectsResolver,
+
+  updateSnowflakeStructureResolver,
+
+  updateThreeActsStructureResolver,
 ]: Array<{ handle: (props: AccessorsDataType) => Promise<any> }> = [
   container.resolve(InjectableDependencies.Resolvers.UpdateBookTextResolver),
 
@@ -48,6 +48,14 @@ const [
   container.resolve(InjectableDependencies.Resolvers.CreateProjectResolver),
   container.resolve(InjectableDependencies.Resolvers.GetProjectResolver),
   container.resolve(InjectableDependencies.Resolvers.GetProjectsResolver),
+
+  container.resolve(
+    InjectableDependencies.Resolvers.UpdateSnowflakeStructureResolver
+  ),
+
+  container.resolve(
+    InjectableDependencies.Resolvers.UpdateThreeActsStructureResolver
+  ),
 ];
 
 const accessors: AccessorsType = {
@@ -65,15 +73,16 @@ const accessors: AccessorsType = {
   'get-project': (props) => getProjectResolver.handle(props),
   'get-projects': (props) => getProjectsResolver.handle(props),
 
+  'update-snowflake-structure': (props) =>
+    updateSnowflakeStructureResolver.handle(props),
+
+  'update-three-acts-structure': (props) =>
+    updateThreeActsStructureResolver.handle(props),
+
   'get-user': async (_data: any, win: BrowserWindow | null) =>
     getUserResolver.handle({ _data, win }),
 
-  'update-three-acts-structure': async (
-    _data: any,
-    win: BrowserWindow | null
-  ) => updateThreeActsStructureResolver.handle({ _data, win }),
-
-  'open-dev-tools': async (_data: any, win: BrowserWindow | null) =>
+  'open-dev-tools': async ({ win }) =>
     app.isPackaged ? null : win?.webContents.openDevTools(),
 
   'open-image-selector': async () => {
@@ -90,9 +99,6 @@ const accessors: AccessorsType = {
 
     return '';
   },
-
-  'update-snowflake-structure': async (_data: any, win: BrowserWindow | null) =>
-    updateSnowflakeStructureResolver.handle({ _data, win }),
 };
 
 export type Accessors = keyof typeof accessors;
