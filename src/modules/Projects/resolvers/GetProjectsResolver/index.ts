@@ -1,13 +1,17 @@
 import { ProjectsResponse } from '@modules/Projects/dtos/models/ProjectsResponse';
 import { GetProjectsService } from '@modules/Projects/services/GetProjectsService';
 import { UserIdInput } from '@modules/Users/dtos/inputs/UserIdInput';
+import InjectableDependencies from '@shared/container/types';
 import { RequesterType } from '@shared/req/RequesterType';
 import { validate } from 'class-validator';
-import { container } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
+@injectable()
 export class GetProjectsResolver {
-  private readonly getProjectsService: GetProjectsService =
-    container.resolve(GetProjectsService);
+  constructor(
+    @inject(InjectableDependencies.Services.GetProjectsService)
+    private readonly getProjectsService: GetProjectsService
+  ) {}
 
   async handle({ _data }: RequesterType<UserIdInput>) {
     const data = new UserIdInput(_data);
