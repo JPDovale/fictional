@@ -3,17 +3,19 @@ import { GetProjectsResolver } from '@modules/Projects/resolvers/GetProjectsReso
 import { GetUserResolver } from '@modules/Users/resolvers/GetUserResolver';
 import { GetProjectResolver } from '@modules/Projects/resolvers/GetProjectResolver';
 import { BrowserWindow, app, dialog } from 'electron';
-import { CreatePersonResolver } from '@modules/Persons/resolvers/CreatePersonResolver';
-import { GetProjectPersonsResolver } from '@modules/Persons/resolvers/GetProjectPersonsResolver';
-import { GetPersonResolver } from '@modules/Persons/resolvers/GetPersonResolver';
-import { GetPersonsResolver } from '@modules/Persons/resolvers/GetPersonsResolver';
-import { UpdatePersonHistoryResolver } from '@modules/Persons/resolvers/UpdatePersonHistoryResolver';
 import { UpdateThreeActsStructureResolver } from '@modules/ThreeActsStructures/resolvers/UpdateThreeActsStructureResolver';
 import { UpdateSnowflakeStructureResolver } from '@modules/SnowflakeStructures/resolvers/UpdateSnowflakeStructureResolver';
-import { CreatePersonWithSnowflakeStructureResolver } from '@modules/Persons/resolvers/CreatePersonWithSnowflakeStructureResolver';
 import { container } from 'tsyringe';
 import InjectableDependencies from '@shared/container/types';
-import { UpdateBookTextResolver } from '@modules/Books/resolvers/UpdateBookTextResolver';
+
+interface AccessorsDataType {
+  _data: any;
+  win: BrowserWindow | null;
+}
+
+interface AccessorsType {
+  [x: string]: (props: AccessorsDataType) => Promise<any>;
+}
 
 const getUserResolver = new GetUserResolver();
 const createProjectResolver = new CreateProjectResolver();
@@ -30,44 +32,19 @@ const [
   getPersonsResolver,
   getProjectPersonsResolver,
   updatePersonHistoryResolver,
-] = [
-  container.resolve<UpdateBookTextResolver>(
-    InjectableDependencies.Resolvers.UpdateBookTextResolver
-  ),
-
-  container.resolve<CreatePersonResolver>(
-    InjectableDependencies.Resolvers.CreatePersonResolver
-  ),
-
-  container.resolve<CreatePersonWithSnowflakeStructureResolver>(
+]: Array<{ handle: (props: AccessorsDataType) => Promise<any> }> = [
+  container.resolve(InjectableDependencies.Resolvers.UpdateBookTextResolver),
+  container.resolve(InjectableDependencies.Resolvers.CreatePersonResolver),
+  container.resolve(
     InjectableDependencies.Resolvers.CreatePersonWithSnowflakeStructureResolver
   ),
-
-  container.resolve<GetPersonResolver>(
-    InjectableDependencies.Resolvers.GetPersonResolver
-  ),
-
-  container.resolve<GetPersonsResolver>(
-    InjectableDependencies.Resolvers.GetPersonsResolver
-  ),
-
-  container.resolve<GetProjectPersonsResolver>(
-    InjectableDependencies.Resolvers.GetProjectPersonsResolver
-  ),
-
-  container.resolve<UpdatePersonHistoryResolver>(
+  container.resolve(InjectableDependencies.Resolvers.GetPersonResolver),
+  container.resolve(InjectableDependencies.Resolvers.GetPersonsResolver),
+  container.resolve(InjectableDependencies.Resolvers.GetProjectPersonsResolver),
+  container.resolve(
     InjectableDependencies.Resolvers.UpdatePersonHistoryResolver
   ),
 ];
-
-interface AccessorsDataType {
-  _data: any;
-  win: BrowserWindow | null;
-}
-
-interface AccessorsType {
-  [x: string]: (props: AccessorsDataType) => Promise<any>;
-}
 
 const accessors: AccessorsType = {
   'get-user': async (_data: any, win: BrowserWindow | null) =>
