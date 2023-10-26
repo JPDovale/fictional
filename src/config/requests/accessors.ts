@@ -1,7 +1,4 @@
-import { CreateProjectResolver } from '@modules/Projects/resolvers/CreateProjectResolver';
-import { GetProjectsResolver } from '@modules/Projects/resolvers/GetProjectsResolver';
 import { GetUserResolver } from '@modules/Users/resolvers/GetUserResolver';
-import { GetProjectResolver } from '@modules/Projects/resolvers/GetProjectResolver';
 import { BrowserWindow, app, dialog } from 'electron';
 import { UpdateThreeActsStructureResolver } from '@modules/ThreeActsStructures/resolvers/UpdateThreeActsStructureResolver';
 import { UpdateSnowflakeStructureResolver } from '@modules/SnowflakeStructures/resolvers/UpdateSnowflakeStructureResolver';
@@ -18,22 +15,25 @@ interface AccessorsType {
 }
 
 const getUserResolver = new GetUserResolver();
-const createProjectResolver = new CreateProjectResolver();
-const getProjectsResolver = new GetProjectsResolver();
-const getProjectResolver = new GetProjectResolver();
 const updateThreeActsStructureResolver = new UpdateThreeActsStructureResolver();
 const updateSnowflakeStructureResolver = new UpdateSnowflakeStructureResolver();
 
 const [
   updateBookTextResolver,
+
   createPersonResolver,
   createPersonWithSnowflakeStructureResolver,
   getPersonResolver,
   getPersonsResolver,
   getProjectPersonsResolver,
   updatePersonHistoryResolver,
+
+  createProjectResolver,
+  getProjectResolver,
+  getProjectsResolver,
 ]: Array<{ handle: (props: AccessorsDataType) => Promise<any> }> = [
   container.resolve(InjectableDependencies.Resolvers.UpdateBookTextResolver),
+
   container.resolve(InjectableDependencies.Resolvers.CreatePersonResolver),
   container.resolve(
     InjectableDependencies.Resolvers.CreatePersonWithSnowflakeStructureResolver
@@ -44,20 +44,29 @@ const [
   container.resolve(
     InjectableDependencies.Resolvers.UpdatePersonHistoryResolver
   ),
+
+  container.resolve(InjectableDependencies.Resolvers.CreateProjectResolver),
+  container.resolve(InjectableDependencies.Resolvers.GetProjectResolver),
+  container.resolve(InjectableDependencies.Resolvers.GetProjectsResolver),
 ];
 
 const accessors: AccessorsType = {
+  'update-book-text': (props) => updateBookTextResolver.handle(props),
+
+  'create-person': (props) => createPersonResolver.handle(props),
+  'create-person-with-snowflake-structure': (props) =>
+    createPersonWithSnowflakeStructureResolver.handle(props),
+  'get-person': (props) => getPersonResolver.handle(props),
+  'get-persons': (props) => getPersonsResolver.handle(props),
+  'get-project-persons': (props) => getProjectPersonsResolver.handle(props),
+  'update-person-history': (props) => updatePersonHistoryResolver.handle(props),
+
+  'create-project': (props) => createProjectResolver.handle(props),
+  'get-project': (props) => getProjectResolver.handle(props),
+  'get-projects': (props) => getProjectsResolver.handle(props),
+
   'get-user': async (_data: any, win: BrowserWindow | null) =>
     getUserResolver.handle({ _data, win }),
-
-  'create-project': async (_data: any, win: BrowserWindow | null) =>
-    createProjectResolver.handle({ _data, win }),
-
-  'get-projects': async (_data: any, win: BrowserWindow | null) =>
-    getProjectsResolver.handle({ _data, win }),
-
-  'get-project': async (_data: any, win: BrowserWindow | null) =>
-    getProjectResolver.handle({ _data, win }),
 
   'update-three-acts-structure': async (
     _data: any,
@@ -82,17 +91,8 @@ const accessors: AccessorsType = {
     return '';
   },
 
-  'create-person': (props) => createPersonResolver.handle(props),
-  'get-project-persons': (props) => getProjectPersonsResolver.handle(props),
-  'get-person': (props) => getPersonResolver.handle(props),
-  'get-persons': (props) => getPersonsResolver.handle(props),
-  'update-person-history': (props) => updatePersonHistoryResolver.handle(props),
-
   'update-snowflake-structure': async (_data: any, win: BrowserWindow | null) =>
     updateSnowflakeStructureResolver.handle({ _data, win }),
-  'create-person-with-snowflake-structure': (props) =>
-    createPersonWithSnowflakeStructureResolver.handle(props),
-  'update-book-text': (props) => updateBookTextResolver.handle(props),
 };
 
 export type Accessors = keyof typeof accessors;
