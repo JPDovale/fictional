@@ -14,5 +14,7 @@ export enum Services {
 
   UpdateSnowflakeStructureService = 'UpdateSnowflakeStructureService',
 
-  UpdateThreeActsStructureService = 'UpdateThreeActsStructureResolver',
+  UpdateThreeActsStructureService = 'UpdateThreeActsStructureService',
+
+  GetUserService = 'GetUserService',
 }

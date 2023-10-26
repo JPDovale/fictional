@@ -1,4 +1,3 @@
-import { GetUserResolver } from '@modules/Users/resolvers/GetUserResolver';
 import { BrowserWindow, app, dialog } from 'electron';
 import { container } from 'tsyringe';
 import InjectableDependencies from '@shared/container/types';
@@ -11,8 +10,6 @@ interface AccessorsDataType {
 interface AccessorsType {
   [x: string]: (props: AccessorsDataType) => Promise<any>;
 }
-
-const getUserResolver = new GetUserResolver();
 
 const [
   updateBookTextResolver,
@@ -31,6 +28,8 @@ const [
   updateSnowflakeStructureResolver,
 
   updateThreeActsStructureResolver,
+
+  getUserResolver,
 ]: Array<{ handle: (props: AccessorsDataType) => Promise<any> }> = [
   container.resolve(InjectableDependencies.Resolvers.UpdateBookTextResolver),
 
@@ -56,6 +55,8 @@ const [
   container.resolve(
     InjectableDependencies.Resolvers.UpdateThreeActsStructureResolver
   ),
+
+  container.resolve(InjectableDependencies.Resolvers.GetUserResolver),
 ];
 
 const accessors: AccessorsType = {
@@ -79,8 +80,7 @@ const accessors: AccessorsType = {
   'update-three-acts-structure': (props) =>
     updateThreeActsStructureResolver.handle(props),
 
-  'get-user': async (_data: any, win: BrowserWindow | null) =>
-    getUserResolver.handle({ _data, win }),
+  'get-user': (props) => getUserResolver.handle(props),
 
   'open-dev-tools': async ({ win }) =>
     app.isPackaged ? null : win?.webContents.openDevTools(),

@@ -15,4 +15,6 @@ export enum Resolvers {
   UpdateSnowflakeStructureResolver = 'UpdateSnowflakeStructureResolver',
 
   UpdateThreeActsStructureResolver = 'UpdateThreeActsStructureResolver',
+
+  GetUserResolver = 'GetUserResolver',
 }
