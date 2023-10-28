@@ -6,6 +6,7 @@ import { Person } from '@modules/Persons/models/Person';
 import { PersonSnowflakeStructureBase } from '@modules/Persons/models/Person/valueObjects/PersonSnowflakeStructureBase';
 import { SnowflakeStructurePersonList } from '@modules/SnowflakeStructures/models/SnowflakeStructurePersonList';
 import { UserNotFount } from '@modules/Users/services/_errors/UserNotFound';
+import { ImageProvider } from '@providers/base/Image/contracts/ImageProvider';
 import InjectableDependencies from '@shared/container/types';
 import { Either, left, right } from '@shared/core/error/Either';
 import { ResourceNotCreated } from '@shared/errors/ResourceNotCreated';
@@ -42,7 +43,10 @@ export class CreatePersonWithSnowflakeStructureService {
     private readonly booksRepository: BooksRepository,
 
     @inject(InjectableDependencies.Repositories.SnowflakeStructuresRepository)
-    private readonly snowflakeStructuresRepository: SnowflakeStructuresRepository
+    private readonly snowflakeStructuresRepository: SnowflakeStructuresRepository,
+
+    @inject(InjectableDependencies.Providers.ImageProvider)
+    private readonly imageProvider: ImageProvider
   ) {}
 
   async execute({
@@ -86,12 +90,16 @@ export class CreatePersonWithSnowflakeStructureService {
       return left(new ResourceNotFount());
     }
 
+    const secureImageUrl = await this.imageProvider.getSecurePath(
+      imageUrl ?? null
+    );
+
     const person = Person.create({
       name,
       lastName,
       projectId: project.id,
       userId: user.id,
-      imageUrl,
+      imageUrl: secureImageUrl,
       snowflakeStructureBase: PersonSnowflakeStructureBase.create({}),
       bookId: book.id,
     });

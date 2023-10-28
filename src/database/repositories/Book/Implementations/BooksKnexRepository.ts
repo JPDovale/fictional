@@ -3,6 +3,7 @@ import { db } from '@database/index';
 import { inject, injectable } from 'tsyringe';
 import InjectableDependencies from '@shared/container/types';
 import { ThreeActsStructuresRepository } from '@database/repositories/ThreeActsStructure/contracts/ThreeActsStructuresRepository';
+import { SnowflakeStructuresRepository } from '@database/repositories/SnowflakeStructure/contracts/SnowflakeStructuresRepository';
 import { BooksKnexMapper } from './BooksKnexMapper';
 import { BooksRepository } from '../contracts/BooksRepository';
 
@@ -10,7 +11,10 @@ import { BooksRepository } from '../contracts/BooksRepository';
 export class BooksKnexRepository implements BooksRepository {
   constructor(
     @inject(InjectableDependencies.Repositories.ThreeActsStructuresRepository)
-    private readonly threeActsStructuresRepository: ThreeActsStructuresRepository
+    private readonly threeActsStructuresRepository: ThreeActsStructuresRepository,
+
+    @inject(InjectableDependencies.Repositories.SnowflakeStructuresRepository)
+    private readonly snowflakeStructuresRepository: SnowflakeStructuresRepository
   ) {}
 
   async create(book: Book): Promise<void> {
@@ -18,6 +22,10 @@ export class BooksKnexRepository implements BooksRepository {
 
     if (book.threeActsStructure) {
       await this.threeActsStructuresRepository.create(book.threeActsStructure);
+    }
+
+    if (book.snowflakeStructure) {
+      await this.snowflakeStructuresRepository.create(book.snowflakeStructure);
     }
   }
 
@@ -27,11 +35,18 @@ export class BooksKnexRepository implements BooksRepository {
     );
 
     await Promise.all(
-      books.map(
-        (book) =>
-          book.threeActsStructure &&
-          this.threeActsStructuresRepository.create(book.threeActsStructure)
-      )
+      books.map((book) => {
+        if (book.threeActsStructure)
+          return this.threeActsStructuresRepository.create(
+            book.threeActsStructure
+          );
+        if (book.snowflakeStructure)
+          return this.snowflakeStructuresRepository.create(
+            book.snowflakeStructure
+          );
+
+        return null;
+      })
     );
   }
 

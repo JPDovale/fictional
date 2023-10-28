@@ -35,6 +35,7 @@ export class PersonsKnexMapper {
         name: raw.name,
         lastName: raw.lastname,
         updatedAt: raw.updated_at,
+        bookId: raw.book_id ? new UniqueEntityId(raw.book_id) : null,
         snowflakeStructureBase: itIsWithSnowflakeStructure
           ? PersonSnowflakeStructureBase.create({
               apprenticeship: snowflake_structure_base_apprenticeship,
@@ -96,6 +97,7 @@ export class PersonsKnexMapper {
       project_id: person.projectId.toString(),
       user_id: person.userId.toString(),
       updated_at: person.updatedAt,
+      book_id: person.bookId?.toString() ?? null,
     };
   }
 }

@@ -1,6 +1,7 @@
 import { Navigation } from '@components/useFull/Navigation';
 import { useProjects } from '@store/Projects';
 import { NavLink } from '@config/navigation/links';
+import { RoutesAvailable } from '@config/routes/routesAvailable';
 import { projectLinks } from './projectLinks';
 
 export function ProjectNavigation() {
@@ -13,7 +14,16 @@ export function ProjectNavigation() {
 
     projectLinks.forEach((link) => {
       const nothing = null;
-      if (!link.featureName) return finalLinks.push(link);
+      if (!link.featureName) {
+        if (
+          link.pathname === RoutesAvailable.projectText.path &&
+          project?.structure === 'snowflake'
+        ) {
+          return nothing;
+        }
+
+        return finalLinks.push(link);
+      }
 
       if (link.featureName === 'structure') {
         const structureIsApplied = project?.features.structure;

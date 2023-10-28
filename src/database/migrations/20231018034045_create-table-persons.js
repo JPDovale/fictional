@@ -9,7 +9,7 @@ exports.up = async function up(knex) {
     table.integer('age').defaultTo(null);
     table.string('name').defaultTo(null);
     table.string('lastname').defaultTo(null);
-    table.string('biographic').notNullable();
+    table.string('biographic').defaultTo(null);
     table.string('image_url').defaultTo(null);
     table.string('image_filename').defaultTo(null);
     table.dateTime('created_at').notNullable().defaultTo(knex.fn.now());

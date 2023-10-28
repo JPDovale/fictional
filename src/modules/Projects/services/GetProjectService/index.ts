@@ -112,7 +112,7 @@ export class GetProjectService {
       });
     });
 
-    snowflakeStructures.forEach(async (SFS) => {
+    const promises = snowflakeStructures.map(async (SFS) => {
       if (!SFS) return;
       const bookIndex = books.findIndex((b) =>
         b.snowflakeStructureId!.equals(SFS.id)
@@ -122,9 +122,13 @@ export class GetProjectService {
         books[bookIndex].id.toString()
       );
 
+      console.log(personsThisSFS);
+
       SFS.persons = new SnowflakeStructurePersonList(personsThisSFS);
       books[bookIndex].snowflakeStructure = SFS;
     });
+
+    await Promise.all(promises);
 
     project.books = new ProjectBookList(books);
     project.creator = UserInProject.createCreator(user);

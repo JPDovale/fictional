@@ -59,6 +59,10 @@ export function BookTextPage() {
     return <Page404 />;
   }
 
+  if (project?.structure === 'snowflake') {
+    return <Page404 />;
+  }
+
   return (
     <main className="flex-1 p-4 flex flex-col gap-4 min-w-[45rem] mx-auto max-w-[45rem]">
       <h2 className="text-3xl font-bold mb-4">Seu texto aqui</h2>

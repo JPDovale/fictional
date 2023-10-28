@@ -126,6 +126,10 @@ export class Person extends AggregateRoot<PersonProps> {
     return this.props.projectId;
   }
 
+  get bookId() {
+    return this.props.bookId;
+  }
+
   get snowflakeStructureBase() {
     return this.props.snowflakeStructureBase;
   }
