@@ -1,13 +1,17 @@
 import { UpdateThreeActsStructureInput } from '@modules/ThreeActsStructures/dtos/inputs/UpdateThreeActsStructureInput';
 import { UpdateThreeActsStructureService } from '@modules/ThreeActsStructures/services/UpdateThreeActsStructureService';
+import InjectableDependencies from '@shared/container/types';
 import { RequesterType } from '@shared/req/RequesterType';
 import { EmptyResponse } from '@shared/res/EmptyResponse';
 import { validate } from 'class-validator';
-import { container } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
+@injectable()
 export class UpdateThreeActsStructureResolver {
-  private readonly updateThreeActsStructureService: UpdateThreeActsStructureService =
-    container.resolve(UpdateThreeActsStructureService);
+  constructor(
+    @inject(InjectableDependencies.Services.UpdateThreeActsStructureService)
+    private readonly updateThreeActsStructureService: UpdateThreeActsStructureService
+  ) {}
 
   async handle({ _data }: RequesterType<UpdateThreeActsStructureInput>) {
     const data = new UpdateThreeActsStructureInput(_data);
