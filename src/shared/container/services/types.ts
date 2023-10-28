@@ -17,4 +17,5 @@ export enum Services {
   UpdateThreeActsStructureService = 'UpdateThreeActsStructureService',
 
   GetUserService = 'GetUserService',
+  CreateUserService = 'CreateUserService',
 }

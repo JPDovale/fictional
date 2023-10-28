@@ -3,16 +3,20 @@ import { UserResponse } from '@modules/Users/dtos/models/UserResponse';
 import { User } from '@modules/Users/models/User';
 import { CreateUserService } from '@modules/Users/services/CreateUserService';
 import { GetUserService } from '@modules/Users/services/GetUserService';
+import InjectableDependencies from '@shared/container/types';
 import { RequesterType } from '@shared/req/RequesterType';
 import { validate } from 'class-validator';
-import { container } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
+@injectable()
 export class GetUserResolver {
-  private readonly getUserService: GetUserService =
-    container.resolve(GetUserService);
+  constructor(
+    @inject(InjectableDependencies.Services.GetUserService)
+    private readonly getUserService: GetUserService,
 
-  private readonly createUserService: CreateUserService =
-    container.resolve(CreateUserService);
+    @inject(InjectableDependencies.Services.CreateUserService)
+    private readonly createUserService: CreateUserService
+  ) {}
 
   async handle({ _data }: RequesterType<GetUserInput>) {
     const data = new GetUserInput(_data);
@@ -42,8 +46,8 @@ export class GetUserResolver {
         user = newUserResponse.value.user;
       } else {
         return userResponse.send({
-          status: newUserResponse.value.status,
-          error: newUserResponse.value.message,
+          status: 400,
+          error: 'Some error ocurred',
         });
       }
     } else {
