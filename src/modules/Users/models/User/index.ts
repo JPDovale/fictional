@@ -108,4 +108,8 @@ export class User extends Entity<UserProps> {
   get admin() {
     return this.props.admin;
   }
+
+  touch() {
+    this.props.updatedAt = new Date();
+  }
 }

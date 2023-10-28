@@ -65,4 +65,8 @@ export class ThreeActsStructure extends AggregateRoot<ThreeActsStructureProps> {
   get updatedAt() {
     return this.props.updatedAt;
   }
+
+  touch() {
+    this.props.updatedAt = new Date();
+  }
 }

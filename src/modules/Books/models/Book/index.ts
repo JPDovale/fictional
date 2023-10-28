@@ -145,4 +145,8 @@ export class Book extends AggregateRoot<BookProps> {
   get updatedAt() {
     return this.props.updatedAt;
   }
+
+  touch() {
+    this.props.updatedAt = new Date();
+  }
 }

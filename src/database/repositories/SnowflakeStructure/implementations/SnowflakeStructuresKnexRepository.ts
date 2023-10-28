@@ -23,6 +23,8 @@ export class SnowflakeStructuresKnexRepository
   }
 
   async save(snowflakeStructure: SnowflakeStructure): Promise<void> {
+    snowflakeStructure.touch();
+
     await db('snowflake_structures')
       .where({ id: snowflakeStructure.id.toString() })
       .update(SnowflakeStructuresKnexMapper.toKnex(snowflakeStructure));

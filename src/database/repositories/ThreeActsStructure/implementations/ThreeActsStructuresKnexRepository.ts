@@ -13,6 +13,8 @@ export class ThreeActsStructuresKnexRepository
   }
 
   async save(threeActsStructure: ThreeActsStructure): Promise<void> {
+    threeActsStructure.touch();
+
     await db('three_acts_structures')
       .where({ id: threeActsStructure.id.toString() })
       .update(ThreeActsStructuresKnexMapper.toKnex(threeActsStructure));

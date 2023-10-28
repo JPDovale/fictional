@@ -49,6 +49,7 @@ export class BooksKnexRepository implements BooksRepository {
   }
 
   async save(book: Book): Promise<void> {
+    book.touch();
     await db('books')
       .where({ id: book.id.toString() })
       .update(BooksKnexMapper.toKnex(book));

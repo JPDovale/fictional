@@ -127,4 +127,8 @@ export class Project extends AggregateRoot<ProjectProps> {
   set persons(persons) {
     this.props.persons = persons;
   }
+
+  touch() {
+    this.props.updatedAt = new Date();
+  }
 }

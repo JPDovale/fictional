@@ -42,6 +42,8 @@ export class PersonsKnexRepository implements PersonsRepository {
   }
 
   async save(person: Person): Promise<void> {
+    person.touch();
+
     await db('persons')
       .where({ id: person.id.toString() })
       .update(PersonsKnexMapper.toKnex(person));

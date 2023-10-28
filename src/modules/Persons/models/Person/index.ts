@@ -126,4 +126,8 @@ export class Person extends AggregateRoot<PersonProps> {
   get snowflakeStructureBase() {
     return this.props.snowflakeStructureBase;
   }
+
+  touch() {
+    this.props.updatedAt = new Date();
+  }
 }

@@ -176,4 +176,8 @@ export class SnowflakeStructure extends AggregateRoot<SnowflakeStructureProps> {
   get updatedAt() {
     return this.props.updatedAt;
   }
+
+  touch() {
+    this.props.updatedAt = new Date();
+  }
 }
