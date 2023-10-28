@@ -2,13 +2,17 @@ import { RoutesAvailable } from '@config/routes/routesAvailable';
 import { CreateProjectInput } from '@modules/Projects/dtos/inputs/CreateProjectInput';
 import { ProjectsResponse } from '@modules/Projects/dtos/models/ProjectsResponse';
 import { CreateProjectService } from '@modules/Projects/services/CreateProjectService';
+import InjectableDependencies from '@shared/container/types';
 import { RequesterType } from '@shared/req/RequesterType';
 import { validate } from 'class-validator';
-import { container } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
+@injectable()
 export class CreateProjectResolver {
-  private readonly createProjectService: CreateProjectService =
-    container.resolve(CreateProjectService);
+  constructor(
+    @inject(InjectableDependencies.Services.CreateProjectService)
+    private readonly createProjectService: CreateProjectService
+  ) {}
 
   async handle({ _data }: RequesterType<CreateProjectInput>) {
     const data = new CreateProjectInput(_data);

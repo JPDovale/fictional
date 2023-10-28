@@ -1,13 +1,17 @@
 import { UpdateSnowflakeStructureInput } from '@modules/SnowflakeStructures/dtos/inputs/UpdateSnowflakeStructureInput';
 import { UpdateSnowflakeStructureService } from '@modules/SnowflakeStructures/services/UpdateSnowflakeStructureService';
+import InjectableDependencies from '@shared/container/types';
 import { RequesterType } from '@shared/req/RequesterType';
 import { EmptyResponse } from '@shared/res/EmptyResponse';
 import { validate } from 'class-validator';
-import { container } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
+@injectable()
 export class UpdateSnowflakeStructureResolver {
-  private readonly updateSnowflakeStructureService: UpdateSnowflakeStructureService =
-    container.resolve(UpdateSnowflakeStructureService);
+  constructor(
+    @inject(InjectableDependencies.Services.UpdateSnowflakeStructureService)
+    private readonly updateSnowflakeStructureService: UpdateSnowflakeStructureService
+  ) {}
 
   async handle({ _data }: RequesterType<UpdateSnowflakeStructureInput>) {
     const data = new UpdateSnowflakeStructureInput(_data);

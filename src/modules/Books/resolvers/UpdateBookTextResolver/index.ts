@@ -1,13 +1,17 @@
 import { UpdateBookTextInput } from '@modules/Books/dtos/inputs/UpdateBookTextInput';
 import { UpdateBookTextService } from '@modules/Books/services/UpdateBookTextService';
+import InjectableDependencies from '@shared/container/types';
 import { RequesterType } from '@shared/req/RequesterType';
 import { EmptyResponse } from '@shared/res/EmptyResponse';
 import { validate } from 'class-validator';
-import { container } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
+@injectable()
 export class UpdateBookTextResolver {
-  private readonly updateBookTextService: UpdateBookTextService =
-    container.resolve(UpdateBookTextService);
+  constructor(
+    @inject(InjectableDependencies.Services.UpdateBookTextService)
+    private readonly updateBookTextService: UpdateBookTextService
+  ) {}
 
   async handle({ _data }: RequesterType<UpdateBookTextInput>) {
     const data = new UpdateBookTextInput(_data);

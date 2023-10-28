@@ -1,52 +1,88 @@
-import { CreateProjectResolver } from '@modules/Projects/resolvers/CreateProjectResolver';
-import { GetProjectsResolver } from '@modules/Projects/resolvers/GetProjectsResolver';
-import { GetUserResolver } from '@modules/Users/resolvers/GetUserResolver';
-import { GetProjectResolver } from '@modules/Projects/resolvers/GetProjectResolver';
 import { BrowserWindow, app, dialog } from 'electron';
-import { CreatePersonResolver } from '@modules/Persons/resolvers/CreatePersonResolver';
-import { GetProjectPersonsResolver } from '@modules/Persons/resolvers/GetProjectPersonsResolver';
-import { GetPersonResolver } from '@modules/Persons/resolvers/GetPersonResolver';
-import { GetPersonsResolver } from '@modules/Persons/resolvers/GetPersonsResolver';
-import { UpdatePersonHistoryResolver } from '@modules/Persons/resolvers/UpdatePersonHistoryResolver';
-import { UpdateThreeActsStructureResolver } from '@modules/ThreeActsStructures/resolvers/UpdateThreeActsStructureResolver';
-import { UpdateSnowflakeStructureResolver } from '@modules/SnowflakeStructures/resolvers/UpdateSnowflakeStructureResolver';
-import { CreatePersonWithSnowflakeStructureResolver } from '@modules/Persons/resolvers/CreatePersonWithSnowflakeStructureResolver';
-import { UpdateBookTextResolver } from '@modules/Books/resolvers/UpdateBookTextResolver';
+import { container } from 'tsyringe';
+import InjectableDependencies from '@shared/container/types';
 
-const getUserResolver = new GetUserResolver();
-const createProjectResolver = new CreateProjectResolver();
-const getProjectsResolver = new GetProjectsResolver();
-const getProjectResolver = new GetProjectResolver();
-const updateThreeActsStructureResolver = new UpdateThreeActsStructureResolver();
-const createPersonResolver = new CreatePersonResolver();
-const createPersonWithSnowflakeStructureResolver =
-  new CreatePersonWithSnowflakeStructureResolver();
-const getProjectPersonsResolver = new GetProjectPersonsResolver();
-const getPersonResolver = new GetPersonResolver();
-const getPersonsResolver = new GetPersonsResolver();
-const updatePersonHistoryResolver = new UpdatePersonHistoryResolver();
-const updateSnowflakeStructureResolver = new UpdateSnowflakeStructureResolver();
-const updateBookTextResolver = new UpdateBookTextResolver();
+interface AccessorsDataType {
+  _data: any;
+  win: BrowserWindow | null;
+}
 
-const accessors = {
-  'get-user': async (_data: any, win: BrowserWindow | null) =>
-    getUserResolver.handle({ _data, win }),
+interface AccessorsType {
+  [x: string]: (props: AccessorsDataType) => Promise<any>;
+}
 
-  'create-project': async (_data: any, win: BrowserWindow | null) =>
-    createProjectResolver.handle({ _data, win }),
+const [
+  updateBookTextResolver,
 
-  'get-projects': async (_data: any, win: BrowserWindow | null) =>
-    getProjectsResolver.handle({ _data, win }),
+  createPersonResolver,
+  createPersonWithSnowflakeStructureResolver,
+  getPersonResolver,
+  getPersonsResolver,
+  getProjectPersonsResolver,
+  updatePersonHistoryResolver,
 
-  'get-project': async (_data: any, win: BrowserWindow | null) =>
-    getProjectResolver.handle({ _data, win }),
+  createProjectResolver,
+  getProjectResolver,
+  getProjectsResolver,
 
-  'update-three-acts-structure': async (
-    _data: any,
-    win: BrowserWindow | null
-  ) => updateThreeActsStructureResolver.handle({ _data, win }),
+  updateSnowflakeStructureResolver,
 
-  'open-dev-tools': async (_data: any, win: BrowserWindow | null) =>
+  updateThreeActsStructureResolver,
+
+  getUserResolver,
+]: Array<{ handle: (props: AccessorsDataType) => Promise<any> }> = [
+  container.resolve(InjectableDependencies.Resolvers.UpdateBookTextResolver),
+
+  container.resolve(InjectableDependencies.Resolvers.CreatePersonResolver),
+  container.resolve(
+    InjectableDependencies.Resolvers.CreatePersonWithSnowflakeStructureResolver
+  ),
+  container.resolve(InjectableDependencies.Resolvers.GetPersonResolver),
+  container.resolve(InjectableDependencies.Resolvers.GetPersonsResolver),
+  container.resolve(InjectableDependencies.Resolvers.GetProjectPersonsResolver),
+  container.resolve(
+    InjectableDependencies.Resolvers.UpdatePersonHistoryResolver
+  ),
+
+  container.resolve(InjectableDependencies.Resolvers.CreateProjectResolver),
+  container.resolve(InjectableDependencies.Resolvers.GetProjectResolver),
+  container.resolve(InjectableDependencies.Resolvers.GetProjectsResolver),
+
+  container.resolve(
+    InjectableDependencies.Resolvers.UpdateSnowflakeStructureResolver
+  ),
+
+  container.resolve(
+    InjectableDependencies.Resolvers.UpdateThreeActsStructureResolver
+  ),
+
+  container.resolve(InjectableDependencies.Resolvers.GetUserResolver),
+];
+
+const accessors: AccessorsType = {
+  'update-book-text': (props) => updateBookTextResolver.handle(props),
+
+  'create-person': (props) => createPersonResolver.handle(props),
+  'create-person-with-snowflake-structure': (props) =>
+    createPersonWithSnowflakeStructureResolver.handle(props),
+  'get-person': (props) => getPersonResolver.handle(props),
+  'get-persons': (props) => getPersonsResolver.handle(props),
+  'get-project-persons': (props) => getProjectPersonsResolver.handle(props),
+  'update-person-history': (props) => updatePersonHistoryResolver.handle(props),
+
+  'create-project': (props) => createProjectResolver.handle(props),
+  'get-project': (props) => getProjectResolver.handle(props),
+  'get-projects': (props) => getProjectsResolver.handle(props),
+
+  'update-snowflake-structure': (props) =>
+    updateSnowflakeStructureResolver.handle(props),
+
+  'update-three-acts-structure': (props) =>
+    updateThreeActsStructureResolver.handle(props),
+
+  'get-user': (props) => getUserResolver.handle(props),
+
+  'open-dev-tools': async ({ win }) =>
     app.isPackaged ? null : win?.webContents.openDevTools(),
 
   'open-image-selector': async () => {
@@ -63,32 +99,6 @@ const accessors = {
 
     return '';
   },
-
-  'create-person': async (_data: any, win: BrowserWindow | null) =>
-    createPersonResolver.handle({ _data, win }),
-
-  'get-project-persons': async (_data: any, win: BrowserWindow | null) =>
-    getProjectPersonsResolver.handle({ _data, win }),
-
-  'get-person': async (_data: any, win: BrowserWindow | null) =>
-    getPersonResolver.handle({ _data, win }),
-
-  'get-persons': async (_data: any, win: BrowserWindow | null) =>
-    getPersonsResolver.handle({ _data, win }),
-
-  'update-person-history': async (_data: any, win: BrowserWindow | null) =>
-    updatePersonHistoryResolver.handle({ _data, win }),
-
-  'update-snowflake-structure': async (_data: any, win: BrowserWindow | null) =>
-    updateSnowflakeStructureResolver.handle({ _data, win }),
-
-  'create-person-with-snowflake-structure': async (
-    _data: any,
-    win: BrowserWindow | null
-  ) => createPersonWithSnowflakeStructureResolver.handle({ _data, win }),
-
-  'update-book-text': async (_data: any, win: BrowserWindow | null) =>
-    updateBookTextResolver.handle({ _data, win }),
 };
 
 export type Accessors = keyof typeof accessors;

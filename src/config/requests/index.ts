@@ -14,7 +14,7 @@ export class Requester {
     data: RequesterData,
     win: BrowserWindow | null
   ) {
-    const response = await accessors[data.access](data.data, win);
+    const response = await accessors[data.access]({ _data: data.data, win });
 
     console.log(response);
 
