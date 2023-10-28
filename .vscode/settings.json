@@ -5,6 +5,17 @@
     ".eslintignore": "ignore"
   },
 
+  "material-icon-theme.folders.associations": {
+    "implementations" : "packages",
+    "inputs": "import",
+    "dtos": "typescript",
+    "store": "database",
+    "repositories": "database",
+    "main": "app",
+    "renderer": "review",
+    "req": "resource",
+  },
+
   "eslint.validate": [
     "javascript",
     "javascriptreact",
@@ -29,6 +40,8 @@
   },
   "cSpell.words": [
     "Ingermanson",
+    "modelate",
+    "Modelate",
     "Pilcrow"
   ]
 }

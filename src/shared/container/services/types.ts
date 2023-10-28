@@ -11,6 +11,7 @@ export enum Services {
   CreateProjectService = 'CreateProjectService',
   GetProjectService = 'GetProjectService',
   GetProjectsService = 'GetProjectsService',
+  ModelateBlankProjectOfTypeBookService = 'ModelateBlankProjectOfTypeBookService',
 
   UpdateSnowflakeStructureService = 'UpdateSnowflakeStructureService',
 

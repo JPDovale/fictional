@@ -1,7 +1,5 @@
-import { getDatabaseImagesPath } from '@config/files/getDatabasePath';
 import { ProjectsRepository } from '@database/repositories/Project/contracts/ProjectsRepository';
 import { UsersRepository } from '@database/repositories/User/contracts/UsersRepository';
-import { Book } from '@modules/Books/models/Book';
 import {
   Project,
   ProjectStructureType,
@@ -12,19 +10,15 @@ import {
   ObjectFeatures,
 } from '@modules/Projects/models/Project/valueObjects/Features';
 import { UserInProject } from '@modules/Projects/models/Project/valueObjects/UserInProject';
-import { ProjectBookList } from '@modules/Projects/models/ProjectBookList';
-import { SnowflakeStructure } from '@modules/SnowflakeStructures/models/SnowflakeStructure';
-import { ThreeActsStructure } from '@modules/ThreeActsStructures/models/ThreeActsStructure';
 import { UserNotFount } from '@modules/Users/services/_errors/UserNotFound';
 import InjectableDependencies from '@shared/container/types';
 import { Either, left, right } from '@shared/core/error/Either';
 import { Optional } from '@shared/core/types/Optional';
 import { ResourceNotCreated } from '@shared/errors/ResourceNotCreated';
 import { UnexpectedError } from '@shared/errors/UnexpectedError';
-import path from 'path';
-import fs from 'fs/promises';
 import { inject, injectable } from 'tsyringe';
-import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
+import { ImageProvider } from '@providers/base/Image/contracts/ImageProvider';
+import { ModelateBlankProjectOfTypeBookService } from '../ModelateBlankProjectOfTypeBookService';
 
 interface BookRequest {
   title: string;
@@ -69,7 +63,15 @@ export class CreateProjectService {
     private readonly usersRepository: UsersRepository,
 
     @inject(InjectableDependencies.Repositories.ProjectsRepository)
-    private readonly projectsRepository: ProjectsRepository
+    private readonly projectsRepository: ProjectsRepository,
+
+    @inject(
+      InjectableDependencies.Services.ModelateBlankProjectOfTypeBookService
+    )
+    private readonly modelateBlankProjectOfTypeBookService: ModelateBlankProjectOfTypeBookService,
+
+    @inject(InjectableDependencies.Providers.ImageProvider)
+    private readonly imageProvider: ImageProvider
   ) {}
 
   async execute({
@@ -87,22 +89,17 @@ export class CreateProjectService {
       return left(new UserNotFount());
     }
 
-    let dest: string | null = null;
+    const secureImageUrl = await this.imageProvider.getSecurePath(
+      imageUrl ?? null
+    );
 
-    if (imageUrl) {
-      const destination = path.join(
-        getDatabaseImagesPath(),
-        new UniqueEntityId().toString().concat(path.basename(imageUrl))
-      );
-
-      await fs.copyFile(imageUrl, destination);
-
-      dest = destination;
+    if (imageUrl && !secureImageUrl) {
+      return left(new UnexpectedError());
     }
 
-    const project = Project.create({
+    const blankProject = Project.create({
       name,
-      imageUrl: dest && process.platform === 'linux' ? `file://${dest}` : dest,
+      imageUrl: secureImageUrl,
       features: Features.createFromObject(features),
       userId: user.id,
       password,
@@ -111,76 +108,27 @@ export class CreateProjectService {
       structure,
     });
 
-    if (project.type === 'book') {
-      const books: Book[] = [];
-
-      if (
-        project.features.featureIsApplied('multi-book') &&
-        booksReceived.length >= 2 &&
-        booksReceived.length <= 20
-      ) {
-        booksReceived.forEach((book) => {
-          const newBook = Book.create({
-            title: book.title,
-            imageUrl:
-              book.imageUrl && process.platform === 'linux'
-                ? `file://${book.imageUrl}`
-                : book.imageUrl,
-            projectId: project.id,
-            userId: user.id,
-            structure,
-          });
-
-          if (newBook.structure === 'three-acts') {
-            const threeActsForBook = ThreeActsStructure.create({});
-
-            newBook.threeActsStructure = threeActsForBook;
-          }
-
-          if (newBook.structure === 'snowflake') {
-            project.features.enable('person');
-
-            const snowflakeForBook = SnowflakeStructure.create({});
-
-            newBook.snowflakeStructure = snowflakeForBook;
-          }
-
-          books.push(newBook);
-        });
-      } else {
-        const newBook = Book.create({
-          projectId: project.id,
-          title: booksReceived[0]?.title ?? project.name,
-          userId: user.id,
-          imageUrl: booksReceived[0]?.imageUrl ?? project.imageUrl,
-          structure,
-        });
-
-        if (newBook.structure === 'three-acts') {
-          const threeActsForBook = ThreeActsStructure.create({});
-          newBook.threeActsStructure = threeActsForBook;
+    if (blankProject.type === 'book') {
+      const response = await this.modelateBlankProjectOfTypeBookService.execute(
+        {
+          blankProject,
+          booksToProject: booksReceived,
         }
+      );
 
-        if (newBook.structure === 'snowflake') {
-          const snowflakeForBook = SnowflakeStructure.create({});
-          newBook.snowflakeStructure = snowflakeForBook;
-        }
-
-        books.push(newBook);
+      if (response.isLeft()) {
+        return left(response.value);
       }
 
-      project.books = new ProjectBookList();
-      books.forEach((book) => {
-        project.books.add(book);
-      });
-
-      await this.projectsRepository.create(project);
+      const { modelledProject } = response.value;
+      await this.projectsRepository.create(modelledProject);
 
       return right({
-        project,
+        project: modelledProject,
       });
     }
 
+    if (imageUrl) await this.imageProvider.free(imageUrl);
     return left(new UnexpectedError());
   }
 }

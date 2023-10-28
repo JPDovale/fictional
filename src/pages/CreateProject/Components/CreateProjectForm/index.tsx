@@ -488,6 +488,7 @@ export function CreateProjectForm() {
             <div className="grid grid-cols-4 py-2 justify-between gap-x-10 gap-y-4">
               <Checkbox.Root>
                 <Checkbox.CheckerRoot
+                  checked={watchedFields.structure['three-acts']}
                   onCheckedChange={() =>
                     selectStructureTypeOfProject('three-acts')
                   }
@@ -502,8 +503,9 @@ export function CreateProjectForm() {
                 </Checkbox.Icon>
               </Checkbox.Root>
 
-              <Checkbox.Root disabled>
+              <Checkbox.Root>
                 <Checkbox.CheckerRoot
+                  checked={watchedFields.structure.snowflake}
                   onCheckedChange={() =>
                     selectStructureTypeOfProject('snowflake')
                   }
@@ -520,6 +522,7 @@ export function CreateProjectForm() {
 
               <Checkbox.Root disabled>
                 <Checkbox.CheckerRoot
+                  checked={watchedFields.structure['hero-journey']}
                   onCheckedChange={() =>
                     selectStructureTypeOfProject('hero-journey')
                   }
