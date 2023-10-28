@@ -8,6 +8,7 @@ export interface PersonFile {
   image_url: string | null;
   image_filename: string | null;
   project_id: string;
+  book_id: string | null;
   user_id: string;
   created_at: Date;
   updated_at: Date;

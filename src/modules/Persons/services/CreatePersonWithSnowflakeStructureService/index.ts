@@ -93,6 +93,7 @@ export class CreatePersonWithSnowflakeStructureService {
       userId: user.id,
       imageUrl,
       snowflakeStructureBase: PersonSnowflakeStructureBase.create({}),
+      bookId: book.id,
     });
 
     snowflakeStructure.persons = new SnowflakeStructurePersonList();

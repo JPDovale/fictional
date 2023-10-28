@@ -24,6 +24,7 @@ export interface PersonProps {
 
   userId: UniqueEntityId;
   projectId: UniqueEntityId;
+  bookId: UniqueEntityId | null;
 }
 
 export class Person extends AggregateRoot<PersonProps> {
@@ -42,6 +43,7 @@ export class Person extends AggregateRoot<PersonProps> {
       | 'lastName'
       | 'snowflakeStructureBase'
       | 'biographic'
+      | 'bookId'
     >,
     id?: UniqueEntityId
   ) {
@@ -60,6 +62,7 @@ export class Person extends AggregateRoot<PersonProps> {
       userId: props.userId,
       projectId: props.projectId,
       snowflakeStructureBase: props.snowflakeStructureBase ?? null,
+      bookId: props.bookId ?? null,
     };
 
     const person = new Person(personProps, id);

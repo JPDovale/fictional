@@ -4,13 +4,12 @@ import { ProjectsRepository } from '@database/repositories/Project/contracts/Pro
 import { SnowflakeStructuresRepository } from '@database/repositories/SnowflakeStructure/contracts/SnowflakeStructuresRepository';
 import { ThreeActsStructuresRepository } from '@database/repositories/ThreeActsStructure/contracts/ThreeActsStructuresRepository';
 import { UsersRepository } from '@database/repositories/User/contracts/UsersRepository';
-// import { Person } from '@modules/Persons/models/Person';
 import { Project } from '@modules/Projects/models/Project';
 import { UserInProject } from '@modules/Projects/models/Project/valueObjects/UserInProject';
 import { ProjectBookList } from '@modules/Projects/models/ProjectBookList';
 import { ProjectPersonList } from '@modules/Projects/models/ProjectPersonList';
 import { SnowflakeStructure } from '@modules/SnowflakeStructures/models/SnowflakeStructure';
-// import { SnowflakeStructurePersonList } from '@modules/SnowflakeStructures/models/SnowflakeStructurePersonList';
+import { SnowflakeStructurePersonList } from '@modules/SnowflakeStructures/models/SnowflakeStructurePersonList';
 import { ThreeActsStructure } from '@modules/ThreeActsStructures/models/ThreeActsStructure';
 import { UserNotFount } from '@modules/Users/services/_errors/UserNotFound';
 import InjectableDependencies from '@shared/container/types';
@@ -101,9 +100,7 @@ export class GetProjectService {
     });
 
     const threeActsStructures = await Promise.all(findThreeActsOfBooks);
-    // const snowflakeStructuresResponses = await Promise.all(
-    //   findSnowflakeOfBooks
-    // );
+    const snowflakeStructures = await Promise.all(findSnowflakeOfBooks);
 
     threeActsStructures.forEach((TAS) => {
       if (!TAS) return;
@@ -115,33 +112,21 @@ export class GetProjectService {
       });
     });
 
-    // eslint-disable-next-line no-restricted-syntax
-    // for (const SFRes of snowflakeStructuresResponses) {
-    //   if (SFRes.isRight() && SFRes.value) {
-    //     const SFS = SFRes.value;
-    //     const implementorIndex = books.findIndex((b) =>
-    //       b.id.equals(SFS.implementorId)
-    //     );
-    //     const personsThisSFSResponse =
-    //       // eslint-disable-next-line no-await-in-loop
-    //       await this.personsRepository.findBySnowflakeStructureId(
-    //         SFS.id.toString()
-    //       );
-    //     const personsThisSFS: Person[] = [];
+    snowflakeStructures.forEach(async (SFS) => {
+      if (!SFS) return;
+      const bookIndex = books.findIndex((b) =>
+        b.snowflakeStructureId!.equals(SFS.id)
+      );
 
-    //     if (personsThisSFSResponse.isRight()) {
-    //       personsThisSFSResponse.value.forEach((person) =>
-    //         personsThisSFS.push(person)
-    //       );
-    //     }
+      const personsThisSFS = await this.personsRepository.findByBookId(
+        books[bookIndex].id.toString()
+      );
 
-    //     SFS.persons = new SnowflakeStructurePersonList(personsThisSFS);
-    //     books[implementorIndex].snowflakeStructure = SFS;
-    //   }
-    // }
+      SFS.persons = new SnowflakeStructurePersonList(personsThisSFS);
+      books[bookIndex].snowflakeStructure = SFS;
+    });
 
     project.books = new ProjectBookList(books);
-
     project.creator = UserInProject.createCreator(user);
 
     return right({ project });

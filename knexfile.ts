@@ -1,6 +1,6 @@
-import { getDatabasePath } from '@config/files/getDatabasePath';
 import type { Knex } from 'knex';
 import path from 'path';
+import { getDatabasePath } from './src/config/files/getDatabasePath';
 
 // Update with your config settings.
 

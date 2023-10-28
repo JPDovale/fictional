@@ -9,9 +9,7 @@ export abstract class PersonsRepository {
 
   abstract findByUserId(userId: string): Promise<Person[]>;
 
-  abstract findBySnowflakeStructureId(
-    snowflakeStructureId: string
-  ): Promise<Person[]>;
+  abstract findByBookId(bookId: string): Promise<Person[]>;
 
   abstract findById(id: string): Promise<Person | null>;
 

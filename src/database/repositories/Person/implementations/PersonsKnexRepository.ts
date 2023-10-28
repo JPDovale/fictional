@@ -28,9 +28,12 @@ export class PersonsKnexRepository implements PersonsRepository {
     return persons.map(PersonsKnexMapper.toEntity);
   }
 
-  // snowflakeStructureId: string
-  findBySnowflakeStructureId(): Promise<Person[]> {
-    throw new Error('Method not implemented.');
+  async findByBookId(bookId: string): Promise<Person[]> {
+    const persons = await db('persons').where({
+      book_id: bookId,
+    });
+
+    return persons.map(PersonsKnexMapper.toEntity);
   }
 
   async findById(id: string): Promise<Person | null> {
