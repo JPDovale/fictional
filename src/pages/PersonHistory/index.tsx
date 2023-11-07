@@ -1,3 +1,4 @@
+import { Page404 } from '@components/404';
 import { Editor } from '@components/Editor';
 import { useEditor } from '@hooks/useEditor';
 import { usePersons } from '@store/Persons';
@@ -44,6 +45,8 @@ export function PersonHistoryPage() {
       },
     ],
   });
+
+  if (project?.structure === 'snowflake') return <Page404 />;
 
   return (
     <main className="flex-1 p-4 flex flex-col gap-4 min-w-[45rem] mx-auto max-w-[45rem]">

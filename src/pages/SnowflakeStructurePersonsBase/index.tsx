@@ -2,6 +2,8 @@ import { PersonCard } from '@components/PersonsComponents/PersonCard';
 import { SnowflakeStructureNavigate } from '@components/SnowflakeStructureComponents/SnowflakeStructureNavigation';
 import { useBooks } from '@store/Books';
 import { useProjects } from '@store/Projects';
+import { RoutesAvailable } from '@config/routes/routesAvailable';
+import { useRoutes } from '@store/Routes';
 import { NewPersonForm } from './components/NewPersonForm';
 
 export function SnowflakeStructurePersonsBasePage() {
@@ -15,10 +17,12 @@ export function SnowflakeStructurePersonsBasePage() {
     isLoading: state.isLoading,
   }));
 
+  const { setPathname } = useRoutes((state) => ({
+    setPathname: state.setPathname,
+  }));
+
   const book = bookSelected || project?.books[0];
   const persons = book?.snowflakeStructure?.persons ?? [];
-
-  console.log(project);
 
   // const editorStateRef = useRef<string>(
   //   (isLoading ? '<p></p>' : book?.snowflakeStructure?.centralIdia) ?? '<p></p>'
@@ -79,7 +83,19 @@ export function SnowflakeStructurePersonsBasePage() {
         >
           {persons.length !== 0 ? (
             persons.map((person) => (
-              <PersonCard key={person.id} person={person} onClick={() => {}} />
+              <PersonCard
+                key={person.id}
+                person={person}
+                onClick={() =>
+                  setPathname({
+                    routerParameterized:
+                      RoutesAvailable.projectStructurePersonBaseFunction.to(
+                        person.projectId,
+                        person.id
+                      ),
+                  })
+                }
+              />
             ))
           ) : (
             <span className="text-xs opacity-50">Nenhum personagem criado</span>

@@ -7,6 +7,7 @@ import { ProjectConfigPage } from '@pages/ProjectConfig';
 import { SnowflakeStructureCentralIdiaPage } from '@pages/SnowflakeStructureCentralIdia';
 import { SnowflakeStructureExpansionToPagePage } from '@pages/SnowflakeStructureExpansionToPage';
 import { SnowflakeStructureExpansionToParagraphPage } from '@pages/SnowflakeStructureExpansionToParagraph';
+import { SnowflakeStructurePersonBaseFunctionPage } from '@pages/SnowflakeStructurePersonBaseFunction';
 import { SnowflakeStructurePersonsBasePage } from '@pages/SnowflakeStructurePersonsBase';
 import { StructureProjectPage } from '@pages/StructureProject';
 import { Route } from 'react-router-dom';
@@ -38,6 +39,11 @@ export function ProjectRoutes() {
     <Route
       path={RoutesAvailable.projectStructurePersonsBase.path}
       element={<SnowflakeStructurePersonsBasePage />}
+    />,
+
+    <Route
+      path={RoutesAvailable.projectStructurePersonBaseFunction.path}
+      element={<SnowflakeStructurePersonBaseFunctionPage />}
     />,
 
     <Route

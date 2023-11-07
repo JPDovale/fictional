@@ -41,6 +41,14 @@ export const ProjectStructureRoutes = {
       )}`,
   },
 
+  projectStructurePersonBaseFunction: {
+    path: '/projects/:id/structure/personsBase/:personId/personBaseFunction',
+    to: (id: string, personId: string) =>
+      `/projects/${id}/structure/personsBase/${personId}/personBaseFunction${makeParameterizedRouter(
+        RoutesAvailable.projectStructurePersonBaseFunction.path
+      )}`,
+  },
+
   projectStructurePage: {
     path: '/projects/:id/structure/page',
     to: (id: string) =>
