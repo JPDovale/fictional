@@ -5,6 +5,7 @@ import { GetPersonResolver } from '@modules/Persons/resolvers/GetPersonResolver'
 import { GetPersonsResolver } from '@modules/Persons/resolvers/GetPersonsResolver';
 import { GetProjectPersonsResolver } from '@modules/Persons/resolvers/GetProjectPersonsResolver';
 import { UpdatePersonHistoryResolver } from '@modules/Persons/resolvers/UpdatePersonHistoryResolver';
+import { UpdatePersonSnowflakeResolver } from '@modules/Persons/resolvers/UpdatePersonSnowflakeResolver';
 import { Resolvers } from '../types';
 
 container.registerSingleton<CreatePersonResolver>(
@@ -35,4 +36,9 @@ container.registerSingleton<GetProjectPersonsResolver>(
 container.registerSingleton<UpdatePersonHistoryResolver>(
   Resolvers.UpdatePersonHistoryResolver,
   UpdatePersonHistoryResolver
+);
+
+container.registerSingleton<UpdatePersonSnowflakeResolver>(
+  Resolvers.UpdatePersonSnowflakeResolver,
+  UpdatePersonSnowflakeResolver
 );

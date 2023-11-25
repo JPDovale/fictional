@@ -1,7 +1,16 @@
 import { Button } from '@components/useFull/Button';
 import * as Tabs from '@radix-ui/react-tabs';
 import * as Avatar from '@radix-ui/react-avatar';
-import { PersonStanding, Printer, VenetianMask } from 'lucide-react';
+import {
+  ArrowBigLeft,
+  BookOpenCheck,
+  Building,
+  Eye,
+  MountainSnow,
+  MoveUpRight,
+  Target,
+  VenetianMask,
+} from 'lucide-react';
 import { usePersons } from '@store/Persons';
 import { getDate } from '@utils/dates/getDate';
 import { useEffect, useState } from 'react';
@@ -11,9 +20,9 @@ import { useRoutes } from '@store/Routes';
 import { useTheme } from '@hooks/useTheme';
 import { avatarImageStyles, avatarStyles, personNavStyles } from './styles';
 
-export function PersonNavigate() {
-  const [isOpen, setIsOpen] = useState(true);
-  const [isToShowContent, setIsToShowContent] = useState(true);
+export function PersonExpansionSnowFlakeNavigation() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isToShowContent, setIsToShowContent] = useState(false);
 
   const { person } = usePersons((state) => ({ person: state.currentPerson }));
   const { theme } = useTheme();
@@ -50,7 +59,7 @@ export function PersonNavigate() {
           value={isOpen ? 'person' : 'editor'}
           onValueChange={(e) => handleChangeTab(e)}
         >
-          <Tabs.List className="flex justify-between gap-4 p-2 pb-3 border-b border-b-base900">
+          <Tabs.List className="flex justify-between gap-4 p-2 pb-3 border-b border-b-expansion900">
             <Tabs.Trigger
               value="person"
               className="flex w-full flex-col rounded-md data-[state=active]:bg-gray100"
@@ -160,32 +169,14 @@ export function PersonNavigate() {
               <Button.Root
                 size="xs"
                 active={
-                  RoutesAvailable.projectPerson.path === makeBaseUrl(pathname)
+                  RoutesAvailable.projectStructurePersonExpansionFunction
+                    .path === makeBaseUrl(pathname)
                 }
-                onClick={() =>
-                  setPathname({
-                    routerParameterized: RoutesAvailable.projectPerson.to(
-                      person!.projectId,
-                      person!.id
-                    ),
-                  })
-                }
-              >
-                <Button.Icon>
-                  <PersonStanding />
-                </Button.Icon>
-              </Button.Root>
-
-              <Button.Root
-                size="xs"
-                active={
-                  RoutesAvailable.projectPersonHistory.path ===
-                  makeBaseUrl(pathname)
-                }
+                title="Função"
                 onClick={() =>
                   setPathname({
                     routerParameterized:
-                      RoutesAvailable.projectPersonHistory.to(
+                      RoutesAvailable.projectStructurePersonExpansionFunction.to(
                         person!.projectId,
                         person!.id
                       ),
@@ -193,7 +184,134 @@ export function PersonNavigate() {
                 }
               >
                 <Button.Icon>
-                  <Printer />
+                  <Building />
+                </Button.Icon>
+              </Button.Root>
+
+              <Button.Root
+                size="xs"
+                title="Objetivo"
+                active={
+                  RoutesAvailable.projectStructurePersonExpansionObjective
+                    .path === makeBaseUrl(pathname)
+                }
+                onClick={() =>
+                  setPathname({
+                    routerParameterized:
+                      RoutesAvailable.projectStructurePersonExpansionObjective.to(
+                        person!.projectId,
+                        person!.id
+                      ),
+                  })
+                }
+              >
+                <Button.Icon>
+                  <Target />
+                </Button.Icon>
+              </Button.Root>
+
+              <Button.Root
+                size="xs"
+                title="Motivação"
+                active={
+                  RoutesAvailable.projectStructurePersonExpansionMotivation
+                    .path === makeBaseUrl(pathname)
+                }
+                onClick={() =>
+                  setPathname({
+                    routerParameterized:
+                      RoutesAvailable.projectStructurePersonExpansionMotivation.to(
+                        person!.projectId,
+                        person!.id
+                      ),
+                  })
+                }
+              >
+                <Button.Icon>
+                  <MoveUpRight />
+                </Button.Icon>
+              </Button.Root>
+
+              <Button.Root
+                size="xs"
+                title="Obstaculo"
+                active={
+                  RoutesAvailable.projectStructurePersonExpansionObstacle
+                    .path === makeBaseUrl(pathname)
+                }
+                onClick={() =>
+                  setPathname({
+                    routerParameterized:
+                      RoutesAvailable.projectStructurePersonExpansionObstacle.to(
+                        person!.projectId,
+                        person!.id
+                      ),
+                  })
+                }
+              >
+                <Button.Icon>
+                  <MountainSnow />
+                </Button.Icon>
+              </Button.Root>
+
+              <Button.Root
+                size="xs"
+                title="Aprendizado"
+                active={
+                  RoutesAvailable.projectStructurePersonExpansionApprenticeship
+                    .path === makeBaseUrl(pathname)
+                }
+                onClick={() =>
+                  setPathname({
+                    routerParameterized:
+                      RoutesAvailable.projectStructurePersonExpansionApprenticeship.to(
+                        person!.projectId,
+                        person!.id
+                      ),
+                  })
+                }
+              >
+                <Button.Icon>
+                  <BookOpenCheck />
+                </Button.Icon>
+              </Button.Root>
+
+              <Button.Root
+                size="xs"
+                title="Enredo pela visão desse personagem"
+                active={
+                  RoutesAvailable.projectStructurePersonExpansionPovByThisEye
+                    .path === makeBaseUrl(pathname)
+                }
+                onClick={() =>
+                  setPathname({
+                    routerParameterized:
+                      RoutesAvailable.projectStructurePersonExpansionPovByThisEye.to(
+                        person!.projectId,
+                        person!.id
+                      ),
+                  })
+                }
+              >
+                <Button.Icon>
+                  <Eye />
+                </Button.Icon>
+              </Button.Root>
+
+              <Button.Root
+                size="xs"
+                title="Voltar"
+                onClick={() =>
+                  setPathname({
+                    routerParameterized:
+                      RoutesAvailable.projectStructureCentralIdia.to(
+                        person!.projectId
+                      ),
+                  })
+                }
+              >
+                <Button.Icon>
+                  <ArrowBigLeft />
                 </Button.Icon>
               </Button.Root>
             </div>

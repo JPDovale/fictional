@@ -169,26 +169,7 @@ export function useSnowflakeStructure() {
         RoutesAvailable.projectBookStructurePage;
 
       const firstPersonInSnowflake = snowflakeStructure?.persons[0];
-      const isDisabled =
-        !firstPersonInSnowflake ||
-        !firstPersonInSnowflake.snowflakeStructureBase?.apprenticeship ||
-        !firstPersonInSnowflake.snowflakeStructureBase?.function ||
-        !firstPersonInSnowflake.snowflakeStructureBase?.motivation ||
-        !firstPersonInSnowflake.snowflakeStructureBase?.objective ||
-        !firstPersonInSnowflake.snowflakeStructureBase?.obstacle ||
-        !firstPersonInSnowflake.snowflakeStructureBase?.povByThisEye ||
-        firstPersonInSnowflake.snowflakeStructureBase?.apprenticeship ===
-          emptyEditor ||
-        firstPersonInSnowflake.snowflakeStructureBase?.function ===
-          emptyEditor ||
-        firstPersonInSnowflake.snowflakeStructureBase?.motivation ===
-          emptyEditor ||
-        firstPersonInSnowflake.snowflakeStructureBase?.objective ===
-          emptyEditor ||
-        firstPersonInSnowflake.snowflakeStructureBase?.obstacle ===
-          emptyEditor ||
-        firstPersonInSnowflake.snowflakeStructureBase?.povByThisEye ===
-          emptyEditor;
+      const isDisabled = !firstPersonInSnowflake;
 
       const verification: Verification = {
         activeInProject: verifyRouteActivity(pathProjectPage),
@@ -234,6 +215,29 @@ export function useSnowflakeStructure() {
       return verification;
     }
 
+    function verifyInterweaving() {
+      const { path: pathProjectInterweaving, to: toProjectInterweaving } =
+        RoutesAvailable.projectStructureInterweaving;
+      const { path: pathBookInterweaving, to: toBookInterweaving } =
+        RoutesAvailable.projectBookStructureInterweaving;
+
+      const firstPersonInSnowflake = snowflakeStructure?.persons[0];
+      const isDisabled =
+        !firstPersonInSnowflake ||
+        !firstPersonInSnowflake.snowflakeStructureExpansion;
+
+      const verification: Verification = {
+        activeInProject: verifyRouteActivity(pathProjectInterweaving),
+        activeInBook: verifyRouteActivity(pathBookInterweaving),
+        disabled: disableLock ? false : isDisabled,
+        redirectorProject: (projectId) => toProjectInterweaving(projectId),
+        redirectorBook: (projectId, bookId) =>
+          toBookInterweaving(projectId, bookId),
+      };
+
+      return verification;
+    }
+
     function verifyPersonsFinal() {
       const { path: pathProjectPersonsFinal, to: toProjectPersonsFinal } =
         RoutesAvailable.projectStructurePersonsFinal;
@@ -252,26 +256,6 @@ export function useSnowflakeStructure() {
         redirectorProject: (projectId) => toProjectPersonsFinal(projectId),
         redirectorBook: (projectId, bookId) =>
           toBookPersonsFinal(projectId, bookId),
-      };
-
-      return verification;
-    }
-
-    function verifyInterweaving() {
-      const { path: pathProjectInterweaving, to: toProjectInterweaving } =
-        RoutesAvailable.projectStructureInterweaving;
-      const { path: pathBookInterweaving, to: toBookInterweaving } =
-        RoutesAvailable.projectBookStructureInterweaving;
-
-      const isDisabled = true;
-
-      const verification: Verification = {
-        activeInProject: verifyRouteActivity(pathProjectInterweaving),
-        activeInBook: verifyRouteActivity(pathBookInterweaving),
-        disabled: disableLock ? false : isDisabled,
-        redirectorProject: (projectId) => toProjectInterweaving(projectId),
-        redirectorBook: (projectId, bookId) =>
-          toBookInterweaving(projectId, bookId),
       };
 
       return verification;

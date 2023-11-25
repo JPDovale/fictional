@@ -5,7 +5,7 @@ import { usePersons } from '@store/Persons';
 import { useProjects } from '@store/Projects';
 import { useEffect, useRef } from 'react';
 
-export function SnowflakeStructurePersonBaseFunctionPage() {
+export function SnowflakeStructurePersonBaseMotivationPage() {
   const { project } = useProjects((state) => ({
     project: state.currentProject,
     updateSnowflakeStructure: state.updateSnowflakeStructure,
@@ -18,21 +18,22 @@ export function SnowflakeStructurePersonBaseFunctionPage() {
   }));
 
   const editorStateRef = useRef<string>(
-    (isLoading ? '<p></p>' : person?.snowflakeStructureBase?.function) ??
+    (isLoading ? '<p></p>' : person?.snowflakeStructureBase?.motivation) ??
       '<p></p>'
   );
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const currentSnowflakeFunction = person?.snowflakeStructureBase?.function;
+      const currentSnowflakeMotivation =
+        person?.snowflakeStructureBase?.motivation;
 
       if (
         !isLoading &&
         person &&
-        currentSnowflakeFunction !== editorStateRef.current
+        currentSnowflakeMotivation !== editorStateRef.current
       ) {
         updateSnowflake({
-          baseFunction: editorStateRef.current,
+          baseMotivation: editorStateRef.current,
         });
       }
     }, 1000 * 2);
@@ -47,7 +48,7 @@ export function SnowflakeStructurePersonBaseFunctionPage() {
   const { Editors } = useEditor({
     editors: [
       {
-        id: 'personFunction',
+        id: 'personMotivation',
         onUpdate: savePersonFunction,
         preValue: editorStateRef.current,
         useProject: [project!],
@@ -58,14 +59,13 @@ export function SnowflakeStructurePersonBaseFunctionPage() {
   return (
     <>
       <main className="flex-1 py-4 min-w-[45rem] mx-auto max-w-[45rem]">
-        <h2 className="text-3xl font-bold mb-4">Função base do personagem</h2>
-        <span className="text-sm text-justify">
-          Definir uma boa função para o seu personagem é de suma importância
-          para que ele não fique solto no meio da história.
-        </span>
+        <h2 className="text-3xl font-bold mb-4">
+          Motivação base do personagem
+        </h2>
+        <span className="text-sm text-justify">Definir depois</span>
 
-        {Editors.personFunction && (
-          <Editor editor={Editors.personFunction.editor} />
+        {Editors.personMotivation && (
+          <Editor editor={Editors.personMotivation.editor} />
         )}
       </main>
       <PersonSnowFlakeNavigation />

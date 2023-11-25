@@ -49,11 +49,43 @@ export const ProjectStructureRoutes = {
       )}`,
   },
 
-  projectStructurePage: {
-    path: '/projects/:id/structure/page',
-    to: (id: string) =>
-      `/projects/${id}/structure/page${makeParameterizedRouter(
-        RoutesAvailable.projectStructurePage.path
+  projectStructurePersonBaseObjective: {
+    path: '/projects/:id/structure/personsBase/:personId/personBaseObjective',
+    to: (id: string, personId: string) =>
+      `/projects/${id}/structure/personsBase/${personId}/personBaseObjective${makeParameterizedRouter(
+        RoutesAvailable.projectStructurePersonBaseObjective.path
+      )}`,
+  },
+
+  projectStructurePersonBaseMotivation: {
+    path: '/projects/:id/structure/personsBase/:personId/personBaseMotivation',
+    to: (id: string, personId: string) =>
+      `/projects/${id}/structure/personsBase/${personId}/personBaseMotivation${makeParameterizedRouter(
+        RoutesAvailable.projectStructurePersonBaseMotivation.path
+      )}`,
+  },
+
+  projectStructurePersonBaseObstacle: {
+    path: '/projects/:id/structure/personsBase/:personId/personBaseObstacle',
+    to: (id: string, personId: string) =>
+      `/projects/${id}/structure/personsBase/${personId}/personBaseObstacle${makeParameterizedRouter(
+        RoutesAvailable.projectStructurePersonBaseObstacle.path
+      )}`,
+  },
+
+  projectStructurePersonBaseApprenticeship: {
+    path: '/projects/:id/structure/personsBase/:personId/personBaseApprenticeship',
+    to: (id: string, personId: string) =>
+      `/projects/${id}/structure/personsBase/${personId}/personBaseApprenticeship${makeParameterizedRouter(
+        RoutesAvailable.projectStructurePersonBaseApprenticeship.path
+      )}`,
+  },
+
+  projectStructurePersonBasePovByThisEye: {
+    path: '/projects/:id/structure/personsBase/:personId/personBasePovByThisEye',
+    to: (id: string, personId: string) =>
+      `/projects/${id}/structure/personsBase/${personId}/personBasePovByThisEye${makeParameterizedRouter(
+        RoutesAvailable.projectStructurePersonBasePovByThisEye.path
       )}`,
   },
 
@@ -62,6 +94,62 @@ export const ProjectStructureRoutes = {
     to: (id: string) =>
       `/projects/${id}/structure/personsExpansion${makeParameterizedRouter(
         RoutesAvailable.projectStructurePersonsExpansion.path
+      )}`,
+  },
+
+  projectStructurePersonExpansionFunction: {
+    path: '/projects/:id/structure/personsExpansion/:personId/personExpansionFunction',
+    to: (id: string, personId: string) =>
+      `/projects/${id}/structure/personsExpansion/${personId}/personExpansionFunction${makeParameterizedRouter(
+        RoutesAvailable.projectStructurePersonExpansionFunction.path
+      )}`,
+  },
+
+  projectStructurePersonExpansionObjective: {
+    path: '/projects/:id/structure/personsExpansion/:personId/personExpansionObjective',
+    to: (id: string, personId: string) =>
+      `/projects/${id}/structure/personsExpansion/${personId}/personExpansionObjective${makeParameterizedRouter(
+        RoutesAvailable.projectStructurePersonExpansionObjective.path
+      )}`,
+  },
+
+  projectStructurePersonExpansionMotivation: {
+    path: '/projects/:id/structure/personsExpansion/:personId/personExpansionMotivation',
+    to: (id: string, personId: string) =>
+      `/projects/${id}/structure/personsExpansion/${personId}/personExpansionMotivation${makeParameterizedRouter(
+        RoutesAvailable.projectStructurePersonExpansionMotivation.path
+      )}`,
+  },
+
+  projectStructurePersonExpansionObstacle: {
+    path: '/projects/:id/structure/personsExpansion/:personId/personExpansionObstacle',
+    to: (id: string, personId: string) =>
+      `/projects/${id}/structure/personsExpansion/${personId}/personExpansionObstacle${makeParameterizedRouter(
+        RoutesAvailable.projectStructurePersonExpansionObstacle.path
+      )}`,
+  },
+
+  projectStructurePersonExpansionApprenticeship: {
+    path: '/projects/:id/structure/personsExpansion/:personId/personExpansionApprenticeship',
+    to: (id: string, personId: string) =>
+      `/projects/${id}/structure/personsExpansion/${personId}/personExpansionApprenticeship${makeParameterizedRouter(
+        RoutesAvailable.projectStructurePersonExpansionApprenticeship.path
+      )}`,
+  },
+
+  projectStructurePersonExpansionPovByThisEye: {
+    path: '/projects/:id/structure/personsExpansion/:personId/personExpansionPovByThisEye',
+    to: (id: string, personId: string) =>
+      `/projects/${id}/structure/personsExpansion/${personId}/personExpansionPovByThisEye${makeParameterizedRouter(
+        RoutesAvailable.projectStructurePersonExpansionPovByThisEye.path
+      )}`,
+  },
+
+  projectStructurePage: {
+    path: '/projects/:id/structure/page',
+    to: (id: string) =>
+      `/projects/${id}/structure/page${makeParameterizedRouter(
+        RoutesAvailable.projectStructurePage.path
       )}`,
   },
 

@@ -1,6 +1,6 @@
 import { Optional } from '@shared/core/types/Optional';
 
-interface PersonSnowflakeStructureBaseProps {
+interface PersonSnowflakeStructureExpansionProps {
   function: string | null;
   objective: string | null;
   motivation: string | null;
@@ -9,7 +9,7 @@ interface PersonSnowflakeStructureBaseProps {
   povByThisEye: string | null;
 }
 
-export class PersonSnowflakeStructureBase {
+export class PersonSnowflakeStructureExpansion {
   private _function: string | null;
 
   private _objective: string | null;
@@ -23,19 +23,19 @@ export class PersonSnowflakeStructureBase {
   private _povByThisEye: string | null;
 
   private constructor(
-    personSnowflakeStructureBase: PersonSnowflakeStructureBaseProps
+    personSnowflakeStructureExpansion: PersonSnowflakeStructureExpansionProps
   ) {
-    this._function = personSnowflakeStructureBase.function;
-    this._objective = personSnowflakeStructureBase.objective;
-    this._motivation = personSnowflakeStructureBase.motivation;
-    this._obstacle = personSnowflakeStructureBase.obstacle;
-    this._apprenticeship = personSnowflakeStructureBase.apprenticeship;
-    this._povByThisEye = personSnowflakeStructureBase.povByThisEye;
+    this._function = personSnowflakeStructureExpansion.function;
+    this._objective = personSnowflakeStructureExpansion.objective;
+    this._motivation = personSnowflakeStructureExpansion.motivation;
+    this._obstacle = personSnowflakeStructureExpansion.obstacle;
+    this._apprenticeship = personSnowflakeStructureExpansion.apprenticeship;
+    this._povByThisEye = personSnowflakeStructureExpansion.povByThisEye;
   }
 
   static create(
-    personSnowflakeStructureBase: Optional<
-      PersonSnowflakeStructureBaseProps,
+    personSnowflakeStructureExpansion: Optional<
+      PersonSnowflakeStructureExpansionProps,
       | 'apprenticeship'
       | 'function'
       | 'motivation'
@@ -44,16 +44,18 @@ export class PersonSnowflakeStructureBase {
       | 'povByThisEye'
     >
   ) {
-    const newPersonSnowflakeStructureBase = new PersonSnowflakeStructureBase({
-      apprenticeship: personSnowflakeStructureBase.apprenticeship ?? null,
-      function: personSnowflakeStructureBase.function ?? null,
-      motivation: personSnowflakeStructureBase.motivation ?? null,
-      objective: personSnowflakeStructureBase.objective ?? null,
-      obstacle: personSnowflakeStructureBase.obstacle ?? null,
-      povByThisEye: personSnowflakeStructureBase.povByThisEye ?? null,
-    });
+    const newPersonSnowflakeStructureExpansion =
+      new PersonSnowflakeStructureExpansion({
+        apprenticeship:
+          personSnowflakeStructureExpansion.apprenticeship ?? null,
+        function: personSnowflakeStructureExpansion.function ?? null,
+        motivation: personSnowflakeStructureExpansion.motivation ?? null,
+        objective: personSnowflakeStructureExpansion.objective ?? null,
+        obstacle: personSnowflakeStructureExpansion.obstacle ?? null,
+        povByThisEye: personSnowflakeStructureExpansion.povByThisEye ?? null,
+      });
 
-    return newPersonSnowflakeStructureBase;
+    return newPersonSnowflakeStructureExpansion;
   }
 
   get function() {

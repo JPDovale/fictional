@@ -4,6 +4,7 @@ import { Optional } from '@shared/core/types/Optional';
 import { BornDate } from './valueObjects/BornDate';
 import { DeathDate } from './valueObjects/DeathDate';
 import { PersonSnowflakeStructureBase } from './valueObjects/PersonSnowflakeStructureBase';
+import { PersonSnowflakeStructureExpansion } from './valueObjects/PersonSnowflakeStructureExpansion';
 
 export interface PersonProps {
   name: string | null;
@@ -21,6 +22,7 @@ export interface PersonProps {
 
   // Snowflake
   snowflakeStructureBase: PersonSnowflakeStructureBase | null;
+  snowflakeStructureExpansion: PersonSnowflakeStructureExpansion | null;
 
   userId: UniqueEntityId;
   projectId: UniqueEntityId;
@@ -62,6 +64,7 @@ export class Person extends AggregateRoot<PersonProps> {
       userId: props.userId,
       projectId: props.projectId,
       snowflakeStructureBase: props.snowflakeStructureBase ?? null,
+      snowflakeStructureExpansion: props.snowflakeStructureExpansion ?? null,
       bookId: props.bookId ?? null,
     };
 
@@ -132,6 +135,22 @@ export class Person extends AggregateRoot<PersonProps> {
 
   get snowflakeStructureBase() {
     return this.props.snowflakeStructureBase;
+  }
+
+  set snowflakeStructureBase(
+    snowflakeStructureBase: PersonSnowflakeStructureBase | null
+  ) {
+    this.props.snowflakeStructureBase = snowflakeStructureBase;
+  }
+
+  get snowflakeStructureExpansion() {
+    return this.props.snowflakeStructureExpansion;
+  }
+
+  set snowflakeStructureExpansion(
+    snowflakeStructureExpansion: PersonSnowflakeStructureExpansion | null
+  ) {
+    this.props.snowflakeStructureExpansion = snowflakeStructureExpansion;
   }
 
   touch() {

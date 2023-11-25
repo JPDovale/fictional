@@ -7,6 +7,7 @@ export enum Services {
   GetPersonsService = 'GetPersonsService',
   GetProjectPersonsService = 'GetProjectPersonsService',
   UpdatePersonHistoryService = 'UpdatePersonHistoryService',
+  UpdatePersonSnowflakeService = 'UpdatePersonSnowflakeService',
 
   CreateProjectService = 'CreateProjectService',
   GetProjectService = 'GetProjectService',

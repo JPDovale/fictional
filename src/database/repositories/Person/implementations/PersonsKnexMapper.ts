@@ -1,6 +1,7 @@
 import { Person } from '@modules/Persons/models/Person';
 import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
 import { PersonSnowflakeStructureBase } from '@modules/Persons/models/Person/valueObjects/PersonSnowflakeStructureBase';
+import { PersonSnowflakeStructureExpansion } from '@modules/Persons/models/Person/valueObjects/PersonSnowflakeStructureExpansion';
 import { PersonFile } from '../types';
 
 export class PersonsKnexMapper {
@@ -12,6 +13,12 @@ export class PersonsKnexMapper {
       snowflake_structure_base_objective,
       snowflake_structure_base_obstacle,
       snowflake_structure_base_pov_by_this_eye,
+      snowflake_structure_expansion_apprenticeship,
+      snowflake_structure_expansion_function,
+      snowflake_structure_expansion_motivation,
+      snowflake_structure_expansion_objective,
+      snowflake_structure_expansion_obstacle,
+      snowflake_structure_expansion_pov_by_this_eye,
     } = raw;
 
     const itIsWithSnowflakeStructure =
@@ -20,7 +27,13 @@ export class PersonsKnexMapper {
       !!snowflake_structure_base_motivation ||
       !!snowflake_structure_base_objective ||
       !!snowflake_structure_base_obstacle ||
-      !!snowflake_structure_base_pov_by_this_eye;
+      !!snowflake_structure_base_pov_by_this_eye ||
+      !!snowflake_structure_expansion_apprenticeship ||
+      !!snowflake_structure_expansion_function ||
+      !!snowflake_structure_expansion_motivation ||
+      !!snowflake_structure_expansion_objective ||
+      !!snowflake_structure_expansion_obstacle ||
+      !!snowflake_structure_expansion_pov_by_this_eye;
 
     const person = Person.create(
       {
@@ -44,6 +57,16 @@ export class PersonsKnexMapper {
               objective: snowflake_structure_base_objective,
               obstacle: snowflake_structure_base_obstacle,
               povByThisEye: snowflake_structure_base_pov_by_this_eye,
+            })
+          : null,
+        snowflakeStructureExpansion: itIsWithSnowflakeStructure
+          ? PersonSnowflakeStructureExpansion.create({
+              apprenticeship: snowflake_structure_expansion_apprenticeship,
+              function: snowflake_structure_expansion_function,
+              motivation: snowflake_structure_expansion_motivation,
+              objective: snowflake_structure_expansion_objective,
+              obstacle: snowflake_structure_expansion_obstacle,
+              povByThisEye: snowflake_structure_expansion_pov_by_this_eye,
             })
           : null,
       },
@@ -90,6 +113,18 @@ export class PersonsKnexMapper {
         person.snowflakeStructureBase?.obstacle ?? null,
       snowflake_structure_base_pov_by_this_eye:
         person.snowflakeStructureBase?.povByThisEye ?? null,
+      snowflake_structure_expansion_apprenticeship:
+        person.snowflakeStructureExpansion?.apprenticeship ?? null,
+      snowflake_structure_expansion_function:
+        person.snowflakeStructureExpansion?.function ?? null,
+      snowflake_structure_expansion_objective:
+        person.snowflakeStructureExpansion?.objective ?? null,
+      snowflake_structure_expansion_motivation:
+        person.snowflakeStructureExpansion?.motivation ?? null,
+      snowflake_structure_expansion_obstacle:
+        person.snowflakeStructureExpansion?.obstacle ?? null,
+      snowflake_structure_expansion_pov_by_this_eye:
+        person.snowflakeStructureExpansion?.povByThisEye ?? null,
       created_at: person.createdAt,
       history: person.history,
       image_filename: person.imageFilename,

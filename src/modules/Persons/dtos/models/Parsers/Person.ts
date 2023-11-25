@@ -13,7 +13,6 @@ export function PersonParser(person: Person): PersonModelResponse {
           }
         : null,
     age: person.age,
-    snowflakeStructureExpansion: null,
     biography: person.biographic,
     createdAt: person.createdAt,
     history: person.history,
@@ -26,12 +25,23 @@ export function PersonParser(person: Person): PersonModelResponse {
     userId: person.userId.toString(),
     snowflakeStructureBase: person.snowflakeStructureBase
       ? {
-          apprenticeship: person.snowflakeStructureBase.apprenticeship,
-          function: person.snowflakeStructureBase.function,
-          motivation: person.snowflakeStructureBase.motivation,
-          objective: person.snowflakeStructureBase.objective,
-          obstacle: person.snowflakeStructureBase.obstacle,
-          povByThisEye: person.snowflakeStructureBase.povByThisEye,
+          apprenticeship: person.snowflakeStructureBase.apprenticeship ?? null,
+          function: person.snowflakeStructureBase.function ?? null,
+          motivation: person.snowflakeStructureBase.motivation ?? null,
+          objective: person.snowflakeStructureBase.objective ?? null,
+          obstacle: person.snowflakeStructureBase.obstacle ?? null,
+          povByThisEye: person.snowflakeStructureBase.povByThisEye ?? null,
+        }
+      : null,
+    snowflakeStructureExpansion: person.snowflakeStructureExpansion
+      ? {
+          apprenticeship:
+            person.snowflakeStructureExpansion.apprenticeship ?? null,
+          function: person.snowflakeStructureExpansion.function ?? null,
+          motivation: person.snowflakeStructureExpansion.motivation ?? null,
+          objective: person.snowflakeStructureExpansion.objective ?? null,
+          obstacle: person.snowflakeStructureExpansion.obstacle ?? null,
+          povByThisEye: person.snowflakeStructureExpansion.povByThisEye ?? null,
         }
       : null,
   };

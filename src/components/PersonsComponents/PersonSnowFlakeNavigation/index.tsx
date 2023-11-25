@@ -1,7 +1,16 @@
 import { Button } from '@components/useFull/Button';
 import * as Tabs from '@radix-ui/react-tabs';
 import * as Avatar from '@radix-ui/react-avatar';
-import { PersonStanding, Printer, VenetianMask } from 'lucide-react';
+import {
+  ArrowBigLeft,
+  BookOpenCheck,
+  Building,
+  Eye,
+  MountainSnow,
+  MoveUpRight,
+  Target,
+  VenetianMask,
+} from 'lucide-react';
 import { usePersons } from '@store/Persons';
 import { getDate } from '@utils/dates/getDate';
 import { useEffect, useState } from 'react';
@@ -11,9 +20,9 @@ import { useRoutes } from '@store/Routes';
 import { useTheme } from '@hooks/useTheme';
 import { avatarImageStyles, avatarStyles, personNavStyles } from './styles';
 
-export function PersonNavigate() {
-  const [isOpen, setIsOpen] = useState(true);
-  const [isToShowContent, setIsToShowContent] = useState(true);
+export function PersonSnowFlakeNavigation() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isToShowContent, setIsToShowContent] = useState(false);
 
   const { person } = usePersons((state) => ({ person: state.currentPerson }));
   const { theme } = useTheme();
@@ -160,32 +169,14 @@ export function PersonNavigate() {
               <Button.Root
                 size="xs"
                 active={
-                  RoutesAvailable.projectPerson.path === makeBaseUrl(pathname)
-                }
-                onClick={() =>
-                  setPathname({
-                    routerParameterized: RoutesAvailable.projectPerson.to(
-                      person!.projectId,
-                      person!.id
-                    ),
-                  })
-                }
-              >
-                <Button.Icon>
-                  <PersonStanding />
-                </Button.Icon>
-              </Button.Root>
-
-              <Button.Root
-                size="xs"
-                active={
-                  RoutesAvailable.projectPersonHistory.path ===
+                  RoutesAvailable.projectStructurePersonBaseFunction.path ===
                   makeBaseUrl(pathname)
                 }
+                title="Função"
                 onClick={() =>
                   setPathname({
                     routerParameterized:
-                      RoutesAvailable.projectPersonHistory.to(
+                      RoutesAvailable.projectStructurePersonBaseFunction.to(
                         person!.projectId,
                         person!.id
                       ),
@@ -193,7 +184,134 @@ export function PersonNavigate() {
                 }
               >
                 <Button.Icon>
-                  <Printer />
+                  <Building />
+                </Button.Icon>
+              </Button.Root>
+
+              <Button.Root
+                size="xs"
+                title="Objetivo"
+                active={
+                  RoutesAvailable.projectStructurePersonBaseObjective.path ===
+                  makeBaseUrl(pathname)
+                }
+                onClick={() =>
+                  setPathname({
+                    routerParameterized:
+                      RoutesAvailable.projectStructurePersonBaseObjective.to(
+                        person!.projectId,
+                        person!.id
+                      ),
+                  })
+                }
+              >
+                <Button.Icon>
+                  <Target />
+                </Button.Icon>
+              </Button.Root>
+
+              <Button.Root
+                size="xs"
+                title="Motivação"
+                active={
+                  RoutesAvailable.projectStructurePersonBaseMotivation.path ===
+                  makeBaseUrl(pathname)
+                }
+                onClick={() =>
+                  setPathname({
+                    routerParameterized:
+                      RoutesAvailable.projectStructurePersonBaseMotivation.to(
+                        person!.projectId,
+                        person!.id
+                      ),
+                  })
+                }
+              >
+                <Button.Icon>
+                  <MoveUpRight />
+                </Button.Icon>
+              </Button.Root>
+
+              <Button.Root
+                size="xs"
+                title="Obstaculo"
+                active={
+                  RoutesAvailable.projectStructurePersonBaseObstacle.path ===
+                  makeBaseUrl(pathname)
+                }
+                onClick={() =>
+                  setPathname({
+                    routerParameterized:
+                      RoutesAvailable.projectStructurePersonBaseObstacle.to(
+                        person!.projectId,
+                        person!.id
+                      ),
+                  })
+                }
+              >
+                <Button.Icon>
+                  <MountainSnow />
+                </Button.Icon>
+              </Button.Root>
+
+              <Button.Root
+                size="xs"
+                title="Aprendizado"
+                active={
+                  RoutesAvailable.projectStructurePersonBaseApprenticeship
+                    .path === makeBaseUrl(pathname)
+                }
+                onClick={() =>
+                  setPathname({
+                    routerParameterized:
+                      RoutesAvailable.projectStructurePersonBaseApprenticeship.to(
+                        person!.projectId,
+                        person!.id
+                      ),
+                  })
+                }
+              >
+                <Button.Icon>
+                  <BookOpenCheck />
+                </Button.Icon>
+              </Button.Root>
+
+              <Button.Root
+                size="xs"
+                title="Enredo pela visão desse personagem"
+                active={
+                  RoutesAvailable.projectStructurePersonBasePovByThisEye
+                    .path === makeBaseUrl(pathname)
+                }
+                onClick={() =>
+                  setPathname({
+                    routerParameterized:
+                      RoutesAvailable.projectStructurePersonBasePovByThisEye.to(
+                        person!.projectId,
+                        person!.id
+                      ),
+                  })
+                }
+              >
+                <Button.Icon>
+                  <Eye />
+                </Button.Icon>
+              </Button.Root>
+
+              <Button.Root
+                size="xs"
+                title="Voltar"
+                onClick={() =>
+                  setPathname({
+                    routerParameterized:
+                      RoutesAvailable.projectStructureCentralIdia.to(
+                        person!.projectId
+                      ),
+                  })
+                }
+              >
+                <Button.Icon>
+                  <ArrowBigLeft />
                 </Button.Icon>
               </Button.Root>
             </div>

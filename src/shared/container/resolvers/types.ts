@@ -7,6 +7,7 @@ export enum Resolvers {
   GetPersonsResolver = 'GetPersonsResolver',
   GetProjectPersonsResolver = 'GetProjectPersonsResolver',
   UpdatePersonHistoryResolver = 'UpdatePersonHistoryResolver',
+  UpdatePersonSnowflakeResolver = 'UpdatePersonSnowflakeResolver',
 
   CreateProjectResolver = 'CreateProjectResolver',
   GetProjectResolver = 'GetProjectResolver',

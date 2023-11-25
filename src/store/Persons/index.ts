@@ -5,6 +5,21 @@ import { useRoutes } from '@store/Routes';
 import { useUserStore } from '@store/User';
 import { create } from 'zustand';
 
+interface UpdatePersonSnowflakeProps {
+  baseFunction?: string | null;
+  baseObjective?: string | null;
+  baseObstacle?: string | null;
+  baseApprenticeship?: string | null;
+  baseMotivation?: string | null;
+  basePovByThisEye?: string | null;
+  expansionFunction?: string | null;
+  expansionObjective?: string | null;
+  expansionObstacle?: string | null;
+  expansionApprenticeship?: string | null;
+  expansionMotivation?: string | null;
+  expansionPovByThisEye?: string | null;
+}
+
 interface UsePersons {
   persons: PersonModelResponse[];
   currentPerson: PersonModelResponse | null;
@@ -15,6 +30,7 @@ interface UsePersons {
   loadPerson: (id: string) => Promise<void>;
   loadPersons: () => Promise<void>;
   updateHistory: (history: string) => Promise<void>;
+  updateSnowflake: (data: UpdatePersonSnowflakeProps) => Promise<void>;
   findPerson: (id: string) => PersonModelResponse | null;
   clearCurrentPerson: () => void;
 }
@@ -152,6 +168,73 @@ const usePersons = create<UsePersons>((set, get) => {
 
     clearCurrentPerson: () => {
       set({ currentPerson: null });
+    },
+
+    updateSnowflake: async (data) => {
+      const { user } = useUserStore.getState();
+      const { currentPerson } = get();
+
+      if (currentPerson) {
+        const response = await Requester.requester({
+          access: 'update-snowflake',
+          data: {
+            personId: currentPerson.id,
+            userId: user?.account.id,
+            projectId: currentPerson.projectId,
+            ...data,
+          },
+        });
+
+        if (!response.error) {
+          const updatedPerson = {
+            ...currentPerson,
+            snowflakeStructureBase: {
+              ...currentPerson.snowflakeStructureBase,
+              function:
+                data.baseFunction ??
+                currentPerson.snowflakeStructureBase?.function,
+              objective:
+                data.baseObjective ??
+                currentPerson.snowflakeStructureBase?.objective,
+              obstacle:
+                data.baseObstacle ??
+                currentPerson.snowflakeStructureBase?.obstacle,
+              apprenticeship:
+                data.baseApprenticeship ??
+                currentPerson.snowflakeStructureBase?.apprenticeship,
+              motivation:
+                data.baseMotivation ??
+                currentPerson.snowflakeStructureBase?.motivation,
+              povByThisEye:
+                data.basePovByThisEye ??
+                currentPerson.snowflakeStructureBase?.povByThisEye,
+            },
+            snowflakeStructureExpansion: {
+              ...currentPerson.snowflakeStructureExpansion,
+              function:
+                data.expansionFunction ??
+                currentPerson.snowflakeStructureExpansion?.function,
+              objective:
+                data.expansionObjective ??
+                currentPerson.snowflakeStructureExpansion?.objective,
+              obstacle:
+                data.expansionObstacle ??
+                currentPerson.snowflakeStructureExpansion?.obstacle,
+              apprenticeship:
+                data.expansionApprenticeship ??
+                currentPerson.snowflakeStructureExpansion?.apprenticeship,
+              motivation:
+                data.expansionMotivation ??
+                currentPerson.snowflakeStructureExpansion?.motivation,
+              povByThisEye:
+                data.expansionPovByThisEye ??
+                currentPerson.snowflakeStructureExpansion?.povByThisEye,
+            },
+          };
+
+          set({ currentPerson: updatedPerson as PersonModelResponse });
+        }
+      }
     },
   };
 });

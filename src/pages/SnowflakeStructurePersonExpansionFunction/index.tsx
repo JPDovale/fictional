@@ -1,11 +1,12 @@
 import { Editor } from '@components/Editor';
-import { PersonSnowFlakeNavigation } from '@components/PersonsComponents/PersonSnowFlakeNavigation';
+import { PersonExpansionSnowFlakeNavigation } from '@components/PersonsComponents/PersonExpansionSnowFlakeNavigation';
+import { SnowflakeFloatPreStructure } from '@components/SnowflakeStructureComponents/SnowflakeFloatPreStructure';
 import { useEditor } from '@hooks/useEditor';
 import { usePersons } from '@store/Persons';
 import { useProjects } from '@store/Projects';
 import { useEffect, useRef } from 'react';
 
-export function SnowflakeStructurePersonBaseFunctionPage() {
+export function SnowflakeStructurePersonExpansionFunctionPage() {
   const { project } = useProjects((state) => ({
     project: state.currentProject,
     updateSnowflakeStructure: state.updateSnowflakeStructure,
@@ -18,13 +19,14 @@ export function SnowflakeStructurePersonBaseFunctionPage() {
   }));
 
   const editorStateRef = useRef<string>(
-    (isLoading ? '<p></p>' : person?.snowflakeStructureBase?.function) ??
+    (isLoading ? '<p></p>' : person?.snowflakeStructureExpansion?.function) ??
       '<p></p>'
   );
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const currentSnowflakeFunction = person?.snowflakeStructureBase?.function;
+      const currentSnowflakeFunction =
+        person?.snowflakeStructureExpansion?.function;
 
       if (
         !isLoading &&
@@ -32,7 +34,7 @@ export function SnowflakeStructurePersonBaseFunctionPage() {
         currentSnowflakeFunction !== editorStateRef.current
       ) {
         updateSnowflake({
-          baseFunction: editorStateRef.current,
+          expansionFunction: editorStateRef.current,
         });
       }
     }, 1000 * 2);
@@ -57,18 +59,28 @@ export function SnowflakeStructurePersonBaseFunctionPage() {
 
   return (
     <>
-      <main className="flex-1 py-4 min-w-[45rem] mx-auto max-w-[45rem]">
-        <h2 className="text-3xl font-bold mb-4">Função base do personagem</h2>
-        <span className="text-sm text-justify">
-          Definir uma boa função para o seu personagem é de suma importância
-          para que ele não fique solto no meio da história.
-        </span>
+      <div className="flex w-full">
+        <main className="py-4 min-w-[35rem] px-6 w-auto mx-auto max-w-[45rem]">
+          <h2 className="text-3xl font-bold mb-4">
+            Função expansion do personagem
+          </h2>
+          <span className="text-sm text-justify">Definir depois</span>
 
-        {Editors.personFunction && (
-          <Editor editor={Editors.personFunction.editor} />
-        )}
-      </main>
-      <PersonSnowFlakeNavigation />
+          {Editors.personFunction && (
+            <Editor editor={Editors.personFunction.editor} />
+          )}
+        </main>
+
+        <SnowflakeFloatPreStructure
+          title="Base - Função"
+          types={[
+            {
+              html: person?.snowflakeStructureBase?.function,
+            },
+          ]}
+        />
+      </div>
+      <PersonExpansionSnowFlakeNavigation />
     </>
   );
 }

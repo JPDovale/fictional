@@ -36,4 +36,10 @@ export interface PersonFile {
   snowflake_structure_base_obstacle: string | null;
   snowflake_structure_base_apprenticeship: string | null;
   snowflake_structure_base_pov_by_this_eye: string | null;
+  snowflake_structure_expansion_function: string | null;
+  snowflake_structure_expansion_objective: string | null;
+  snowflake_structure_expansion_motivation: string | null;
+  snowflake_structure_expansion_obstacle: string | null;
+  snowflake_structure_expansion_apprenticeship: string | null;
+  snowflake_structure_expansion_pov_by_this_eye: string | null;
 }

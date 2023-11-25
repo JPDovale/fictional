@@ -5,7 +5,7 @@ import { usePersons } from '@store/Persons';
 import { useProjects } from '@store/Projects';
 import { useEffect, useRef } from 'react';
 
-export function SnowflakeStructurePersonBaseFunctionPage() {
+export function SnowflakeStructurePersonBaseObstaclePage() {
   const { project } = useProjects((state) => ({
     project: state.currentProject,
     updateSnowflakeStructure: state.updateSnowflakeStructure,
@@ -18,21 +18,21 @@ export function SnowflakeStructurePersonBaseFunctionPage() {
   }));
 
   const editorStateRef = useRef<string>(
-    (isLoading ? '<p></p>' : person?.snowflakeStructureBase?.function) ??
+    (isLoading ? '<p></p>' : person?.snowflakeStructureBase?.obstacle) ??
       '<p></p>'
   );
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const currentSnowflakeFunction = person?.snowflakeStructureBase?.function;
+      const currentSnowflakeObstacle = person?.snowflakeStructureBase?.obstacle;
 
       if (
         !isLoading &&
         person &&
-        currentSnowflakeFunction !== editorStateRef.current
+        currentSnowflakeObstacle !== editorStateRef.current
       ) {
         updateSnowflake({
-          baseFunction: editorStateRef.current,
+          baseObstacle: editorStateRef.current,
         });
       }
     }, 1000 * 2);
@@ -47,7 +47,7 @@ export function SnowflakeStructurePersonBaseFunctionPage() {
   const { Editors } = useEditor({
     editors: [
       {
-        id: 'personFunction',
+        id: 'personObstacle',
         onUpdate: savePersonFunction,
         preValue: editorStateRef.current,
         useProject: [project!],
@@ -58,14 +58,13 @@ export function SnowflakeStructurePersonBaseFunctionPage() {
   return (
     <>
       <main className="flex-1 py-4 min-w-[45rem] mx-auto max-w-[45rem]">
-        <h2 className="text-3xl font-bold mb-4">Função base do personagem</h2>
-        <span className="text-sm text-justify">
-          Definir uma boa função para o seu personagem é de suma importância
-          para que ele não fique solto no meio da história.
-        </span>
+        <h2 className="text-3xl font-bold mb-4">
+          Obstaculo base do personagem
+        </h2>
+        <span className="text-sm text-justify">Definir depois</span>
 
-        {Editors.personFunction && (
-          <Editor editor={Editors.personFunction.editor} />
+        {Editors.personObstacle && (
+          <Editor editor={Editors.personObstacle.editor} />
         )}
       </main>
       <PersonSnowFlakeNavigation />

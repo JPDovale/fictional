@@ -34,7 +34,7 @@ export class SnowflakeStructuresKnexRepository
   async save(snowflakeStructure: SnowflakeStructure): Promise<void> {
     snowflakeStructure.touch();
 
-    db('snowflake_structures')
+    await db('snowflake_structures')
       .where({ id: snowflakeStructure.id.toString() })
       .update(SnowflakeStructuresKnexMapper.toKnex(snowflakeStructure));
 

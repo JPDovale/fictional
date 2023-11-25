@@ -20,6 +20,7 @@ const [
   getPersonsResolver,
   getProjectPersonsResolver,
   updatePersonHistoryResolver,
+  UpdatePersonSnowflakeResolver,
 
   createProjectResolver,
   getProjectResolver,
@@ -42,6 +43,9 @@ const [
   container.resolve(InjectableDependencies.Resolvers.GetProjectPersonsResolver),
   container.resolve(
     InjectableDependencies.Resolvers.UpdatePersonHistoryResolver
+  ),
+  container.resolve(
+    InjectableDependencies.Resolvers.UpdatePersonSnowflakeResolver
   ),
 
   container.resolve(InjectableDependencies.Resolvers.CreateProjectResolver),
@@ -69,6 +73,7 @@ const accessors: AccessorsType = {
   'get-persons': (props) => getPersonsResolver.handle(props),
   'get-project-persons': (props) => getProjectPersonsResolver.handle(props),
   'update-person-history': (props) => updatePersonHistoryResolver.handle(props),
+  'update-snowflake': (props) => UpdatePersonSnowflakeResolver.handle(props),
 
   'create-project': (props) => createProjectResolver.handle(props),
   'get-project': (props) => getProjectResolver.handle(props),

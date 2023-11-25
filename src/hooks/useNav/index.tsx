@@ -19,6 +19,19 @@ const possiblesPaths = {
   personsBase: 'Sobre quem?',
   page: 'Expansão',
   text: 'Texto',
+  personBaseFunction: 'Função',
+  personBaseObjective: 'Objetivo',
+  personBaseMotivation: 'Motivação',
+  personBaseObstacle: 'Obstaculo',
+  personBaseApprenticeship: 'Aprendizado',
+  personBasePovByThisEye: 'Enredo pela visão desse personagem',
+  personsExpansion: 'Quanto mais real, melhor',
+  personExpansionFunction: 'Função',
+  personExpansionObjective: 'Objetivo',
+  personExpansionMotivation: 'Motivação',
+  personExpansionObstacle: 'Obstaculo',
+  personExpansionApprenticeship: 'Aprendizado',
+  personExpansionPovByThisEye: 'Enredo pela visão desse personagem',
 };
 
 export function useNav() {

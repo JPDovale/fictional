@@ -12,6 +12,20 @@ export abstract class PersonsSnowflakeStructureBaseResponse {
   abstract povByThisEye: string | null;
 }
 
+export abstract class PersonsSnowflakeStructureExpansionResponse {
+  abstract function: string | null;
+
+  abstract objective: string | null;
+
+  abstract motivation: string | null;
+
+  abstract obstacle: string | null;
+
+  abstract apprenticeship: string | null;
+
+  abstract povByThisEye: string | null;
+}
+
 export abstract class PersonNameResponse {
   abstract firstName: string | null;
 
@@ -45,7 +59,7 @@ export abstract class PersonModelResponse {
 
   abstract snowflakeStructureBase: PersonsSnowflakeStructureBaseResponse | null;
 
-  abstract snowflakeStructureExpansion: string | null;
+  abstract snowflakeStructureExpansion: PersonsSnowflakeStructureExpansionResponse | null;
 
   abstract createdAt: Date;
 

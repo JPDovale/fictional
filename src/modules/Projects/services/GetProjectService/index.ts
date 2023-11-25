@@ -122,8 +122,6 @@ export class GetProjectService {
         books[bookIndex].id.toString()
       );
 
-      console.log(personsThisSFS);
-
       SFS.persons = new SnowflakeStructurePersonList(personsThisSFS);
       books[bookIndex].snowflakeStructure = SFS;
     });

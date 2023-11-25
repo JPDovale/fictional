@@ -46,6 +46,17 @@ exports.up = async function up(knex) {
     table.string('snowflake_structure_base_pov_by_this_eye').defaultTo(null);
 
     table
+      .string('snowflake_structure_expansion_apprenticeship')
+      .defaultTo(null);
+    table.string('snowflake_structure_expansion_function').defaultTo(null);
+    table.string('snowflake_structure_expansion_objective').defaultTo(null);
+    table.string('snowflake_structure_expansion_motivation').defaultTo(null);
+    table.string('snowflake_structure_expansion_obstacle').defaultTo(null);
+    table
+      .string('snowflake_structure_expansion_pov_by_this_eye')
+      .defaultTo(null);
+
+    table
       .string('user_id')
       .references('users.id')
       .notNullable()
