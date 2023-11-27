@@ -217,7 +217,7 @@ export function useSnowflakeStructure() {
 
     function verifyInterweaving() {
       const { path: pathProjectInterweaving, to: toProjectInterweaving } =
-        RoutesAvailable.projectStructureInterweaving;
+        RoutesAvailable.projectStructureInterweavingPersonsAndExpansion;
       const { path: pathBookInterweaving, to: toBookInterweaving } =
         RoutesAvailable.projectBookStructureInterweaving;
 

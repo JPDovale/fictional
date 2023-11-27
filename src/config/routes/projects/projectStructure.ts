@@ -145,19 +145,19 @@ export const ProjectStructureRoutes = {
       )}`,
   },
 
+  projectStructureInterweavingPersonsAndExpansion: {
+    path: '/projects/:id/structure/interweavingPersonsAndExpansion',
+    to: (id: string) =>
+      `/projects/${id}/structure/interweavingPersonsAndExpansion${makeParameterizedRouter(
+        RoutesAvailable.projectStructureInterweavingPersonsAndExpansion.path
+      )}`,
+  },
+
   projectStructurePage: {
     path: '/projects/:id/structure/page',
     to: (id: string) =>
       `/projects/${id}/structure/page${makeParameterizedRouter(
         RoutesAvailable.projectStructurePage.path
-      )}`,
-  },
-
-  projectStructureInterweaving: {
-    path: '/projects/:id/structure/interweaving',
-    to: (id: string) =>
-      `/projects/${id}/structure/interweaving${makeParameterizedRouter(
-        RoutesAvailable.projectStructureInterweaving.path
       )}`,
   },
 

@@ -142,6 +142,7 @@ export function ProjectPage() {
           )}
 
         {currentProject?.type === 'book' &&
+          currentProject.structure !== 'snowflake' &&
           !currentProject.features['multi-book'] &&
           currentBook && (
             <div className="w-full border-l-4 border-base600 border-opacity-75 px-4">

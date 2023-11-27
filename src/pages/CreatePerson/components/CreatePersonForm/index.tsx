@@ -67,7 +67,8 @@ export function CreatePersonForm() {
           <Select.SelectContent className="mt-4">
             {projects[0] ? (
               projects.map((project) => {
-                const projectImplementsFeature = project.features.person;
+                const projectImplementsFeature =
+                  project.features.person && project.structure !== 'snowflake';
                 if (projectImplementsFeature) {
                   return (
                     <Select.SelectItem key={project.id} value={project.id}>
@@ -85,6 +86,11 @@ export function CreatePersonForm() {
             )}
           </Select.SelectContent>
         </Select.Select>
+
+        <Input.Info>
+          Os seus projetos com o a estrutura de snowflake não estarão
+          disponíveis nessa aba, pois seguem um padrão diferente de criação...
+        </Input.Info>
       </Input.Root>
 
       <h2 className="font-heading text-3xl">Base:</h2>

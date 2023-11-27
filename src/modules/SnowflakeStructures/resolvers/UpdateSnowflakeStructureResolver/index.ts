@@ -40,6 +40,7 @@ export class UpdateSnowflakeStructureResolver {
       paragraph3: data.paragraph3,
       paragraph4: data.paragraph4,
       paragraph5: data.paragraph5,
+      interweavingPersonsAndExpansion: data.interweavingPersonsAndExpansion,
     });
 
     if (serviceResponse.isLeft()) {

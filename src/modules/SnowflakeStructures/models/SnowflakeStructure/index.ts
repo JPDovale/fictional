@@ -169,6 +169,16 @@ export class SnowflakeStructure extends AggregateRoot<SnowflakeStructureProps> {
     return this.props.interweavingPersonsAndExpansion;
   }
 
+  set interweavingPersonsAndExpansion(
+    interweavingPersonsAndExpansion: string | null | undefined
+  ) {
+    this.props.interweavingPersonsAndExpansion =
+      interweavingPersonsAndExpansion === null
+        ? null
+        : interweavingPersonsAndExpansion ??
+          this.props.interweavingPersonsAndExpansion;
+  }
+
   get createdAt() {
     return this.props.createdAt;
   }

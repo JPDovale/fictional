@@ -97,6 +97,13 @@ export class UpdateSnowflakeStructureInput {
   @IsOptional()
   paragraph5?: string | null;
 
+  @IsString({
+    always: true,
+    message: 'Interweaving persons and expansion can be an valid string',
+  })
+  @IsOptional()
+  interweavingPersonsAndExpansion?: string | null;
+
   constructor(data: UpdateSnowflakeStructureInput) {
     this.userId = data.userId;
     this.projectId = data.projectId;
@@ -112,5 +119,6 @@ export class UpdateSnowflakeStructureInput {
     this.paragraph3 = data.paragraph3;
     this.paragraph4 = data.paragraph4;
     this.paragraph5 = data.paragraph5;
+    this.interweavingPersonsAndExpansion = data.interweavingPersonsAndExpansion;
   }
 }

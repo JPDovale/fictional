@@ -14,6 +14,7 @@ export interface UpdateSnowflakeStructureProps {
   paragraph3?: string | null;
   paragraph4?: string | null;
   paragraph5?: string | null;
+  interweavingPersonsAndExpansion?: string | null;
   bookId: string;
 }
 

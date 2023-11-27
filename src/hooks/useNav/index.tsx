@@ -32,6 +32,8 @@ const possiblesPaths = {
   personExpansionObstacle: 'Obstaculo',
   personExpansionApprenticeship: 'Aprendizado',
   personExpansionPovByThisEye: 'Enredo pela visão desse personagem',
+  interweavingPersonsAndExpansion: 'Entrelaçamento',
+  personsFinal: 'Os detalhes',
 };
 
 export function useNav() {

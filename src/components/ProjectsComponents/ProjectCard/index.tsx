@@ -22,7 +22,7 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
       <div className={imageStyles()}>
         {project.image.url ? (
           <img
-            className="w-full h-auto object-cover"
+            className="w-full h-full object-cover"
             alt={project.image.alt}
             src={project.image.url}
           />

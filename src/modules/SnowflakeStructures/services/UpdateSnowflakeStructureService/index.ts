@@ -26,6 +26,7 @@ interface Request {
   paragraph3?: string | null;
   paragraph4?: string | null;
   paragraph5?: string | null;
+  interweavingPersonsAndExpansion?: string | null;
 }
 
 type Response = Promise<
@@ -66,6 +67,7 @@ export class UpdateSnowflakeStructureService {
     paragraph3,
     paragraph4,
     paragraph5,
+    interweavingPersonsAndExpansion,
   }: Request): Response {
     const user = await this.usersRepository.findById(userId);
     if (!user) return left(new UserNotFount());
@@ -136,6 +138,8 @@ export class UpdateSnowflakeStructureService {
       paragraph4,
       paragraph5,
     };
+    snowflakeStructure.interweavingPersonsAndExpansion =
+      interweavingPersonsAndExpansion;
 
     await this.snowflakeStructuresRepository.save(snowflakeStructure);
 

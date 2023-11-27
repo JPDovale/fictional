@@ -16,7 +16,7 @@ export function SnowflakeFloatPreStructure({
   const { theme } = useTheme();
 
   return (
-    <div className="min-w-[18rem] max-w-[18rem] relative">
+    <div className="min-w-[18rem] max-w-[18rem]">
       <div className={snowflakeStructurePreFloat({ theme })}>
         <span className="uppercase font-title text-center text-lg">
           {title}

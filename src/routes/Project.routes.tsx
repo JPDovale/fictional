@@ -7,6 +7,7 @@ import { ProjectConfigPage } from '@pages/ProjectConfig';
 import { SnowflakeStructureCentralIdiaPage } from '@pages/SnowflakeStructureCentralIdia';
 import { SnowflakeStructureExpansionToPagePage } from '@pages/SnowflakeStructureExpansionToPage';
 import { SnowflakeStructureExpansionToParagraphPage } from '@pages/SnowflakeStructureExpansionToParagraph';
+import { SnowflakeStructureInterweavingPersonsAndExpansionPage } from '@pages/SnowflakeStructureInterweavingPersonsAndExpansion';
 import { SnowflakeStructurePersonBaseApprenticeshipPage } from '@pages/SnowflakeStructurePersonBaseApprenticeship';
 import { SnowflakeStructurePersonBaseFunctionPage } from '@pages/SnowflakeStructurePersonBaseFunction';
 import { SnowflakeStructurePersonBaseMotivationPage } from '@pages/SnowflakeStructurePersonBaseMotivation';
@@ -21,6 +22,7 @@ import { SnowflakeStructurePersonExpansionObstaclePage } from '@pages/SnowflakeS
 import { SnowflakeStructurePersonExpansionPovByThisEyePage } from '@pages/SnowflakeStructurePersonExpansionPovByThisEye';
 import { SnowflakeStructurePersonsBasePage } from '@pages/SnowflakeStructurePersonsBase';
 import { SnowflakeStructurePersonsExpansionPage } from '@pages/SnowflakeStructurePersonsExpansion';
+import { SnowflakeStructurePersonsFinalPage } from '@pages/SnowflakeStructurePersonsFinal';
 import { StructureProjectPage } from '@pages/StructureProject';
 import { Route } from 'react-router-dom';
 
@@ -116,6 +118,17 @@ export function ProjectRoutes() {
     <Route
       path={RoutesAvailable.projectStructurePersonExpansionPovByThisEye.path}
       element={<SnowflakeStructurePersonExpansionPovByThisEyePage />}
+    />,
+
+    <Route
+      path={
+        RoutesAvailable.projectStructureInterweavingPersonsAndExpansion.path
+      }
+      element={<SnowflakeStructureInterweavingPersonsAndExpansionPage />}
+    />,
+    <Route
+      path={RoutesAvailable.projectStructurePersonsFinal.path}
+      element={<SnowflakeStructurePersonsFinalPage />}
     />,
 
     <Route
