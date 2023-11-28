@@ -8,28 +8,28 @@ import {
   ProjectType,
 } from '@hooks/useCreateProject/validation';
 import {
-  BookCopy,
   BookMarked,
-  Building2,
-  Church,
-  Dna,
   FilePlus,
-  Footprints,
-  Gamepad2,
-  Landmark,
-  Languages,
   LayoutPanelTop,
-  Map,
-  Orbit,
   PersonStanding,
-  Projector,
   Snowflake,
   SquareStack,
-  Sunrise,
-  Swords,
   Trash,
-  Users,
-  Wand2,
+  // BookCopy,
+  // Building2,
+  // Church,
+  // Dna,
+  // Footprints,
+  // Gamepad2,
+  // Landmark,
+  // Languages,
+  // Map,
+  // Orbit,
+  // Projector,
+  // Sunrise,
+  // Swords,
+  // Users,
+  // Wand2,
 } from 'lucide-react';
 import { useEffect } from 'react';
 
@@ -217,7 +217,7 @@ export function CreateProjectForm() {
             </Checkbox.Icon>
           </Checkbox.Root>
 
-          <Checkbox.Root className="w-full" disabled>
+          {/* <Checkbox.Root className="w-full" disabled>
             <Checkbox.CheckerRoot
               onCheckedChange={() => selectTypeOfProject('rpg')}
               checked={watchedFields.type?.rpg}
@@ -263,7 +263,7 @@ export function CreateProjectForm() {
             <Checkbox.Icon className="w-6 ml-auto">
               <Projector className="fill-purple900" />
             </Checkbox.Icon>
-          </Checkbox.Root>
+          </Checkbox.Root> */}
         </div>
       </Input.Root>
 
@@ -287,7 +287,7 @@ export function CreateProjectForm() {
             </Checkbox.Icon>
           </Checkbox.Root>
 
-          <Checkbox.Root className="w-full" disabled>
+          {/* <Checkbox.Root className="w-full" disabled>
             <Checkbox.CheckerRoot
               onCheckedChange={(e) =>
                 setValue('features.multi-book', e as boolean)
@@ -331,7 +331,7 @@ export function CreateProjectForm() {
             <Checkbox.Icon className="w-6 ml-auto">
               <Map className="fill-purple900" />
             </Checkbox.Icon>
-          </Checkbox.Root>
+          </Checkbox.Root> */}
 
           <Checkbox.Root>
             <Checkbox.CheckerRoot
@@ -348,7 +348,7 @@ export function CreateProjectForm() {
             </Checkbox.Icon>
           </Checkbox.Root>
 
-          <Checkbox.Root disabled>
+          {/* <Checkbox.Root disabled>
             <Checkbox.CheckerRoot
               onCheckedChange={(e) => setValue('features.city', e as boolean)}
               disabled
@@ -472,7 +472,7 @@ export function CreateProjectForm() {
             <Checkbox.Icon className="w-6 ml-auto">
               <Sunrise className="fill-purple900" />
             </Checkbox.Icon>
-          </Checkbox.Root>
+          </Checkbox.Root> */}
         </div>
       </Input.Root>
 
@@ -528,7 +528,7 @@ export function CreateProjectForm() {
                 </Checkbox.Icon>
               </Checkbox.Root>
 
-              <Checkbox.Root disabled>
+              {/* <Checkbox.Root disabled>
                 <Checkbox.CheckerRoot
                   checked={
                     watchedFields.structure
@@ -548,7 +548,7 @@ export function CreateProjectForm() {
                 <Checkbox.Icon className="w-6 ml-auto">
                   <Footprints className="fill-purple900" />
                 </Checkbox.Icon>
-              </Checkbox.Root>
+              </Checkbox.Root> */}
             </div>
           </Input.Root>
         </>

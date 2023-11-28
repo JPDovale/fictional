@@ -43,7 +43,7 @@ export function SnowflakeStructurePersonsFinalPage() {
                 onClick={() =>
                   setPathname({
                     routerParameterized:
-                      RoutesAvailable.projectStructurePersonExpansionFunction.to(
+                      RoutesAvailable.projectStructurePersonDetails.to(
                         person.projectId,
                         person.id
                       ),

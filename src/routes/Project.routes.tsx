@@ -14,6 +14,7 @@ import { SnowflakeStructurePersonBaseMotivationPage } from '@pages/SnowflakeStru
 import { SnowflakeStructurePersonBaseObjectivePage } from '@pages/SnowflakeStructurePersonBaseObjective';
 import { SnowflakeStructurePersonBaseObstaclePage } from '@pages/SnowflakeStructurePersonBaseObstacle';
 import { SnowflakeStructurePersonBasePovByThisEyePage } from '@pages/SnowflakeStructurePersonBasePovByThisEye';
+import { SnowflakeStructurePersonDetailsPage } from '@pages/SnowflakeStructurePersonDetails';
 import { SnowflakeStructurePersonExpansionApprenticeshipPage } from '@pages/SnowflakeStructurePersonExpansionApprenticeship';
 import { SnowflakeStructurePersonExpansionFunctionPage } from '@pages/SnowflakeStructurePersonExpansionFunction';
 import { SnowflakeStructurePersonExpansionMotivationPage } from '@pages/SnowflakeStructurePersonExpansionMotivation';
@@ -126,9 +127,15 @@ export function ProjectRoutes() {
       }
       element={<SnowflakeStructureInterweavingPersonsAndExpansionPage />}
     />,
+
     <Route
       path={RoutesAvailable.projectStructurePersonsFinal.path}
       element={<SnowflakeStructurePersonsFinalPage />}
+    />,
+
+    <Route
+      path={RoutesAvailable.projectStructurePersonDetails.path}
+      element={<SnowflakeStructurePersonDetailsPage />}
     />,
 
     <Route

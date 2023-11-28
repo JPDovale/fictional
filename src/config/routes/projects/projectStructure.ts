@@ -169,6 +169,14 @@ export const ProjectStructureRoutes = {
       )}`,
   },
 
+  projectStructurePersonDetails: {
+    path: '/projects/:id/structure/personsFinal/:personId',
+    to: (id: string, personId: string) =>
+      `/projects/${id}/structure/personsFinal/${personId}${makeParameterizedRouter(
+        RoutesAvailable.projectStructurePersonDetails.path
+      )}`,
+  },
+
   projectStructureFragmentation: {
     path: '/projects/:id/structure/fragmentation',
     to: (id: string) =>
