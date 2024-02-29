@@ -6,7 +6,7 @@ import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityI
 import { PersonsInMemoryRepository } from '@tests/persons/repositories/PersonsInMemoryRepository';
 import { makeProject } from '@tests/projects/factories/makeProject';
 import { ResourceNotFount } from '@shared/errors/ResourceNotFound';
-import { UserNotFount } from '@modules/Users/services/_errors/UserNotFound';
+import { UserNotFount } from '@modules/Users/errors/UserNotFound';
 import { ThreeActsStructureInMemoryRepository } from '@tests/threeActsStructures/repositories/ThreeActsStructureInMemoryRepository';
 import { BooksInMemoryRepository } from '@tests/books/repositories/BooksInMemoryRepository';
 import { SnowflakeStructuresInMemoryRepository } from '@tests/snowflakeStructures/repositories/SnowflakeStructuresInMemoryRepository';

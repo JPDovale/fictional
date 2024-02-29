@@ -3,7 +3,7 @@ import { ProjectsRepository } from '@database/repositories/Project/contracts/Pro
 import { ThreeActsStructuresRepository } from '@database/repositories/ThreeActsStructure/contracts/ThreeActsStructuresRepository';
 import { UsersRepository } from '@database/repositories/User/contracts/UsersRepository';
 import { ThreeActsStructure } from '@modules/ThreeActsStructures/models/ThreeActsStructure';
-import { UserNotFount } from '@modules/Users/services/_errors/UserNotFound';
+import { UserNotFount } from '@modules/Users/errors/UserNotFound';
 import InjectableDependencies from '@shared/container/types';
 import { Either, left, right } from '@shared/core/error/Either';
 import { PermissionDenied } from '@shared/errors/PermissionDenied';

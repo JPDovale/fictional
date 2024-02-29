@@ -1,6 +1,6 @@
-import type { Knex } from 'knex';
-import path from 'path';
-import { getDatabasePath } from './src/config/files/getDatabasePath';
+import type { Knex } from 'knex'
+import path from 'path'
+import { getDatabasePath } from './src/config/files/getDatabasePath'
 
 // Update with your config settings.
 
@@ -17,6 +17,6 @@ const config: { [key: string]: Knex.Config } = {
     },
     useNullAsDefault: true,
   },
-};
+}
 
-module.exports = config;
+module.exports = config

@@ -10,7 +10,7 @@ import {
   ObjectFeatures,
 } from '@modules/Projects/models/Project/valueObjects/Features';
 import { UserInProject } from '@modules/Projects/models/Project/valueObjects/UserInProject';
-import { UserNotFount } from '@modules/Users/services/_errors/UserNotFound';
+import { UserNotFount } from '@modules/Users/errors/UserNotFound';
 import InjectableDependencies from '@shared/container/types';
 import { Either, left, right } from '@shared/core/error/Either';
 import { Optional } from '@shared/core/types/Optional';

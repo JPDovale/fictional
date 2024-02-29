@@ -5,7 +5,7 @@ import { UsersRepository } from '@database/repositories/User/contracts/UsersRepo
 import { Person } from '@modules/Persons/models/Person';
 import { PersonSnowflakeStructureBase } from '@modules/Persons/models/Person/valueObjects/PersonSnowflakeStructureBase';
 import { SnowflakeStructurePersonList } from '@modules/SnowflakeStructures/models/SnowflakeStructurePersonList';
-import { UserNotFount } from '@modules/Users/services/_errors/UserNotFound';
+import { UserNotFount } from '@modules/Users/errors/UserNotFound';
 import { ImageProvider } from '@providers/base/Image/contracts/ImageProvider';
 import InjectableDependencies from '@shared/container/types';
 import { Either, left, right } from '@shared/core/error/Either';

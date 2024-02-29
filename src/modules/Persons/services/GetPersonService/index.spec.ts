@@ -5,7 +5,7 @@ import { ProjectsInMemoryRepository } from '@tests/projects/repositories/Project
 import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
 import { makeProject } from '@tests/projects/factories/makeProject';
 import { PermissionDenied } from '@shared/errors/PermissionDenied';
-import { UserNotFount } from '@modules/Users/services/_errors/UserNotFound';
+import { UserNotFount } from '@modules/Users/errors/UserNotFound';
 import { ResourceNotFount } from '@shared/errors/ResourceNotFound';
 import { PersonsInMemoryRepository } from '@tests/persons/repositories/PersonsInMemoryRepository';
 import { makePerson } from '@tests/persons/factories/makePerson';

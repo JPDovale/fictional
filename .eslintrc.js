@@ -1,5 +1,5 @@
 module.exports = {
-  extends: 'erb',
+  extends: ['erb', "@rubykgen/eslint-config/node"],
   plugins: ['@typescript-eslint'],
   rules: {
     // A temporary hack related to IDE not resolving correct package.json

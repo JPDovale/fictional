@@ -1,7 +1,7 @@
 import { PersonsRepository } from '@database/repositories/Person/contracts/PersonsRepository';
 import { UsersRepository } from '@database/repositories/User/contracts/UsersRepository';
 import { Person } from '@modules/Persons/models/Person';
-import { UserNotFount } from '@modules/Users/services/_errors/UserNotFound';
+import { UserNotFount } from '@modules/Users/errors/UserNotFound';
 import InjectableDependencies from '@shared/container/types';
 import { Either, left, right } from '@shared/core/error/Either';
 import { UnexpectedError } from '@shared/errors/UnexpectedError';

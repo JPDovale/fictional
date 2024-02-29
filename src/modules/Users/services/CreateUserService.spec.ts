@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { UsersInMemoryRepository } from '@tests/users/repositories/UsersInMemoryRepository';
-import { CreateUserService } from '.';
+import { CreateUserService } from '../CreateUserService';
 
 let usersInMemoryRepository: UsersInMemoryRepository;
 

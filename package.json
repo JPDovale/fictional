@@ -123,6 +123,7 @@
     "@faker-js/faker": "8.0.2",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@rocketseat/eslint-config": "1.2.0",
+    "@rubykgen/eslint-config": "0.0.4",
     "@svgr/webpack": "^8.0.1",
     "@teamsupercell/typings-for-css-modules-loader": "^2.5.2",
     "@testing-library/jest-dom": "^5.16.5",

@@ -6,7 +6,7 @@ import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityI
 import { PersonsInMemoryRepository } from '@tests/persons/repositories/PersonsInMemoryRepository';
 import { makeProject } from '@tests/projects/factories/makeProject';
 import { ResourceNotFount } from '@shared/errors/ResourceNotFound';
-import { UserNotFount } from '@modules/Users/services/_errors/UserNotFound';
+import { UserNotFount } from '@modules/Users/errors/UserNotFound';
 import { makePerson } from '@tests/persons/factories/makePerson';
 import { Features } from '@modules/Projects/models/Project/valueObjects/Features';
 import { UnexpectedError } from '@shared/errors/UnexpectedError';

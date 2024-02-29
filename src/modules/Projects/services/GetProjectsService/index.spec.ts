@@ -4,7 +4,7 @@ import { UsersInMemoryRepository } from '@tests/users/repositories/UsersInMemory
 import { ProjectsInMemoryRepository } from '@tests/projects/repositories/ProjectsInMemoryRepository';
 import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
 import { makeProject } from '@tests/projects/factories/makeProject';
-import { UserNotFount } from '@modules/Users/services/_errors/UserNotFound';
+import { UserNotFount } from '@modules/Users/errors/UserNotFound';
 import { ThreeActsStructureInMemoryRepository } from '@tests/threeActsStructures/repositories/ThreeActsStructureInMemoryRepository';
 import { BooksInMemoryRepository } from '@tests/books/repositories/BooksInMemoryRepository';
 import { SnowflakeStructuresInMemoryRepository } from '@tests/snowflakeStructures/repositories/SnowflakeStructuresInMemoryRepository';

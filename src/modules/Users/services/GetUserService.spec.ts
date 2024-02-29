@@ -3,7 +3,7 @@ import { makeUser } from '@tests/users/factories/makeUser';
 import { UsersInMemoryRepository } from '@tests/users/repositories/UsersInMemoryRepository';
 import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
 import { ResourceNotFount } from '@shared/errors/ResourceNotFound';
-import { GetUserService } from '.';
+import { GetUserService } from './GetUserService';
 
 let usersInMemoryRepository: UsersInMemoryRepository;
 let sut: GetUserService;

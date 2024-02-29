@@ -3,7 +3,7 @@ import { makeUser } from '@tests/users/factories/makeUser';
 import { UsersInMemoryRepository } from '@tests/users/repositories/UsersInMemoryRepository';
 import { ProjectsInMemoryRepository } from '@tests/projects/repositories/ProjectsInMemoryRepository';
 import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
-import { UserNotFount } from '@modules/Users/services/_errors/UserNotFound';
+import { UserNotFount } from '@modules/Users/errors/UserNotFound';
 import { BooksInMemoryRepository } from '@tests/books/repositories/BooksInMemoryRepository';
 import { UnexpectedError } from '@shared/errors/UnexpectedError';
 import { ThreeActsStructureInMemoryRepository } from '@tests/threeActsStructures/repositories/ThreeActsStructureInMemoryRepository';
