@@ -73,6 +73,12 @@
       ],
       "@tests/*": [
         "./src/tests/*"
+      ],
+      "@rRoutes/*": [
+        "./src/renderer/routes/*"
+      ],
+      "@rStyles/*": [
+        "./src/renderer/styles/*"
       ]
     },
     "types": [

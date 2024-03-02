@@ -1,4 +1,4 @@
-const { colors } = require('./src/styles/colors');
+const { colors } = require('./src/renderer/styles/colors')
 
 module.exports = {
   content: ['./src/**/*.{ts,tsx,ejs}'],
@@ -110,4 +110,4 @@ module.exports = {
     },
   },
   plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
-};
+}

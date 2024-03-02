@@ -4,6 +4,8 @@ module.exports = {
   rules: {
     // A temporary hack related to IDE not resolving correct package.json
     'import/no-extraneous-dependencies': 'off',
+    'import/no-cycle': 'off',
+
     'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': 'off',
     'react/require-default-props': 'off',
@@ -11,11 +13,19 @@ module.exports = {
     'react/jsx-no-bind': 'off',
     'react/prop-types': 'off',
     'react/no-danger': 'off',
+
     'jsx-a11y/heading-has-content': 'off',
+    'default-param-last': 'off',
+    'class-methods-use-this': 'off',
+    'max-classes-per-file': 'off',
+    'global-require': 'off',
+    camelcase: 'off',
+
     'import/extensions': 'off',
     'import/prefer-default-export': 'off',
     'import/no-unresolved': 'off',
     'import/no-import-module-exports': 'off',
+
     'no-shadow': 'off',
     'no-undef': 'off',
     'no-nested-ternary': 'off',
@@ -27,16 +37,10 @@ module.exports = {
     'no-empty-function': 'off',
     'no-plusplus': 'off',
     'no-console': 'off',
-    'default-param-last': 'off',
-    'import/no-cycle': 'off',
+    'no-new': "off",
+
     '@typescript-eslint/no-shadow': 'error',
     '@typescript-eslint/no-unused-vars': 'error',
-    'class-methods-use-this': 'off',
-    'max-classes-per-file': 'off',
-    'jest/no-conditional-expect': 'off',
-    camelcase: 'off',
-    'global-require': 'off',
-    'jest/no-commented-out-tests': 'off',
   },
   parserOptions: {
     ecmaVersion: 2020,
