@@ -4,7 +4,7 @@ import { HTMLAttributes } from 'react'
 import { tv } from 'tailwind-variants'
 
 export const rootStyles = tv({
-  base: 'flex flex-col h-screen border-r-[1px] ease-in-out duration-300 px-0.5',
+  base: 'flex flex-col h-screen border-r-[1px] px-0.5',
   variants: {
     navIsOpen: {
       true: 'w-[16%]',

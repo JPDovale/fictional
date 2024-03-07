@@ -14,7 +14,7 @@ export interface UserFile {
 }
 
 @injectable()
-export class UsersKenxMapper extends RepositoryMapper<User, UserFile> {
+export class UsersKnexMapper extends RepositoryMapper<User, UserFile> {
   toDomain(raw: UserFile): User {
     return User.create(
       {

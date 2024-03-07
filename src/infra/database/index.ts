@@ -12,7 +12,7 @@ export class KnexConnection {
       client: 'sqlite3',
       connection: {
         filename: `${getDatabasePath()}/db.sqlite3`,
-        database: 'fictional-dev',
+        database: 'fictional',
       },
       useNullAsDefault: true,
       migrations: {

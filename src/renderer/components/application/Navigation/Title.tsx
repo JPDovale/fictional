@@ -12,7 +12,7 @@ export function Title({
   return (
     <button
       type="button"
-      className="font-title focus:scale-[120%] ease-in-out duration-300 rounded-full"
+      className="font-title focus:scale-[120%] rounded-full"
       onClick={handleChangeOpenNav}
     >
       F

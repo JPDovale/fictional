@@ -1,10 +1,10 @@
-import { Button } from '@components/useFull/Button';
-import { HeaderLink } from '@config/header/links';
-import * as HoverCard from '@radix-ui/react-hover-card';
-import { useRoutes } from '@store/Routes';
+import { Button } from '@components/useFull/Button'
+import { HeaderLink } from '@config/header/links'
+import * as HoverCard from '@radix-ui/react-hover-card'
+import { useRoutes } from '@store/Routes'
 
 interface HeaderButtonProps {
-  link: HeaderLink;
+  link: HeaderLink
 }
 
 export function HeaderButton({
@@ -13,7 +13,7 @@ export function HeaderButton({
   const { setPathname, pathname: actualPathname } = useRoutes((state) => ({
     setPathname: state.setPathname,
     pathname: state.pathname,
-  }));
+  }))
 
   return (
     <HoverCard.Root openDelay={2000}>
@@ -58,5 +58,5 @@ export function HeaderButton({
         </HoverCard.Content>
       </HoverCard.Portal>
     </HoverCard.Root>
-  );
+  )
 }

@@ -5,13 +5,13 @@ import { ButtonHTMLAttributes } from 'react'
 import { VariantProps, tv } from 'tailwind-variants'
 
 const buttonRootStyles = tv({
-  base: 'flex items-center gap-3 group rounded-md ease-in-out duration-300 shadow-default data-[active=true]:shadow-onActive data-[active=true]:cursor-default data-[disabled=false]:active:shadow-onActive data-[disabled=false]:hover:bg-purple500 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-70 data-[disabled=true]:shadow-none',
+  base: 'flex items-center gap-3 group rounded-md shadow-default data-[active=true]:shadow-onActive data-[active=true]:cursor-default data-[disabled=false]:active:shadow-onActive data-[disabled=false]:hover:bg-purple500 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-70 data-[disabled=true]:shadow-none',
   variants: {
     size: {
-      md: 'p-4',
-      sm: 'p-3',
-      xs: 'p-2',
-      xxs: 'p-1.5',
+      md: 'p-2',
+      sm: 'p-1.5',
+      xs: 'p-1',
+      xxs: 'p-0.5',
     },
 
     width: {

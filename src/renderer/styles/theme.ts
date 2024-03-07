@@ -1,11 +1,13 @@
+import { Theme } from '@rStores/useInterfaceStore'
 import { tv } from 'tailwind-variants'
 
 export const mainStyles = tv({
-  base: 'ease-in-out duration-300',
+  base: '',
   variants: {
     theme: {
-      dark: ['bg-gray100', 'text-text100'],
-      light: ['bg-gray900', 'text-text800'],
+      [Theme.DARK]: 'bg-gray100 text-text100',
+      [Theme.LIGHT]: 'bg-gray900 text-text800',
+      [Theme.SYSTEM]: '',
     },
   },
 })

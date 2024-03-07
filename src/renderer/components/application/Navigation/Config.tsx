@@ -43,7 +43,7 @@ export function Config() {
     <Dialog.Root open={configIsOpen} onOpenChange={setConfigIsOpen}>
       <Dialog.Trigger asChild>
         <button
-          className="flex self-center mb-4 focus:scale-[120%] ease-in-out duration-300"
+          className="flex self-center mb-4 focus:scale-[120%] "
           type="button"
         >
           <Settings className="w-5 h-5" />
@@ -60,7 +60,7 @@ export function Config() {
 
           <Dialog.Close asChild>
             <button
-              className="absolute top-4 right-4 focus:scale-[120%] ease-in-out duration-300"
+              className="absolute top-4 right-4 focus:scale-[120%]"
               aria-label="close"
               type="button"
             >

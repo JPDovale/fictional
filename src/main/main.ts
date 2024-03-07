@@ -1,3 +1,5 @@
+import '../infra/containers/index'
+import '../infra/requester/index'
 import { app } from 'electron'
 import { AppWindow } from './view/AppWindow'
 

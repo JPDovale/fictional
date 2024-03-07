@@ -91,7 +91,7 @@ module.exports = {
         default:
           '4px 4px 8px rgba(0, 0, 0, 0.5), -2px -2px 3px rgba(255, 255, 255)',
         defaultDark:
-          '4px 4px 8px rgba(0, 0, 0, 0.5), -1px -1px 2px rgba(255, 255, 255, 0.3)',
+          '4px 4px 8px rgba(0, 0, 0, 0.5), -1px -1px 2px rgba(200, 200, 200, 0.3)',
         onActive:
           'inset 4px 4px 8px rgba(0, 0, 0, 0.5), inset -1px -1px 3px rgba(255, 255, 255, 0.5)',
         inFocus: '0 0 6px 3px #2A0B53',

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Button } from '../Button'
 import { NavigationLink } from '.'
 import { ScrollArea } from '../ScrollArea'
@@ -9,6 +9,8 @@ interface NavigationNavigatorProps {
 }
 
 export function Navigator({ navIsOpen, links }: NavigationNavigatorProps) {
+  const { pathname } = useLocation()
+
   return (
     <ScrollArea>
       <nav>
@@ -16,7 +18,7 @@ export function Navigator({ navIsOpen, links }: NavigationNavigatorProps) {
           {links.map((link) => (
             <li key={link.pathname}>
               <Button.Root
-                size="xs"
+                active={pathname === link.pathname}
                 align={navIsOpen ? 'start' : 'center'}
                 asChild
               >

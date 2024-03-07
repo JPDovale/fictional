@@ -1,17 +1,18 @@
 import Electron, { BrowserWindow } from 'electron'
-import { Accessors, accessors } from './accessors'
+import { accessors } from './accessors'
+import { Accessors } from './types'
 
-export interface ResolverData {
+export interface ResolverData<T = unknown> {
   access: Accessors
-  data: unknown
+  data: T
 }
 
 export class Resolver {
   static readonly key: 'request' = 'request' as const
 
-  static async handler(
+  static async handler<T = unknown>(
     _e: Electron.IpcMainInvokeEvent,
-    data: ResolverData,
+    data: ResolverData<T>,
     win: BrowserWindow | null,
   ) {
     const response = await accessors[data.access].handle({

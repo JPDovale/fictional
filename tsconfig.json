@@ -20,6 +20,9 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "paths": {
+      "@infra/*": [
+        "./src/infra/*"
+      ],
       "@components/*": [
         "./src/components/*"
       ],
@@ -79,6 +82,21 @@
       ],
       "@rStyles/*": [
         "./src/renderer/styles/*"
+      ],
+      "@rHooks/*": [
+        "./src/renderer/hooks/*"
+      ],
+      "@rStores/*": [
+        "./src/renderer/stores/*"
+      ],
+      "@rComponents/*": [
+        "./src/renderer/components/*"
+      ],
+      "@rConfigs/*": [
+        "./src/renderer/configs/*"
+      ],
+      "@rUtils/*": [
+        "./src/renderer/utils/*"
       ]
     },
     "types": [

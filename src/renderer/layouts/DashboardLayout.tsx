@@ -1,3 +1,4 @@
+import { Header, headerLinks } from '@rComponents/application/Header'
 import { Navigation, NavigationLink } from '@rComponents/application/Navigation'
 import { useTheme } from '@rHooks/useTheme'
 import { useInterfaceStore } from '@rStores/useInterfaceStore'
@@ -33,9 +34,9 @@ export function DashboardLayout() {
 
   return (
     <div
-      className={`max-w-screen w-screen max-h-screen h-screen overflow-hidden flex ${mainStyles(
-        { theme },
-      )} `}
+      className={`w-screen max-h-screen overflow-hidden flex  ${mainStyles({
+        theme,
+      })} `}
     >
       <Navigation.Root navIsOpen={navIsOpen}>
         <Navigation.Header navIsOpen={navIsOpen}>
@@ -54,7 +55,12 @@ export function DashboardLayout() {
         <Navigation.Config />
       </Navigation.Root>
 
-      <div className="flex-1 max-h-screen overflow-x-hidden overflow-y-auto">
+      <div className="w-full min-h-full flex flex-col">
+        <Header.Root>
+          {headerLinks.map((link) => (
+            <Header.Button link={link} key={link.label} />
+          ))}
+        </Header.Root>
         {/* {isToShoeHeader && <Header />} */}
         <Outlet />
       </div>

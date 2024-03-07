@@ -14,7 +14,7 @@ export function Close({
   return (
     <button
       type="button"
-      className="mb-1 focus:scale-[150%] ease-in-out duration-300"
+      className="mb-1 focus:scale-[150%]"
       onClick={handleChangeOpenNav}
     >
       <ChevronLeftIcon size={20} />

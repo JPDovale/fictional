@@ -8,7 +8,7 @@ const { appWindow } = AppWindow
 
 ipcMain.handle(Resolver.key, async (e, data) => {
   try {
-    return Resolver.handler(e, data, appWindow)
+    return await Resolver.handler(e, data, appWindow)
   } catch (error) {
     if (error instanceof RequestError) {
       return {
@@ -18,6 +18,8 @@ ipcMain.handle(Resolver.key, async (e, data) => {
         errors: { ...error.details },
       }
     }
+
+    console.error(error)
 
     return {
       title: 'Erro interno',

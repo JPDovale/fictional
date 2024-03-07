@@ -10,8 +10,11 @@ export function getDatabasePath() {
     return path.join(__dirname, '..', '..', 'database')
   }
 
-  if (process.platform === 'linux' && !fs.existsSync(linuxDatabase)) {
-    fs.mkdirSync(linuxBase)
+  if (process.platform === 'linux') {
+    if (!fs.existsSync(linuxBase)) {
+      fs.mkdirSync(linuxBase, { recursive: true })
+    }
+
     return linuxDatabase
   }
 

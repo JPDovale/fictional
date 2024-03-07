@@ -59,14 +59,17 @@ export class AppWindow {
 
     return new AppWindow(
       new BrowserWindow({
-        show: false,
-        width: 1024,
-        height: 728,
+        minWidth: 1300,
+        minHeight: 500,
+        resizable: true,
+        autoHideMenuBar: !!app.isPackaged,
         icon: getAssetPath('icon.png'),
         webPreferences: {
           preload: app.isPackaged
             ? path.join(__dirname, 'preload.js')
-            : path.join(__dirname, '../../.erb/dll/preload.js'),
+            : path.join(__dirname, '../../../.erb/dll/preload.js'),
+          webSecurity: false,
+          contextIsolation: true,
         },
       }),
     )

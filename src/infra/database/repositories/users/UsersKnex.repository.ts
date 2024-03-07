@@ -1,14 +1,14 @@
 import { User } from '@modules/users/entities/User'
 import { UsersRepository } from '@modules/users/repositories/Users.repository'
 import { injectable } from 'tsyringe'
-import { UsersKenxMapper } from './UsersKenx.mapper'
 import { KnexConnection } from '../..'
+import { UsersKnexMapper } from './UsersKnex.mapper'
 
 @injectable()
 export class UsersKnexRepository implements UsersRepository {
   constructor(
     private readonly knexConnection: KnexConnection,
-    private readonly mapper: UsersKenxMapper,
+    private readonly mapper: UsersKnexMapper,
   ) { }
 
   async findByEmail(email: string): Promise<User | null> {
@@ -24,8 +24,10 @@ export class UsersKnexRepository implements UsersRepository {
     return this.mapper.toDomain(user)
   }
 
-  create(data: User): Promise<void> {
-    throw new Error('Method not implemented.')
+  async create(data: User): Promise<void> {
+    await this.knexConnection
+      .db('users')
+      .insert(this.mapper.toPersistence(data))
   }
 
   findById(id: string): Promise<User | null> {

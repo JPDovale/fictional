@@ -1,4 +1,4 @@
-import { RoutesAvailable } from '@config/routes/routesAvailable';
+import { RoutesAvailable } from '@config/routes/routesAvailable'
 import {
   Cloud,
   FilePlus,
@@ -7,25 +7,25 @@ import {
   PackagePlus,
   Settings,
   UserPlus,
-} from 'lucide-react';
+} from 'lucide-react'
 
 interface Info {
-  title: string;
-  content: string;
+  title: string
+  content: string
 }
 
 export interface HeaderLink {
-  pathname: string;
-  Icon: LucideIcon;
-  existesTo?: string;
-  label: string;
-  infos: Info[];
-  disabled: boolean;
+  pathname: string
+  Icon: LucideIcon
+  existesTo?: string
+  label: string
+  infos: Info[]
+  disabled: boolean
 }
 
 interface HeaderLinks {
-  left: HeaderLink[];
-  right: HeaderLink[];
+  left: HeaderLink[]
+  right: HeaderLink[]
 }
 
 export const headerLinks: HeaderLinks = {
@@ -82,4 +82,4 @@ export const headerLinks: HeaderLinks = {
       disabled: true,
     },
   ],
-};
+}

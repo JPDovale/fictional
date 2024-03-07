@@ -1,14 +1,12 @@
-// import { useUser } from '@hooks/useUser'
 // import { usePersons } from '@store/Persons'
 // import { useProjects } from '@store/Projects'
 // import { useRoutes } from '@store/Routes'
-import { Accessors } from '@infra/requester/accessors'
-import { Requester } from '@infra/requester/requester'
 import { useInterfaceStore } from '@rStores/useInterfaceStore'
 import { useEffect } from 'react'
+import { useUser } from './useUser'
 
 export function usePreload() {
-  // const { isLoading } = useUser()
+  const { isLoading } = useUser()
   const { loadConfig } = useInterfaceStore((state) => ({
     loadConfig: state.loadConfig,
   }))
@@ -29,13 +27,6 @@ export function usePreload() {
 
     loadConfig()
     // recoveryHistory()
-    Requester.requester({
-      access: Accessors.CREATE_USER,
-      data: {
-        name: 'Test',
-        email: 'test@t.com',
-      },
-    })
     // if (!isLoading) {
     //   loadProjects()
     //   loadPersons()
@@ -46,6 +37,6 @@ export function usePreload() {
   ])
 
   return {
-    isLoading: false,
+    isLoading,
   }
 }

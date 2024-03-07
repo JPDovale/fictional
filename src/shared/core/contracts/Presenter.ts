@@ -5,6 +5,7 @@ export type PresenterProps<T = unknown> = {
   title?: string
   message?: string
   status: StatusCode
+  errors?: { [x: string]: unknown }
 }
 
 export abstract class Presenter<T, K = unknown> {

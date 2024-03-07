@@ -27,7 +27,7 @@ export class CreateUserService
     email,
   }: Request): Promise<Either<PossibleErrors, Response>> {
     const _user = await this.userRepository.findByEmail(email)
-    if (!_user) {
+    if (_user) {
       return left(new UserAlreadyExistsWithSameEmail())
     }
 
