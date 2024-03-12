@@ -42,24 +42,23 @@ export class CreateProjectService
       return left(new UserNotFound())
     }
 
-    const secureImageLocation =
-      await this.imagesLocalManipulatorProvider.getSecurePath(image)
+    const imageSecure = await this.imagesLocalManipulatorProvider.getImage(
+      image,
+    )
 
-    if (image && !secureImageLocation) {
+    if (image && !imageSecure) {
       return left(new CannotGetSafeLocationForImage())
     }
 
-    if (image && secureImageLocation) {
-      await this.imagesLocalManipulatorProvider.copyToSecure(
-        image,
-        secureImageLocation,
-      )
+    if (image && imageSecure) {
+      await imageSecure.copyToSecure()
     }
 
     const project = Project.create({
       name,
       userId: user.id,
       buildBlocks: BuildBlocks.create(buildBlocks),
+      image: imageSecure?.url ?? null,
     })
 
     await this.projectsRepository.create(project)

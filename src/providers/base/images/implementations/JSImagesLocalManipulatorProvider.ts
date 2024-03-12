@@ -1,37 +1,31 @@
 import path from 'path'
-import fs from 'fs/promises'
-import syncFs from 'fs'
 import { getDatabaseImagesPath } from '@utils/getDatabasePath'
 import { UniqueId } from '@shared/core/valueObjects/UniqueId'
 import { injectable } from 'tsyringe'
 import { ImagesLocalManipulatorProvider } from '../contracts/ImagesLocalManipulator.provider'
+import { Image } from '../entities/Image'
 
 @injectable()
 export class JSImagesLocalManipulatorProvider
   implements ImagesLocalManipulatorProvider {
-  async copyToSecure(
-    originPath: string,
-    destinationPath: string,
-  ): Promise<void> {
-    await fs.copyFile(originPath, destinationPath)
-  }
-
-  async getSecurePath(originPath: string | null): Promise<string | null> {
+  async getImage(originPath: string): Promise<Image | null> {
     if (!originPath) return null
 
+    const imageId = UniqueId.create()
     const destinationPath = path.join(
       getDatabaseImagesPath(),
-      UniqueId.create().toString().concat(path.basename(originPath)),
+      imageId.toString().concat(path.basename(originPath)),
     )
 
-    if (process.platform === 'linux') {
-      return `file://${destinationPath}`
-    }
+    const image = Image.create(
+      {
+        name: path.basename(originPath),
+        path: originPath,
+        destination: destinationPath,
+      },
+      imageId,
+    )
 
-    return destinationPath
-  }
-
-  async free(securePath: string): Promise<void> {
-    await fs.rm(securePath)
+    return image
   }
 }

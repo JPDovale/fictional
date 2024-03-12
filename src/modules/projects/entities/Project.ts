@@ -1,7 +1,8 @@
 import { AggregateRoot } from '@shared/core/entities/AggregateRoot'
 import { Optional } from '@shared/core/types/Optional'
 import { UniqueId } from '@shared/core/valueObjects/UniqueId'
-import { BuildBlocks } from '../valueObjects/BuildBlocks'
+import { BuildBlock, BuildBlocks } from '../valueObjects/BuildBlocks'
+import { ProjectCreatedWithFoundationEvent } from '../events/ProjectCreatedWithFoundation.event'
 
 export enum ProjectType {
   BOOK = 'BOOK',
@@ -40,6 +41,17 @@ export class Project extends AggregateRoot<ProjectProps> {
     }
 
     const project = new Project(propsProject, id)
+    const isNewProject = !id
+
+    if (isNewProject) {
+      const isProjectWithFoundation = project.buildBlocks.implements(
+        BuildBlock.FOUNDATION,
+      )
+
+      if (isProjectWithFoundation) {
+        project.addDomainEvent(new ProjectCreatedWithFoundationEvent(project))
+      }
+    }
 
     return project
   }

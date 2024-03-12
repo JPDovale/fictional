@@ -31,6 +31,10 @@ export class BuildBlocks extends ValueObject<BuildBlocksProps> {
     return buildBlocks
   }
 
+  implements(buildBlock: BuildBlock): boolean {
+    return this.props.includes(buildBlock)
+  }
+
   toString() {
     return this.props.join(',')
   }

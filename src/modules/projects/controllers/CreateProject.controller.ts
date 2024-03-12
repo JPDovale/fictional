@@ -5,7 +5,7 @@ import { PresenterProps } from '@shared/core/contracts/Presenter'
 import { StatusCode } from '@shared/core/types/StatusCode'
 import { CreateProjectGateway } from '../gateways/CreateProject.gateway'
 import { CreateProjectService } from '../services/CreateProject.service'
-import { ProjectPresenter } from '../presenters/Project.presneter'
+import { ProjectPresenter } from '../presenters/Project.presenter'
 
 @injectable()
 export class CreateProjectController implements Controller<PresenterProps> {

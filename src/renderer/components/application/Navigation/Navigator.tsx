@@ -27,7 +27,9 @@ export function Navigator({ navIsOpen, links }: NavigationNavigatorProps) {
                     <link.Icon />
                   </Button.Icon>
 
-                  {navIsOpen && <Button.Text>{link.label}</Button.Text>}
+                  {navIsOpen && (
+                    <Button.Text className="text-xs">{link.label}</Button.Text>
+                  )}
                 </Link>
               </Button.Root>
             </li>

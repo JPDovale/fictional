@@ -1,9 +1,9 @@
 import { Header, headerLinks } from '@rComponents/application/Header'
 import { Navigation, NavigationLink } from '@rComponents/application/Navigation'
+import { useNav } from '@rHooks/useNav'
 import { useTheme } from '@rHooks/useTheme'
-import { useInterfaceStore } from '@rStores/useInterfaceStore'
 import { mainStyles } from '@rStyles/theme'
-import { Folders, Home } from 'lucide-react'
+import { Home } from 'lucide-react'
 import { Outlet } from 'react-router-dom'
 
 export const dashboardLinks: NavigationLink[] = [
@@ -11,11 +11,6 @@ export const dashboardLinks: NavigationLink[] = [
     pathname: '/',
     Icon: Home,
     label: 'Inicio',
-  },
-  {
-    pathname: '/projects',
-    Icon: Folders,
-    label: 'Projetos',
   },
   // {
   //   pathname: RoutesAvailable.persons.path,
@@ -25,12 +20,8 @@ export const dashboardLinks: NavigationLink[] = [
 ]
 
 export function DashboardLayout() {
-  // const { isToShoeHeader } = useNav()
   const { theme } = useTheme()
-  const { navIsOpen, handleChangeOpenNav } = useInterfaceStore((state) => ({
-    navIsOpen: state.navIsOpen,
-    handleChangeOpenNav: state.handleChangeOpenNav,
-  }))
+  const { navIsOpen, handleChangeOpenNav } = useNav()
 
   return (
     <div
@@ -61,7 +52,6 @@ export function DashboardLayout() {
             <Header.Button link={link} key={link.label} />
           ))}
         </Header.Root>
-        {/* {isToShoeHeader && <Header />} */}
         <Outlet />
       </div>
     </div>

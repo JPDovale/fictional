@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ProseMirror > * + * {
+  @apply mt-3;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  @apply text-text800/50 h-0 float-left pointer-events-none font-bold font-body dark:text-text500/50;
+  content: attr(data-placeholder);
+}
+
+.ProseMirror ul ol {
+  @apply px-0 py-1;
+}
+
+/* Placeholder (on every new line) */
+.ProseMirror p.is-empty::before {
+  @apply text-text800/50 h-0 float-left pointer-events-none font-bold font-body dark:text-text500/50;
+  content: attr(data-placeholder);
+}
+
+.mention {
+  @apply inline mr-1 px-2 py-0.5 bg-gray700 dark:bg-gray300 rounded-sm shadow-sm shadow-purple600 cursor-pointer;
+}
+
+mark {
+  @apply rounded-sm p-0.5 decoration-clone;
+}

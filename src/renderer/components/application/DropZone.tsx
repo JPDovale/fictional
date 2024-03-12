@@ -90,11 +90,11 @@ export function DropZone({
 
       {isDragActive ? (
         <>
-          {isDragAccept && <p>{textOnAccept ?? 'Solte sua imagem aqui'}</p>}
-          {isDragReject && <p>{textOnReject ?? 'Solte uma imagem válida'}</p>}
+          {isDragAccept && <p>{textOnAccept ?? 'Solte sua imagem'}</p>}
+          {isDragReject && <p>{textOnReject ?? 'O arquivo não é valido'}</p>}
         </>
       ) : (
-        <p>{textOnDraged ?? 'Solte um arquivo aqui'}</p>
+        <p>{textOnDraged ?? 'Arraste uma imagem aqui'}</p>
       )}
     </div>
   )

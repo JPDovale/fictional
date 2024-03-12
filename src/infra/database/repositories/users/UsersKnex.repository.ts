@@ -30,8 +30,17 @@ export class UsersKnexRepository implements UsersRepository {
       .insert(this.mapper.toPersistence(data))
   }
 
-  findById(id: string): Promise<User | null> {
-    throw new Error('Method not implemented.')
+  async findById(id: string): Promise<User | null> {
+    const user = await this.knexConnection
+      .db('users')
+      .where({
+        id,
+      })
+      .first()
+
+    if (!user) return null
+
+    return this.mapper.toDomain(user)
   }
 
   findAll(): Promise<User[]> {
