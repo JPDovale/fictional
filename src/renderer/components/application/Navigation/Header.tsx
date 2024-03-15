@@ -1,10 +1,10 @@
 import { HTMLAttributes } from 'react'
 
 interface NavigationHeaderProps extends HTMLAttributes<HTMLHeadingElement> {
-  navIsOpen: boolean
+  navIsOpen?: boolean
 }
 
-export function Header({ navIsOpen, ...props }: NavigationHeaderProps) {
+export function Header({ navIsOpen = false, ...props }: NavigationHeaderProps) {
   return (
     <h2
       data-nav-is-open={navIsOpen}

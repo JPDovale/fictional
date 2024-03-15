@@ -43,10 +43,10 @@ export function Config() {
     <Dialog.Root open={configIsOpen} onOpenChange={setConfigIsOpen}>
       <Dialog.Trigger asChild>
         <button
-          className="flex self-center mb-4 focus:scale-[120%] "
+          className="flex mt-3 self-center mb-4 focus:scale-[120%] "
           type="button"
         >
-          <Settings className="w-5 h-5" />
+          <Settings className="w-4 h-4" />
         </button>
       </Dialog.Trigger>
 

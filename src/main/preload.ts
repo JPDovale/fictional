@@ -2,7 +2,7 @@
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron'
 
-export type Channels = 'request'
+export type Channels = 'request' | 'clear-temp-editor'
 
 const electronHandler = {
   ipcRenderer: {

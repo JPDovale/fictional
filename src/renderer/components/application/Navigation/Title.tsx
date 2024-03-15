@@ -1,10 +1,10 @@
 interface NavigationTitleProps {
-  navIsOpen: boolean
-  handleChangeOpenNav: () => void
+  navIsOpen?: boolean
+  handleChangeOpenNav?: () => void
 }
 
 export function Title({
-  navIsOpen,
+  navIsOpen = false,
   handleChangeOpenNav,
 }: NavigationTitleProps) {
   if (navIsOpen) return <> Fictional</>
@@ -13,7 +13,7 @@ export function Title({
     <button
       type="button"
       className="font-title focus:scale-[120%] rounded-full"
-      onClick={handleChangeOpenNav}
+      onClick={() => handleChangeOpenNav && handleChangeOpenNav()}
     >
       F
     </button>

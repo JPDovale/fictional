@@ -34,6 +34,7 @@ export class AppWindow {
       }
     })
     AppWindow.appWindow.on(AppWindowEvents.CLOSE, () => {
+      AppWindow.appWindow?.webContents.send('clear-temp-editor')
       AppWindow.appWindow = null
     })
     AppWindow.appWindow.webContents.setWindowOpenHandler((edata) => {

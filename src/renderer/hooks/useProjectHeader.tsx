@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { z } from 'zod'
-import { ProjectPageHeader } from '@rComponents/projects/ProjectPageHeader'
+import {
+  ProjectPageHeader,
+  ProjectPageHeaderProps,
+} from '@rComponents/projects/ProjectPageHeader'
+import { Optional } from '@shared/core/types/Optional'
 import { useProject } from './useProject'
 
 export function useProjectHeader() {
@@ -52,6 +56,8 @@ export function useProjectHeader() {
 
   return {
     paths,
-    Header: () => <ProjectPageHeader projectId={projectId} />,
+    Header: ({ ...props }: Optional<ProjectPageHeaderProps, 'projectId'>) => (
+      <ProjectPageHeader projectId={projectId} {...props} />
+    ),
   }
 }

@@ -2,86 +2,54 @@ import { useEditor } from '@rHooks/useEditor'
 import { BlockEditor } from '@rComponents/application/BlockEditor'
 import { useProject } from '@rHooks/useProject'
 import { useParams } from 'react-router-dom'
-import { useEffect, useRef } from 'react'
-import { isEqual } from 'lodash'
 
-interface EditorRefState {
+interface EditorState {
   foundation: string
   whatHappens: string
   whyHappens: string
   whereHappens: string
   whoHappens: string
 }
-interface UpdateStateRefProps {
-  id: keyof EditorRefState
-  value: string
-}
 
 export function ProjectFoundationPage() {
   const { projectId } = useParams()
   const { useFoundation } = useProject({ projectId: projectId as string })
-  const { foundation, updateFoundation } = useFoundation()
+  const { foundation, updateFoundation, isLoading, getTempPersistenceKey } =
+    useFoundation()
 
-  const stateRef = useRef<EditorRefState>({
-    foundation: foundation?.foundation ?? '<p></p>',
-    whoHappens: foundation?.whoHappens ?? '<p></p>',
-    whyHappens: foundation?.whyHappens ?? '<p></p>',
-    whatHappens: foundation?.whatHappens ?? '<p></p>',
-    whereHappens: foundation?.whereHappens ?? '<p></p>',
-  })
+  function updateFoundationOnDiff(key: keyof EditorState, value: string) {
+    if (isLoading) return
+    if (!foundation) return
+    if (foundation[key] === value) return
+    console.log(key, value)
 
-  function updateStateRef({ id, value }: UpdateStateRefProps) {
-    stateRef.current[id] = value
+    updateFoundation({ [key]: value })
   }
 
-  const { Editors } = useEditor({
-    editors: [
-      {
-        id: 'foundation',
-        onUpdate: (v) => updateStateRef({ id: 'foundation', value: v }),
-        preValue: stateRef.current.foundation,
-      },
-      {
-        id: 'whatHappens',
-        onUpdate: (v) => updateStateRef({ id: 'whatHappens', value: v }),
-        preValue: stateRef.current.whatHappens,
-      },
-      {
-        id: 'whyHappens',
-        onUpdate: (v) => updateStateRef({ id: 'whyHappens', value: v }),
-        preValue: stateRef.current.whyHappens,
-      },
-      {
-        id: 'whereHappens',
-        onUpdate: (v) => updateStateRef({ id: 'whereHappens', value: v }),
-        preValue: stateRef.current.whereHappens,
-      },
-      {
-        id: 'whoHappens',
-        onUpdate: (v) => updateStateRef({ id: 'whoHappens', value: v }),
-        preValue: stateRef.current.whoHappens,
-      },
-    ],
+  const { editor: foundationEditor } = useEditor({
+    preValueKey: getTempPersistenceKey('foundation'),
+    onDiff: (value) => updateFoundationOnDiff('foundation', value),
   })
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (foundation) {
-        const initialFoundationState: EditorRefState = {
-          foundation: foundation.foundation,
-          whoHappens: foundation.whoHappens,
-          whyHappens: foundation.whyHappens,
-          whatHappens: foundation.whatHappens,
-          whereHappens: foundation.whereHappens,
-        }
+  const { editor: whatHappensEditor } = useEditor({
+    preValueKey: getTempPersistenceKey('whatHappens'),
+    onDiff: (value) => updateFoundationOnDiff('whatHappens', value),
+  })
 
-        if (isEqual(initialFoundationState, stateRef.current)) return
+  const { editor: whyHappensEditor } = useEditor({
+    preValueKey: getTempPersistenceKey('whyHappens'),
+    onDiff: (value) => updateFoundationOnDiff('whyHappens', value),
+  })
 
-        updateFoundation(stateRef.current)
-      }
-    }, 1000 * 2)
-    return () => clearInterval(interval)
-  }, [foundation, updateFoundation])
+  const { editor: whoHappensEditor } = useEditor({
+    preValueKey: getTempPersistenceKey('whoHappens'),
+    onDiff: (value) => updateFoundationOnDiff('whoHappens', value),
+  })
+
+  const { editor: whereHappensEditor } = useEditor({
+    preValueKey: getTempPersistenceKey('whereHappens'),
+    onDiff: (value) => updateFoundationOnDiff('whereHappens', value),
+  })
 
   return (
     <main className="flex flex-col max-w-3xl w-full mx-auto py-4">
@@ -94,7 +62,7 @@ export function ProjectFoundationPage() {
         mal definida, todo está comprometido.
       </span>
 
-      {Editors.foundation.editor && (
+      {foundationEditor && (
         <BlockEditor
           title="Fundamento"
           content={
@@ -115,36 +83,24 @@ export function ProjectFoundationPage() {
               <br /> <br />A ideia é se concentrar na filosofia da história.
             </span>
           }
-          editor={Editors.foundation.editor}
+          editor={foundationEditor}
         />
       )}
 
-      {Editors.whatHappens.editor && (
-        <BlockEditor
-          title="O que acontece?"
-          editor={Editors.whatHappens.editor}
-        />
+      {whatHappensEditor && (
+        <BlockEditor title="O que acontece?" editor={whatHappensEditor} />
       )}
 
-      {Editors.whyHappens.editor && (
-        <BlockEditor
-          title="Por que acontece?"
-          editor={Editors.whyHappens.editor}
-        />
+      {whyHappensEditor && (
+        <BlockEditor title="Por que acontece?" editor={whyHappensEditor} />
       )}
 
-      {Editors.whereHappens.editor && (
-        <BlockEditor
-          title="Onde acontece?"
-          editor={Editors.whereHappens.editor}
-        />
+      {whereHappensEditor && (
+        <BlockEditor title="Onde acontece?" editor={whereHappensEditor} />
       )}
 
-      {Editors.whoHappens.editor && (
-        <BlockEditor
-          title="Com quem acontece?"
-          editor={Editors.whoHappens.editor}
-        />
+      {whoHappensEditor && (
+        <BlockEditor title="Com quem acontece?" editor={whoHappensEditor} />
       )}
     </main>
   )

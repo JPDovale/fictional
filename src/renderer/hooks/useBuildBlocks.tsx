@@ -2,12 +2,12 @@ import {
   BuildBlock,
   BuildBlocksJson,
 } from '@modules/projects/valueObjects/BuildBlocks'
-import { Buildings, Clock, NoteBlank, Users } from '@phosphor-icons/react'
+import { NoteBlank } from '@phosphor-icons/react'
 import { NavigationLink } from '@rComponents/application/Navigation'
-import { LucideIcon } from 'lucide-react'
+import { Building, Clock, LucideIcon, Users } from 'lucide-react'
 
 const BuildBlocksIconsMap = {
-  FOUNDATION: Buildings,
+  FOUNDATION: Building,
   PERSONS: Users,
   TIME_LINES: Clock,
 } as { [k: string]: LucideIcon }

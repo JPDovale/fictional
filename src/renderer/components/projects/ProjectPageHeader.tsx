@@ -1,6 +1,7 @@
 import { useProject } from '@rHooks/useProject'
 import { useTheme } from '@rHooks/useTheme'
 import { Theme } from '@rStores/useInterfaceStore'
+import { HTMLAttributes } from 'react'
 import { tv } from 'tailwind-variants'
 
 const headerStyles = tv({
@@ -22,18 +23,22 @@ const dividerStyles = tv({
   base: 'font-bold opacity-30 text-sm leading-none ',
 })
 
-interface ProjectPageHeaderProps {
+export interface ProjectPageHeaderProps extends HTMLAttributes<HTMLDivElement> {
   projectId: string
 }
 
-export function ProjectPageHeader({ projectId }: ProjectPageHeaderProps) {
+export function ProjectPageHeader({
+  projectId,
+  className,
+  ...props
+}: ProjectPageHeaderProps) {
   const { theme } = useTheme()
   const { useHeader } = useProject({ projectId })
   const { paths } = useHeader()
 
   return (
     <>
-      <header className={headerStyles({ theme })}>
+      <header className={headerStyles({ theme, className })} {...props}>
         {paths.map((path, i) => (
           <div key={path} className="flex items-center gap-1">
             <span className={pathStyles()}>{path}</span>
@@ -43,6 +48,7 @@ export function ProjectPageHeader({ projectId }: ProjectPageHeaderProps) {
           </div>
         ))}
       </header>
+
       <span aria-hidden className="h-6 w-full" />
     </>
   )
