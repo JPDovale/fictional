@@ -6,6 +6,8 @@ import { GetProjectsGateway } from '@modules/projects/gateways/GetProjects.gatew
 import { GetProjectGateway } from '@modules/projects/gateways/GetProject.gateway'
 import { GetFoundationGateway } from '@modules/foundations/gateways/GetFoundation.gateway'
 import { UpdateFoundationGateway } from '@modules/foundations/gateways/UpdateFoundation.gateway'
+import { CreatePersonGateway } from '@modules/persons/gateways/CreatePerson.gateway'
+import { GetPersonsGateway } from '@modules/persons/gateways/GetPersons.gateway'
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -22,3 +24,8 @@ container.registerSingleton(GetProjectGateway)
 // Foundations
 container.registerSingleton(GetFoundationGateway)
 container.registerSingleton(UpdateFoundationGateway)
+
+// ++++++++++++++++++++++++++++++++++++++++++
+// Persons
+container.registerSingleton(CreatePersonGateway)
+container.registerSingleton(GetPersonsGateway)

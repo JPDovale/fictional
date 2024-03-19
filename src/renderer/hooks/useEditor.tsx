@@ -13,14 +13,20 @@ import { MentionList } from '@rComponents/application/Editor/components/MentionL
 import localstorageFunctions from '@rUtils/localstorageFunctions'
 import { LocalStorageKeys } from '@rConfigs/localstorageKeys'
 import { useEffect } from 'react'
+import { PersonWithParentsResponse } from '@modules/persons/presenters/PersonWithParents.presenter'
 import { useEditorDebounce } from './useEditorDebounce'
 
 interface NewEditor {
   preValueKey: string
   onDiff: (v: string) => void
+  personsSuggestion?: PersonWithParentsResponse[]
 }
 
-export function useEditor({ preValueKey, onDiff }: NewEditor) {
+export function useEditor({
+  preValueKey,
+  onDiff,
+  personsSuggestion = [],
+}: NewEditor) {
   const preValue =
     localstorageFunctions.Get<string>(preValueKey as LocalStorageKeys) ?? ''
 
@@ -45,32 +51,17 @@ export function useEditor({ preValueKey, onDiff }: NewEditor) {
           return `@${name}`
         },
         suggestion: {
-          // items: ({ query }) => {
-          //   const { persons } = usePersons.getState()
-          //
-          //   const personsThisProject = useProject
-          //     ? persons.filter((person) => {
-          //       return !!useProject.find(
-          //         (project) => project.id === person.projectId,
-          //       )
-          //     })
-          //     : []
-          //
-          //   const sugges = personsThisProject.map((person) =>
-          //     person.name?.firstName || person.name?.lastName
-          //       ? `${person.name.fullName}<==>${person.id}`
-          //       : `???????<==>${person.id}<==> | ${person.biography?.slice(
-          //         0,
-          //         70,
-          //       )}`,
-          //   )
-          //
-          //   return sugges
-          //     .filter((person) =>
-          //       person.toLowerCase().startsWith(query.toLowerCase()),
-          //     )
-          //     .slice(0, 5)
-          // },
+          items: ({ query }) => {
+            const sugges = personsSuggestion.map(
+              (person) => `${person.name}<==>${person.id}`,
+            )
+
+            return sugges
+              .filter((person) =>
+                person.toLowerCase().startsWith(query.toLowerCase()),
+              )
+              .slice(0, 5)
+          },
 
           render: () => {
             let component: ReactRenderer<

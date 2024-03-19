@@ -6,6 +6,8 @@ import { GetProjectsController } from '@modules/projects/controllers/GetProjects
 import { GetProjectController } from '@modules/projects/controllers/GetProject.controller'
 import { GetFoundationController } from '@modules/foundations/controllers/GetFoundation.controller'
 import { UpdateFoundationController } from '@modules/foundations/controllers/UpdateFoundation.controller'
+import { CreatePersonController } from '@modules/persons/controllers/CreatePerson.controller'
+import { GetPersonsController } from '@modules/persons/controllers/GetPersons.controller'
 import { Accessors } from './types'
 
 export const accessors = {
@@ -16,4 +18,6 @@ export const accessors = {
   [Accessors.GET_PROJECT]: container.resolve(GetProjectController),
   [Accessors.GET_FOUNDATION]: container.resolve(GetFoundationController),
   [Accessors.UPDATE_FOUNDATION]: container.resolve(UpdateFoundationController),
+  [Accessors.CREATE_PERSON]: container.resolve(CreatePersonController),
+  [Accessors.GET_PERSONS]: container.resolve(GetPersonsController),
 }

@@ -6,4 +6,6 @@ export enum Accessors {
   GET_PROJECT = 'GP',
   GET_FOUNDATION = 'GF',
   UPDATE_FOUNDATION = 'UF',
+  CREATE_PERSON = 'CPrs',
+  GET_PERSONS = 'GPrss',
 }

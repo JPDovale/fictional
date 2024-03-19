@@ -1,15 +1,29 @@
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from '@rComponents/ui/context-menu'
 import { useTheme } from '@rHooks/useTheme'
 import { ChevronDown, LucideIcon } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-interface NodeTree {
+interface Action {
+  label: string
+  path: string
+  Icon: LucideIcon
+}
+
+export interface NodeTree {
   name: string
   path?: string
   closed?: boolean
+  isToShow?: boolean
   id: string
   childs?: NodeTree[]
   icon?: LucideIcon
+  actions?: Action[]
 }
 
 interface NodeProps {
@@ -19,50 +33,85 @@ interface NodeProps {
   setNodeSelected: (node: string) => void
 }
 
-function Node({ node, level = 0, nodeSelected, setNodeSelected }: NodeProps) {
-  const [closed, setClosed] = useState(node.closed ?? true)
+function Node({
+  node: {
+    name,
+    childs,
+    icon: Icon,
+    closed: startClosed = true,
+    id,
+    path,
+    isToShow = true,
+    actions = [],
+  },
+  level = 0,
+  nodeSelected,
+  setNodeSelected,
+}: NodeProps) {
+  const [closed, setClosed] = useState(startClosed)
   const { theme } = useTheme()
 
   const navigate = useNavigate()
 
   function handleNodeClick() {
-    if (node.childs && node.childs.length > 0) {
+    if (childs && childs.length > 0) {
       setClosed((prev) => !prev)
       return
     }
 
-    if (node.path) {
-      navigate(node.path)
+    if (path) {
+      navigate(path)
     }
 
-    setNodeSelected(node.id)
+    setNodeSelected(id)
   }
+
+  if (!isToShow) return null
 
   return (
     <div
       data-theme={theme}
       className="flex flex-col gap-1 data-[selected=true]:bg-gray200 data-[selected=true]:data-[theme=light]:bg-gray800"
-      data-selected={nodeSelected === node.id}
+      data-selected={nodeSelected === id}
     >
-      <button
-        data-theme={theme}
-        type="button"
-        onClick={handleNodeClick}
-        className="text-sm flex items-center gap-1 hover:bg-gray200 data-[theme=light]:hover:bg-gray800"
-      >
-        <div className="w-3.5 h-3.5">
-          {node.childs && node.childs.length > 0 && (
-            <div
-              data-closed={closed}
-              className="w-full h-full data-[closed=true]:-rotate-90"
-            >
-              <ChevronDown size={14} />
+      <ContextMenu>
+        <ContextMenuTrigger asChild>
+          <button
+            data-theme={theme}
+            type="button"
+            onClick={handleNodeClick}
+            className="text-sm flex items-center gap-1 hover:bg-gray200 data-[theme=light]:hover:bg-gray800"
+          >
+            <div className="w-3.5 h-3.5">
+              {childs && childs.length > 0 && (
+                <div
+                  data-closed={closed}
+                  className="w-full h-full data-[closed=true]:-rotate-90"
+                >
+                  <ChevronDown size={14} />
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        {node.icon && <node.icon size={14} className="fill-purple900" />}
-        <span className="opacity-60 w-full">{node.name}</span>
-      </button>
+            {Icon && <Icon size={14} className="fill-purple900" />}
+            <span className="opacity-60 w-full">{name}</span>
+          </button>
+        </ContextMenuTrigger>
+
+        {actions.length > 0 && (
+          <ContextMenuContent className="w-64 flex flex-col gap-0 p-0">
+            {actions.map((action) => (
+              <ContextMenuItem
+                onClick={() => navigate(action.path)}
+                data-theme={theme}
+                className="w-full text-sm flex text-text800 gap-2 items-center hover:bg-gray700 cursor-pointer font-body data-[theme=dark]:hover:bg-gray300 px-2 py-0.5 data-[theme=dark]:text-text100"
+              >
+                <action.Icon size={14} className="fill-purple900" />
+                <span className="opacity-60 w-full">{action.label}</span>
+              </ContextMenuItem>
+            ))}
+          </ContextMenuContent>
+        )}
+      </ContextMenu>
 
       {!closed && (
         <div
@@ -71,9 +120,9 @@ function Node({ node, level = 0, nodeSelected, setNodeSelected }: NodeProps) {
           }}
           className="border-l border-gray400 pl-1"
         >
-          {node.childs && (
+          {childs && (
             <Tree
-              nodes={node.childs}
+              nodes={childs}
               level={level + 1}
               nodeSelected={nodeSelected}
               setNodeSelected={setNodeSelected}

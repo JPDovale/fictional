@@ -20,6 +20,9 @@ interface UseInterfaceStore {
   handleChangeOpenSideBar: () => void
   setSidBarIsOpen: (newState: boolean) => void
 
+  nodeIdSelected: string
+  setNodeIdSelected: (newState: string) => void
+
   lockSnowflakeSteps: boolean
   setLockSnowflakeSteps: (newState: boolean) => void
 
@@ -40,6 +43,11 @@ const useInterfaceStore = create<UseInterfaceStore>((set, get) => {
     sideBarIsOpen: true,
     commandKIsOpen: false,
     theme: Theme.SYSTEM,
+    nodeIdSelected: '3',
+
+    setNodeIdSelected: (newState) => {
+      set({ nodeIdSelected: newState })
+    },
 
     setLockSnowflakeSteps: (newState) => {
       localStorageFunctions.Set(LocalStorageKeys.LOCK_SNOWFLAKE_STEPS, newState)

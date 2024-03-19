@@ -7,7 +7,7 @@ import { tv } from 'tailwind-variants'
 import { Theme } from '@rStores/useInterfaceStore'
 
 const mentionListStyles = tv({
-  base: 'min-w-[18rem]  flex flex-col gap-0.5 border-purple900 border p-1 rounded-md shadow-xl',
+  base: ' w-72 flex flex-col gap-0.5 border-purple900 border p-1 rounded-md shadow-xl ',
   variants: {
     theme: {
       [Theme.DARK]: 'bg-gray200',
@@ -80,7 +80,7 @@ export const MentionList = forwardRef<HTMLElement, SuggestionProps>(
 
     return (
       <Popover.Root open>
-        <Popover.Content className="">
+        <Popover.Content asChild>
           <div className={mentionListStyles({ theme })}>
             {props.items.length ? (
               props.items.map((item: string, index) => (

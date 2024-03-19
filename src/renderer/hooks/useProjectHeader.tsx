@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { z } from 'zod'
 import {
@@ -9,19 +9,26 @@ import { Optional } from '@shared/core/types/Optional'
 import { useProject } from './useProject'
 
 export function useProjectHeader() {
-  const [paths, setPaths] = useState<string[]>([])
   const [projectId, setProjectId] = useState<string>('')
   const { project } = useProject({ projectId })
 
   const { pathname } = useLocation()
 
-  useEffect(() => {
+  const { paths } = useMemo(() => {
+    const _paths: string[] = []
+
     const pathsMapper: { [x: string]: string } = {
       projects: 'Projeto',
       foundation: 'Fundação',
       persons: 'Personagens',
       'time-lines': 'Linhas de tempo',
       config: 'Configurações',
+      'foundation-text': 'Fundamento',
+      'what-happens': 'O quê acontece?',
+      'where-happens': 'Onde acontece?',
+      'why-happens': 'Por que acontece?',
+      'who-happens': 'Com quem acontece?',
+      new: 'Novo(a)',
     }
 
     const uuidsPathsMapper: { [x: string]: string } = {
@@ -51,7 +58,9 @@ export function useProjectHeader() {
       makePath(rawPath, rawPaths, index),
     )
 
-    setPaths(mappedPaths)
+    _paths.push(...mappedPaths)
+
+    return { paths: _paths }
   }, [pathname, project?.name])
 
   return {

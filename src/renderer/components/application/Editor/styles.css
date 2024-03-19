@@ -22,7 +22,7 @@
 }
 
 .mention {
-  @apply inline mr-1 px-2 py-0.5 bg-gray700 dark:bg-gray300 rounded-sm shadow-sm shadow-purple600 cursor-pointer;
+  @apply inline mr-1 px-2 py-0.5 bg-gray700 data-[theme=dark]:bg-gray300 rounded-sm shadow-sm shadow-purple600 cursor-pointer group-data-[theme=dark]:bg-gray300;
 }
 
 mark {

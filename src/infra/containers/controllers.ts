@@ -6,6 +6,8 @@ import { GetProjectsController } from '@modules/projects/controllers/GetProjects
 import { GetProjectController } from '@modules/projects/controllers/GetProject.controller'
 import { GetFoundationController } from '@modules/foundations/controllers/GetFoundation.controller'
 import { UpdateFoundationController } from '@modules/foundations/controllers/UpdateFoundation.controller'
+import { CreatePersonController } from '@modules/persons/controllers/CreatePerson.controller'
+import { GetPersonsController } from '@modules/persons/controllers/GetPersons.controller'
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -22,3 +24,8 @@ container.registerSingleton(GetProjectController)
 // Foundations
 container.registerSingleton(GetFoundationController)
 container.registerSingleton(UpdateFoundationController)
+
+// ++++++++++++++++++++++++++++++++++++++++++
+// Persons
+container.registerSingleton(CreatePersonController)
+container.registerSingleton(GetPersonsController)

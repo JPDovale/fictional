@@ -3,8 +3,8 @@ import {
   BuildBlocksJson,
 } from '@modules/projects/valueObjects/BuildBlocks'
 import { NoteBlank } from '@phosphor-icons/react'
-import { NavigationLink } from '@rComponents/application/Navigation'
 import { Building, Clock, LucideIcon, Users } from 'lucide-react'
+import { useMemo } from 'react'
 
 const BuildBlocksIconsMap = {
   FOUNDATION: Building,
@@ -18,7 +18,7 @@ const BuildBlocksNamesMap = {
   TIME_LINES: 'Linhas de tempo',
 } as { [k: string]: string }
 
-export function useBuildBlocks() {
+export function useBuildBlocks(buildBlocks: BuildBlocksJson | undefined) {
   function getIcon(name: BuildBlock | string): LucideIcon {
     return BuildBlocksIconsMap[name] || NoteBlank
   }
@@ -27,28 +27,25 @@ export function useBuildBlocks() {
     return BuildBlocksNamesMap[name] || name
   }
 
-  function filterAvailableNavLinksBasedInBuildBlocks(
-    navLinks: NavigationLink[],
-    buildBlocks: BuildBlocksJson,
-  ) {
-    const inactiveBuildBlocks = Object.entries(buildBlocks).filter(
-      ([, v]) => !v,
-    )
+  const { blocksActives } = useMemo(() => {
+    const buildBlocksActives: string[] = []
 
-    if (inactiveBuildBlocks.length === 0) return navLinks
+    if (buildBlocks) {
+      Object.entries(buildBlocks).forEach(
+        ([k, v]) => v && buildBlocksActives.push(getName(k)),
+      )
+    }
 
-    const inactiveBuildBlockNames = inactiveBuildBlocks.map(
-      ([k]) => BuildBlocksNamesMap[k] || k,
-    )
+    return { blocksActives: buildBlocksActives }
+  }, [buildBlocks])
 
-    return navLinks.filter((navLink) => {
-      return !inactiveBuildBlockNames.includes(navLink.label)
-    })
+  function isBlockActive(name: BuildBlock) {
+    return blocksActives.includes(getName(name))
   }
 
   return {
     getIcon,
     getName,
-    filterAvailableNavLinksBasedInBuildBlocks,
+    isBlockActive,
   }
 }

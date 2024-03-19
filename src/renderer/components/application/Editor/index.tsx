@@ -5,10 +5,9 @@ import { tv } from 'tailwind-variants'
 import { Theme } from '@rStores/useInterfaceStore'
 import { FloatingMenuEditor } from './components/FloatingMenuEditor'
 import { BubbleMenuEditor } from './components/BubbleMenuEditor'
-// import Mention from '@tiptap/extension-mention'
 
 const editorStyles = tv({
-  base: 'min-w-[45rem] max-w-[45rem] prose prose-purple prose-sm',
+  base: 'min-w-[45rem] max-w-[45rem] prose prose-purple prose-sm group',
   variants: {
     theme: {
       [Theme.DARK]: 'prose-invert',
@@ -52,6 +51,7 @@ export function Editor({ editor }: EditorProps) {
   return (
     <>
       <EditorContent
+        data-theme={theme}
         className={editorStyles({ theme })}
         editor={editor}
         onDoubleClick={handleDoubleClick}

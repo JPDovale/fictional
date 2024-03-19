@@ -7,7 +7,13 @@ import { ProjectsKnexMapper } from '@infra/database/repositories/projects/Projec
 import { FoundationsRepository } from '@modules/foundations/repositories/Foundations.repository'
 import { FoundationsKnexRepository } from '@infra/database/repositories/foundations/FoundationsKnex.repository'
 import { FoundationsKnexMapper } from '@infra/database/repositories/foundations/FoundationsKnex.mapper'
-import { UsersKnexRepository } from '../database/repositories/users/UsersKnex.repository'
+import { PersonsRepository } from '@modules/persons/repositories/Persons.repository'
+import { PersonsKnexRepository } from '@infra/database/repositories/persons/PersonsKnex.repository'
+import { PersonsKnexMapper } from '@infra/database/repositories/persons/PersonsKnex.mapper'
+import { UsersKnexRepository } from '@infra/database/repositories/users/UsersKnex.repository'
+import { AffiliationsRepository } from '@modules/affiliations/repositories/Affiliations.repository'
+import { AffiliationsKnexRepository } from '@infra/database/repositories/affiliations/AffiliationsKnex.repository'
+import { AffiliationsKnexMapper } from '@infra/database/repositories/affiliations/AffiliationsKnex.mapper'
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -32,3 +38,19 @@ container.registerSingleton(
   FoundationsKnexRepository,
 )
 container.registerSingleton(FoundationsKnexMapper)
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// Persons
+container.registerSingleton(
+  PersonsRepository as unknown as string,
+  PersonsKnexRepository,
+)
+container.registerSingleton(PersonsKnexMapper)
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// Affiliations
+container.registerSingleton(
+  AffiliationsRepository as unknown as string,
+  AffiliationsKnexRepository,
+)
+container.registerSingleton(AffiliationsKnexMapper)

@@ -7,6 +7,7 @@ import { ProjectPresented } from '@modules/projects/presenters/Project.presenter
 import { useUser } from './useUser'
 import { useProjectHeader } from './useProjectHeader'
 import { useFoundation } from './useFoundation'
+import { usePersons } from './usePersons'
 
 interface UseProjectProps {
   projectId: string
@@ -49,6 +50,7 @@ export function useProject({ projectId }: UseProjectProps) {
     isLoading,
     refetchProject: refetch,
     useHeader: useProjectHeader,
-    useFoundation: () => useFoundation({ projectId: project?.id ?? '' }),
+    useFoundation: () => useFoundation({ projectId }),
+    usePersons: () => usePersons({ projectId }),
   }
 }

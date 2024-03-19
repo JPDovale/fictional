@@ -10,7 +10,7 @@ export class ProjectsKnexRepository implements ProjectsRepository {
   constructor(
     private readonly knexConnection: KnexConnection,
     private readonly mapper: ProjectsKnexMapper,
-  ) { }
+  ) {}
 
   async create(project: Project): Promise<void> {
     await this.knexConnection
