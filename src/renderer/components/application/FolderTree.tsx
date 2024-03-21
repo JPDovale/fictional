@@ -5,13 +5,14 @@ import {
   ContextMenuTrigger,
 } from '@rComponents/ui/context-menu'
 import { useTheme } from '@rHooks/useTheme'
+import { isString } from 'lodash'
 import { ChevronDown, LucideIcon } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 interface Action {
   label: string
-  path: string
+  action: () => void | string
   Icon: LucideIcon
 }
 
@@ -71,7 +72,7 @@ function Node({
   return (
     <div
       data-theme={theme}
-      className="flex flex-col gap-1 data-[selected=true]:bg-gray200 data-[selected=true]:data-[theme=light]:bg-gray800"
+      className="flex flex-col data-[selected=true]:bg-gray200 data-[selected=true]:data-[theme=light]:bg-gray800"
       data-selected={nodeSelected === id}
     >
       <ContextMenu>
@@ -99,16 +100,25 @@ function Node({
 
         {actions.length > 0 && (
           <ContextMenuContent className="w-64 flex flex-col gap-0 p-0">
-            {actions.map((action) => (
-              <ContextMenuItem
-                onClick={() => navigate(action.path)}
-                data-theme={theme}
-                className="w-full text-sm flex text-text800 gap-2 items-center hover:bg-gray700 cursor-pointer font-body data-[theme=dark]:hover:bg-gray300 px-2 py-0.5 data-[theme=dark]:text-text100"
-              >
-                <action.Icon size={14} className="fill-purple900" />
-                <span className="opacity-60 w-full">{action.label}</span>
-              </ContextMenuItem>
-            ))}
+            {actions.map((action) => {
+              function handleClick() {
+                const res = action.action()
+                if (res && isString(res)) {
+                  navigate(res)
+                }
+              }
+
+              return (
+                <ContextMenuItem
+                  onClick={handleClick}
+                  data-theme={theme}
+                  className="w-full text-sm flex text-text800 gap-2 items-center hover:bg-gray700 cursor-pointer font-body data-[theme=dark]:hover:bg-gray300 px-2 py-0.5 data-[theme=dark]:text-text100"
+                >
+                  <action.Icon size={14} className="fill-purple900" />
+                  <span className="opacity-60 w-full">{action.label}</span>
+                </ContextMenuItem>
+              )
+            })}
           </ContextMenuContent>
         )}
       </ContextMenu>
@@ -116,9 +126,9 @@ function Node({
       {!closed && (
         <div
           style={{
-            marginLeft: (level + 1) * 10,
+            marginLeft: (level + 1) * 8 - level * (2 * level - 1.3),
           }}
-          className="border-l border-gray400 pl-1"
+          className="border-l border-gray400"
         >
           {childs && (
             <Tree
@@ -173,7 +183,7 @@ export function FolderTree({
         Explorador
       </span>
 
-      <section className="px-1">
+      <section className="">
         <Tree
           nodes={nodes}
           nodeSelected={nodeSelected}

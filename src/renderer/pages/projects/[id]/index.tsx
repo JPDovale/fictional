@@ -3,7 +3,7 @@ import { useProject } from '@rHooks/useProject'
 import { useNavigate, useParams } from 'react-router-dom'
 import ForceGraph2D, { GraphData } from 'react-force-graph-2d'
 import { useTheme } from '@rHooks/useTheme'
-import { PersonType } from '@modules/persons/entities/types'
+import { AttributeType, PersonType } from '@modules/persons/entities/types'
 
 const personTypeTargetMapper = {
   [PersonType.SUPPORTING]: '27',
@@ -17,14 +17,25 @@ const personTypeTargetMapper = {
   [PersonType.ANTAGONIST]: '28',
 }
 
+const attributeTypeNameMapper = {
+  [AttributeType.TRAUMA]: 'Trauma',
+  [AttributeType.VALUE]: 'Valor',
+  [AttributeType.PERSONALITY]: 'Personalidade',
+  [AttributeType.OBJECTIVE]: 'Objetivo',
+  [AttributeType.DREAM]: 'Sonho',
+  [AttributeType.APPEARENCE]: 'Aparencia',
+}
+
 export function ProjectPage() {
   const { projectId } = useParams()
-  const { project, usePersons, useFoundation } = useProject({
-    projectId: projectId as string,
-  })
+  const { project, usePersons, useFoundation, usePersonsAttributes } =
+    useProject({
+      projectId: projectId as string,
+    })
   const { foundation } = useFoundation()
   const { graphBaseColor } = useTheme()
   const { persons } = usePersons()
+  const { attributes } = usePersonsAttributes()
 
   const navigate = useNavigate()
 
@@ -63,6 +74,14 @@ export function ProjectPage() {
         target: '4',
       })
     }
+    const personAttributes = attributes.filter((attr) => attr.personId === p.id)
+
+    personAttributes.forEach((a) => {
+      personsLinks.push({
+        source: p.id,
+        target: a.id,
+      })
+    })
 
     if (!p.fatherId && !p.motherId) return
 
@@ -167,9 +186,12 @@ export function ProjectPage() {
       ...persons.map((p) => ({
         id: p.id,
         label: p.name,
-        path: `/projects/${projectId}/persons/${p.id}`,
         color: graphBaseColor,
-        image: p.image.url,
+      })),
+      ...attributes.map((a) => ({
+        id: a.id,
+        label: `${attributeTypeNameMapper[a.type]} - ${a.file.title}`,
+        color: graphBaseColor,
       })),
     ],
     links: [

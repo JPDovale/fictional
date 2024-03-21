@@ -11,6 +11,8 @@ import { CreatePersonService } from '@modules/persons/services/CreatePerson.serv
 import { GetPersonsService } from '@modules/persons/services/GetPersons.service'
 import { CreateAffiliationService } from '@modules/affiliations/services/CreateAffiliation.service'
 import { GetAffiliationByParentsIdService } from '@modules/affiliations/services/GetAffiliationByParentsId.service'
+import { CreatePersonAttributeService } from '@modules/persons/services/CreatePersonAttribute.service'
+import { GetAttributesPreviewService } from '@modules/persons/services/GetAttributesPreview.service'
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -33,6 +35,8 @@ container.registerSingleton(UpdateFoundationService)
 // Persons
 container.registerSingleton(CreatePersonService)
 container.registerSingleton(GetPersonsService)
+container.registerSingleton(CreatePersonAttributeService)
+container.registerSingleton(GetAttributesPreviewService)
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Affiliations

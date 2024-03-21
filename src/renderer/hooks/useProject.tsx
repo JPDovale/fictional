@@ -8,6 +8,8 @@ import { useUser } from './useUser'
 import { useProjectHeader } from './useProjectHeader'
 import { useFoundation } from './useFoundation'
 import { usePersons } from './usePersons'
+import { useProjectTreeFolder } from './useProjectTreeFolder'
+import { usePersonsAttributes } from './usePersonsAttributes'
 
 interface UseProjectProps {
   projectId: string
@@ -52,5 +54,7 @@ export function useProject({ projectId }: UseProjectProps) {
     useHeader: useProjectHeader,
     useFoundation: () => useFoundation({ projectId }),
     usePersons: () => usePersons({ projectId }),
+    useTreeFolder: () => useProjectTreeFolder({ projectId }),
+    usePersonsAttributes: () => usePersonsAttributes({ projectId }),
   }
 }

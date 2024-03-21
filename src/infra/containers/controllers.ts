@@ -8,6 +8,8 @@ import { GetFoundationController } from '@modules/foundations/controllers/GetFou
 import { UpdateFoundationController } from '@modules/foundations/controllers/UpdateFoundation.controller'
 import { CreatePersonController } from '@modules/persons/controllers/CreatePerson.controller'
 import { GetPersonsController } from '@modules/persons/controllers/GetPersons.controller'
+import { CreatePersonAttributeService } from '@modules/persons/services/CreatePersonAttribute.service'
+import { GetAttributesPreviewController } from '@modules/persons/controllers/GetAttributesPreview.controller'
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -29,3 +31,5 @@ container.registerSingleton(UpdateFoundationController)
 // Persons
 container.registerSingleton(CreatePersonController)
 container.registerSingleton(GetPersonsController)
+container.registerSingleton(CreatePersonAttributeService)
+container.registerSingleton(GetAttributesPreviewController)

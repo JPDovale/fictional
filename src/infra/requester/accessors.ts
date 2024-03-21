@@ -8,6 +8,8 @@ import { GetFoundationController } from '@modules/foundations/controllers/GetFou
 import { UpdateFoundationController } from '@modules/foundations/controllers/UpdateFoundation.controller'
 import { CreatePersonController } from '@modules/persons/controllers/CreatePerson.controller'
 import { GetPersonsController } from '@modules/persons/controllers/GetPersons.controller'
+import { CreatePersonAttributeController } from '@modules/persons/controllers/CreatePersonAttribute.controller'
+import { GetAttributesPreviewController } from '@modules/persons/controllers/GetAttributesPreview.controller'
 import { Accessors } from './types'
 
 export const accessors = {
@@ -20,4 +22,10 @@ export const accessors = {
   [Accessors.UPDATE_FOUNDATION]: container.resolve(UpdateFoundationController),
   [Accessors.CREATE_PERSON]: container.resolve(CreatePersonController),
   [Accessors.GET_PERSONS]: container.resolve(GetPersonsController),
+  [Accessors.CREATE_PERSON_ATTRIBUTE]: container.resolve(
+    CreatePersonAttributeController,
+  ),
+  [Accessors.GET_ATTRIBUTES_PREVIEW]: container.resolve(
+    GetAttributesPreviewController,
+  ),
 }

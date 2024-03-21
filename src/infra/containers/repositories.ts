@@ -14,6 +14,15 @@ import { UsersKnexRepository } from '@infra/database/repositories/users/UsersKne
 import { AffiliationsRepository } from '@modules/affiliations/repositories/Affiliations.repository'
 import { AffiliationsKnexRepository } from '@infra/database/repositories/affiliations/AffiliationsKnex.repository'
 import { AffiliationsKnexMapper } from '@infra/database/repositories/affiliations/AffiliationsKnex.mapper'
+import { AttributesRepository } from '@modules/persons/repositories/Attributes.repository'
+import { AttributesKnexRepository } from '@infra/database/repositories/persons/AttributesKnex.repository'
+import { AttributesKnexMapper } from '@infra/database/repositories/persons/AttributesKnex.mapper'
+import { AttributesToPersonsRepository } from '@modules/persons/repositories/AttributesToPersons.repository'
+import { AttributesToPersonsKnexRepository } from '@infra/database/repositories/persons/AttributesToPesonsKnex.repository'
+import { AttributesToPersonsKnexMapper } from '@infra/database/repositories/persons/AttributesToPersonsKnex.mapper'
+import { FilesRepository } from '@modules/files/repositories/Files.repository'
+import { FilesKnexRepository } from '@infra/database/repositories/files/FilesKnex.repository'
+import { FilesKnexMapper } from '@infra/database/repositories/files/FilesKnex.mapper'
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -46,6 +55,16 @@ container.registerSingleton(
   PersonsKnexRepository,
 )
 container.registerSingleton(PersonsKnexMapper)
+container.registerSingleton(
+  AttributesRepository as unknown as string,
+  AttributesKnexRepository,
+)
+container.registerSingleton(AttributesKnexMapper)
+container.registerSingleton(
+  AttributesToPersonsRepository as unknown as string,
+  AttributesToPersonsKnexRepository,
+)
+container.registerSingleton(AttributesToPersonsKnexMapper)
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Affiliations
@@ -54,3 +73,11 @@ container.registerSingleton(
   AffiliationsKnexRepository,
 )
 container.registerSingleton(AffiliationsKnexMapper)
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// Files
+container.registerSingleton(
+  FilesRepository as unknown as string,
+  FilesKnexRepository,
+)
+container.registerSingleton(FilesKnexMapper)

@@ -8,4 +8,6 @@ export enum Accessors {
   UPDATE_FOUNDATION = 'UF',
   CREATE_PERSON = 'CPrs',
   GET_PERSONS = 'GPrss',
+  CREATE_PERSON_ATTRIBUTE = 'CPA',
+  GET_ATTRIBUTES_PREVIEW = 'GAP',
 }

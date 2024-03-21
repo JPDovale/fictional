@@ -6,6 +6,7 @@ import { FoundationFile } from '@infra/database/repositories/foundations/Foundat
 import { UserFile } from '@infra/database/repositories/users/UsersKnex.mapper'
 import { PersonFile } from '@infra/database/repositories/persons/PersonsKnex.mapper'
 import { AffiliationFile } from '@infra/database/repositories/affiliations/AffiliationsKnex.mapper'
+import { FileFile } from '@infra/database/repositories/files/FilesKnex.mapper'
 
 declare module 'knex/types/tables' {
   interface Tables {
@@ -14,5 +15,6 @@ declare module 'knex/types/tables' {
     foundations: FoundationFile
     persons: PersonFile
     affiliation: AffiliationFile
+    file: FileFile
   }
 }

@@ -8,6 +8,8 @@ import { GetFoundationGateway } from '@modules/foundations/gateways/GetFoundatio
 import { UpdateFoundationGateway } from '@modules/foundations/gateways/UpdateFoundation.gateway'
 import { CreatePersonGateway } from '@modules/persons/gateways/CreatePerson.gateway'
 import { GetPersonsGateway } from '@modules/persons/gateways/GetPersons.gateway'
+import { CreatePersonAttributeGateway } from '@modules/persons/gateways/CreatePersonAttribute.gateway'
+import { GetAttributesPreviewGateway } from '@modules/persons/gateways/GetAttributesPreview.gateway'
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -29,3 +31,5 @@ container.registerSingleton(UpdateFoundationGateway)
 // Persons
 container.registerSingleton(CreatePersonGateway)
 container.registerSingleton(GetPersonsGateway)
+container.registerSingleton(CreatePersonAttributeGateway)
+container.registerSingleton(GetAttributesPreviewGateway)

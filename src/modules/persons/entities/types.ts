@@ -9,3 +9,12 @@ export enum PersonType {
   SYMBOLIC = 'SYMBOLIC',
   EXTRA = 'EXTRA',
 }
+
+export enum AttributeType {
+  APPEARENCE = 'APPEARENCE',
+  DREAM = 'DREAM',
+  OBJECTIVE = 'OBJECTIVE',
+  PERSONALITY = 'PERSONALITY',
+  TRAUMA = 'TRAUMA',
+  VALUE = 'VALUE',
+}

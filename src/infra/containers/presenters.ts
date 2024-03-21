@@ -5,6 +5,7 @@ import { FoundationPresenter } from '@modules/foundations/presenters/Foundation.
 import { PersonPresenter } from '@modules/persons/presenters/Person.presenter'
 import { AffiliationPresenter } from '@modules/affiliations/presenters/Affiliation.presenter'
 import { PersonWithParentsPresenter } from '@modules/persons/presenters/PersonWithParents.presenter'
+import { AttributePreviewPresenter } from '@modules/persons/presenters/AttributesPreview.presenter'
 import { ErrorPresenter } from '../requester/presenters/Error.presenter'
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++
@@ -27,6 +28,7 @@ container.registerSingleton(FoundationPresenter)
 // Persons
 container.registerSingleton(PersonPresenter)
 container.registerSingleton(PersonWithParentsPresenter)
+container.registerSingleton(AttributePreviewPresenter)
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++
 // Affiliations
