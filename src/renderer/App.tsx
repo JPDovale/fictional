@@ -1,9 +1,11 @@
-import 'tailwindcss/tailwind.css';
-import { AppRoutes } from '@routes/AppRoutes';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import 'tailwindcss/tailwind.css'
+import '@rStyles/globals.css'
+import { MemoryRouter as Router } from 'react-router-dom'
+import { AppRoutes } from '@rRoutes/AppRoutes'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
-const client = new QueryClient();
+const client = new QueryClient()
 
 export default function App() {
   return (
@@ -11,6 +13,8 @@ export default function App() {
       <Router>
         <AppRoutes />
       </Router>
+
+      <ReactQueryDevtools />
     </QueryClientProvider>
-  );
+  )
 }
