@@ -1,5 +1,11 @@
 # magiscrita
 
+## 0.2.2
+
+### Patch Changes
+
+- Fix local instalation on Windows and log version on interface
+
 ## 0.2.1
 
 ### Patch Changes
