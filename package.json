@@ -216,7 +216,7 @@
   },
   "build": {
     "productName": "Fictional",
-    "executableName": "FCInstaler",
+    "executableName": "Fictional",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
