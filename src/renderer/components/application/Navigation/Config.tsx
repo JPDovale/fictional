@@ -2,7 +2,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { Computer, Moon, Settings, Sun, X } from 'lucide-react'
 import { useState } from 'react'
 import { useTheme } from '@rHooks/useTheme'
-import { Theme, useInterfaceStore } from '@rStores/useInterfaceStore'
+import { Theme } from '@rStores/useInterfaceStore'
 import { tv } from 'tailwind-variants'
 import localstorageFunctions from '@rUtils/localstorageFunctions'
 import { LocalStorageKeys } from '@rConfigs/localstorageKeys'
@@ -24,12 +24,6 @@ export function Config() {
 
   const { theme, changeTheme } = useTheme()
 
-  const { setLockSnowflakeSteps, lockSnowflakeSteps } = useInterfaceStore(
-    (state) => ({
-      setLockSnowflakeSteps: state.setLockSnowflakeSteps,
-      lockSnowflakeSteps: state.lockSnowflakeSteps,
-    }),
-  )
 
   const themeSaved = localstorageFunctions.Get<Theme>(LocalStorageKeys.THEME)
 
@@ -37,7 +31,6 @@ export function Config() {
   const isLightTheme = themeSaved === Theme.LIGHT
   const isSystemTheme = themeSaved === Theme.SYSTEM
 
-  const isLockSnowflakeSteps = lockSnowflakeSteps === true
 
   return (
     <Dialog.Root open={configIsOpen} onOpenChange={setConfigIsOpen}>
@@ -107,30 +100,6 @@ export function Config() {
                     <Computer />
                   </Button.Icon>
                   <Button.Text>Sistema</Button.Text>
-                </Button.Root>
-              </div>
-            </div>
-
-            <div className="flex flex-col justify-center gap-1">
-              <span className="text-sm">Travar passos no mode snowflake</span>
-
-              <div className="flex justify-between gap-2">
-                <Button.Root
-                  onClick={() => setLockSnowflakeSteps(true)}
-                  size="xs"
-                  width="full"
-                  active={isLockSnowflakeSteps}
-                >
-                  <Button.Text>Sim</Button.Text>
-                </Button.Root>
-
-                <Button.Root
-                  onClick={() => setLockSnowflakeSteps(false)}
-                  size="xs"
-                  width="full"
-                  active={!isLockSnowflakeSteps}
-                >
-                  <Button.Text>Não</Button.Text>
                 </Button.Root>
               </div>
             </div>

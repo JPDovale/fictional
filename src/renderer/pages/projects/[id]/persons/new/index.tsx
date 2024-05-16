@@ -19,6 +19,7 @@ import {
   PopoverTrigger,
 } from '@rComponents/ui/popover'
 import { usePersons } from '@rHooks/usePersons'
+import { useTheme } from '@rHooks/useTheme'
 import { useUser } from '@rHooks/useUser'
 import { StatusCode } from '@shared/core/types/StatusCode'
 import { Check, UserPlus, VenetianMask } from 'lucide-react'
@@ -93,6 +94,7 @@ export function ProjectNewPersonPage() {
   const [openMotherPicker, setOpenMotherPicker] = useState(false)
   const [openTypePicker, setOpenTypePicker] = useState(false)
 
+  const { theme } = useTheme()
   const { projectId } = useParams()
   const { user } = useUser()
   const { persons, refetchPersons } = usePersons({
@@ -168,7 +170,8 @@ export function ProjectNewPersonPage() {
       <h2 className="text-3xl font-bold mb-4">Novo(a) Personagem</h2>
 
       <form
-        className="flex flex-col bg-gray100/20 relative shadow-2xl backdrop-blur-sm rounded-lg gap-4 p-4"
+        data-theme={theme}
+        className="flex flex-col bg-gray100/30 data-[theme=light]:bg-gray900/30 relative shadow-2xl backdrop-blur-sm rounded-lg gap-4 p-4"
         onSubmit={handleSubmit(handleCreatePerson)}
       >
         <span className="text-xs absolute top-2 font-bold opacity-60 right-4">
@@ -250,7 +253,7 @@ export function ProjectNewPersonPage() {
                       <CommandGroup>
                         {persons.map((p) => (
                           <CommandItem
-                            className="font-bold text-sm"
+                            className="font-bold"
                             key={p.id}
                             value={p.id}
                             onSelect={(currentValue) => {
@@ -268,17 +271,17 @@ export function ProjectNewPersonPage() {
                               className="w-4 h-4 data-[hidden=true]:invisible mr-2"
                             />
 
-                            <Avatar className="w-7 h-7 mr-2">
+                            <Avatar className="w-6 h-6 mr-2">
                               <AvatarImage
                                 src={p.image.url ?? undefined}
                                 className="object-cover"
                               />
-                              <AvatarFallback>
-                                <VenetianMask />
+                              <AvatarFallback className='border border-purple800 bg-transparent'>
+                                <VenetianMask className="w-4 h-4" />
                               </AvatarFallback>
                             </Avatar>
 
-                            {p.name}
+                            <span className="text-xs">{p.name}</span>
                           </CommandItem>
                         ))}
                       </CommandGroup>
@@ -329,17 +332,17 @@ export function ProjectNewPersonPage() {
                               className="w-4 h-4 data-[hidden=true]:invisible mr-2"
                             />
 
-                            <Avatar className="w-7 h-7 mr-2">
+                            <Avatar className="w-6 h-6 mr-2">
                               <AvatarImage
                                 src={p.image.url ?? undefined}
                                 className="object-cover"
                               />
-                              <AvatarFallback>
-                                <VenetianMask />
+                              <AvatarFallback className='border border-purple800 bg-transparent'>
+                                <VenetianMask className="w-4 h-4" />
                               </AvatarFallback>
                             </Avatar>
 
-                            {p.name}
+                            <span className="text-xs">{p.name}</span>
                           </CommandItem>
                         ))}
                       </CommandGroup>

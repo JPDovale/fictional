@@ -27,7 +27,7 @@ const createProjectSchema = z.object({
     .default([
       BuildBlock.FOUNDATION,
       BuildBlock.PERSONS,
-      BuildBlock.TIME_LINES,
+      // BuildBlock.TIME_LINES,
     ]),
   image: z.string().trim().optional(),
 })
@@ -53,7 +53,7 @@ export function NewProjectPage() {
       buildBlocks: [
         BuildBlock.FOUNDATION,
         BuildBlock.PERSONS,
-        BuildBlock.TIME_LINES,
+        // BuildBlock.TIME_LINES,
       ],
     },
   })
@@ -205,9 +205,10 @@ export function NewProjectPage() {
                 </Checkbox.Icon>
               </Checkbox.Root>
 
-              <Checkbox.Root>
+              <Checkbox.Root disabled>
                 <Checkbox.CheckerRoot
                   checked={buildBlocks.includes(BuildBlock.TIME_LINES)}
+                  disabled
                   onCheckedChange={(e) =>
                     handleToggleBuildBlock(
                       BuildBlock.TIME_LINES,

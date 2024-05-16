@@ -19,6 +19,7 @@ import {
   PopoverTrigger,
 } from '@rComponents/ui/popover'
 import { useProject } from '@rHooks/useProject'
+import { useTheme } from '@rHooks/useTheme'
 import { useUser } from '@rHooks/useUser'
 import { StatusCode } from '@shared/core/types/StatusCode'
 import { Check, VenetianMask, X } from 'lucide-react'
@@ -104,6 +105,7 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
 
   const { projectId, personId } = useParams()
 
+  const { theme } = useTheme()
   const { user } = useUser()
   const { usePersons } = useProject({ projectId: projectId as string })
   const { persons: personsWithSelected, refetchPersons } = usePersons()
@@ -185,7 +187,8 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
 
   return (
     <form
-      className="flex flex-col bg-gray100/20 relative shadow-2xl backdrop-blur-sm rounded-lg gap-4 p-4"
+      data-theme={theme}
+      className="flex flex-col bg-gray100/30 data-[theme=light]:bg-gray900/30 relative shadow-2xl backdrop-blur-sm rounded-lg gap-4 p-4"
       onSubmit={handleSubmit(handleUpdatePerson)}
     >
       <span className="text-xs absolute top-2 font-bold opacity-60 right-4">
@@ -285,17 +288,18 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
                             className="w-4 h-4 data-[hidden=true]:invisible mr-2"
                           />
 
-                          <Avatar className="w-7 h-7 mr-2">
+
+                          <Avatar className="w-6 h-6 mr-2">
                             <AvatarImage
                               src={p.image.url ?? undefined}
                               className="object-cover"
                             />
-                            <AvatarFallback>
-                              <VenetianMask />
+                            <AvatarFallback className='border border-purple800 bg-transparent'>
+                              <VenetianMask className="w-4 h-4" />
                             </AvatarFallback>
                           </Avatar>
 
-                          {p.name}
+                          <span className="text-xs">{p.name}</span>
                         </CommandItem>
                       ))}
                     </CommandGroup>
@@ -346,17 +350,18 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
                             className="w-4 h-4 data-[hidden=true]:invisible mr-2"
                           />
 
-                          <Avatar className="w-7 h-7 mr-2">
+                          <Avatar className="w-6 h-6 mr-2">
                             <AvatarImage
                               src={p.image.url ?? undefined}
                               className="object-cover"
                             />
-                            <AvatarFallback>
-                              <VenetianMask />
+                            <AvatarFallback className='border border-purple800 bg-transparent'>
+                              <VenetianMask className="w-4 h-4" />
                             </AvatarFallback>
                           </Avatar>
 
-                          {p.name}
+                          <span className="text-xs">{p.name}</span>
+
                         </CommandItem>
                       ))}
                     </CommandGroup>

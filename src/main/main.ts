@@ -2,6 +2,7 @@ import '../infra/containers/index'
 import '../infra/requester/index'
 import { app } from 'electron'
 import { AppWindow } from './view/AppWindow'
+import { StarterDatabase } from './controller/StarterDatabase'
 
 const { appWindow } = AppWindow
 
@@ -19,6 +20,7 @@ app.on('window-all-closed', () => {
 app
   .whenReady()
   .then(() => {
+    new StarterDatabase()
     AppWindow.create()
 
     app.on('activate', () => {

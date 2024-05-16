@@ -60,174 +60,174 @@ export function makeTypePersonsFolderTreeNode({
           path: `/projects/${projectId}/persons/${person.id}/identity`,
           icon: Contact,
         },
-        {
-          id: `${person.id}-appearence`,
-          name: 'Aparência',
-          icon: ScanFace,
-          actions: [
-            {
-              label: 'Criar aparência',
-              action: () =>
-                createAttributeForPerson({
-                  personId: person.id,
-                  type: AttributeType.APPEARENCE,
-                }),
-              Icon: ScanFace,
-            },
-          ],
-          childs: attributes
-            .filter(
-              (attr) =>
-                attr.type === AttributeType.APPEARENCE &&
-                attr.personId === person.id,
-            )
-            .map((attr) => ({
-              id: attr.id,
-              name: attr.file.title,
-              path: `/projects/${projectId}/persons/${person.id}/appearence/${attr.file.id}`,
-              icon: FileEdit,
-            })),
-        },
-        {
-          id: `${person.id}-dream`,
-          name: 'Sonho',
-          icon: BedDouble,
-          actions: [
-            {
-              label: 'Criar sonho',
-              action: () =>
-                createAttributeForPerson({
-                  personId: person.id,
-                  type: AttributeType.DREAM,
-                }),
-              Icon: BedDouble,
-            },
-          ],
-          childs: attributes
-            .filter(
-              (attr) =>
-                attr.type === AttributeType.DREAM &&
-                attr.personId === person.id,
-            )
-            .map((attr) => ({
-              id: attr.id,
-              name: attr.file.title,
-              path: `/projects/${projectId}/persons/${person.id}/dream/${attr.file.id}`,
-              icon: FileEdit,
-            })),
-        },
-        {
-          id: `${person.id}-objective`,
-          name: 'Objetivo',
-          icon: Target,
-          actions: [
-            {
-              label: 'Criar objetivo',
-              action: () =>
-                createAttributeForPerson({
-                  personId: person.id,
-                  type: AttributeType.OBJECTIVE,
-                }),
-              Icon: Target,
-            },
-          ],
-          childs: attributes
-            .filter(
-              (attr) =>
-                attr.type === AttributeType.OBJECTIVE &&
-                attr.personId === person.id,
-            )
-            .map((attr) => ({
-              id: attr.id,
-              name: attr.file.title,
-              path: `/projects/${projectId}/persons/${person.id}/objective/${attr.file.id}`,
-              icon: FileEdit,
-            })),
-        },
-        {
-          id: `${person.id}-personality`,
-          name: 'Personalidade',
-          icon: Fingerprint,
-          actions: [
-            {
-              label: 'Criar personalidade',
-              action: () =>
-                createAttributeForPerson({
-                  personId: person.id,
-                  type: AttributeType.PERSONALITY,
-                }),
-              Icon: Fingerprint,
-            },
-          ],
-          childs: attributes
-            .filter(
-              (attr) =>
-                attr.type === AttributeType.PERSONALITY &&
-                attr.personId === person.id,
-            )
-            .map((attr) => ({
-              id: attr.id,
-              name: attr.file.title,
-              path: `/projects/${projectId}/persons/${person.id}/personality/${attr.file.id}`,
-              icon: FileEdit,
-            })),
-        },
-        {
-          id: `${person.id}-trauma`,
-          name: 'Trauma',
-          icon: HeartCrack,
-          actions: [
-            {
-              label: 'Criar trauma',
-              action: () =>
-                createAttributeForPerson({
-                  personId: person.id,
-                  type: AttributeType.TRAUMA,
-                }),
-              Icon: HeartCrack,
-            },
-          ],
-          childs: attributes
-            .filter(
-              (attr) =>
-                attr.type === AttributeType.TRAUMA &&
-                attr.personId === person.id,
-            )
-            .map((attr) => ({
-              id: attr.id,
-              name: attr.file.title,
-              path: `/projects/${projectId}/persons/${person.id}/trauma/${attr.file.id}`,
-              icon: FileEdit,
-            })),
-        },
-        {
-          id: `${person.id}-value`,
-          name: 'Valor',
-          icon: Leaf,
-          actions: [
-            {
-              label: 'Criar valor',
-              action: () =>
-                createAttributeForPerson({
-                  personId: person.id,
-                  type: AttributeType.VALUE,
-                }),
-              Icon: Leaf,
-            },
-          ],
-          childs: attributes
-            .filter(
-              (attr) =>
-                attr.type === AttributeType.VALUE &&
-                attr.personId === person.id,
-            )
-            .map((attr) => ({
-              id: attr.id,
-              name: attr.file.title,
-              path: `/projects/${projectId}/persons/${person.id}/value/${attr.file.id}`,
-              icon: FileEdit,
-            })),
-        },
+        // {
+        //   id: `${person.id}-appearence`,
+        //   name: 'Aparência',
+        //   icon: ScanFace,
+        //   actions: [
+        //     {
+        //       label: 'Criar aparência',
+        //       action: () =>
+        //         createAttributeForPerson({
+        //           personId: person.id,
+        //           type: AttributeType.APPEARENCE,
+        //         }),
+        //       Icon: ScanFace,
+        //     },
+        //   ],
+        //   childs: attributes
+        //     .filter(
+        //       (attr) =>
+        //         attr.type === AttributeType.APPEARENCE &&
+        //         attr.personId === person.id,
+        //     )
+        //     .map((attr) => ({
+        //       id: attr.id,
+        //       name: attr.file.title,
+        //       path: `/projects/${projectId}/persons/${person.id}/appearence/${attr.file.id}`,
+        //       icon: FileEdit,
+        //     })),
+        // },
+        // {
+        //   id: `${person.id}-dream`,
+        //   name: 'Sonho',
+        //   icon: BedDouble,
+        //   actions: [
+        //     {
+        //       label: 'Criar sonho',
+        //       action: () =>
+        //         createAttributeForPerson({
+        //           personId: person.id,
+        //           type: AttributeType.DREAM,
+        //         }),
+        //       Icon: BedDouble,
+        //     },
+        //   ],
+        //   childs: attributes
+        //     .filter(
+        //       (attr) =>
+        //         attr.type === AttributeType.DREAM &&
+        //         attr.personId === person.id,
+        //     )
+        //     .map((attr) => ({
+        //       id: attr.id,
+        //       name: attr.file.title,
+        //       path: `/projects/${projectId}/persons/${person.id}/dream/${attr.file.id}`,
+        //       icon: FileEdit,
+        //     })),
+        // },
+        // {
+        //   id: `${person.id}-objective`,
+        //   name: 'Objetivo',
+        //   icon: Target,
+        //   actions: [
+        //     {
+        //       label: 'Criar objetivo',
+        //       action: () =>
+        //         createAttributeForPerson({
+        //           personId: person.id,
+        //           type: AttributeType.OBJECTIVE,
+        //         }),
+        //       Icon: Target,
+        //     },
+        //   ],
+        //   childs: attributes
+        //     .filter(
+        //       (attr) =>
+        //         attr.type === AttributeType.OBJECTIVE &&
+        //         attr.personId === person.id,
+        //     )
+        //     .map((attr) => ({
+        //       id: attr.id,
+        //       name: attr.file.title,
+        //       path: `/projects/${projectId}/persons/${person.id}/objective/${attr.file.id}`,
+        //       icon: FileEdit,
+        //     })),
+        // },
+        // {
+        //   id: `${person.id}-personality`,
+        //   name: 'Personalidade',
+        //   icon: Fingerprint,
+        //   actions: [
+        //     {
+        //       label: 'Criar personalidade',
+        //       action: () =>
+        //         createAttributeForPerson({
+        //           personId: person.id,
+        //           type: AttributeType.PERSONALITY,
+        //         }),
+        //       Icon: Fingerprint,
+        //     },
+        //   ],
+        //   childs: attributes
+        //     .filter(
+        //       (attr) =>
+        //         attr.type === AttributeType.PERSONALITY &&
+        //         attr.personId === person.id,
+        //     )
+        //     .map((attr) => ({
+        //       id: attr.id,
+        //       name: attr.file.title,
+        //       path: `/projects/${projectId}/persons/${person.id}/personality/${attr.file.id}`,
+        //       icon: FileEdit,
+        //     })),
+        // },
+        // {
+        //   id: `${person.id}-trauma`,
+        //   name: 'Trauma',
+        //   icon: HeartCrack,
+        //   actions: [
+        //     {
+        //       label: 'Criar trauma',
+        //       action: () =>
+        //         createAttributeForPerson({
+        //           personId: person.id,
+        //           type: AttributeType.TRAUMA,
+        //         }),
+        //       Icon: HeartCrack,
+        //     },
+        //   ],
+        //   childs: attributes
+        //     .filter(
+        //       (attr) =>
+        //         attr.type === AttributeType.TRAUMA &&
+        //         attr.personId === person.id,
+        //     )
+        //     .map((attr) => ({
+        //       id: attr.id,
+        //       name: attr.file.title,
+        //       path: `/projects/${projectId}/persons/${person.id}/trauma/${attr.file.id}`,
+        //       icon: FileEdit,
+        //     })),
+        // },
+        // {
+        //   id: `${person.id}-value`,
+        //   name: 'Valor',
+        //   icon: Leaf,
+        //   actions: [
+        //     {
+        //       label: 'Criar valor',
+        //       action: () =>
+        //         createAttributeForPerson({
+        //           personId: person.id,
+        //           type: AttributeType.VALUE,
+        //         }),
+        //       Icon: Leaf,
+        //     },
+        //   ],
+        //   childs: attributes
+        //     .filter(
+        //       (attr) =>
+        //         attr.type === AttributeType.VALUE &&
+        //         attr.personId === person.id,
+        //     )
+        //     .map((attr) => ({
+        //       id: attr.id,
+        //       name: attr.file.title,
+        //       path: `/projects/${projectId}/persons/${person.id}/value/${attr.file.id}`,
+        //       icon: FileEdit,
+        //     })),
+        // },
       ],
     })),
   }

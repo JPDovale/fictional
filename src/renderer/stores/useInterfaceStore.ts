@@ -23,8 +23,6 @@ interface UseInterfaceStore {
   nodeIdSelected: string
   setNodeIdSelected: (newState: string) => void
 
-  lockSnowflakeSteps: boolean
-  setLockSnowflakeSteps: (newState: boolean) => void
 
   loadConfig: () => void
 
@@ -39,7 +37,6 @@ interface UseInterfaceStore {
 const useInterfaceStore = create<UseInterfaceStore>((set, get) => {
   return {
     navIsOpen: false,
-    lockSnowflakeSteps: true,
     sideBarIsOpen: true,
     commandKIsOpen: false,
     theme: Theme.SYSTEM,
@@ -49,19 +46,11 @@ const useInterfaceStore = create<UseInterfaceStore>((set, get) => {
       set({ nodeIdSelected: newState })
     },
 
-    setLockSnowflakeSteps: (newState) => {
-      localStorageFunctions.Set(LocalStorageKeys.LOCK_SNOWFLAKE_STEPS, newState)
-      set({ lockSnowflakeSteps: newState })
-    },
-
     loadConfig: () => {
       const theme = localStorageFunctions.Get<Theme>(LocalStorageKeys.THEME)
-      const lockSnowflakeSteps = localStorageFunctions.Get<boolean>(
-        LocalStorageKeys.LOCK_SNOWFLAKE_STEPS,
-      )
 
       if (theme && theme !== Theme.SYSTEM) {
-        set({ theme, lockSnowflakeSteps: lockSnowflakeSteps ?? true })
+        set({ theme })
         return
       }
 
@@ -71,7 +60,6 @@ const useInterfaceStore = create<UseInterfaceStore>((set, get) => {
 
       set({
         theme: prefersDark ? Theme.DARK : Theme.LIGHT,
-        lockSnowflakeSteps: lockSnowflakeSteps ?? true,
       })
     },
 

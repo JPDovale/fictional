@@ -1,11 +1,6 @@
 import {
-  Cloud,
   FilePlus,
-  Gem,
   LucideIcon,
-  PackagePlus,
-  Settings,
-  UserPlus,
 } from 'lucide-react'
 import { Root } from './Root'
 import { Button } from './Button'
@@ -36,41 +31,6 @@ export const headerLinks: HeaderLink[] = [
       },
     ],
     disabled: false,
-  },
-  {
-    pathname: '/persons/new',
-    label: 'Criar personagem',
-    Icon: UserPlus,
-    infos: [],
-    disabled: false,
-  },
-  {
-    pathname: '/boxes/new',
-    label: 'Criar caixote',
-    Icon: PackagePlus,
-    infos: [],
-    disabled: true,
-  },
-  {
-    pathname: '/sync',
-    label: 'Sincronizar',
-    Icon: Cloud,
-    infos: [],
-    disabled: true,
-  },
-  {
-    pathname: '/settings',
-    label: 'Configurações',
-    Icon: Settings,
-    infos: [],
-    disabled: true,
-  },
-  {
-    pathname: '/plus',
-    label: 'Plus',
-    Icon: Gem,
-    infos: [],
-    disabled: true,
   },
 ]
 

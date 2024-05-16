@@ -2,6 +2,7 @@ import { PersonWithParentsResponse } from '@modules/persons/presenters/PersonWit
 import { Button } from '@rComponents/application/Button'
 import { Avatar, AvatarFallback, AvatarImage } from '@rComponents/ui/avatar'
 import { useProject } from '@rHooks/useProject'
+import { useTheme } from '@rHooks/useTheme'
 import { Pen, VenetianMask } from 'lucide-react'
 import { useParams } from 'react-router-dom'
 
@@ -14,6 +15,7 @@ export function IdentityPersonCard({
   person,
   onEdit,
 }: IndentityPersonCardProps) {
+  const { theme } = useTheme()
   const { projectId } = useParams()
   const { usePersons } = useProject({ projectId: projectId as string })
   const { persons } = usePersons()
@@ -22,14 +24,14 @@ export function IdentityPersonCard({
   const father = persons.find((p) => p.id === person.fatherId)
 
   return (
-    <div className="flex flex-col bg-gray100/20 relative shadow-2xl backdrop-blur-sm rounded-lg gap-4 p-4">
+    <div data-theme={theme} className="flex flex-col bg-gray100/30 data-[theme=light]:bg-gray900/30 relative shadow-2xl backdrop-blur-sm rounded-lg gap-4 p-4">
       <div className="flex items-center gap-8">
-        <Avatar className="w-48 h-48 bg-gray100">
+        <Avatar className="w-48 h-48 ">
           <AvatarImage
             src={person.image.url ?? undefined}
             className="object-cover"
           />
-          <AvatarFallback className="bg-gray100 border border-purple900">
+          <AvatarFallback className="bg-transparent border border-purple900">
             <VenetianMask />
           </AvatarFallback>
         </Avatar>

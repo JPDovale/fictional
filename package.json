@@ -1,5 +1,5 @@
 {
-  "name": "magiscrita",
+  "name": "fictional",
   "description": "The magic occurs in here",
   "version": "0.1.0",
   "keywords": [
@@ -291,7 +291,12 @@
     },
     "extraResources": [
       "./assets/**"
-    ]
+    ],
+    "publish": {
+      "provider": "github",
+      "owner": "JPDovale",
+      "repo": "ms-desktop"
+    }
   },
   "devEngines": {
     "node": ">=14.x",
