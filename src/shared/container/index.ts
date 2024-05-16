@@ -1,2 +1,0 @@
-import './repositories';
-import './providers';

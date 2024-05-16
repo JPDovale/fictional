@@ -1,19 +1,20 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Knex } from 'knex';
-import { BookFile } from '@database/repositories/Book/types';
-import { UserFile } from '@database/repositories/User/types';
-import { ProjectFile } from '@database/repositories/Project/types';
-import { ThreeActsStructureFile } from '@database/repositories/ThreeActsStructure/types';
-import { PersonFile } from '@database/repositories/Person/types';
-import { SnowflakeStructureFile } from '@database/repositories/SnowflakeStructure/types';
+import { Knex } from 'knex'
+
+import { ProjectFile } from '@infra/database/repositories/projects/ProjectsKnex.mapper'
+import { FoundationFile } from '@infra/database/repositories/foundations/FoundationsKnex.mapper'
+import { UserFile } from '@infra/database/repositories/users/UsersKnex.mapper'
+import { PersonFile } from '@infra/database/repositories/persons/PersonsKnex.mapper'
+import { AffiliationFile } from '@infra/database/repositories/affiliations/AffiliationsKnex.mapper'
+import { FileFile } from '@infra/database/repositories/files/FilesKnex.mapper'
 
 declare module 'knex/types/tables' {
   interface Tables {
-    books: BookFile;
-    users: UserFile;
-    projects: ProjectFile;
-    snowflake_structures: SnowflakeStructureFile;
-    three_acts_structures: ThreeActsStructureFile;
-    persons: PersonFile;
+    users: UserFile
+    projects: ProjectFile
+    foundations: FoundationFile
+    persons: PersonFile
+    affiliation: AffiliationFile
+    file: FileFile
   }
 }
