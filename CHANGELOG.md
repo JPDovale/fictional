@@ -1,4 +1,8 @@
-## 0.0.1
+## 0.2.0
+
+### Minor Changes
+
+- Update all the infraestructure
 
 ## 0.1.0
 
