@@ -1,5 +1,11 @@
 # magiscrita
 
+## 0.2.1
+
+### Patch Changes
+
+- fix name
+
 ## 0.2.0
 
 ### Minor Changes
