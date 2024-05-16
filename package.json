@@ -215,15 +215,15 @@
     "webpack-merge": "^5.9.0"
   },
   "build": {
-    "productName": "MagiScrita",
-    "executableName": "MagicInstaller",
+    "productName": "Fictionaç",
+    "executableName": "FCIntaler",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
       "dist",
       "node_modules",
       "package.json",
-      "src/database/migrations"
+      "src/infra/database/migrations"
     ],
     "afterSign": ".erb/scripts/notarize.js",
     "mac": {

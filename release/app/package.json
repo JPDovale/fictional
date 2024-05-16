@@ -1,10 +1,10 @@
 {
-  "name": "magiscrita",
-  "version": "0.1.0",
+  "name": "fictional",
+  "version": "0.2.0",
   "description": "The magic occurs in here",
   "license": "MIT",
   "author": {
-    "name": "MagiScrita",
+    "name": "Fictional",
     "email": "ms@magiscrita.com",
     "url": "https://magiscrita.com"
   },
