@@ -8,7 +8,7 @@ import { ValidationPipeError } from './ValidationPipe.error'
  * It will validate the data request on application.
  */
 export class ZodValidationPipe<T> {
-  constructor(private schema: ZodSchema) { }
+  constructor(private schema: ZodSchema) {}
 
   transform(value: unknown): T {
     try {

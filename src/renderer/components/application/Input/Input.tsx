@@ -31,7 +31,7 @@ const inputStyles = tv({
 
 interface InputInputProps
   extends HTMLAttributes<HTMLDivElement>,
-  VariantProps<typeof inputStyles> {
+    VariantProps<typeof inputStyles> {
   disabled?: boolean
 }
 

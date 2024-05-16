@@ -1,7 +1,7 @@
-import { Book } from '@modules/Books/models/Book';
-import { ThreeActsStructureParser } from '@modules/ThreeActsStructures/dtos/models/Parsers/ThreeActsStructure';
-import { SnowflakeStructureParser } from '@modules/SnowflakeStructures/dtos/models/Parsers/SnowflakeStructureParser';
-import { BookModelResponse } from '../types';
+import { Book } from '@modules/Books/models/Book'
+import { ThreeActsStructureParser } from '@modules/ThreeActsStructures/dtos/models/Parsers/ThreeActsStructure'
+import { SnowflakeStructureParser } from '@modules/SnowflakeStructures/dtos/models/Parsers/SnowflakeStructureParser'
+import { BookModelResponse } from '../types'
 
 export function BookParser(book: Book): BookModelResponse {
   const bookPartied: BookModelResponse = {
@@ -24,7 +24,7 @@ export function BookParser(book: Book): BookModelResponse {
     snowflakeStructure: book.snowflakeStructure
       ? SnowflakeStructureParser(book.snowflakeStructure)
       : null,
-  };
+  }
 
-  return bookPartied;
+  return bookPartied
 }

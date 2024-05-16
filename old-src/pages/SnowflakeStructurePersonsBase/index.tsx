@@ -1,28 +1,28 @@
-import { PersonCard } from '@components/PersonsComponents/PersonCard';
-import { SnowflakeStructureNavigate } from '@components/SnowflakeStructureComponents/SnowflakeStructureNavigation';
-import { useBooks } from '@store/Books';
-import { useProjects } from '@store/Projects';
-import { RoutesAvailable } from '@config/routes/routesAvailable';
-import { useRoutes } from '@store/Routes';
-import { NewPersonForm } from './components/NewPersonForm';
+import { PersonCard } from '@components/PersonsComponents/PersonCard'
+import { SnowflakeStructureNavigate } from '@components/SnowflakeStructureComponents/SnowflakeStructureNavigation'
+import { useBooks } from '@store/Books'
+import { useProjects } from '@store/Projects'
+import { RoutesAvailable } from '@config/routes/routesAvailable'
+import { useRoutes } from '@store/Routes'
+import { NewPersonForm } from './components/NewPersonForm'
 
 export function SnowflakeStructurePersonsBasePage() {
   const { project } = useProjects((state) => ({
     project: state.currentProject,
     updateSnowflakeStructure: state.updateSnowflakeStructure,
-  }));
+  }))
 
   const { bookSelected } = useBooks((state) => ({
     bookSelected: state.currentBook,
     isLoading: state.isLoading,
-  }));
+  }))
 
   const { setPathname } = useRoutes((state) => ({
     setPathname: state.setPathname,
-  }));
+  }))
 
-  const book = bookSelected || project?.books[0];
-  const persons = book?.snowflakeStructure?.persons ?? [];
+  const book = bookSelected || project?.books[0]
+  const persons = book?.snowflakeStructure?.persons ?? []
 
   return (
     <>
@@ -58,7 +58,7 @@ export function SnowflakeStructurePersonsBasePage() {
                     routerParameterized:
                       RoutesAvailable.projectStructurePersonBaseFunction.to(
                         person.projectId,
-                        person.id
+                        person.id,
                       ),
                   })
                 }
@@ -71,5 +71,5 @@ export function SnowflakeStructurePersonsBasePage() {
       </main>
       {!project?.features['multi-book'] && <SnowflakeStructureNavigate />}
     </>
-  );
+  )
 }

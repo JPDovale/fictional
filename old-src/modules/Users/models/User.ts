@@ -1,20 +1,20 @@
-import { Entity } from '@shared/core/entities/Entity';
-import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
-import { Optional } from '@shared/core/types/Optional';
+import { Entity } from '@shared/core/entities/Entity'
+import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId'
+import { Optional } from '@shared/core/types/Optional'
 
 export interface UserProps {
-  name: string;
-  username: string;
-  email: string;
-  emailVerified: Date | null;
-  age: number;
-  sex: string;
-  admin: boolean;
-  createdAt: Date;
-  updatedAt: Date | null;
-  avatarUrl: string | null;
-  avatarFileName: string | null;
-  newNotifications: number;
+  name: string
+  username: string
+  email: string
+  emailVerified: Date | null
+  age: number
+  sex: string
+  admin: boolean
+  createdAt: Date
+  updatedAt: Date | null
+  avatarUrl: string | null
+  avatarFileName: string | null
+  newNotifications: number
 }
 
 export class User extends Entity<UserProps> {
@@ -32,7 +32,7 @@ export class User extends Entity<UserProps> {
       | 'username'
       | 'updatedAt'
     >,
-    id?: UniqueEntityId
+    id?: UniqueEntityId,
   ) {
     const propsUser: UserProps = {
       admin: props.admin ?? false,
@@ -54,62 +54,62 @@ export class User extends Entity<UserProps> {
           .trim(),
       email: props.email,
       name: props.name,
-    };
+    }
 
-    const user = new User(propsUser, id);
+    const user = new User(propsUser, id)
 
-    return user;
+    return user
   }
 
   get name() {
-    return this.props.name;
+    return this.props.name
   }
 
   get email() {
-    return this.props.email;
+    return this.props.email
   }
 
   get username() {
-    return this.props.username;
+    return this.props.username
   }
 
   get age() {
-    return this.props.age;
+    return this.props.age
   }
 
   get sex() {
-    return this.props.sex;
+    return this.props.sex
   }
 
   get avatarUrl() {
-    return this.props.avatarUrl;
+    return this.props.avatarUrl
   }
 
   get avatarFileName() {
-    return this.props.avatarFileName;
+    return this.props.avatarFileName
   }
 
   get emailVerified() {
-    return this.props.emailVerified;
+    return this.props.emailVerified
   }
 
   get newNotifications() {
-    return this.props.newNotifications;
+    return this.props.newNotifications
   }
 
   get createdAt() {
-    return this.props.createdAt;
+    return this.props.createdAt
   }
 
   get updatedAt() {
-    return this.props.updatedAt;
+    return this.props.updatedAt
   }
 
   get admin() {
-    return this.props.admin;
+    return this.props.admin
   }
 
   touch() {
-    this.props.updatedAt = new Date();
+    this.props.updatedAt = new Date()
   }
 }

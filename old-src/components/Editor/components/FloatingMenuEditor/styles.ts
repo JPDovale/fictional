@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 
 export const floatingMenuStyles = cva(
   [
@@ -11,8 +11,8 @@ export const floatingMenuStyles = cva(
         light: ['bg-gray700 border-gray600'],
       },
     },
-  }
-);
+  },
+)
 
 export const menuOptionWrapperStyles = cva(
   [
@@ -25,5 +25,5 @@ export const menuOptionWrapperStyles = cva(
         light: ['hover:bg-gray500', 'focus:bg-gray500'],
       },
     },
-  }
-);
+  },
+)

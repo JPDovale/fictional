@@ -1,9 +1,9 @@
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react'
 
-interface CheckboxLabelProps extends HTMLAttributes<HTMLSpanElement> {}
+type CheckboxLabelProps = HTMLAttributes<HTMLSpanElement>
 
 export function Label({ ...props }: CheckboxLabelProps) {
-  return <span className="flex items-center gap-2" {...props} />;
+  return <span className="flex items-center gap-2" {...props} />
 }
 
-Label.displayName = 'Checkbox.Label';
+Label.displayName = 'Checkbox.Label'

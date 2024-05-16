@@ -1,11 +1,11 @@
-import { Button } from '@components/useFull/Button';
-import { Input } from '@components/useFull/Input';
-import { Requester } from '@config/requests/requester';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { usePersons } from '@store/Persons';
-import { Trash, VenetianMask } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { Button } from '@components/useFull/Button'
+import { Input } from '@components/useFull/Input'
+import { Requester } from '@config/requests/requester'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { usePersons } from '@store/Persons'
+import { Trash, VenetianMask } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 export const newPersonFormSchema = z.object({
   name: z
@@ -17,20 +17,20 @@ export const newPersonFormSchema = z.object({
     .min(2, 'O sobrenome do personagem precisa ter pelo menos 2 caracteres')
     .max(60, 'O sobrenome do personagem não pode ter mais de 60 caracteres'),
   imageUrl: z.string().optional().nullable(),
-});
+})
 
-export type NewPersonData = z.infer<typeof newPersonFormSchema>;
+export type NewPersonData = z.infer<typeof newPersonFormSchema>
 
 interface NewPersonFormProps {
-  projectId: string;
-  bookId: string;
+  projectId: string
+  bookId: string
 }
 
 export function NewPersonForm({ bookId, projectId }: NewPersonFormProps) {
   const { createPersonWithSnowflakeStructure } = usePersons((state) => ({
     createPersonWithSnowflakeStructure:
       state.createPersonWithSnowflakeStructure,
-  }));
+  }))
 
   const {
     setValue,
@@ -40,25 +40,25 @@ export function NewPersonForm({ bookId, projectId }: NewPersonFormProps) {
     formState: { errors, isDirty, isSubmitting },
   } = useForm<NewPersonData>({
     resolver: zodResolver(newPersonFormSchema),
-  });
+  })
 
   const watchedFields = {
     imageUrl: watch('imageUrl'),
-  };
+  }
 
   async function handleSelectImage() {
     const result = await Requester.requester({
       access: 'open-image-selector',
       data: null,
-    });
+    })
 
     if (result) {
-      setValue('imageUrl', result);
+      setValue('imageUrl', result)
     }
   }
 
   function handleClearImageUrl() {
-    setValue('imageUrl', '');
+    setValue('imageUrl', '')
   }
 
   async function handleCreatePerson(data: NewPersonData) {
@@ -66,7 +66,7 @@ export function NewPersonForm({ bookId, projectId }: NewPersonFormProps) {
       ...data,
       projectId,
       bookId,
-    });
+    })
   }
 
   return (
@@ -144,5 +144,5 @@ export function NewPersonForm({ bookId, projectId }: NewPersonFormProps) {
         <Button.Text className="text-center">Criar novo personagem</Button.Text>
       </Button.Root>
     </form>
-  );
+  )
 }

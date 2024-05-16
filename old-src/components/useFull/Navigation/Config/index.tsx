@@ -1,23 +1,23 @@
-import * as Dialog from '@radix-ui/react-dialog';
-import { Computer, Moon, Settings, Sun, X } from 'lucide-react';
-import { Button } from '@components/useFull/Button';
-import { useState } from 'react';
-import { useTheme } from '@hooks/useTheme';
-import { localStorageKeys } from '@config/localStorage/keys';
-import { useInterface } from '@store/Interface';
-import { configContentStyle } from './styles';
+import * as Dialog from '@radix-ui/react-dialog'
+import { Computer, Moon, Settings, Sun, X } from 'lucide-react'
+import { Button } from '@components/useFull/Button'
+import { useState } from 'react'
+import { useTheme } from '@hooks/useTheme'
+import { localStorageKeys } from '@config/localStorage/keys'
+import { useInterface } from '@store/Interface'
+import { configContentStyle } from './styles'
 
 export function Config() {
-  const [configIsOpen, setConfigIsOpen] = useState(false);
-  const { theme, changeTheme } = useTheme();
+  const [configIsOpen, setConfigIsOpen] = useState(false)
+  const { theme, changeTheme } = useTheme()
   const { setLockSnowflakeSteps, lockSnowflakeSteps } = useInterface(
     (state) => ({
       setLockSnowflakeSteps: state.setLockSnowflakeSteps,
       lockSnowflakeSteps: state.lockSnowflakeSteps,
-    })
-  );
+    }),
+  )
 
-  const configTheme = localStorage.getItem(localStorageKeys.theme);
+  const configTheme = localStorage.getItem(localStorageKeys.theme)
 
   return (
     <Dialog.Root open={configIsOpen} onOpenChange={setConfigIsOpen}>
@@ -117,7 +117,7 @@ export function Config() {
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
-  );
+  )
 }
 
-Config.displayName = 'Navigation.Config';
+Config.displayName = 'Navigation.Config'

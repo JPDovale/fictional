@@ -1,23 +1,23 @@
-import { useUserStore } from '@store/User';
-import { Requester } from '@config/requests/requester';
-import { BookModelResponse } from '@modules/Books/dtos/models/types';
-import { ProjectModelResponse } from '@modules/Projects/dtos/models/types';
-import { GetUseProjects, SetUseProjects } from '..';
+import { useUserStore } from '@store/User'
+import { Requester } from '@config/requests/requester'
+import { BookModelResponse } from '@modules/Books/dtos/models/types'
+import { ProjectModelResponse } from '@modules/Projects/dtos/models/types'
+import { GetUseProjects, SetUseProjects } from '..'
 
 export interface UpdateThreeActsStructureProps {
-  act1?: string | null;
-  act2?: string | null;
-  act3?: string | null;
-  bookId: string;
+  act1?: string | null
+  act2?: string | null
+  act3?: string | null
+  bookId: string
 }
 
 export async function updateThreeActsStructure(
   set: SetUseProjects,
   get: GetUseProjects,
-  props: UpdateThreeActsStructureProps
+  props: UpdateThreeActsStructureProps,
 ) {
-  const { user } = useUserStore.getState();
-  const { currentProject } = get();
+  const { user } = useUserStore.getState()
+  const { currentProject } = get()
 
   if (currentProject) {
     const response = await Requester.requester({
@@ -27,15 +27,15 @@ export async function updateThreeActsStructure(
         projectId: currentProject.id,
         ...props,
       },
-    });
+    })
 
     if (!response.error) {
       const bookToUpdate = currentProject.books.find(
-        (book) => book.id === props.bookId
-      );
+        (book) => book.id === props.bookId,
+      )
       const indexBookToUpdate = currentProject.books.findIndex(
-        (book) => book.id === props.bookId
-      );
+        (book) => book.id === props.bookId,
+      )
       const updatedBook: BookModelResponse = {
         ...bookToUpdate!,
         threeActsStructure: {
@@ -44,17 +44,17 @@ export async function updateThreeActsStructure(
           act3: props.act3 ?? null,
           id: bookToUpdate!.threeActsStructure!.id,
         },
-      };
+      }
 
-      const updatedBooks = [...currentProject.books];
-      updatedBooks[indexBookToUpdate] = updatedBook;
+      const updatedBooks = [...currentProject.books]
+      updatedBooks[indexBookToUpdate] = updatedBook
 
       const updatedProject: ProjectModelResponse = {
         ...currentProject,
         books: updatedBooks,
-      };
+      }
 
-      set({ currentProject: updatedProject });
+      set({ currentProject: updatedProject })
     }
   }
 }

@@ -1,31 +1,31 @@
-import { BlockEditor } from '@components/BlockEditor';
-import { SnowflakeFloatPreStructure } from '@components/SnowflakeStructureComponents/SnowflakeFloatPreStructure';
-import { SnowflakeStructureNavigate } from '@components/SnowflakeStructureComponents/SnowflakeStructureNavigation';
-import { useEditor } from '@hooks/useEditor';
-import { useBooks } from '@store/Books';
-import { useProjects } from '@store/Projects';
-import { isEqual } from 'lodash';
-import { useEffect, useRef } from 'react';
+import { BlockEditor } from '@components/BlockEditor'
+import { SnowflakeFloatPreStructure } from '@components/SnowflakeStructureComponents/SnowflakeFloatPreStructure'
+import { SnowflakeStructureNavigate } from '@components/SnowflakeStructureComponents/SnowflakeStructureNavigation'
+import { useEditor } from '@hooks/useEditor'
+import { useBooks } from '@store/Books'
+import { useProjects } from '@store/Projects'
+import { isEqual } from 'lodash'
+import { useEffect, useRef } from 'react'
 
 interface EditorStateRef {
-  paragraph1: string | null;
-  paragraph2: string | null;
-  paragraph3: string | null;
-  paragraph4: string | null;
-  paragraph5: string | null;
+  paragraph1: string | null
+  paragraph2: string | null
+  paragraph3: string | null
+  paragraph4: string | null
+  paragraph5: string | null
 }
 
 export function SnowflakeStructureExpansionToPagePage() {
   const { project, updateSnowflakeStructure } = useProjects((state) => ({
     project: state.currentProject,
     updateSnowflakeStructure: state.updateSnowflakeStructure,
-  }));
+  }))
   const { bookSelected, isLoading } = useBooks((state) => ({
     bookSelected: state.currentBook,
     isLoading: state.isLoading,
-  }));
+  }))
 
-  const book = bookSelected || project?.books[0];
+  const book = bookSelected || project?.books[0]
   const editorStateRef = useRef<EditorStateRef>({
     paragraph1:
       (isLoading
@@ -47,11 +47,11 @@ export function SnowflakeStructureExpansionToPagePage() {
       (isLoading
         ? '<p></p>'
         : book?.snowflakeStructure?.expansionToPage?.paragraph5) ?? '<p></p>',
-  });
+  })
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const currentExpansionToPage = book?.snowflakeStructure?.expansionToPage;
+      const currentExpansionToPage = book?.snowflakeStructure?.expansionToPage
 
       if (
         !isLoading &&
@@ -65,18 +65,23 @@ export function SnowflakeStructureExpansionToPagePage() {
           paragraph3: editorStateRef.current.paragraph3,
           paragraph4: editorStateRef.current.paragraph4,
           paragraph5: editorStateRef.current.paragraph5,
-        });
+        })
       }
-    }, 1000 * 2);
+    }, 1000 * 2)
 
-    return () => clearInterval(interval);
-  }, [book, updateSnowflakeStructure, isLoading]);
+    return () => clearInterval(interval)
+  }, [book, updateSnowflakeStructure, isLoading])
 
   function saveCentralIdia(
     text: string,
-    id: 'paragraph1' | 'paragraph2' | 'paragraph3' | 'paragraph4' | 'paragraph5'
+    id:
+      | 'paragraph1'
+      | 'paragraph2'
+      | 'paragraph3'
+      | 'paragraph4'
+      | 'paragraph5',
   ) {
-    editorStateRef.current[id] = text;
+    editorStateRef.current[id] = text
   }
 
   const { Editors } = useEditor({
@@ -107,7 +112,7 @@ export function SnowflakeStructureExpansionToPagePage() {
         preValue: book?.snowflakeStructure?.expansionToPage?.paragraph5 ?? '',
       },
     ],
-  });
+  })
 
   return (
     <>
@@ -188,5 +193,5 @@ export function SnowflakeStructureExpansionToPagePage() {
 
       {!project?.features['multi-book'] && <SnowflakeStructureNavigate />}
     </>
-  );
+  )
 }

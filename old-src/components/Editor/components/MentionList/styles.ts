@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 
 export const mentionListStyles = cva(
   [
@@ -11,8 +11,8 @@ export const mentionListStyles = cva(
         light: ['bg-gray800'],
       },
     },
-  }
-);
+  },
+)
 
 export const mentionSelectStyles = cva(
   [
@@ -25,5 +25,5 @@ export const mentionSelectStyles = cva(
         light: ['text-text800 hover:bg-gray600 focus:bg-gray600'],
       },
     },
-  }
-);
+  },
+)

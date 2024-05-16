@@ -1,13 +1,13 @@
 interface NavigationTitleProps {
-  navIsOpen: boolean;
-  handleChangeOpenNav: () => void;
+  navIsOpen: boolean
+  handleChangeOpenNav: () => void
 }
 
 export function Title({
   navIsOpen,
   handleChangeOpenNav,
 }: NavigationTitleProps) {
-  if (navIsOpen) return <> MagiScrita</>;
+  if (navIsOpen) return <> MagiScrita</>
 
   return (
     <button
@@ -17,7 +17,7 @@ export function Title({
     >
       M
     </button>
-  );
+  )
 }
 
-Title.displayName = 'Navigation.Title';
+Title.displayName = 'Navigation.Title'

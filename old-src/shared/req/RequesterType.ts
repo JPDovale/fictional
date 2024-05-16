@@ -1,6 +1,6 @@
-import { BrowserWindow } from 'electron';
+import { BrowserWindow } from 'electron'
 
 export type RequesterType<InputType> = {
-  _data: InputType;
-  win: BrowserWindow | null;
-};
+  _data: InputType
+  win: BrowserWindow | null
+}

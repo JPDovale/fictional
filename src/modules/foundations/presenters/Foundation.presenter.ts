@@ -25,7 +25,8 @@ export interface FoundationsPresented {
 
 @injectable()
 export class FoundationPresenter
-  implements Presenter<Foundation, FoundationPresented, FoundationsPresented> {
+  implements Presenter<Foundation, FoundationPresented, FoundationsPresented>
+{
   private parse(raw: Foundation): FoundationResponse {
     return {
       id: raw.id.toString(),

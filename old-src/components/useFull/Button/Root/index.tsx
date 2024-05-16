@@ -1,7 +1,7 @@
-import { useTheme } from '@hooks/useTheme';
-import { Slot } from '@radix-ui/react-slot';
-import { VariantProps, cva } from 'class-variance-authority';
-import { ButtonHTMLAttributes } from 'react';
+import { useTheme } from '@hooks/useTheme'
+import { Slot } from '@radix-ui/react-slot'
+import { VariantProps, cva } from 'class-variance-authority'
+import { ButtonHTMLAttributes } from 'react'
 
 const buttonRootStyles = cva(
   [
@@ -65,14 +65,14 @@ const buttonRootStyles = cva(
       width: 'hug',
       align: 'center',
     },
-  }
-);
+  },
+)
 
 interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonRootStyles> {
-  asChild?: boolean;
-  active?: boolean;
+  asChild?: boolean
+  active?: boolean
 }
 
 export function Root({
@@ -85,8 +85,8 @@ export function Root({
   asChild = false,
   ...props
 }: ButtonProps) {
-  const { theme } = useTheme();
-  const ButtonContainer = asChild ? Slot : 'button';
+  const { theme } = useTheme()
+  const ButtonContainer = asChild ? Slot : 'button'
 
   return (
     <ButtonContainer
@@ -103,7 +103,7 @@ export function Root({
       })}
       {...props}
     />
-  );
+  )
 }
 
-Root.displayName = 'Button.Root';
+Root.displayName = 'Button.Root'

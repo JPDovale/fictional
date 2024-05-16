@@ -42,7 +42,8 @@ type Response = {
 
 @injectable()
 export class CreatePersonService
-  implements Service<Request, PossibleErrors, Response> {
+  implements Service<Request, PossibleErrors, Response>
+{
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly projectsRepository: ProjectsRepository,
@@ -50,7 +51,7 @@ export class CreatePersonService
     private readonly imagesLocalManipulatorProvider: ImagesLocalManipulatorProvider,
     private readonly getAffiliationByParentsIdService: GetAffiliationByParentsIdService,
     private readonly createAffiliationService: CreateAffiliationService,
-  ) { }
+  ) {}
 
   async execute({
     name,

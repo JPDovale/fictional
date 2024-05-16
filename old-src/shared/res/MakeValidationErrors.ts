@@ -1,5 +1,5 @@
-import { ApplicationError } from '@shared/errors/ApplicationError';
-import { ValidationError } from 'class-validator';
+import { ApplicationError } from '@shared/errors/ApplicationError'
+import { ValidationError } from 'class-validator'
 
 export function makeValidationErrors(errors: ValidationError[]) {
   const validationError = {
@@ -19,8 +19,8 @@ export function makeValidationErrors(errors: ValidationError[]) {
           constraints: error.constraints
             ? Object.entries(error.constraints).map(([k, v]) => `${k} => ${v}`)
             : [],
-        })
+        }),
     ),
-  };
-  return validationError;
+  }
+  return validationError
 }

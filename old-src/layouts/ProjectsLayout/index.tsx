@@ -1,50 +1,50 @@
-import { Loading } from '@components/Loading';
-import { ProjectHeader } from '@components/ProjectsComponents/ProjectHeader';
-import { ProjectNavigation } from '@components/ProjectsComponents/ProjectNavigation';
-import { useTheme } from '@hooks/useTheme';
-import { useProjects } from '@store/Projects';
-import { mainStyles } from '@styles/theme';
-import { useEffect } from 'react';
-import { Outlet, useParams } from 'react-router-dom';
-import { useNav } from '@hooks/useNav';
-import { usePersons } from '@store/Persons';
-import { useBooks } from '@store/Books';
-import { overlayImageStyles } from './styles';
+import { Loading } from '@components/Loading'
+import { ProjectHeader } from '@components/ProjectsComponents/ProjectHeader'
+import { ProjectNavigation } from '@components/ProjectsComponents/ProjectNavigation'
+import { useTheme } from '@hooks/useTheme'
+import { useProjects } from '@store/Projects'
+import { mainStyles } from '@styles/theme'
+import { useEffect } from 'react'
+import { Outlet, useParams } from 'react-router-dom'
+import { useNav } from '@hooks/useNav'
+import { usePersons } from '@store/Persons'
+import { useBooks } from '@store/Books'
+import { overlayImageStyles } from './styles'
 
 export function ProjectsLayout() {
-  const { theme } = useTheme();
-  const { id, personId, bookId } = useParams();
+  const { theme } = useTheme()
+  const { id, personId, bookId } = useParams()
   const { loadProject, currentProject, isLoading } = useProjects((state) => ({
     loadProject: state.loadProject,
     currentProject: state.currentProject,
     isLoading: state.isLoading,
-  }));
+  }))
   const { loadPerson, currentPerson, isLoadingPerson } = usePersons(
     (state) => ({
       loadPerson: state.loadPerson,
       currentPerson: state.currentPerson,
       isLoadingPerson: state.isLoading,
-    })
-  );
+    }),
+  )
   const { loadBook, currentBook, isLoadingBook } = useBooks((state) => ({
     loadBook: state.loadBook,
     currentBook: state.currentBook,
     isLoadingBook: state.isLoading,
-  }));
-  const { makePathsOnHeaderProject } = useNav();
-  const pathsOnHeaderProject = makePathsOnHeaderProject();
+  }))
+  const { makePathsOnHeaderProject } = useNav()
+  const pathsOnHeaderProject = makePathsOnHeaderProject()
 
   useEffect(() => {
     if (id && id !== currentProject?.id) {
-      loadProject(id);
+      loadProject(id)
     }
 
     if (personId && personId !== currentPerson?.id) {
-      loadPerson(personId);
+      loadPerson(personId)
     }
 
     if (bookId && bookId !== currentBook?.id) {
-      loadBook(bookId);
+      loadBook(bookId)
     }
   }, [
     id,
@@ -56,26 +56,26 @@ export function ProjectsLayout() {
     currentPerson,
     currentProject,
     currentBook,
-  ]);
+  ])
 
   if (isLoading || isLoadingPerson || isLoadingBook || !currentProject)
-    return <Loading />;
+    return <Loading />
 
   const imageUrl =
     currentBook && currentBook.image.url
       ? currentBook.image.url
-      : currentProject.image.url;
+      : currentProject.image.url
   const imageAlt =
     currentBook && currentBook.image.url
       ? currentBook.image.alt
-      : currentProject.image.alt;
+      : currentProject.image.alt
 
   return (
     <div
       className={`max-w-screen w-screen max-h-screen h-screen overflow-hidden flex ${mainStyles(
         {
           theme,
-        }
+        },
       )}`}
     >
       <ProjectNavigation />
@@ -111,5 +111,5 @@ export function ProjectsLayout() {
         </div>
       </div>
     </div>
-  );
+  )
 }

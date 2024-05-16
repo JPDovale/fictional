@@ -30,11 +30,12 @@ type Response = {
 
 @injectable()
 export class GetAffiliationByParentsIdService
-  implements Service<Request, PossibleErrors, Response> {
+  implements Service<Request, PossibleErrors, Response>
+{
   constructor(
     private readonly personsRepository: PersonsRepository,
     private readonly affiliationsRepository: AffiliationsRepository,
-  ) { }
+  ) {}
 
   async execute({
     fatherId,

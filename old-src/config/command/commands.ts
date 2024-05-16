@@ -1,5 +1,5 @@
-import { RoutesAvailable } from '@config/routes/routesAvailable';
-import { FilePlus, Home, PackagePlus, UserPlus } from 'lucide-react';
+import { RoutesAvailable } from '@config/routes/routesAvailable'
+import { FilePlus, Home, PackagePlus, UserPlus } from 'lucide-react'
 import {
   commandK,
   goBackEscape,
@@ -7,8 +7,8 @@ import {
   newPerson,
   newProject,
   openDevTools,
-} from './handlers';
-import { Commands } from './types';
+} from './handlers'
+import { Commands } from './types'
 
 export const commands: Commands = {
   'Control+K': {
@@ -59,4 +59,4 @@ export const commands: Commands = {
     key: 'F12',
     execute: openDevTools,
   },
-};
+}

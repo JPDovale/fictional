@@ -1,26 +1,26 @@
-import InjectableDependencies from '@shared/container/types';
-import { Either, right } from '@shared/core/error/Either';
-import { inject, injectable } from 'tsyringe';
+import InjectableDependencies from '@shared/container/types'
+import { Either, right } from '@shared/core/error/Either'
+import { inject, injectable } from 'tsyringe'
 
-import { UsersRepository } from '@database/repositories/User/contracts/UsersRepository';
-import { User } from '@modules/Users/models/User';
+import { UsersRepository } from '@database/repositories/User/contracts/UsersRepository'
+import { User } from '@modules/Users/models/User'
 
 interface IRequest {
-  name: string;
-  email: string;
-  sex?: string;
-  age?: number;
-  username?: string;
-  avatarUrl?: string;
+  name: string
+  email: string
+  sex?: string
+  age?: number
+  username?: string
+  avatarUrl?: string
 }
 
-type IResponse = Either<null, { user: User }>;
+type IResponse = Either<null, { user: User }>
 
 @injectable()
 export class CreateUserService {
   constructor(
     @inject(InjectableDependencies.Repositories.UsersRepository)
-    private usersRepository: UsersRepository
+    private usersRepository: UsersRepository,
   ) {}
 
   async execute({
@@ -31,11 +31,11 @@ export class CreateUserService {
     username,
     avatarUrl,
   }: IRequest): Promise<IResponse> {
-    const userExistes = await this.usersRepository.findByEmail(email);
+    const userExistes = await this.usersRepository.findByEmail(email)
     if (userExistes instanceof User) {
       return right({
         user: userExistes,
-      });
+      })
     }
 
     const user = User.create({
@@ -45,12 +45,12 @@ export class CreateUserService {
       sex,
       username,
       avatarUrl,
-    });
+    })
 
-    await this.usersRepository.create(user);
+    await this.usersRepository.create(user)
 
     return right({
       user,
-    });
+    })
   }
 }

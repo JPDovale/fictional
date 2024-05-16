@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 
 export const personCardStyles = cva(
   [
@@ -13,5 +13,5 @@ export const personCardStyles = cva(
         ],
       },
     },
-  }
-);
+  },
+)

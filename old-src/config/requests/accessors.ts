@@ -44,48 +44,48 @@ const [
   // User
   getUserResolver,
 ]: Array<{ handle: (props: AccessorsDataType) => Promise<unknown> }> = [
-    // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    // Books
-    container.resolve(InjectableDependencies.Resolvers.UpdateBookTextResolver),
+  // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // Books
+  container.resolve(InjectableDependencies.Resolvers.UpdateBookTextResolver),
 
-    // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    // Persons
-    container.resolve(InjectableDependencies.Resolvers.CreatePersonResolver),
-    container.resolve(
-      InjectableDependencies.Resolvers.CreatePersonWithSnowflakeStructureResolver,
-    ),
-    container.resolve(InjectableDependencies.Resolvers.GetPersonResolver),
-    container.resolve(InjectableDependencies.Resolvers.GetPersonsResolver),
-    container.resolve(InjectableDependencies.Resolvers.GetProjectPersonsResolver),
-    container.resolve(
-      InjectableDependencies.Resolvers.UpdatePersonHistoryResolver,
-    ),
-    container.resolve(
-      InjectableDependencies.Resolvers.UpdatePersonSnowflakeResolver,
-    ),
+  // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // Persons
+  container.resolve(InjectableDependencies.Resolvers.CreatePersonResolver),
+  container.resolve(
+    InjectableDependencies.Resolvers.CreatePersonWithSnowflakeStructureResolver,
+  ),
+  container.resolve(InjectableDependencies.Resolvers.GetPersonResolver),
+  container.resolve(InjectableDependencies.Resolvers.GetPersonsResolver),
+  container.resolve(InjectableDependencies.Resolvers.GetProjectPersonsResolver),
+  container.resolve(
+    InjectableDependencies.Resolvers.UpdatePersonHistoryResolver,
+  ),
+  container.resolve(
+    InjectableDependencies.Resolvers.UpdatePersonSnowflakeResolver,
+  ),
 
-    // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    // Projects
-    container.resolve(InjectableDependencies.Resolvers.CreateProjectResolver),
-    container.resolve(InjectableDependencies.Resolvers.GetProjectResolver),
-    container.resolve(InjectableDependencies.Resolvers.GetProjectsResolver),
+  // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // Projects
+  container.resolve(InjectableDependencies.Resolvers.CreateProjectResolver),
+  container.resolve(InjectableDependencies.Resolvers.GetProjectResolver),
+  container.resolve(InjectableDependencies.Resolvers.GetProjectsResolver),
 
-    // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    // Snowflake Structure
-    container.resolve(
-      InjectableDependencies.Resolvers.UpdateSnowflakeStructureResolver,
-    ),
+  // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // Snowflake Structure
+  container.resolve(
+    InjectableDependencies.Resolvers.UpdateSnowflakeStructureResolver,
+  ),
 
-    // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    // Three Acts Structure
-    container.resolve(
-      InjectableDependencies.Resolvers.UpdateThreeActsStructureResolver,
-    ),
+  // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // Three Acts Structure
+  container.resolve(
+    InjectableDependencies.Resolvers.UpdateThreeActsStructureResolver,
+  ),
 
-    // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    // User
-    container.resolve(InjectableDependencies.Resolvers.GetUserResolver),
-  ]
+  // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // User
+  container.resolve(InjectableDependencies.Resolvers.GetUserResolver),
+]
 
 const accessors: AccessorsType = {
   'update-book-text': (props) => updateBookTextResolver.handle(props),

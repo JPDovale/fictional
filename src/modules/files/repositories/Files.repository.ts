@@ -4,4 +4,4 @@ import { File } from '../entites/File'
 export abstract class FilesRepository<T = unknown> extends Repository<
   File,
   T
-> { }
+> {}

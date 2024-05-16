@@ -9,7 +9,7 @@ export class UsersKnexRepository implements UsersRepository {
   constructor(
     private readonly knexConnection: KnexConnection,
     private readonly mapper: UsersKnexMapper,
-  ) { }
+  ) {}
 
   async findByEmail(email: string): Promise<User | null> {
     const user = await this.knexConnection

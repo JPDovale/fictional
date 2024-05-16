@@ -5,7 +5,7 @@ import { TransactorService } from '../contracts/Transactor.service'
 
 @injectable()
 export class TransactorManagerKnex implements TransactorService<KnexConfig> {
-  constructor(private readonly knexConnection: KnexConnection) { }
+  constructor(private readonly knexConnection: KnexConnection) {}
 
   start(): Transactor<KnexConfig> {
     return Transactor.create<KnexConfig>({

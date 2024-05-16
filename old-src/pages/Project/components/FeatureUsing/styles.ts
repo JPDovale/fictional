@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 
 export const featureUsingStyles = cva(
   ['flex flex-col items-center gap-1.5  p-2 rounded-md'],
@@ -9,5 +9,5 @@ export const featureUsingStyles = cva(
         light: ['bg-gray700 shadow-default'],
       },
     },
-  }
-);
+  },
+)

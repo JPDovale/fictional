@@ -26,7 +26,7 @@ export class ModelateBlankProjectOfTypeBookService {
   constructor(
     @inject(InjectableDependencies.Providers.ImageProvider)
     private readonly imageProvider: ImageProvider,
-  ) { }
+  ) {}
 
   async execute({ blankProject, booksToProject }: Request): Promise<Response> {
     const modelledProject = blankProject

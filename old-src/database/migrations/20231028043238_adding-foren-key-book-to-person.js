@@ -8,9 +8,9 @@ exports.up = async function up(knex) {
       .string('book_id')
       .references('books.id')
       .onDelete('SET NULL')
-      .defaultTo(null);
-  });
-};
+      .defaultTo(null)
+  })
+}
 
 /**
  * @param { import("knex").Knex } knex
@@ -18,6 +18,6 @@ exports.up = async function up(knex) {
  */
 exports.down = async function down(knex) {
   await knex.schema.alterTable('persons', (table) => {
-    table.dropColumn('book_id');
-  });
-};
+    table.dropColumn('book_id')
+  })
+}

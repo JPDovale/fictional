@@ -1,75 +1,75 @@
 export abstract class PersonsSnowflakeStructureBaseResponse {
-  abstract function: string | null;
+  abstract function: string | null
 
-  abstract objective: string | null;
+  abstract objective: string | null
 
-  abstract motivation: string | null;
+  abstract motivation: string | null
 
-  abstract obstacle: string | null;
+  abstract obstacle: string | null
 
-  abstract apprenticeship: string | null;
+  abstract apprenticeship: string | null
 
-  abstract povByThisEye: string | null;
+  abstract povByThisEye: string | null
 }
 
 export abstract class PersonsSnowflakeStructureExpansionResponse {
-  abstract function: string | null;
+  abstract function: string | null
 
-  abstract objective: string | null;
+  abstract objective: string | null
 
-  abstract motivation: string | null;
+  abstract motivation: string | null
 
-  abstract obstacle: string | null;
+  abstract obstacle: string | null
 
-  abstract apprenticeship: string | null;
+  abstract apprenticeship: string | null
 
-  abstract povByThisEye: string | null;
+  abstract povByThisEye: string | null
 }
 
 export abstract class PersonNameResponse {
-  abstract firstName: string | null;
+  abstract firstName: string | null
 
-  abstract lastName: string | null;
+  abstract lastName: string | null
 
-  abstract fullName: string;
+  abstract fullName: string
 }
 
 export abstract class PersonImage {
-  abstract url: string | null;
+  abstract url: string | null
 
-  abstract alt: string | undefined;
+  abstract alt: string | undefined
 }
 
 export abstract class PersonModelResponse {
-  abstract id: string;
+  abstract id: string
 
-  abstract name: PersonNameResponse | null;
+  abstract name: PersonNameResponse | null
 
-  abstract history: string | null;
+  abstract history: string | null
 
-  abstract age: number | null;
+  abstract age: number | null
 
-  abstract biography: string | null;
+  abstract biography: string | null
 
-  abstract image: PersonImage;
+  abstract image: PersonImage
 
-  abstract userId: string;
+  abstract userId: string
 
-  abstract projectId: string;
+  abstract projectId: string
 
-  abstract snowflakeStructureBase: PersonsSnowflakeStructureBaseResponse | null;
+  abstract snowflakeStructureBase: PersonsSnowflakeStructureBaseResponse | null
 
-  abstract snowflakeStructureExpansion: PersonsSnowflakeStructureExpansionResponse | null;
+  abstract snowflakeStructureExpansion: PersonsSnowflakeStructureExpansionResponse | null
 
-  abstract createdAt: Date;
+  abstract createdAt: Date
 
-  abstract updatedAt: Date;
+  abstract updatedAt: Date
 }
 
 export abstract class PersonsResponsePartied {
-  abstract persons: PersonModelResponse[] | null;
+  abstract persons: PersonModelResponse[] | null
 }
 
 export abstract class PersonResponsePartied {
-  abstract person: PersonModelResponse | null;
+  abstract person: PersonModelResponse | null
 }

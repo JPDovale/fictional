@@ -1,33 +1,33 @@
-import { Editor } from '@components/Editor';
-import { PersonExpansionSnowFlakeNavigation } from '@components/PersonsComponents/PersonExpansionSnowFlakeNavigation';
-import { SnowflakeFloatPreStructure } from '@components/SnowflakeStructureComponents/SnowflakeFloatPreStructure';
-import { useEditor } from '@hooks/useEditor';
-import { usePersons } from '@store/Persons';
-import { useProjects } from '@store/Projects';
-import { useEffect, useRef } from 'react';
+import { Editor } from '@components/Editor'
+import { PersonExpansionSnowFlakeNavigation } from '@components/PersonsComponents/PersonExpansionSnowFlakeNavigation'
+import { SnowflakeFloatPreStructure } from '@components/SnowflakeStructureComponents/SnowflakeFloatPreStructure'
+import { useEditor } from '@hooks/useEditor'
+import { usePersons } from '@store/Persons'
+import { useProjects } from '@store/Projects'
+import { useEffect, useRef } from 'react'
 
 export function SnowflakeStructurePersonExpansionPovByThisEyePage() {
   const { project } = useProjects((state) => ({
     project: state.currentProject,
     updateSnowflakeStructure: state.updateSnowflakeStructure,
-  }));
+  }))
 
   const { person, isLoading, updateSnowflake } = usePersons((state) => ({
     person: state.currentPerson,
     isLoading: state.isLoading,
     updateSnowflake: state.updateSnowflake,
-  }));
+  }))
 
   const editorStateRef = useRef<string>(
     (isLoading
       ? '<p></p>'
-      : person?.snowflakeStructureExpansion?.povByThisEye) ?? '<p></p>'
-  );
+      : person?.snowflakeStructureExpansion?.povByThisEye) ?? '<p></p>',
+  )
 
   useEffect(() => {
     const interval = setInterval(() => {
       const currentSnowflakePovByThisEye =
-        person?.snowflakeStructureExpansion?.povByThisEye;
+        person?.snowflakeStructureExpansion?.povByThisEye
 
       if (
         !isLoading &&
@@ -36,15 +36,15 @@ export function SnowflakeStructurePersonExpansionPovByThisEyePage() {
       ) {
         updateSnowflake({
           expansionPovByThisEye: editorStateRef.current,
-        });
+        })
       }
-    }, 1000 * 2);
+    }, 1000 * 2)
 
-    return () => clearInterval(interval);
-  }, [person, isLoading, updateSnowflake]);
+    return () => clearInterval(interval)
+  }, [person, isLoading, updateSnowflake])
 
   function savePersonFunction(text: string) {
-    editorStateRef.current = text;
+    editorStateRef.current = text
   }
 
   const { Editors } = useEditor({
@@ -56,7 +56,7 @@ export function SnowflakeStructurePersonExpansionPovByThisEyePage() {
         useProject: [project!],
       },
     ],
-  });
+  })
 
   return (
     <>
@@ -83,5 +83,5 @@ export function SnowflakeStructurePersonExpansionPovByThisEyePage() {
       </div>
       <PersonExpansionSnowFlakeNavigation />
     </>
-  );
+  )
 }

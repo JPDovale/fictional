@@ -20,7 +20,7 @@ type Response = {
 export class CreateUserService
   implements Service<Request, PossibleErrors, Response>
 {
-  constructor(private readonly userRepository: UsersRepository) { }
+  constructor(private readonly userRepository: UsersRepository) {}
 
   async execute({
     name,

@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 
 export const previewHistoryPersonStyles = cva(
   ['py-2 prose prose-purple prose-sm '],
@@ -9,5 +9,5 @@ export const previewHistoryPersonStyles = cva(
         light: [],
       },
     },
-  }
-);
+  },
+)

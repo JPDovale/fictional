@@ -23,12 +23,12 @@ export const parserMonthName = {
   '10': 'Outubro',
   '11': 'Novembro',
   '12': 'Dezembro',
-};
+}
 
-type IMonthName = keyof typeof parserMonthName;
+type IMonthName = keyof typeof parserMonthName
 
 export function getMonthName(name: IMonthName | string) {
-  const nameQuery = name as IMonthName;
+  const nameQuery = name as IMonthName
 
-  return parserMonthName[nameQuery];
+  return parserMonthName[nameQuery]
 }

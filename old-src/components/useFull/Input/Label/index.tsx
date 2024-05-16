@@ -1,7 +1,7 @@
-import { useTheme } from '@hooks/useTheme';
-import { Slot } from '@radix-ui/react-slot';
-import { cva } from 'class-variance-authority';
-import { LabelHTMLAttributes } from 'react';
+import { useTheme } from '@hooks/useTheme'
+import { Slot } from '@radix-ui/react-slot'
+import { cva } from 'class-variance-authority'
+import { LabelHTMLAttributes } from 'react'
 
 const labelStyles = cva(['text-sm', 'font-bold'], {
   variants: {
@@ -10,10 +10,10 @@ const labelStyles = cva(['text-sm', 'font-bold'], {
       light: ['text-text800/90'],
     },
   },
-});
+})
 
 interface InputLabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
-  asChild?: boolean;
+  asChild?: boolean
 }
 
 export function Label({
@@ -21,12 +21,12 @@ export function Label({
   className,
   ...props
 }: InputLabelProps) {
-  const { theme } = useTheme();
-  const LabelElement = asChild ? Slot : 'label';
+  const { theme } = useTheme()
+  const LabelElement = asChild ? Slot : 'label'
 
   return (
     <LabelElement className={labelStyles({ theme, className })} {...props} />
-  );
+  )
 }
 
-Label.displayName = 'Input.Label';
+Label.displayName = 'Input.Label'

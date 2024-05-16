@@ -1,9 +1,9 @@
-import { SnowflakeStructure } from '@modules/SnowflakeStructures/models/SnowflakeStructure';
-import { PersonParser } from '@modules/Persons/dtos/models/Parsers/Person';
-import { SnowflakeStructureModelResponse } from '../types';
+import { SnowflakeStructure } from '@modules/SnowflakeStructures/models/SnowflakeStructure'
+import { PersonParser } from '@modules/Persons/dtos/models/Parsers/Person'
+import { SnowflakeStructureModelResponse } from '../types'
 
 export function SnowflakeStructureParser(
-  snowflakeStructure: SnowflakeStructure
+  snowflakeStructure: SnowflakeStructure,
 ): SnowflakeStructureModelResponse {
   const snowflakeStructurePartied: SnowflakeStructureModelResponse = {
     centralIdia: snowflakeStructure.centralIdia ?? null,
@@ -24,14 +24,14 @@ export function SnowflakeStructureParser(
     },
     persons: snowflakeStructure.persons
       ? snowflakeStructure.persons.currentItems.map((person) =>
-          PersonParser(person)
+          PersonParser(person),
         )
       : [],
     id: snowflakeStructure.id.toString(),
     interweavingPersonsAndExpansion:
       snowflakeStructure.interweavingPersonsAndExpansion,
     updatedAt: snowflakeStructure.updatedAt,
-  };
+  }
 
-  return snowflakeStructurePartied;
+  return snowflakeStructurePartied
 }

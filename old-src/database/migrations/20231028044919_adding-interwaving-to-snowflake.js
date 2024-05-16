@@ -4,9 +4,9 @@
  */
 exports.up = async function up(knex) {
   await knex.schema.alterTable('snowflake_structures', (table) => {
-    table.string('interweaving_persons_and_expansion').defaultTo(null);
-  });
-};
+    table.string('interweaving_persons_and_expansion').defaultTo(null)
+  })
+}
 
 /**
  * @param { import("knex").Knex } knex
@@ -14,6 +14,6 @@ exports.up = async function up(knex) {
  */
 exports.down = async function down(knex) {
   await knex.schema.alterTable('snowflake_structures', (table) => {
-    table.dropColumn('interweaving_persons_and_expansion');
-  });
-};
+    table.dropColumn('interweaving_persons_and_expansion')
+  })
+}

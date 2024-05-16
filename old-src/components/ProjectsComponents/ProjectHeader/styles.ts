@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 
 export const projectHeaderStyles = cva(
   [
@@ -11,11 +11,11 @@ export const projectHeaderStyles = cva(
         light: ['bg-gray800 shadow-sm shadow-semiTransparentBack'],
       },
     },
-  }
-);
+  },
+)
 
 export const pathOnHeaderStyles = cva([
   'text-sm leading-none font-bold opacity-70',
-]);
+])
 
-export const divider = cva(['font-bold opacity-30 text-lg leading-none']);
+export const divider = cva(['font-bold opacity-30 text-lg leading-none'])

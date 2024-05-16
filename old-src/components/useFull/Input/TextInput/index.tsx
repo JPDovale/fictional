@@ -1,6 +1,6 @@
-import { useTheme } from '@hooks/useTheme';
-import { cva } from 'class-variance-authority';
-import { InputHTMLAttributes, forwardRef } from 'react';
+import { useTheme } from '@hooks/useTheme'
+import { cva } from 'class-variance-authority'
+import { InputHTMLAttributes, forwardRef } from 'react'
 
 const textInputStyles = cva(
   [
@@ -20,22 +20,22 @@ const textInputStyles = cva(
         light: ['text-text800'],
       },
     },
-  }
-);
+  },
+)
 
-interface InputTextInputProps extends InputHTMLAttributes<HTMLInputElement> {}
+type InputTextInputProps = InputHTMLAttributes<HTMLInputElement>
 
 export const TextInput = forwardRef<HTMLInputElement, InputTextInputProps>(
   ({ className, ...props }, ref) => {
-    const { theme } = useTheme();
+    const { theme } = useTheme()
     return (
       <input
         className={textInputStyles({ theme, className })}
         {...props}
         ref={ref}
       />
-    );
-  }
-);
+    )
+  },
+)
 
-TextInput.displayName = 'Input.TextInput';
+TextInput.displayName = 'Input.TextInput'

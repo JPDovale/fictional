@@ -1,6 +1,6 @@
-import { getDatabasePath } from './getDatabasePath';
+import { getDatabasePath } from './getDatabasePath'
 
-const databaseDir = getDatabasePath();
+const databaseDir = getDatabasePath()
 
 export const dataDirs = {
   projects: `${databaseDir}/projects`,
@@ -18,11 +18,11 @@ export const dataDirs = {
   books: `${databaseDir}/books`,
   booksToProject: `${databaseDir}/books-to-project`,
   booksToUser: `${databaseDir}/books-to-user`,
-} as const;
+} as const
 
 export const exts = {
   ocurredmagic: '.ocurredmagic',
-} as const;
+} as const
 
 export const dataFiles = {
   user: () => `${databaseDir}/user${exts.ocurredmagic}`,
@@ -58,4 +58,4 @@ export const dataFiles = {
 
   booksToUser: (userId: string) =>
     `${dataDirs.booksToUser}/${userId}-books-to-user${exts.ocurredmagic}`,
-} as const;
+} as const

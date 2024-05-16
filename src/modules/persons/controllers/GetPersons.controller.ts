@@ -13,7 +13,7 @@ export class GetPersonsController implements Controller<PresenterProps> {
     private readonly errorPresenter: ErrorPresenter,
     private readonly getPersonsService: GetPersonsService,
     private readonly personWithParentsPresenter: PersonWithParentsPresenter,
-  ) { }
+  ) {}
 
   async handle({ _data }: Request): Promise<PresenterProps> {
     const body = this.getPersonsGateway.transform(_data)

@@ -1,4 +1,4 @@
-import { IsUUID } from 'class-validator';
+import { IsUUID } from 'class-validator'
 
 export class GetPersonInput {
   /**
@@ -8,7 +8,7 @@ export class GetPersonInput {
     always: true,
     message: 'User id not is valid',
   })
-  userId: string;
+  userId: string
 
   /**
    * personId
@@ -17,10 +17,10 @@ export class GetPersonInput {
     always: true,
     message: 'Person id not is valid',
   })
-  personId: string;
+  personId: string
 
   constructor(data: GetPersonInput) {
-    this.personId = data.personId;
-    this.userId = data.userId;
+    this.personId = data.personId
+    this.userId = data.userId
   }
 }

@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 
 export const overlayImageStyles = cva(
   [
@@ -11,5 +11,5 @@ export const overlayImageStyles = cva(
         light: [' from-gray900 via-gray900/50'],
       },
     },
-  }
-);
+  },
+)

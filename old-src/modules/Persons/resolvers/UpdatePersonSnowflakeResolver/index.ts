@@ -1,22 +1,22 @@
-import { UpdatePersonSnowflakeInput } from '@modules/Persons/dtos/inputs/UpdatePersonSnowflakeInput';
-import { UpdatePersonSnowflakeService } from '@modules/Persons/services/UpdatePersonSnowflakeService';
-import { RequesterType } from '@shared/req/RequesterType';
-import { EmptyResponse } from '@shared/res/EmptyResponse';
-import { validate } from 'class-validator';
-import { container } from 'tsyringe';
+import { UpdatePersonSnowflakeInput } from '@modules/Persons/dtos/inputs/UpdatePersonSnowflakeInput'
+import { UpdatePersonSnowflakeService } from '@modules/Persons/services/UpdatePersonSnowflakeService'
+import { RequesterType } from '@shared/req/RequesterType'
+import { EmptyResponse } from '@shared/res/EmptyResponse'
+import { validate } from 'class-validator'
+import { container } from 'tsyringe'
 
 export class UpdatePersonSnowflakeResolver {
   private readonly updatePersonSnowflakeService: UpdatePersonSnowflakeService =
-    container.resolve(UpdatePersonSnowflakeService);
+    container.resolve(UpdatePersonSnowflakeService)
 
   async handle({ _data }: RequesterType<UpdatePersonSnowflakeInput>) {
-    const data = new UpdatePersonSnowflakeInput(_data);
+    const data = new UpdatePersonSnowflakeInput(_data)
 
-    const validationErrors = await validate(data);
-    const emptyResponse = EmptyResponse.create();
+    const validationErrors = await validate(data)
+    const emptyResponse = EmptyResponse.create()
 
     if (validationErrors.length > 0) {
-      return emptyResponse.sendErrorValidation(validationErrors);
+      return emptyResponse.sendErrorValidation(validationErrors)
     }
 
     const serviceResponse = await this.updatePersonSnowflakeService.execute({
@@ -39,17 +39,17 @@ export class UpdatePersonSnowflakeResolver {
         obstacle: data.expansionObstacle,
         povByThisEye: data.expansionPovByThisEye,
       },
-    });
+    })
 
     if (serviceResponse.isLeft()) {
       return emptyResponse.send({
         status: serviceResponse.value.status,
         error: serviceResponse.value.message,
-      });
+      })
     }
 
     return emptyResponse.send({
       status: 200,
-    });
+    })
   }
 }

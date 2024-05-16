@@ -1,11 +1,11 @@
-import { RoutesAvailable, makeParameterizedRouter } from '../routesAvailable';
+import { RoutesAvailable, makeParameterizedRouter } from '../routesAvailable'
 
 export const ProjectBooksRoutes = {
   projectBooks: {
     path: '/projects/:id/books',
     to: (id: string) =>
       `/projects/${id}/books${makeParameterizedRouter(
-        RoutesAvailable.projectBooks.path
+        RoutesAvailable.projectBooks.path,
       )}`,
   },
 
@@ -13,7 +13,7 @@ export const ProjectBooksRoutes = {
     path: '/projects/:id/books/:bookId',
     to: (id: string, bookId: string) =>
       `/projects/${id}/books/${bookId}${makeParameterizedRouter(
-        RoutesAvailable.projectBook.path
+        RoutesAvailable.projectBook.path,
       )}`,
   },
 
@@ -21,7 +21,7 @@ export const ProjectBooksRoutes = {
     path: '/projects/:id/books/:bookId/text',
     to: (id: string, bookId: string) =>
       `/projects/${id}/books/${bookId}/text${makeParameterizedRouter(
-        RoutesAvailable.projectBookText.path
+        RoutesAvailable.projectBookText.path,
       )}`,
   },
 
@@ -29,7 +29,7 @@ export const ProjectBooksRoutes = {
     path: '/projects/:id/books/:bookId/structure',
     to: (id: string, bookId: string) =>
       `/projects/${id}/books/${bookId}/structure${makeParameterizedRouter(
-        RoutesAvailable.projectBookStructure.path
+        RoutesAvailable.projectBookStructure.path,
       )}`,
   },
 
@@ -37,7 +37,7 @@ export const ProjectBooksRoutes = {
     path: '/projects/:id/books/:bookId/structure/centralIdia',
     to: (id: string, bookId: string) =>
       `/projects/${id}/books/${bookId}/structure/centralIdia${makeParameterizedRouter(
-        RoutesAvailable.projectBookStructureCentralIdia.path
+        RoutesAvailable.projectBookStructureCentralIdia.path,
       )}`,
   },
 
@@ -45,7 +45,7 @@ export const ProjectBooksRoutes = {
     path: '/projects/:id/books/:bookId/structure/paragraph',
     to: (id: string, bookId: string) =>
       `/projects/${id}/books/${bookId}/structure/paragraph${makeParameterizedRouter(
-        RoutesAvailable.projectBookStructureParagraph.path
+        RoutesAvailable.projectBookStructureParagraph.path,
       )}`,
   },
 
@@ -53,7 +53,7 @@ export const ProjectBooksRoutes = {
     path: '/projects/:id/books/:bookId/structure/personsBase',
     to: (id: string, bookId: string) =>
       `/projects/${id}/books/${bookId}/structure/personsBase${makeParameterizedRouter(
-        RoutesAvailable.projectBookStructurePersonsBase.path
+        RoutesAvailable.projectBookStructurePersonsBase.path,
       )}`,
   },
 
@@ -61,7 +61,7 @@ export const ProjectBooksRoutes = {
     path: '/projects/:id/books/:bookId/structure/page',
     to: (id: string, bookId: string) =>
       `/projects/${id}/books/${bookId}/structure/page${makeParameterizedRouter(
-        RoutesAvailable.projectBookStructurePage.path
+        RoutesAvailable.projectBookStructurePage.path,
       )}`,
   },
 
@@ -69,7 +69,7 @@ export const ProjectBooksRoutes = {
     path: '/projects/:id/books/:bookId/structure/personsExpansion',
     to: (id: string, bookId: string) =>
       `/projects/${id}/books/${bookId}/structure/personsExpansion${makeParameterizedRouter(
-        RoutesAvailable.projectBookStructurePersonsExpansion.path
+        RoutesAvailable.projectBookStructurePersonsExpansion.path,
       )}`,
   },
 
@@ -77,7 +77,7 @@ export const ProjectBooksRoutes = {
     path: '/projects/:id/books/:bookId/structure/interweaving',
     to: (id: string, bookId: string) =>
       `/projects/${id}/books/${bookId}/structure/interweaving${makeParameterizedRouter(
-        RoutesAvailable.projectBookStructureInterweaving.path
+        RoutesAvailable.projectBookStructureInterweaving.path,
       )}`,
   },
 
@@ -85,7 +85,7 @@ export const ProjectBooksRoutes = {
     path: '/projects/:id/books/:bookId/structure/personsFinal',
     to: (id: string, bookId: string) =>
       `/projects/${id}/books/${bookId}/structure/personsFinal${makeParameterizedRouter(
-        RoutesAvailable.projectBookStructurePersonsFinal.path
+        RoutesAvailable.projectBookStructurePersonsFinal.path,
       )}`,
   },
 
@@ -93,7 +93,7 @@ export const ProjectBooksRoutes = {
     path: '/projects/:id/books/:bookId/structure/fragmentation',
     to: (id: string, bookId: string) =>
       `/projects/${id}/books/${bookId}/structure/fragmentation${makeParameterizedRouter(
-        RoutesAvailable.projectBookStructureFragmentation.path
+        RoutesAvailable.projectBookStructureFragmentation.path,
       )}`,
   },
 
@@ -101,7 +101,7 @@ export const ProjectBooksRoutes = {
     path: '/projects/:id/books/:bookId/structure/slicesExpansion',
     to: (id: string, bookId: string) =>
       `/projects/${id}/books/${bookId}/structure/slicesExpansion${makeParameterizedRouter(
-        RoutesAvailable.projectBookStructureSlicesExpansion.path
+        RoutesAvailable.projectBookStructureSlicesExpansion.path,
       )}`,
   },
 
@@ -109,7 +109,7 @@ export const ProjectBooksRoutes = {
     path: '/projects/:id/books/:bookId/structure/finalText',
     to: (id: string, bookId: string) =>
       `/projects/${id}/books/${bookId}/structure/finalText${makeParameterizedRouter(
-        RoutesAvailable.projectBookStructureFinalText.path
+        RoutesAvailable.projectBookStructureFinalText.path,
       )}`,
   },
-} as const;
+} as const

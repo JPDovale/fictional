@@ -5,5 +5,5 @@ export function HomePage() {
         Welcome to the most magical world
       </h1>
     </main>
-  );
+  )
 }

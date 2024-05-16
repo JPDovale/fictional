@@ -1,61 +1,61 @@
-import { Button } from '@components/useFull/Button';
-import * as Tabs from '@radix-ui/react-tabs';
-import * as Avatar from '@radix-ui/react-avatar';
-import { Book, BookOpen, LayoutPanelTop } from 'lucide-react';
-import { useBooks } from '@store/Books';
-import { getDate } from '@utils/dates/getDate';
-import { useEffect, useState } from 'react';
-import { useNav } from '@hooks/useNav';
-import { RoutesAvailable } from '@config/routes/routesAvailable';
-import { useRoutes } from '@store/Routes';
-import { useTheme } from '@hooks/useTheme';
-import { useInterface } from '@store/Interface';
-import { useSnowflakeStructure } from '@hooks/useSnowflakeStructure';
-import { avatarImageStyles, avatarStyles, personNavStyles } from './styles';
+import { Button } from '@components/useFull/Button'
+import * as Tabs from '@radix-ui/react-tabs'
+import * as Avatar from '@radix-ui/react-avatar'
+import { Book, BookOpen, LayoutPanelTop } from 'lucide-react'
+import { useBooks } from '@store/Books'
+import { getDate } from '@utils/dates/getDate'
+import { useEffect, useState } from 'react'
+import { useNav } from '@hooks/useNav'
+import { RoutesAvailable } from '@config/routes/routesAvailable'
+import { useRoutes } from '@store/Routes'
+import { useTheme } from '@hooks/useTheme'
+import { useInterface } from '@store/Interface'
+import { useSnowflakeStructure } from '@hooks/useSnowflakeStructure'
+import { avatarImageStyles, avatarStyles, personNavStyles } from './styles'
 
 export function BookNavigate() {
   const { setSideBarIsOpen, sideBarIsOpen } = useInterface((state) => ({
     sideBarIsOpen: state.sideBarIsOpen,
     setSideBarIsOpen: state.setSidBarIsOpen,
-  }));
-  const [isToShowContent, setIsToShowContent] = useState(true);
+  }))
+  const [isToShowContent, setIsToShowContent] = useState(true)
 
-  const { book } = useBooks((state) => ({ book: state.currentBook }));
-  const { theme } = useTheme();
-  const { makeBaseUrl, pathname } = useNav();
+  const { book } = useBooks((state) => ({ book: state.currentBook }))
+  const { theme } = useTheme()
+  const { makeBaseUrl, pathname } = useNav()
   const { setPathname } = useRoutes((state) => ({
     setPathname: state.setPathname,
-  }));
+  }))
   const { useSnowflakeStructureVerifications, snowflakeEditorButtons } =
-    useSnowflakeStructure();
+    useSnowflakeStructure()
   const { verifications } = useSnowflakeStructureVerifications(
-    book?.snowflakeStructure
-  );
+    book?.snowflakeStructure,
+  )
 
   function handleChangeTab(tab: string) {
-    const tabIsOpem = tab !== 'editor';
+    const tabIsOpem = tab !== 'editor'
 
     if (!tabIsOpem) {
-      setIsToShowContent(false);
+      setIsToShowContent(false)
     }
 
-    setSideBarIsOpen(tabIsOpem);
+    setSideBarIsOpen(tabIsOpem)
   }
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: NodeJS.Timeout
     if (!sideBarIsOpen) {
-      setIsToShowContent(false);
+      setIsToShowContent(false)
     }
 
     if (sideBarIsOpen) {
       timeoutId = setTimeout(() => {
-        setIsToShowContent(true);
-      }, 335);
+        setIsToShowContent(true)
+      }, 335)
     }
 
-    return () => clearTimeout(timeoutId);
-  }, [sideBarIsOpen]);
+    return () => clearTimeout(timeoutId)
+  }, [sideBarIsOpen])
 
   return (
     <>
@@ -170,7 +170,7 @@ export function BookNavigate() {
                   setPathname({
                     routerParameterized: RoutesAvailable.projectBook.to(
                       book!.projectId,
-                      book!.id
+                      book!.id,
                     ),
                   })
                 }
@@ -191,7 +191,7 @@ export function BookNavigate() {
                     routerParameterized:
                       RoutesAvailable.projectBookStructure.to(
                         book!.projectId,
-                        book!.id
+                        book!.id,
                       ),
                   })
                 }
@@ -203,7 +203,7 @@ export function BookNavigate() {
 
               {snowflakeEditorButtons.map(({ Icon, keyOfVerify, title }) => {
                 const { activeInProject, disabled, redirectorBook } =
-                  verifications[keyOfVerify as keyof typeof verifications]();
+                  verifications[keyOfVerify as keyof typeof verifications]()
 
                 return (
                   <Button.Root
@@ -216,7 +216,7 @@ export function BookNavigate() {
                       setPathname({
                         routerParameterized: redirectorBook(
                           book!.projectId,
-                          book!.id
+                          book!.id,
                         ),
                       })
                     }
@@ -225,7 +225,7 @@ export function BookNavigate() {
                       <Icon />
                     </Button.Icon>
                   </Button.Root>
-                );
+                )
               })}
             </div>
           </Tabs.Content>
@@ -236,5 +236,5 @@ export function BookNavigate() {
         className="min-w-[16rem] data-[open=false]:min-w-[3.5rem] ease-in-out duration-300"
       />
     </>
-  );
+  )
 }

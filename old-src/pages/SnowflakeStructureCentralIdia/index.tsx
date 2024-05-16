@@ -1,42 +1,43 @@
-import { Editor } from '@components/Editor';
-import { SnowflakeStructureNavigate } from '@components/SnowflakeStructureComponents/SnowflakeStructureNavigation';
-import { useEditor } from '@hooks/useEditor';
-import { useBooks } from '@store/Books';
-import { useProjects } from '@store/Projects';
-import { useEffect, useRef } from 'react';
+import { Editor } from '@components/Editor'
+import { SnowflakeStructureNavigate } from '@components/SnowflakeStructureComponents/SnowflakeStructureNavigation'
+import { useEditor } from '@hooks/useEditor'
+import { useBooks } from '@store/Books'
+import { useProjects } from '@store/Projects'
+import { useEffect, useRef } from 'react'
 
 export function SnowflakeStructureCentralIdiaPage() {
   const { project, updateSnowflakeStructure } = useProjects((state) => ({
     project: state.currentProject,
     updateSnowflakeStructure: state.updateSnowflakeStructure,
-  }));
+  }))
   const { bookSelected, isLoading } = useBooks((state) => ({
     bookSelected: state.currentBook,
     isLoading: state.isLoading,
-  }));
+  }))
 
-  const book = bookSelected || project?.books[0];
+  const book = bookSelected || project?.books[0]
   const editorStateRef = useRef<string>(
-    (isLoading ? '<p></p>' : book?.snowflakeStructure?.centralIdia) ?? '<p></p>'
-  );
+    (isLoading ? '<p></p>' : book?.snowflakeStructure?.centralIdia) ??
+      '<p></p>',
+  )
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const currentCentralIdia = book?.snowflakeStructure?.centralIdia;
+      const currentCentralIdia = book?.snowflakeStructure?.centralIdia
 
       if (!isLoading && book && currentCentralIdia !== editorStateRef.current) {
         updateSnowflakeStructure({
           bookId: book.id,
           centralIdia: editorStateRef.current,
-        });
+        })
       }
-    }, 1000 * 2);
+    }, 1000 * 2)
 
-    return () => clearInterval(interval);
-  }, [book, updateSnowflakeStructure, isLoading]);
+    return () => clearInterval(interval)
+  }, [book, updateSnowflakeStructure, isLoading])
 
   function saveCentralIdia(text: string) {
-    editorStateRef.current = text;
+    editorStateRef.current = text
   }
 
   const { Editors } = useEditor({
@@ -47,7 +48,7 @@ export function SnowflakeStructureCentralIdiaPage() {
         preValue: book?.snowflakeStructure?.centralIdia ?? '',
       },
     ],
-  });
+  })
 
   return (
     <>
@@ -98,5 +99,5 @@ export function SnowflakeStructureCentralIdiaPage() {
       </main>
       {!project?.features['multi-book'] && <SnowflakeStructureNavigate />}
     </>
-  );
+  )
 }

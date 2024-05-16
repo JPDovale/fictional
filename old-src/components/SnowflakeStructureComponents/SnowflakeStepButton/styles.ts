@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 
 export const snowflakeStepButtonStyles = cva(
   ['flex p-4 rounded-md  ease-in-out duration-300 '],
@@ -16,5 +16,5 @@ export const snowflakeStepButtonStyles = cva(
         true: ['hover:scale-[106%] focus:scale-[106%] focus:shadow-black'],
       },
     },
-  }
-);
+  },
+)

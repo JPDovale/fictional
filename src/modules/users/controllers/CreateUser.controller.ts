@@ -14,7 +14,7 @@ export class CreateUserController implements Controller<PresenterProps> {
     private readonly errorPresenter: ErrorPresenter,
     private readonly createUserService: CreateUserService,
     private readonly userPresenter: UserPresenter,
-  ) { }
+  ) {}
 
   async handle({ _data }: Request): Promise<PresenterProps> {
     const body = this.createUserGateway.transform(_data)

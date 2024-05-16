@@ -3,7 +3,8 @@ import { StatusCode } from '@shared/core/types/StatusCode'
 
 export class FoundationNotBelongToProject
   extends Error
-  implements ServiceError {
+  implements ServiceError
+{
   title = 'Fundação não pertence ao projeto'
   status: number = StatusCode.FORBIDDEN
 

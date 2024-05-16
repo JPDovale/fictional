@@ -3,18 +3,18 @@ import {
   RxTextAlignJustify,
   RxTextAlignLeft,
   RxTextAlignRight,
-} from 'react-icons/rx';
-import { Editor } from '@tiptap/react';
-import { useTheme } from '@hooks/useTheme';
-import { BubbleOption } from './BubbleOption';
-import { GroupStyles } from './styles';
+} from 'react-icons/rx'
+import { Editor } from '@tiptap/react'
+import { useTheme } from '@hooks/useTheme'
+import { BubbleOption } from './BubbleOption'
+import { GroupStyles } from './styles'
 
 interface TextTransformersProps {
-  editor: Editor;
+  editor: Editor
 }
 
 export function TextTransformers({ editor }: TextTransformersProps) {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
 
   return (
     <div className={GroupStyles({ theme })}>
@@ -42,5 +42,5 @@ export function TextTransformers({ editor }: TextTransformersProps) {
         handler={() => editor.chain().focus().setTextAlign('justify').run()}
       />
     </div>
-  );
+  )
 }

@@ -15,7 +15,7 @@ export class GetUserResolver {
 
     @inject(InjectableDependencies.Services.CreateUserService)
     private readonly createUserService: CreateUserService,
-  ) { }
+  ) {}
 
   async handle({ _data }: RequesterType<GetUserGateway>) {
     const data = new GetUserGateway(_data)

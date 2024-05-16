@@ -1,47 +1,47 @@
-import { Page404 } from '@components/404';
-import { Editor } from '@components/Editor';
-import { useEditor } from '@hooks/useEditor';
-import { useBooks } from '@store/Books';
-import { useProjects } from '@store/Projects';
-import { useEffect, useRef } from 'react';
+import { Page404 } from '@components/404'
+import { Editor } from '@components/Editor'
+import { useEditor } from '@hooks/useEditor'
+import { useBooks } from '@store/Books'
+import { useProjects } from '@store/Projects'
+import { useEffect, useRef } from 'react'
 
 export function BookTextPage() {
   const { project } = useProjects((state) => ({
     project: state.currentProject,
-  }));
+  }))
   const { currentBook, updateText, isLoading, loadBook } = useBooks(
     (state) => ({
       currentBook: state.currentBook,
       updateText: state.updateText,
       loadBook: state.loadBook,
       isLoading: state.isLoading,
-    })
-  );
+    }),
+  )
 
   const editorStateRef = useRef<string>(
-    (isLoading ? '<p></p>' : currentBook?.text) ?? '<p></p>'
-  );
+    (isLoading ? '<p></p>' : currentBook?.text) ?? '<p></p>',
+  )
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const currentText = currentBook?.text;
+      const currentText = currentBook?.text
 
       if (!isLoading && currentBook && currentText !== editorStateRef.current) {
-        updateText(editorStateRef.current);
+        updateText(editorStateRef.current)
       }
-    }, 1000 * 2);
+    }, 1000 * 2)
 
-    return () => clearInterval(interval);
-  }, [currentBook, updateText, isLoading]);
+    return () => clearInterval(interval)
+  }, [currentBook, updateText, isLoading])
 
   useEffect(() => {
     if (!currentBook && project) {
-      loadBook(project.books[0].id);
+      loadBook(project.books[0].id)
     }
-  }, [currentBook, project, loadBook]);
+  }, [currentBook, project, loadBook])
 
   function saveText(text: string) {
-    editorStateRef.current = text;
+    editorStateRef.current = text
   }
 
   const { Editors } = useEditor({
@@ -53,14 +53,14 @@ export function BookTextPage() {
         useProject: [project!],
       },
     ],
-  });
+  })
 
   if (!currentBook) {
-    return <Page404 />;
+    return <Page404 />
   }
 
   if (project?.structure === 'snowflake') {
-    return <Page404 />;
+    return <Page404 />
   }
 
   return (
@@ -73,5 +73,5 @@ export function BookTextPage() {
       <h3 className="text-xl font-bold mt-8 opacity-50">Vamos começar!</h3>
       {Editors.text && <Editor editor={Editors.text.editor} />}
     </main>
-  );
+  )
 }

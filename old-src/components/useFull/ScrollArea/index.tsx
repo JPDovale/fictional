@@ -1,8 +1,8 @@
-import * as Scroll from '@radix-ui/react-scroll-area';
-import { ReactNode } from 'react';
+import * as Scroll from '@radix-ui/react-scroll-area'
+import { ReactNode } from 'react'
 
 interface ScrollAreaProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 export function ScrollArea({ children }: ScrollAreaProps) {
@@ -20,5 +20,5 @@ export function ScrollArea({ children }: ScrollAreaProps) {
       </Scroll.Scrollbar>
       <Scroll.Corner />
     </Scroll.Root>
-  );
+  )
 }

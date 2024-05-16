@@ -1,32 +1,32 @@
-import { Editor } from '@components/Editor';
-import { PersonExpansionSnowFlakeNavigation } from '@components/PersonsComponents/PersonExpansionSnowFlakeNavigation';
-import { SnowflakeFloatPreStructure } from '@components/SnowflakeStructureComponents/SnowflakeFloatPreStructure';
-import { useEditor } from '@hooks/useEditor';
-import { usePersons } from '@store/Persons';
-import { useProjects } from '@store/Projects';
-import { useEffect, useRef } from 'react';
+import { Editor } from '@components/Editor'
+import { PersonExpansionSnowFlakeNavigation } from '@components/PersonsComponents/PersonExpansionSnowFlakeNavigation'
+import { SnowflakeFloatPreStructure } from '@components/SnowflakeStructureComponents/SnowflakeFloatPreStructure'
+import { useEditor } from '@hooks/useEditor'
+import { usePersons } from '@store/Persons'
+import { useProjects } from '@store/Projects'
+import { useEffect, useRef } from 'react'
 
 export function SnowflakeStructurePersonExpansionObjectivePage() {
   const { project } = useProjects((state) => ({
     project: state.currentProject,
     updateSnowflakeStructure: state.updateSnowflakeStructure,
-  }));
+  }))
 
   const { person, isLoading, updateSnowflake } = usePersons((state) => ({
     person: state.currentPerson,
     isLoading: state.isLoading,
     updateSnowflake: state.updateSnowflake,
-  }));
+  }))
 
   const editorStateRef = useRef<string>(
     (isLoading ? '<p></p>' : person?.snowflakeStructureExpansion?.objective) ??
-      '<p></p>'
-  );
+      '<p></p>',
+  )
 
   useEffect(() => {
     const interval = setInterval(() => {
       const currentSnowflakeObjective =
-        person?.snowflakeStructureExpansion?.objective;
+        person?.snowflakeStructureExpansion?.objective
 
       if (
         !isLoading &&
@@ -35,15 +35,15 @@ export function SnowflakeStructurePersonExpansionObjectivePage() {
       ) {
         updateSnowflake({
           expansionObjective: editorStateRef.current,
-        });
+        })
       }
-    }, 1000 * 2);
+    }, 1000 * 2)
 
-    return () => clearInterval(interval);
-  }, [person, isLoading, updateSnowflake]);
+    return () => clearInterval(interval)
+  }, [person, isLoading, updateSnowflake])
 
   function savePersonFunction(text: string) {
-    editorStateRef.current = text;
+    editorStateRef.current = text
   }
 
   const { Editors } = useEditor({
@@ -55,7 +55,7 @@ export function SnowflakeStructurePersonExpansionObjectivePage() {
         useProject: [project!],
       },
     ],
-  });
+  })
 
   return (
     <>
@@ -82,5 +82,5 @@ export function SnowflakeStructurePersonExpansionObjectivePage() {
       </div>
       <PersonExpansionSnowFlakeNavigation />
     </>
-  );
+  )
 }

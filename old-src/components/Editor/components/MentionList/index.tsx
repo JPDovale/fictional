@@ -1,59 +1,59 @@
-import { SuggestionProps } from '@tiptap/suggestion';
-import { VenetianMask } from 'lucide-react';
-import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
-import * as Popover from '@radix-ui/react-popover';
-import { useTheme } from '@hooks/useTheme';
-import { mentionListStyles, mentionSelectStyles } from './styles';
+import { SuggestionProps } from '@tiptap/suggestion'
+import { VenetianMask } from 'lucide-react'
+import { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
+import * as Popover from '@radix-ui/react-popover'
+import { useTheme } from '@hooks/useTheme'
+import { mentionListStyles, mentionSelectStyles } from './styles'
 
 export const MentionList = forwardRef<HTMLElement, SuggestionProps>(
   (props, ref) => {
-    const { theme } = useTheme();
-    const [selectedIndex, setSelectedIndex] = useState(0);
+    const { theme } = useTheme()
+    const [selectedIndex, setSelectedIndex] = useState(0)
 
     const selectItem = (index: number) => {
-      const item = props.items[index];
+      const item = props.items[index]
 
       if (item) {
-        props.command({ id: item });
+        props.command({ id: item })
       }
-    };
+    }
 
     const upHandler = () => {
       setSelectedIndex(
-        (selectedIndex + props.items.length - 1) % props.items.length
-      );
-    };
+        (selectedIndex + props.items.length - 1) % props.items.length,
+      )
+    }
 
     const downHandler = () => {
-      setSelectedIndex((selectedIndex + 1) % props.items.length);
-    };
+      setSelectedIndex((selectedIndex + 1) % props.items.length)
+    }
 
     const enterHandler = () => {
-      selectItem(selectedIndex);
-    };
+      selectItem(selectedIndex)
+    }
 
-    useEffect(() => setSelectedIndex(0), [props.items]);
+    useEffect(() => setSelectedIndex(0), [props.items])
 
     useImperativeHandle<HTMLElement, any>(ref, () => ({
       onKeyDown: ({ event }: { event: any }) => {
         if (event.key === 'ArrowUp') {
-          upHandler();
-          return true;
+          upHandler()
+          return true
         }
 
         if (event.key === 'ArrowDown') {
-          downHandler();
-          return true;
+          downHandler()
+          return true
         }
 
         if (event.key === 'Enter') {
-          enterHandler();
-          return true;
+          enterHandler()
+          return true
         }
 
-        return false;
+        return false
       },
-    }));
+    }))
 
     return (
       <Popover.Root open>
@@ -86,6 +86,6 @@ export const MentionList = forwardRef<HTMLElement, SuggestionProps>(
           </div>
         </Popover.Content>
       </Popover.Root>
-    );
-  }
-);
+    )
+  },
+)

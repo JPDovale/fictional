@@ -10,6 +10,7 @@ import { CreatePersonController } from '@modules/persons/controllers/CreatePerso
 import { GetPersonsController } from '@modules/persons/controllers/GetPersons.controller'
 import { CreatePersonAttributeController } from '@modules/persons/controllers/CreatePersonAttribute.controller'
 import { GetAttributesPreviewController } from '@modules/persons/controllers/GetAttributesPreview.controller'
+import { UpdatePersonController } from '@modules/persons/controllers/UpdatePerson.controller'
 import { Accessors } from './types'
 
 export const accessors = {
@@ -28,4 +29,5 @@ export const accessors = {
   [Accessors.GET_ATTRIBUTES_PREVIEW]: container.resolve(
     GetAttributesPreviewController,
   ),
+  [Accessors.UPDATE_PERSON]: container.resolve(UpdatePersonController),
 }

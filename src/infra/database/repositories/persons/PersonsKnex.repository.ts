@@ -10,7 +10,7 @@ export class PersonsKnexRepository implements PersonsRepository {
   constructor(
     private readonly knexConnection: KnexConnection,
     private readonly mapper: PersonsKnexMapper,
-  ) { }
+  ) {}
 
   async create(person: Person): Promise<void> {
     await this.knexConnection
@@ -30,8 +30,11 @@ export class PersonsKnexRepository implements PersonsRepository {
     throw new Error('Method not implemented.')
   }
 
-  save(person: Person): Promise<void> {
-    throw new Error('Method not implemented.')
+  async save(person: Person): Promise<void> {
+    await this.knexConnection
+      .db('persons')
+      .where({ id: person.id.toValue() })
+      .update(this.mapper.toPersistence(person))
   }
 
   delete(id: string): Promise<void> {

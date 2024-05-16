@@ -1,31 +1,31 @@
-import { Editor } from '@components/Editor';
-import { PersonSnowFlakeNavigation } from '@components/PersonsComponents/PersonSnowFlakeNavigation';
-import { useEditor } from '@hooks/useEditor';
-import { usePersons } from '@store/Persons';
-import { useProjects } from '@store/Projects';
-import { useEffect, useRef } from 'react';
+import { Editor } from '@components/Editor'
+import { PersonSnowFlakeNavigation } from '@components/PersonsComponents/PersonSnowFlakeNavigation'
+import { useEditor } from '@hooks/useEditor'
+import { usePersons } from '@store/Persons'
+import { useProjects } from '@store/Projects'
+import { useEffect, useRef } from 'react'
 
 export function SnowflakeStructurePersonBaseApprenticeshipPage() {
   const { project } = useProjects((state) => ({
     project: state.currentProject,
     updateSnowflakeStructure: state.updateSnowflakeStructure,
-  }));
+  }))
 
   const { person, isLoading, updateSnowflake } = usePersons((state) => ({
     person: state.currentPerson,
     isLoading: state.isLoading,
     updateSnowflake: state.updateSnowflake,
-  }));
+  }))
 
   const editorStateRef = useRef<string>(
     (isLoading ? '<p></p>' : person?.snowflakeStructureBase?.apprenticeship) ??
-      '<p></p>'
-  );
+      '<p></p>',
+  )
 
   useEffect(() => {
     const interval = setInterval(() => {
       const currentSnowflakeApprenticeship =
-        person?.snowflakeStructureBase?.apprenticeship;
+        person?.snowflakeStructureBase?.apprenticeship
 
       if (
         !isLoading &&
@@ -34,15 +34,15 @@ export function SnowflakeStructurePersonBaseApprenticeshipPage() {
       ) {
         updateSnowflake({
           baseApprenticeship: editorStateRef.current,
-        });
+        })
       }
-    }, 1000 * 2);
+    }, 1000 * 2)
 
-    return () => clearInterval(interval);
-  }, [person, isLoading, updateSnowflake]);
+    return () => clearInterval(interval)
+  }, [person, isLoading, updateSnowflake])
 
   function savePersonFunction(text: string) {
-    editorStateRef.current = text;
+    editorStateRef.current = text
   }
 
   const { Editors } = useEditor({
@@ -54,7 +54,7 @@ export function SnowflakeStructurePersonBaseApprenticeshipPage() {
         useProject: [project!],
       },
     ],
-  });
+  })
 
   return (
     <>
@@ -70,5 +70,5 @@ export function SnowflakeStructurePersonBaseApprenticeshipPage() {
       </main>
       <PersonSnowFlakeNavigation />
     </>
-  );
+  )
 }

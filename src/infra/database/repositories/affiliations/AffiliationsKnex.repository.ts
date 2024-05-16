@@ -12,7 +12,7 @@ export class AffiliationsKnexRepository implements AffiliationsRepository {
   constructor(
     private readonly knexConnection: KnexConnection,
     private readonly mapper: AffiliationsKnexMapper,
-  ) { }
+  ) {}
 
   async create(affiliation: Affiliation): Promise<void> {
     await this.knexConnection

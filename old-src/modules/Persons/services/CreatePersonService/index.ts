@@ -1,26 +1,26 @@
-import { PersonsRepository } from '@database/repositories/Person/contracts/PersonsRepository';
-import { ProjectsRepository } from '@database/repositories/Project/contracts/ProjectsRepository';
-import { UsersRepository } from '@database/repositories/User/contracts/UsersRepository';
-import { Person } from '@modules/Persons/models/Person';
-import { UserNotFount } from '@modules/Users/errors/UserNotFound';
-import InjectableDependencies from '@shared/container/types';
-import { Either, left, right } from '@shared/core/error/Either';
-import { ResourceNotCreated } from '@shared/errors/ResourceNotCreated';
-import { ResourceNotFount } from '@shared/errors/ResourceNotFound';
-import { UnexpectedError } from '@shared/errors/UnexpectedError';
-import { inject, injectable } from 'tsyringe';
-import { ImageProvider } from '@providers/base/Image/contracts/ImageProvider';
+import { PersonsRepository } from '@database/repositories/Person/contracts/PersonsRepository'
+import { ProjectsRepository } from '@database/repositories/Project/contracts/ProjectsRepository'
+import { UsersRepository } from '@database/repositories/User/contracts/UsersRepository'
+import { Person } from '@modules/Persons/models/Person'
+import { UserNotFount } from '@modules/Users/errors/UserNotFound'
+import InjectableDependencies from '@shared/container/types'
+import { Either, left, right } from '@shared/core/error/Either'
+import { ResourceNotCreated } from '@shared/errors/ResourceNotCreated'
+import { ResourceNotFount } from '@shared/errors/ResourceNotFound'
+import { UnexpectedError } from '@shared/errors/UnexpectedError'
+import { inject, injectable } from 'tsyringe'
+import { ImageProvider } from '@providers/base/Image/contracts/ImageProvider'
 
 interface Request {
-  userId: string;
-  projectId: string;
-  bookId?: string;
-  name?: string;
-  biographic: string;
-  lastName?: string;
-  age?: number;
-  history?: string;
-  imageUrl?: string;
+  userId: string
+  projectId: string
+  bookId?: string
+  name?: string
+  biographic: string
+  lastName?: string
+  age?: number
+  history?: string
+  imageUrl?: string
 }
 
 type Response = Promise<
@@ -28,7 +28,7 @@ type Response = Promise<
     ResourceNotCreated | ResourceNotFount | UserNotFount | UnexpectedError,
     { person: Person }
   >
->;
+>
 
 @injectable()
 export class CreatePersonService {
@@ -43,7 +43,7 @@ export class CreatePersonService {
     private readonly personsRepository: PersonsRepository,
 
     @inject(InjectableDependencies.Providers.ImageProvider)
-    private readonly imageProvider: ImageProvider
+    private readonly imageProvider: ImageProvider,
   ) {}
 
   async execute({
@@ -56,23 +56,23 @@ export class CreatePersonService {
     imageUrl,
     history,
   }: Request): Response {
-    const user = await this.usersRepository.findById(userId);
+    const user = await this.usersRepository.findById(userId)
     if (!user) {
-      return left(new UserNotFount());
+      return left(new UserNotFount())
     }
 
-    const project = await this.projectsRepository.findById(projectId);
+    const project = await this.projectsRepository.findById(projectId)
     if (!project) {
-      return left(new ResourceNotFount());
+      return left(new ResourceNotFount())
     }
 
     if (!project.features.featureIsApplied('person')) {
-      return left(new UnexpectedError());
+      return left(new UnexpectedError())
     }
 
     const secureImageUrl = await this.imageProvider.getSecurePath(
-      imageUrl ?? null
-    );
+      imageUrl ?? null,
+    )
 
     const person = Person.create({
       name,
@@ -83,10 +83,10 @@ export class CreatePersonService {
       projectId: project.id,
       userId: user.id,
       imageUrl: secureImageUrl,
-    });
+    })
 
-    await this.personsRepository.create(person);
+    await this.personsRepository.create(person)
 
-    return right({ person });
+    return right({ person })
   }
 }

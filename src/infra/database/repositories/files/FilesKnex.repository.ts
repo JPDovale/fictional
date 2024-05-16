@@ -9,7 +9,7 @@ export class FilesKnexRepository implements FilesRepository<KnexConfig> {
   constructor(
     private readonly knexConnection: KnexConnection,
     private readonly mapper: FilesKnexMapper,
-  ) { }
+  ) {}
 
   async create(data: File, ctx?: KnexConfig): Promise<void> {
     const { db } = ctx ?? this.knexConnection

@@ -29,7 +29,7 @@ export class GetProjectsService {
 
     @inject(InjectableDependencies.Repositories.ProjectsRepository)
     private readonly projectsRepository: ProjectsRepository,
-  ) { }
+  ) {}
 
   async execute({ userId }: Request): Response {
     const user = await this.usersRepository.findById(userId)

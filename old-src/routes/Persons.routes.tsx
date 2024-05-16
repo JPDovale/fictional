@@ -1,7 +1,7 @@
-import { RoutesAvailable } from '@config/routes/routesAvailable';
-import { PersonPage } from '@pages/Person';
-import { PersonHistoryPage } from '@pages/PersonHistory';
-import { Route } from 'react-router-dom';
+import { RoutesAvailable } from '@config/routes/routesAvailable'
+import { PersonPage } from '@pages/Person'
+import { PersonHistoryPage } from '@pages/PersonHistory'
+import { Route } from 'react-router-dom'
 
 export function PersonsRoutes() {
   return [
@@ -14,5 +14,5 @@ export function PersonsRoutes() {
       path={RoutesAvailable.projectPersonHistory.path}
       element={<PersonHistoryPage />}
     />,
-  ];
+  ]
 }

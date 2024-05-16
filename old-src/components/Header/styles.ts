@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 
 export const stylesHeader = cva(
   [
@@ -17,5 +17,5 @@ export const stylesHeader = cva(
         light: ['bg-transparent', 'border-b-purple900'],
       },
     },
-  }
-);
+  },
+)

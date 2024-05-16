@@ -1,10 +1,10 @@
-import { fakerPT_BR } from '@faker-js/faker';
-import { User, UserProps } from '@modules/Users/models/User';
-import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
+import { fakerPT_BR } from '@faker-js/faker'
+import { User, UserProps } from '@modules/Users/models/User'
+import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId'
 
 export function makeUser(
   override: Partial<UserProps> = {},
-  id?: UniqueEntityId
+  id?: UniqueEntityId,
 ) {
   const user = User.create(
     {
@@ -18,8 +18,8 @@ export function makeUser(
       sex: fakerPT_BR.person.sexType(),
       ...override,
     },
-    id
-  );
+    id,
+  )
 
-  return user;
+  return user
 }

@@ -7,7 +7,7 @@ import { FloatingMenuEditor } from './components/FloatingMenuEditor'
 import { BubbleMenuEditor } from './components/BubbleMenuEditor'
 
 const editorStyles = tv({
-  base: 'min-w-[45rem] max-w-[45rem] prose prose-purple prose-sm group',
+  base: 'min-w-[45rem] max-w-[45rem] prose prose-purple group',
   variants: {
     theme: {
       [Theme.DARK]: 'prose-invert',

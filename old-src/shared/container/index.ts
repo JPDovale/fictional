@@ -1,4 +1,4 @@
-import './repositories';
-import './providers';
-import './services';
-import './resolvers';
+import './repositories'
+import './providers'
+import './services'
+import './resolvers'

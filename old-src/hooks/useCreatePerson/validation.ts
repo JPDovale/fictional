@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const newPersonFormSchema = z.object({
   name: z
@@ -14,7 +14,7 @@ export const newPersonFormSchema = z.object({
     .min(2, 'A biografia do seu personagem precisa ter pelo menos 2 caracteres')
     .max(
       450,
-      'A biografia do seu personagem não pode ter mias de 450 caracteres'
+      'A biografia do seu personagem não pode ter mias de 450 caracteres',
     ),
   projectId: z
     .string({
@@ -28,6 +28,6 @@ export const newPersonFormSchema = z.object({
     })
     .optional()
     .nullable(),
-});
+})
 
-export type INewPersonFormaData = z.infer<typeof newPersonFormSchema>;
+export type INewPersonFormaData = z.infer<typeof newPersonFormSchema>

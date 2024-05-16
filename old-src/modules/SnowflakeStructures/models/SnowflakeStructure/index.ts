@@ -1,33 +1,33 @@
-import { AggregateRoot } from '@shared/core/entities/AggregateRoot';
-import { Optional } from '@shared/core/types/Optional';
-import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
-import { SnowflakeStructurePersonList } from '../SnowflakeStructurePersonList';
+import { AggregateRoot } from '@shared/core/entities/AggregateRoot'
+import { Optional } from '@shared/core/types/Optional'
+import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId'
+import { SnowflakeStructurePersonList } from '../SnowflakeStructurePersonList'
 
 export interface ExpansionToParagraph {
-  phrase1: string | null;
-  phrase2: string | null;
-  phrase3: string | null;
-  phrase4: string | null;
-  phrase5: string | null;
+  phrase1: string | null
+  phrase2: string | null
+  phrase3: string | null
+  phrase4: string | null
+  phrase5: string | null
 }
 
 export interface ExpansionToPage {
-  paragraph1: string | null;
-  paragraph2: string | null;
-  paragraph3: string | null;
-  paragraph4: string | null;
-  paragraph5: string | null;
+  paragraph1: string | null
+  paragraph2: string | null
+  paragraph3: string | null
+  paragraph4: string | null
+  paragraph5: string | null
 }
 
 export interface SnowflakeStructureProps {
-  centralIdia: string | null;
-  expansionToParagraph: ExpansionToParagraph;
-  expansionToPage: ExpansionToPage;
-  interweavingPersonsAndExpansion: string | null;
-  persons: SnowflakeStructurePersonList | null;
+  centralIdia: string | null
+  expansionToParagraph: ExpansionToParagraph
+  expansionToPage: ExpansionToPage
+  interweavingPersonsAndExpansion: string | null
+  persons: SnowflakeStructurePersonList | null
 
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date
+  updatedAt: Date
 }
 
 export class SnowflakeStructure extends AggregateRoot<SnowflakeStructureProps> {
@@ -42,7 +42,7 @@ export class SnowflakeStructure extends AggregateRoot<SnowflakeStructureProps> {
       | 'updatedAt'
       | 'persons'
     >,
-    id?: UniqueEntityId
+    id?: UniqueEntityId,
   ) {
     const propsSnowflakeStructure: SnowflakeStructureProps = {
       persons: props.persons ?? null,
@@ -65,34 +65,34 @@ export class SnowflakeStructure extends AggregateRoot<SnowflakeStructureProps> {
       },
       interweavingPersonsAndExpansion:
         props.interweavingPersonsAndExpansion ?? null,
-    };
+    }
 
     const snowflakeStructure = new SnowflakeStructure(
       propsSnowflakeStructure,
-      id
-    );
+      id,
+    )
 
-    return snowflakeStructure;
+    return snowflakeStructure
   }
 
   get centralIdia() {
-    return this.props.centralIdia;
+    return this.props.centralIdia
   }
 
   set centralIdia(centralIdia: string | null | undefined) {
     this.props.centralIdia =
-      centralIdia === null ? '' : centralIdia || this.props.centralIdia;
+      centralIdia === null ? '' : centralIdia || this.props.centralIdia
   }
 
   get expansionToParagraph() {
-    return this.props.expansionToParagraph;
+    return this.props.expansionToParagraph
   }
 
   set expansionToParagraph(
     expansionToParagraph: Optional<
       ExpansionToParagraph,
       'phrase1' | 'phrase2' | 'phrase3' | 'phrase4' | 'phrase5'
-    >
+    >,
   ) {
     this.props.expansionToParagraph = {
       phrase1:
@@ -120,18 +120,18 @@ export class SnowflakeStructure extends AggregateRoot<SnowflakeStructureProps> {
           ? ''
           : expansionToParagraph.phrase5 ||
             this.props.expansionToParagraph.phrase5,
-    };
+    }
   }
 
   get expansionToPage() {
-    return this.props.expansionToPage;
+    return this.props.expansionToPage
   }
 
   set expansionToPage(
     expansionToPage: Optional<
       ExpansionToPage,
       'paragraph1' | 'paragraph2' | 'paragraph3' | 'paragraph4' | 'paragraph5'
-    >
+    >,
   ) {
     this.props.expansionToPage = {
       paragraph1:
@@ -154,40 +154,40 @@ export class SnowflakeStructure extends AggregateRoot<SnowflakeStructureProps> {
         expansionToPage.paragraph5 === null
           ? ''
           : expansionToPage.paragraph5 || this.props.expansionToPage.paragraph5,
-    };
+    }
   }
 
   get persons() {
-    return this.props.persons;
+    return this.props.persons
   }
 
   set persons(persons) {
-    this.props.persons = persons;
+    this.props.persons = persons
   }
 
   get interweavingPersonsAndExpansion() {
-    return this.props.interweavingPersonsAndExpansion;
+    return this.props.interweavingPersonsAndExpansion
   }
 
   set interweavingPersonsAndExpansion(
-    interweavingPersonsAndExpansion: string | null | undefined
+    interweavingPersonsAndExpansion: string | null | undefined,
   ) {
     this.props.interweavingPersonsAndExpansion =
       interweavingPersonsAndExpansion === null
         ? null
         : interweavingPersonsAndExpansion ??
-          this.props.interweavingPersonsAndExpansion;
+          this.props.interweavingPersonsAndExpansion
   }
 
   get createdAt() {
-    return this.props.createdAt;
+    return this.props.createdAt
   }
 
   get updatedAt() {
-    return this.props.updatedAt;
+    return this.props.updatedAt
   }
 
   touch() {
-    this.props.updatedAt = new Date();
+    this.props.updatedAt = new Date()
   }
 }

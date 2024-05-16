@@ -1,21 +1,21 @@
-import { BlockEditor } from '@components/BlockEditor';
-import { useEditor } from '@hooks/useEditor';
-import { useProjects } from '@store/Projects';
-import { isEqual } from 'lodash';
-import { useEffect, useRef } from 'react';
+import { BlockEditor } from '@components/BlockEditor'
+import { useEditor } from '@hooks/useEditor'
+import { useProjects } from '@store/Projects'
+import { isEqual } from 'lodash'
+import { useEffect, useRef } from 'react'
 
 interface EditorStateRef {
-  act1: string | null;
-  act2: string | null;
-  act3: string | null;
-  id: string;
+  act1: string | null
+  act2: string | null
+  act3: string | null
+  id: string
 }
 
 export function ThreeActsStructure() {
   const { currentProject, updateThreeActsStructure } = useProjects((state) => ({
     currentProject: state.currentProject,
     updateThreeActsStructure: state.updateThreeActsStructure,
-  }));
+  }))
 
   const editorStateRef = useRef<EditorStateRef>({
     act1: currentProject?.books[0].threeActsStructure?.act1
@@ -28,11 +28,11 @@ export function ThreeActsStructure() {
       ? currentProject?.books[0].threeActsStructure?.act3
       : '<p></p>',
     id: currentProject?.books[0].threeActsStructure?.id ?? '',
-  });
+  })
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const threeActsStructure = currentProject?.books[0].threeActsStructure;
+      const threeActsStructure = currentProject?.books[0].threeActsStructure
 
       if (
         threeActsStructure &&
@@ -41,15 +41,15 @@ export function ThreeActsStructure() {
         updateThreeActsStructure({
           ...editorStateRef.current,
           bookId: currentProject.books[0].id,
-        });
+        })
       }
-    }, 1000 * 2);
+    }, 1000 * 2)
 
-    return () => clearInterval(interval);
-  }, [currentProject?.books, updateThreeActsStructure]);
+    return () => clearInterval(interval)
+  }, [currentProject?.books, updateThreeActsStructure])
 
   function saveThreeActsStructure(text: string, id: 'act1' | 'act2' | 'act3') {
-    editorStateRef.current[id] = text;
+    editorStateRef.current[id] = text
   }
 
   const { Editors } = useEditor({
@@ -73,7 +73,7 @@ export function ThreeActsStructure() {
         useProject: currentProject ? [currentProject] : [],
       },
     ],
-  });
+  })
 
   return (
     <main className="flex-1 py-4 min-w-[45rem] mx-auto max-w-[45rem]">
@@ -113,5 +113,5 @@ export function ThreeActsStructure() {
         />
       )}
     </main>
-  );
+  )
 }

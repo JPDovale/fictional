@@ -1,30 +1,30 @@
-import { Editor } from '@components/Editor';
-import { PersonSnowFlakeNavigation } from '@components/PersonsComponents/PersonSnowFlakeNavigation';
-import { useEditor } from '@hooks/useEditor';
-import { usePersons } from '@store/Persons';
-import { useProjects } from '@store/Projects';
-import { useEffect, useRef } from 'react';
+import { Editor } from '@components/Editor'
+import { PersonSnowFlakeNavigation } from '@components/PersonsComponents/PersonSnowFlakeNavigation'
+import { useEditor } from '@hooks/useEditor'
+import { usePersons } from '@store/Persons'
+import { useProjects } from '@store/Projects'
+import { useEffect, useRef } from 'react'
 
 export function SnowflakeStructurePersonBaseObstaclePage() {
   const { project } = useProjects((state) => ({
     project: state.currentProject,
     updateSnowflakeStructure: state.updateSnowflakeStructure,
-  }));
+  }))
 
   const { person, isLoading, updateSnowflake } = usePersons((state) => ({
     person: state.currentPerson,
     isLoading: state.isLoading,
     updateSnowflake: state.updateSnowflake,
-  }));
+  }))
 
   const editorStateRef = useRef<string>(
     (isLoading ? '<p></p>' : person?.snowflakeStructureBase?.obstacle) ??
-      '<p></p>'
-  );
+      '<p></p>',
+  )
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const currentSnowflakeObstacle = person?.snowflakeStructureBase?.obstacle;
+      const currentSnowflakeObstacle = person?.snowflakeStructureBase?.obstacle
 
       if (
         !isLoading &&
@@ -33,15 +33,15 @@ export function SnowflakeStructurePersonBaseObstaclePage() {
       ) {
         updateSnowflake({
           baseObstacle: editorStateRef.current,
-        });
+        })
       }
-    }, 1000 * 2);
+    }, 1000 * 2)
 
-    return () => clearInterval(interval);
-  }, [person, isLoading, updateSnowflake]);
+    return () => clearInterval(interval)
+  }, [person, isLoading, updateSnowflake])
 
   function savePersonFunction(text: string) {
-    editorStateRef.current = text;
+    editorStateRef.current = text
   }
 
   const { Editors } = useEditor({
@@ -53,7 +53,7 @@ export function SnowflakeStructurePersonBaseObstaclePage() {
         useProject: [project!],
       },
     ],
-  });
+  })
 
   return (
     <>
@@ -69,5 +69,5 @@ export function SnowflakeStructurePersonBaseObstaclePage() {
       </main>
       <PersonSnowFlakeNavigation />
     </>
-  );
+  )
 }

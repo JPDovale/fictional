@@ -1,14 +1,14 @@
-import { Button } from '@components/useFull/Button';
-import * as Tabs from '@radix-ui/react-tabs';
+import { Button } from '@components/useFull/Button'
+import * as Tabs from '@radix-ui/react-tabs'
 
 interface EditorButtonTriggerProps {
-  isToShowContent: boolean;
+  isToShowContent: boolean
 }
 
 export function EditorButtonTrigger({
   isToShowContent,
 }: EditorButtonTriggerProps) {
-  if (!isToShowContent) return null;
+  if (!isToShowContent) return null
 
   return (
     <Tabs.Trigger
@@ -21,5 +21,5 @@ export function EditorButtonTrigger({
         </div>
       </Button.Root>
     </Tabs.Trigger>
-  );
+  )
 }

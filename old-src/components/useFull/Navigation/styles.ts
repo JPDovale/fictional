@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 
 export const navigationStyles = cva(
   [
@@ -26,5 +26,5 @@ export const navigationStyles = cva(
     defaultVariants: {
       navIsOpen: true,
     },
-  }
-);
+  },
+)

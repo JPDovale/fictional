@@ -9,7 +9,7 @@ export class FoundationsKnexRepository implements FoundationsRepository {
   constructor(
     private readonly knexConnection: KnexConnection,
     private readonly mapper: FoundationsKnexMapper,
-  ) { }
+  ) {}
 
   async create(foundation: Foundation): Promise<void> {
     await this.knexConnection

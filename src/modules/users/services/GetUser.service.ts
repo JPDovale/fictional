@@ -19,7 +19,7 @@ type Response = {
 export class GetUserService
   implements Service<Request, PossibleErrors, Response>
 {
-  constructor(private readonly usersRepository: UsersRepository) { }
+  constructor(private readonly usersRepository: UsersRepository) {}
 
   async execute({ email }: Request): Promise<Either<UserNotFound, Response>> {
     const user = await this.usersRepository.findByEmail(email)

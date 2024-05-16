@@ -1,5 +1,5 @@
-import { BookNavigate } from '@components/BooksComponents/BookNavigation';
-import { Outlet } from 'react-router-dom';
+import { BookNavigate } from '@components/BooksComponents/BookNavigation'
+import { Outlet } from 'react-router-dom'
 
 export function BooksLayout() {
   return (
@@ -10,5 +10,5 @@ export function BooksLayout() {
 
       <BookNavigate />
     </div>
-  );
+  )
 }

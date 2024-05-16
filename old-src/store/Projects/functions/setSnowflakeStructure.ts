@@ -1,57 +1,57 @@
-import { useBooks } from '@store/Books';
-import { BookModelResponse } from '@modules/Books/dtos/models/types';
-import { SnowflakeStructureModelResponse } from '@modules/SnowflakeStructures/dtos/models/types';
-import { ProjectModelResponse } from '@modules/Projects/dtos/models/types';
-import { GetUseProjects, SetUseProjects } from '..';
+import { useBooks } from '@store/Books'
+import { BookModelResponse } from '@modules/Books/dtos/models/types'
+import { SnowflakeStructureModelResponse } from '@modules/SnowflakeStructures/dtos/models/types'
+import { ProjectModelResponse } from '@modules/Projects/dtos/models/types'
+import { GetUseProjects, SetUseProjects } from '..'
 
 export interface SetSnowflakeStructureProps {
-  centralIdia?: string | null;
-  phrase1?: string | null;
-  phrase2?: string | null;
-  phrase3?: string | null;
-  phrase4?: string | null;
-  phrase5?: string | null;
-  paragraph1?: string | null;
-  paragraph2?: string | null;
-  paragraph3?: string | null;
-  paragraph4?: string | null;
-  paragraph5?: string | null;
-  projectId: string;
-  bookId: string;
+  centralIdia?: string | null
+  phrase1?: string | null
+  phrase2?: string | null
+  phrase3?: string | null
+  phrase4?: string | null
+  phrase5?: string | null
+  paragraph1?: string | null
+  paragraph2?: string | null
+  paragraph3?: string | null
+  paragraph4?: string | null
+  paragraph5?: string | null
+  projectId: string
+  bookId: string
 }
 
 export function setSnowflakeStructure(
   set: SetUseProjects,
   get: GetUseProjects,
-  props: SetSnowflakeStructureProps
+  props: SetSnowflakeStructureProps,
 ) {
-  const { currentProject: project } = get();
-  const { setBook } = useBooks.getState();
+  const { currentProject: project } = get()
+  const { setBook } = useBooks.getState()
 
-  if (!project) throw new Error('Project inexistent');
+  if (!project) throw new Error('Project inexistent')
 
-  const bookToUpdate = project.books.find((b) => b.id === props.bookId);
+  const bookToUpdate = project.books.find((b) => b.id === props.bookId)
   const indexBookToUpdate = project.books.findIndex(
-    (book) => book.id === props.bookId
-  );
-  if (!bookToUpdate) throw new Error('Book inexistent');
+    (book) => book.id === props.bookId,
+  )
+  if (!bookToUpdate) throw new Error('Book inexistent')
 
-  const updatedBook = makeUpdatedBook(bookToUpdate, props);
-  const updatedBooks = [...project.books];
-  updatedBooks[indexBookToUpdate] = updatedBook;
+  const updatedBook = makeUpdatedBook(bookToUpdate, props)
+  const updatedBooks = [...project.books]
+  updatedBooks[indexBookToUpdate] = updatedBook
 
   const updatedProject: ProjectModelResponse = {
     ...project,
     books: updatedBooks,
-  };
+  }
 
-  setBook(updatedBook);
-  set({ currentProject: updatedProject });
+  setBook(updatedBook)
+  set({ currentProject: updatedProject })
 }
 
 function makeUpdatedBook(
   bookToUpdate: BookModelResponse,
-  props: SetSnowflakeStructureProps
+  props: SetSnowflakeStructureProps,
 ) {
   const updatedBook: BookModelResponse = {
     ...bookToUpdate!,
@@ -95,7 +95,7 @@ function makeUpdatedBook(
       },
       id: bookToUpdate!.snowflakeStructure!.id,
     } as SnowflakeStructureModelResponse,
-  };
+  }
 
-  return updatedBook;
+  return updatedBook
 }

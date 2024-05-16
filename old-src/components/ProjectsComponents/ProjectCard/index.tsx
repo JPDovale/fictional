@@ -1,17 +1,17 @@
-import { useTheme } from '@hooks/useTheme';
-import { useUser } from '@hooks/useUser';
-import { Image } from 'lucide-react';
-import { ProjectModelResponse } from '@modules/Projects/dtos/models/types';
-import { imageStyles, projectCardStyles, projectInfoStyles } from './styles';
+import { useTheme } from '@hooks/useTheme'
+import { useUser } from '@hooks/useUser'
+import { Image } from 'lucide-react'
+import { ProjectModelResponse } from '@modules/Projects/dtos/models/types'
+import { imageStyles, projectCardStyles, projectInfoStyles } from './styles'
 
 interface ProjectCardProps {
-  project: ProjectModelResponse;
-  onClick: (id: string) => void;
+  project: ProjectModelResponse
+  onClick: (id: string) => void
 }
 
 export function ProjectCard({ project, onClick }: ProjectCardProps) {
-  const { theme } = useTheme();
-  const { data } = useUser();
+  const { theme } = useTheme()
+  const { data } = useUser()
 
   return (
     <button
@@ -60,5 +60,5 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
         </div>
       </div>
     </button>
-  );
+  )
 }

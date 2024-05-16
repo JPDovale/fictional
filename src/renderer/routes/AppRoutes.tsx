@@ -14,6 +14,7 @@ import { ProjectFoundationWhereHappensPage } from '../pages/projects/[id]/founda
 import { ProjectFoundationWhyHappensPage } from '../pages/projects/[id]/foundation/whyHappens'
 import { ProjectFoundationWhoHappensPage } from '../pages/projects/[id]/foundation/whoHappens'
 import { ProjectNewPersonPage } from '../pages/projects/[id]/persons/new'
+import { PersonIdentityPage } from '../pages/projects/[id]/persons/[id]'
 
 export function AppRoutes() {
   const { isLoading } = usePreload()
@@ -56,6 +57,11 @@ export function AppRoutes() {
         <Route
           path="/projects/:projectId/persons/new"
           element={<ProjectNewPersonPage />}
+        />
+
+        <Route
+          path="/projects/:projectId/persons/:personId/identity"
+          element={<PersonIdentityPage />}
         />
 
         <Route

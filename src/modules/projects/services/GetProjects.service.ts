@@ -18,11 +18,12 @@ type Response = {
 
 @injectable()
 export class GetProjectsService
-  implements Service<Request, PossibleErrors, Response> {
+  implements Service<Request, PossibleErrors, Response>
+{
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly projectsRepository: ProjectsRepository,
-  ) { }
+  ) {}
 
   async execute({ userId }: Request): Promise<Either<UserNotFound, Response>> {
     const user = await this.usersRepository.findById(userId)

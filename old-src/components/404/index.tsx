@@ -5,5 +5,5 @@ export function Page404() {
       <span className="text-sm uppercase">Página indisponível</span>
       <div className="fill-mode-both w-[50px] h-[50px] mt-10 bg-purple900 animate-square-spin shadow-purpleShadow shadow-purple900 rounded-[10px]" />
     </main>
-  );
+  )
 }

@@ -4,12 +4,12 @@ exports.up = async function up(knex) {
       .string('three_acts_structure_id')
       .references('three_acts_structures.id')
       .onDelete('CASCADE')
-      .defaultTo(null);
-  });
-};
+      .defaultTo(null)
+  })
+}
 
 exports.down = async function down(knex) {
   return knex.schema.alterTable('books', (table) => {
-    table.dropColumn('three_acts_structure_id');
-  });
-};
+    table.dropColumn('three_acts_structure_id')
+  })
+}

@@ -1,12 +1,12 @@
-import { Button } from '@components/useFull/Button';
-import { Checkbox } from '@components/useFull/Checkbox';
-import { Input } from '@components/useFull/Input';
-import { Requester } from '@config/requests/requester';
-import { useCreateProject } from '@hooks/useCreateProject';
+import { Button } from '@components/useFull/Button'
+import { Checkbox } from '@components/useFull/Checkbox'
+import { Input } from '@components/useFull/Input'
+import { Requester } from '@config/requests/requester'
+import { useCreateProject } from '@hooks/useCreateProject'
 import {
   ProjectStructureType,
   ProjectType,
-} from '@hooks/useCreateProject/validation';
+} from '@hooks/useCreateProject/validation'
 import {
   BookMarked,
   FilePlus,
@@ -30,8 +30,8 @@ import {
   // Swords,
   // Users,
   // Wand2,
-} from 'lucide-react';
-import { useEffect } from 'react';
+} from 'lucide-react'
+import { useEffect } from 'react'
 
 export function CreateProjectForm() {
   const {
@@ -41,7 +41,7 @@ export function CreateProjectForm() {
     register,
     watch,
     setValue,
-  } = useCreateProject();
+  } = useCreateProject()
 
   const watchedFields = {
     name: watch('name'),
@@ -51,45 +51,45 @@ export function CreateProjectForm() {
     imageUrl: watch('imageUrl'),
     booksCount: watch('booksCount'),
     books: watch('books'),
-  };
+  }
 
   function selectTypeOfProject(typeProject: ProjectType) {
-    setValue('type.book', false);
-    setValue('type.game-history', false);
-    setValue('type.roadmap', false);
-    setValue('type.rpg', false);
+    setValue('type.book', false)
+    setValue('type.game-history', false)
+    setValue('type.roadmap', false)
+    setValue('type.rpg', false)
 
-    setValue(`type.${typeProject}`, true);
+    setValue(`type.${typeProject}`, true)
   }
 
   function selectStructureTypeOfProject(structure: ProjectStructureType) {
-    setValue('structure.hero-journey', false);
-    setValue('structure.snowflake', false);
-    setValue('structure.three-acts', false);
+    setValue('structure.hero-journey', false)
+    setValue('structure.snowflake', false)
+    setValue('structure.three-acts', false)
 
-    setValue(`structure.${structure}`, true);
+    setValue(`structure.${structure}`, true)
 
     if (structure === 'snowflake') {
-      setValue('features.person', true);
+      setValue('features.person', true)
     }
   }
 
   function handleUpdateTitleOfBook(title: string, index: number) {
-    const books = watchedFields.books ?? [];
+    const books = watchedFields.books ?? []
 
-    books[index].title = title;
+    books[index].title = title
 
-    setValue('books', books);
+    setValue('books', books)
   }
 
   async function handleSelectImage() {
     const result = await Requester.requester({
       access: 'open-image-selector',
       data: null,
-    });
+    })
 
     if (result) {
-      setValue('imageUrl', result);
+      setValue('imageUrl', result)
     }
   }
 
@@ -97,27 +97,27 @@ export function CreateProjectForm() {
     const result = await Requester.requester({
       access: 'open-image-selector',
       data: null,
-    });
+    })
 
     if (result) {
-      const books = watchedFields.books ?? [];
+      const books = watchedFields.books ?? []
 
-      books[index].imageUrl = result;
+      books[index].imageUrl = result
 
-      setValue('books', books);
+      setValue('books', books)
     }
   }
 
   function handleClearImageUrlOfBook(index: number) {
-    const books = watchedFields.books ?? [];
+    const books = watchedFields.books ?? []
 
-    books[index].imageUrl = '';
+    books[index].imageUrl = ''
 
-    setValue('books', books);
+    setValue('books', books)
   }
 
   function handleClearImageUrl() {
-    setValue('imageUrl', '');
+    setValue('imageUrl', '')
   }
 
   useEffect(() => {
@@ -128,24 +128,24 @@ export function CreateProjectForm() {
       watchedFields.booksCount <= 20
     ) {
       const newArrayBooks: {
-        title: string;
-        imageUrl: string | null;
-      }[] = [];
+        title: string
+        imageUrl: string | null
+      }[] = []
 
       Array.from({ length: watchedFields.booksCount ?? 0 }).forEach((_, i) => {
         newArrayBooks.push({
           title: `${watchedFields.name} - Livro ${i + 1}`,
           imageUrl: '',
-        });
-      });
+        })
+      })
 
-      setValue('books', newArrayBooks);
+      setValue('books', newArrayBooks)
 
-      return;
+      return
     }
 
-    setValue('books', []);
-  }, [watchedFields.booksCount, watchedFields.name, setValue]);
+    setValue('books', [])
+  }, [watchedFields.booksCount, watchedFields.name, setValue])
 
   return (
     <form
@@ -649,7 +649,7 @@ export function CreateProjectForm() {
                         </Input.Input>
                       </Input.Root>
                     </div>
-                  )
+                  ),
                 )}
               </div>
             )}
@@ -698,5 +698,5 @@ export function CreateProjectForm() {
         <Button.Text>CRIAR &quot;{watchedFields.name}&quot;</Button.Text>
       </Button.Root>
     </form>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import { ProjectsRoutesAvailable } from './projects';
+import { ProjectsRoutesAvailable } from './projects'
 
 /* eslint-disable no-use-before-define */
 export const RoutesAvailable = {
@@ -41,9 +41,9 @@ export const RoutesAvailable = {
    * Usage to divide routes with parameters
    */
   divider: '|DIVIDER|',
-} as const;
+} as const
 
 export function makeParameterizedRouter(routerUnParameterized: string) {
-  const route = `${RoutesAvailable.divider}${routerUnParameterized}`;
-  return route;
+  const route = `${RoutesAvailable.divider}${routerUnParameterized}`
+  return route
 }

@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 
 export const personNavStyles = cva(
   [
@@ -16,8 +16,8 @@ export const personNavStyles = cva(
         light: ['bg-gray500/70'],
       },
     },
-  }
-);
+  },
+)
 
 export const avatarStyles = cva(
   [
@@ -32,8 +32,8 @@ export const avatarStyles = cva(
         ],
       },
     },
-  }
-);
+  },
+)
 
 export const avatarImageStyles = cva(
   [
@@ -46,5 +46,5 @@ export const avatarImageStyles = cva(
         false: [' min-w-[2.75rem]  min-h-[2.75rem]'],
       },
     },
-  }
-);
+  },
+)

@@ -1,17 +1,17 @@
-import { useProjects } from '@store/Projects';
-import { useMemo } from 'react';
-import { ProjectImplementsPersons } from './components/ProjectImplementsPerson';
+import { useProjects } from '@store/Projects'
+import { useMemo } from 'react'
+import { ProjectImplementsPersons } from './components/ProjectImplementsPerson'
 
 export function AllPersonsPage() {
-  const { projects } = useProjects((state) => ({ projects: state.projects }));
+  const { projects } = useProjects((state) => ({ projects: state.projects }))
 
   const { projectsImplementsPersons } = useMemo(() => {
     const projectsImplementsFeaturePersons = projects.filter(
-      (project) => project.features.person
-    );
+      (project) => project.features.person,
+    )
 
-    return { projectsImplementsPersons: projectsImplementsFeaturePersons };
-  }, [projects]);
+    return { projectsImplementsPersons: projectsImplementsFeaturePersons }
+  }, [projects])
 
   return (
     <main className="flex-1 p-6 overflow-hidden">
@@ -23,5 +23,5 @@ export function AllPersonsPage() {
         ))}
       </div>
     </main>
-  );
+  )
 }

@@ -5,15 +5,15 @@ exports.up = async function up(knex) {
       .primary()
       .unique()
       .notNullable()
-      .defaultTo(knex.fn.uuid());
-    table.string('act_1').defaultTo(null);
-    table.string('act_2').defaultTo(null);
-    table.string('act_3').defaultTo(null);
-    table.dateTime('created_at').notNullable().defaultTo(knex.fn.now());
-    table.dateTime('updated_at').defaultTo(null);
-  });
-};
+      .defaultTo(knex.fn.uuid())
+    table.string('act_1').defaultTo(null)
+    table.string('act_2').defaultTo(null)
+    table.string('act_3').defaultTo(null)
+    table.dateTime('created_at').notNullable().defaultTo(knex.fn.now())
+    table.dateTime('updated_at').defaultTo(null)
+  })
+}
 
 exports.down = async function down(knex) {
-  return knex.schema.dropTable('three_acts_structures');
-};
+  return knex.schema.dropTable('three_acts_structures')
+}

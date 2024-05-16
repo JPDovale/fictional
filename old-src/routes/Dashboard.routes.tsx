@@ -1,10 +1,10 @@
-import { RoutesAvailable } from '@config/routes/routesAvailable';
-import { AllPersonsPage } from '@pages/AllPersons';
-import { CreatePersonPage } from '@pages/CreatePerson';
-import { CreateProjectPage } from '@pages/CreateProject';
-import { HomePage } from '@pages/Home';
-import { ProjectsPage } from '@pages/Projects';
-import { Route } from 'react-router-dom';
+import { RoutesAvailable } from '@config/routes/routesAvailable'
+import { AllPersonsPage } from '@pages/AllPersons'
+import { CreatePersonPage } from '@pages/CreatePerson'
+import { CreateProjectPage } from '@pages/CreateProject'
+import { HomePage } from '@pages/Home'
+import { ProjectsPage } from '@pages/Projects'
+import { Route } from 'react-router-dom'
 
 export function DashboardRoutes() {
   return [
@@ -23,5 +23,5 @@ export function DashboardRoutes() {
       path={RoutesAvailable.createPerson.path}
       element={<CreatePersonPage />}
     />,
-  ];
+  ]
 }

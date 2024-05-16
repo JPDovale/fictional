@@ -24,12 +24,13 @@ type Response = {
 
 @injectable()
 export class CreateProjectService
-  implements Service<Request, PossibleErrors, Response> {
+  implements Service<Request, PossibleErrors, Response>
+{
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly projectsRepository: ProjectsRepository,
     private readonly imagesLocalManipulatorProvider: ImagesLocalManipulatorProvider,
-  ) { }
+  ) {}
 
   async execute({
     name,

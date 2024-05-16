@@ -19,15 +19,15 @@ export function ProjectParser(project: Project): ProjectModelResponse {
     },
     creator: project.creator
       ? {
-        id: project.creator.id.toString(),
-        email: project.creator.email,
-        permission: project.creator.permission,
-        username: project.creator.username,
-        avatar: {
-          alt: project.creator.username,
-          url: project.creator?.avatarUrl ?? null,
-        },
-      }
+          id: project.creator.id.toString(),
+          email: project.creator.email,
+          permission: project.creator.permission,
+          username: project.creator.username,
+          avatar: {
+            alt: project.creator.username,
+            url: project.creator?.avatarUrl ?? null,
+          },
+        }
       : null,
     books: project.books.currentItems.map((book) => BookParser(book)),
     persons: project.persons.currentItems.map((person) => PersonParser(person)),

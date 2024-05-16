@@ -4,12 +4,12 @@ exports.up = async function up(knex) {
       .string('snowflake_structure_id')
       .references('snowflake_structures.id')
       .onDelete('CASCADE')
-      .defaultTo(null);
-  });
-};
+      .defaultTo(null)
+  })
+}
 
 exports.down = async function down(knex) {
   return knex.schema.alterTable('books', (table) => {
-    table.dropColumn('snowflake_id');
-  });
-};
+    table.dropColumn('snowflake_id')
+  })
+}

@@ -1,15 +1,15 @@
-import { ReactNode } from 'react';
-import { useTheme } from '@hooks/useTheme';
-import { bubbleOptionStyles } from './styles';
+import { ReactNode } from 'react'
+import { useTheme } from '@hooks/useTheme'
+import { bubbleOptionStyles } from './styles'
 
 interface BubbleOptionProps {
-  icon: ReactNode;
-  isActive: boolean;
-  handler: () => void;
+  icon: ReactNode
+  isActive: boolean
+  handler: () => void
 }
 
 export function BubbleOption({ icon, handler, isActive }: BubbleOptionProps) {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
 
   return (
     <button
@@ -20,5 +20,5 @@ export function BubbleOption({ icon, handler, isActive }: BubbleOptionProps) {
     >
       {icon}
     </button>
-  );
+  )
 }

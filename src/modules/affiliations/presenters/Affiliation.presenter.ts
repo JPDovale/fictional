@@ -22,7 +22,8 @@ export interface AffiliationsPresented {
 @injectable()
 export class AffiliationPresenter
   implements
-  Presenter<Affiliation, AffiliationPresented, AffiliationsPresented> {
+    Presenter<Affiliation, AffiliationPresented, AffiliationsPresented>
+{
   private parse(raw: Affiliation): AffiliationResponse {
     return {
       id: raw.id.toString(),

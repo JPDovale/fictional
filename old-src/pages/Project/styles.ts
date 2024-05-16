@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 
 export const overlayImageStyles = cva(
   ['absolute top-0 bottom-0 left-0 right-0 bg-gradient-to-t to-transparent '],
@@ -9,8 +9,8 @@ export const overlayImageStyles = cva(
         light: [' from-gray900 via-gray900/50'],
       },
     },
-  }
-);
+  },
+)
 
 export const previewTextStyles = cva(
   [
@@ -23,5 +23,5 @@ export const previewTextStyles = cva(
         light: [],
       },
     },
-  }
-);
+  },
+)

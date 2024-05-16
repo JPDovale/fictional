@@ -13,7 +13,7 @@ export class GetUserController implements Controller<PresenterProps> {
     private readonly errorPresenter: ErrorPresenter,
     private readonly getUserService: GetUserService,
     private readonly userPresenter: UserPresenter,
-  ) { }
+  ) {}
 
   async handle({ _data }: Request): Promise<PresenterProps> {
     const body = this.getUserGateway.transform(_data)

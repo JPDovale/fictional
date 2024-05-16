@@ -13,7 +13,7 @@ export class GetProjectController implements Controller<PresenterProps> {
     private readonly errorPresenter: ErrorPresenter,
     private readonly getProjectService: GetProjectService,
     private readonly projectPresenter: ProjectPresenter,
-  ) { }
+  ) {}
 
   async handle({ _data }: Request): Promise<PresenterProps> {
     const body = this.getProjectGateway.transform(_data)

@@ -1,4 +1,4 @@
-import { RoutesAvailable, makeParameterizedRouter } from '../routesAvailable';
+import { RoutesAvailable, makeParameterizedRouter } from '../routesAvailable'
 
 export const ProjectsRoutes = {
   projects: {
@@ -19,7 +19,7 @@ export const ProjectsRoutes = {
     path: '/projects/:id/settings',
     to: (id: string) =>
       `/projects/${id}/settings${makeParameterizedRouter(
-        RoutesAvailable.projectSettings.path
+        RoutesAvailable.projectSettings.path,
       )}`,
   },
-} as const;
+} as const

@@ -1,46 +1,46 @@
-import { Optional } from '@shared/core/types/Optional';
+import { Optional } from '@shared/core/types/Optional'
 
 interface DeathDateProps {
-  deathDate: string;
-  deathDateTimestamp: number;
-  deathDateYear: number;
-  deathDateMonth: number;
-  deathDateDay: number;
-  deathDateHour: number;
-  deathDateMinute: number;
-  deathDateSecond: number;
-  deathDateTimeChrist: 'A.C.' | 'D.C.';
+  deathDate: string
+  deathDateTimestamp: number
+  deathDateYear: number
+  deathDateMonth: number
+  deathDateDay: number
+  deathDateHour: number
+  deathDateMinute: number
+  deathDateSecond: number
+  deathDateTimeChrist: 'A.C.' | 'D.C.'
 }
 
 export class DeathDate {
-  private _deathDate: string;
+  private _deathDate: string
 
-  private _deathDateTimestamp: number;
+  private _deathDateTimestamp: number
 
-  private _deathDateYear: number;
+  private _deathDateYear: number
 
-  private _deathDateMonth: number;
+  private _deathDateMonth: number
 
-  private _deathDateDay: number;
+  private _deathDateDay: number
 
-  private _deathDateHour: number;
+  private _deathDateHour: number
 
-  private _deathDateMinute: number;
+  private _deathDateMinute: number
 
-  private _deathDateSecond: number;
+  private _deathDateSecond: number
 
-  private _deathDateTimeChrist: 'A.C.' | 'D.C.';
+  private _deathDateTimeChrist: 'A.C.' | 'D.C.'
 
   private constructor(deathDate: DeathDateProps) {
-    this._deathDate = deathDate.deathDate;
-    this._deathDateDay = deathDate.deathDateDay;
-    this._deathDateHour = deathDate.deathDateHour;
-    this._deathDateMinute = deathDate.deathDateMinute;
-    this._deathDateSecond = deathDate.deathDateSecond;
-    this._deathDateMonth = deathDate.deathDateMonth;
-    this._deathDateYear = deathDate.deathDateYear;
-    this._deathDateTimestamp = deathDate.deathDateTimestamp;
-    this._deathDateTimeChrist = deathDate.deathDateTimeChrist;
+    this._deathDate = deathDate.deathDate
+    this._deathDateDay = deathDate.deathDateDay
+    this._deathDateHour = deathDate.deathDateHour
+    this._deathDateMinute = deathDate.deathDateMinute
+    this._deathDateSecond = deathDate.deathDateSecond
+    this._deathDateMonth = deathDate.deathDateMonth
+    this._deathDateYear = deathDate.deathDateYear
+    this._deathDateTimestamp = deathDate.deathDateTimestamp
+    this._deathDateTimeChrist = deathDate.deathDateTimeChrist
   }
 
   static create(
@@ -53,7 +53,7 @@ export class DeathDate {
       | 'deathDateSecond'
       | 'deathDateTimeChrist'
       | 'deathDateYear'
-    >
+    >,
   ) {
     const newDeathDate = new DeathDate({
       deathDate: deathDate.deathDate,
@@ -65,44 +65,44 @@ export class DeathDate {
       deathDateYear: deathDate.deathDateYear || 0,
       deathDateTimestamp: 0,
       deathDateTimeChrist: 'D.C.',
-    });
+    })
 
-    return newDeathDate;
+    return newDeathDate
   }
 
   get deathDate(): string {
-    return this._deathDate;
+    return this._deathDate
   }
 
   get deathDateDay(): number {
-    return this._deathDateDay;
+    return this._deathDateDay
   }
 
   get deathDateHour(): number {
-    return this._deathDateHour;
+    return this._deathDateHour
   }
 
   get deathDateMinute(): number {
-    return this._deathDateMinute;
+    return this._deathDateMinute
   }
 
   get deathDateSecond(): number {
-    return this._deathDateSecond;
+    return this._deathDateSecond
   }
 
   get deathDateMonth(): number {
-    return this._deathDateMonth;
+    return this._deathDateMonth
   }
 
   get deathDateYear(): number {
-    return this._deathDateYear;
+    return this._deathDateYear
   }
 
   get deathDateTimestamp(): number {
-    return this._deathDateTimestamp;
+    return this._deathDateTimestamp
   }
 
   get deathDateTimeChrist(): 'A.C.' | 'D.C.' {
-    return this._deathDateTimeChrist;
+    return this._deathDateTimeChrist
   }
 }

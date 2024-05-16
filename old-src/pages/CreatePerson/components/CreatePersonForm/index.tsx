@@ -1,10 +1,10 @@
-import { Select } from '@components/ui/select';
-import { Button } from '@components/useFull/Button';
-import { Input } from '@components/useFull/Input';
-import { Requester } from '@config/requests/requester';
-import { useCreatePerson } from '@hooks/useCreatePerson';
-import { useProjects } from '@store/Projects';
-import { Trash, UserPlus } from 'lucide-react';
+import { Select } from '@components/ui/select'
+import { Button } from '@components/useFull/Button'
+import { Input } from '@components/useFull/Input'
+import { Requester } from '@config/requests/requester'
+import { useCreatePerson } from '@hooks/useCreatePerson'
+import { useProjects } from '@store/Projects'
+import { Trash, UserPlus } from 'lucide-react'
 
 export function CreatePersonForm() {
   const {
@@ -14,32 +14,32 @@ export function CreatePersonForm() {
     handleCreatePerson,
     setValue,
     formState: { errors },
-  } = useCreatePerson();
-  const { projects } = useProjects((state) => ({ projects: state.projects }));
+  } = useCreatePerson()
+  const { projects } = useProjects((state) => ({ projects: state.projects }))
 
   const watchedFields = {
     imageUrl: watch('imageUrl'),
     name: watch('name'),
     lastName: watch('lastName'),
-  };
+  }
 
   async function handleSelectImage() {
     const result = await Requester.requester({
       access: 'open-image-selector',
       data: null,
-    });
+    })
 
     if (result) {
-      setValue('imageUrl', result);
+      setValue('imageUrl', result)
     }
   }
 
   function handleClearImageUrl() {
-    setValue('imageUrl', '');
+    setValue('imageUrl', '')
   }
 
   function handleSelectProject(projectId: string) {
-    setValue('projectId', projectId);
+    setValue('projectId', projectId)
   }
 
   return (
@@ -68,15 +68,15 @@ export function CreatePersonForm() {
             {projects[0] ? (
               projects.map((project) => {
                 const projectImplementsFeature =
-                  project.features.person && project.structure !== 'snowflake';
+                  project.features.person && project.structure !== 'snowflake'
                 if (projectImplementsFeature) {
                   return (
                     <Select.SelectItem key={project.id} value={project.id}>
                       {project.name}
                     </Select.SelectItem>
-                  );
+                  )
                 }
-                return null;
+                return null
               })
             ) : (
               <span className="text-sm w-full text-center p-4 opacity-50">
@@ -199,5 +199,5 @@ export function CreatePersonForm() {
         </Button.Text>
       </Button.Root>
     </form>
-  );
+  )
 }

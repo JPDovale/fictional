@@ -1,15 +1,15 @@
-import { ChevronLeftIcon } from 'lucide-react';
+import { ChevronLeftIcon } from 'lucide-react'
 
 interface NavigationCloseProps {
-  navIsOpen: boolean;
-  handleChangeOpenNav: () => void;
+  navIsOpen: boolean
+  handleChangeOpenNav: () => void
 }
 
 export function Close({
   navIsOpen,
   handleChangeOpenNav,
 }: NavigationCloseProps) {
-  if (!navIsOpen) return null;
+  if (!navIsOpen) return null
 
   return (
     <button
@@ -19,7 +19,7 @@ export function Close({
     >
       <ChevronLeftIcon size={20} />
     </button>
-  );
+  )
 }
 
-Close.displayName = 'Navigation.Close';
+Close.displayName = 'Navigation.Close'

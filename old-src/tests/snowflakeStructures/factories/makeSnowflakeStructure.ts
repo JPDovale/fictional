@@ -1,13 +1,13 @@
-import { fakerPT_BR } from '@faker-js/faker';
+import { fakerPT_BR } from '@faker-js/faker'
 import {
   SnowflakeStructure,
   SnowflakeStructureProps,
-} from '@modules/SnowflakeStructures/models/SnowflakeStructure';
-import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
+} from '@modules/SnowflakeStructures/models/SnowflakeStructure'
+import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId'
 
 export function makeSnowflakeStructure(
   override: Partial<SnowflakeStructureProps>,
-  id?: UniqueEntityId
+  id?: UniqueEntityId,
 ) {
   const threeActsStructure = SnowflakeStructure.create(
     {
@@ -29,8 +29,8 @@ export function makeSnowflakeStructure(
       interweavingPersonsAndExpansion: fakerPT_BR.lorem.text(),
       ...override,
     },
-    id
-  );
+    id,
+  )
 
-  return threeActsStructure;
+  return threeActsStructure
 }

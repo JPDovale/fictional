@@ -1,21 +1,21 @@
-import { NavLink } from '@config/navigation/links';
-import { useInterface } from '@store/Interface';
-import { Root } from './Root';
-import { Header } from './Header';
-import { Title } from './Title';
-import { Close } from './Close';
-import { Navigator } from './Navigator';
-import { Config } from './Config';
+import { NavLink } from '@config/navigation/links'
+import { useInterface } from '@store/Interface'
+import { Root } from './Root'
+import { Header } from './Header'
+import { Title } from './Title'
+import { Close } from './Close'
+import { Navigator } from './Navigator'
+import { Config } from './Config'
 
 interface NavigationProps {
-  navLinks: NavLink[];
+  navLinks: NavLink[]
 }
 
 export function Navigation({ navLinks }: NavigationProps) {
   const { navIsOpen, handleChangeOpenNav } = useInterface((state) => ({
     navIsOpen: state.navIsOpen,
     handleChangeOpenNav: state.handleChangeOpenNav,
-  }));
+  }))
 
   return (
     <Root navIsOpen={navIsOpen}>
@@ -34,5 +34,5 @@ export function Navigation({ navLinks }: NavigationProps) {
 
       <Config />
     </Root>
-  );
+  )
 }

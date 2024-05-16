@@ -1,27 +1,27 @@
-import { Page404 } from '@components/404';
-import { PersonCard } from '@components/PersonsComponents/PersonCard';
-import { Button } from '@components/useFull/Button';
-import { RoutesAvailable } from '@config/routes/routesAvailable';
-import { useProjects } from '@store/Projects';
-import { useRoutes } from '@store/Routes';
-import { UserPlus } from 'lucide-react';
+import { Page404 } from '@components/404'
+import { PersonCard } from '@components/PersonsComponents/PersonCard'
+import { Button } from '@components/useFull/Button'
+import { RoutesAvailable } from '@config/routes/routesAvailable'
+import { useProjects } from '@store/Projects'
+import { useRoutes } from '@store/Routes'
+import { UserPlus } from 'lucide-react'
 
 export function PersonsPage() {
-  const { setPathname } = useRoutes();
+  const { setPathname } = useRoutes()
   const { currentProject } = useProjects((state) => ({
     currentProject: state.currentProject,
-  }));
+  }))
 
   function handleNavigateToPerson(personId: string) {
     setPathname({
       routerParameterized: RoutesAvailable.projectPerson.to(
         currentProject!.id,
-        personId
+        personId,
       ),
-    });
+    })
   }
 
-  if (currentProject?.structure === 'snowflake') return <Page404 />;
+  if (currentProject?.structure === 'snowflake') return <Page404 />
 
   return (
     <main className="flex-1 p-4 flex flex-col gap-4 min-w-[45rem] mx-auto max-w-[45rem]">
@@ -76,5 +76,5 @@ export function PersonsPage() {
         )}
       </div>
     </main>
-  );
+  )
 }

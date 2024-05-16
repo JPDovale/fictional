@@ -1,10 +1,10 @@
-import { fakerPT_BR } from '@faker-js/faker';
-import { Book, BookProps } from '@modules/Books/models/Book';
-import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
+import { fakerPT_BR } from '@faker-js/faker'
+import { Book, BookProps } from '@modules/Books/models/Book'
+import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId'
 
 export function makeBook(
   override: Partial<BookProps> = {},
-  id?: UniqueEntityId
+  id?: UniqueEntityId,
 ) {
   const book = Book.create(
     {
@@ -14,8 +14,8 @@ export function makeBook(
       projectId: new UniqueEntityId(),
       ...override,
     },
-    id
-  );
+    id,
+  )
 
-  return book;
+  return book
 }

@@ -1,26 +1,26 @@
-import { BooksRepository } from '@database/repositories/Book/contracts/BooksRepository';
-import { ProjectsRepository } from '@database/repositories/Project/contracts/ProjectsRepository';
-import { SnowflakeStructuresRepository } from '@database/repositories/SnowflakeStructure/contracts/SnowflakeStructuresRepository';
-import { UsersRepository } from '@database/repositories/User/contracts/UsersRepository';
-import { Person } from '@modules/Persons/models/Person';
-import { PersonSnowflakeStructureBase } from '@modules/Persons/models/Person/valueObjects/PersonSnowflakeStructureBase';
-import { SnowflakeStructurePersonList } from '@modules/SnowflakeStructures/models/SnowflakeStructurePersonList';
-import { UserNotFount } from '@modules/Users/errors/UserNotFound';
-import { ImageProvider } from '@providers/base/Image/contracts/ImageProvider';
-import InjectableDependencies from '@shared/container/types';
-import { Either, left, right } from '@shared/core/error/Either';
-import { ResourceNotCreated } from '@shared/errors/ResourceNotCreated';
-import { ResourceNotFount } from '@shared/errors/ResourceNotFound';
-import { UnexpectedError } from '@shared/errors/UnexpectedError';
-import { inject, injectable } from 'tsyringe';
+import { BooksRepository } from '@database/repositories/Book/contracts/BooksRepository'
+import { ProjectsRepository } from '@database/repositories/Project/contracts/ProjectsRepository'
+import { SnowflakeStructuresRepository } from '@database/repositories/SnowflakeStructure/contracts/SnowflakeStructuresRepository'
+import { UsersRepository } from '@database/repositories/User/contracts/UsersRepository'
+import { Person } from '@modules/Persons/models/Person'
+import { PersonSnowflakeStructureBase } from '@modules/Persons/models/Person/valueObjects/PersonSnowflakeStructureBase'
+import { SnowflakeStructurePersonList } from '@modules/SnowflakeStructures/models/SnowflakeStructurePersonList'
+import { UserNotFount } from '@modules/Users/errors/UserNotFound'
+import { ImageProvider } from '@providers/base/Image/contracts/ImageProvider'
+import InjectableDependencies from '@shared/container/types'
+import { Either, left, right } from '@shared/core/error/Either'
+import { ResourceNotCreated } from '@shared/errors/ResourceNotCreated'
+import { ResourceNotFount } from '@shared/errors/ResourceNotFound'
+import { UnexpectedError } from '@shared/errors/UnexpectedError'
+import { inject, injectable } from 'tsyringe'
 
 interface Request {
-  userId: string;
-  projectId: string;
-  bookId: string;
-  name: string;
-  lastName?: string;
-  imageUrl?: string;
+  userId: string
+  projectId: string
+  bookId: string
+  name: string
+  lastName?: string
+  imageUrl?: string
 }
 
 type Response = Promise<
@@ -28,7 +28,7 @@ type Response = Promise<
     ResourceNotCreated | ResourceNotFount | UserNotFount | UnexpectedError,
     { person: Person }
   >
->;
+>
 
 @injectable()
 export class CreatePersonWithSnowflakeStructureService {
@@ -46,7 +46,7 @@ export class CreatePersonWithSnowflakeStructureService {
     private readonly snowflakeStructuresRepository: SnowflakeStructuresRepository,
 
     @inject(InjectableDependencies.Providers.ImageProvider)
-    private readonly imageProvider: ImageProvider
+    private readonly imageProvider: ImageProvider,
   ) {}
 
   async execute({
@@ -57,42 +57,42 @@ export class CreatePersonWithSnowflakeStructureService {
     imageUrl,
     bookId,
   }: Request): Response {
-    const user = await this.usersRepository.findById(userId);
+    const user = await this.usersRepository.findById(userId)
     if (!user) {
-      return left(new UserNotFount());
+      return left(new UserNotFount())
     }
 
-    const project = await this.projectsRepository.findById(projectId);
+    const project = await this.projectsRepository.findById(projectId)
     if (!project) {
-      return left(new ResourceNotFount());
+      return left(new ResourceNotFount())
     }
 
-    const book = await this.booksRepository.findById(bookId);
+    const book = await this.booksRepository.findById(bookId)
     if (!book) {
-      return left(new ResourceNotFount());
+      return left(new ResourceNotFount())
     }
 
-    const { snowflakeStructureId } = book;
+    const { snowflakeStructureId } = book
 
     if (
       !project.features.featureIsApplied('person') ||
       project.structure !== 'snowflake' ||
       !snowflakeStructureId
     ) {
-      return left(new UnexpectedError());
+      return left(new UnexpectedError())
     }
 
     const snowflakeStructure =
       await this.snowflakeStructuresRepository.findById(
-        snowflakeStructureId.toString()
-      );
+        snowflakeStructureId.toString(),
+      )
     if (!snowflakeStructure) {
-      return left(new ResourceNotFount());
+      return left(new ResourceNotFount())
     }
 
     const secureImageUrl = await this.imageProvider.getSecurePath(
-      imageUrl ?? null
-    );
+      imageUrl ?? null,
+    )
 
     const person = Person.create({
       name,
@@ -102,13 +102,13 @@ export class CreatePersonWithSnowflakeStructureService {
       imageUrl: secureImageUrl,
       snowflakeStructureBase: PersonSnowflakeStructureBase.create({}),
       bookId: book.id,
-    });
+    })
 
-    snowflakeStructure.persons = new SnowflakeStructurePersonList();
-    snowflakeStructure.persons.add(person);
+    snowflakeStructure.persons = new SnowflakeStructurePersonList()
+    snowflakeStructure.persons.add(person)
 
-    await this.snowflakeStructuresRepository.save(snowflakeStructure);
+    await this.snowflakeStructuresRepository.save(snowflakeStructure)
 
-    return right({ person });
+    return right({ person })
   }
 }

@@ -1,25 +1,25 @@
-import * as Avatar from '@radix-ui/react-avatar';
+import * as Avatar from '@radix-ui/react-avatar'
 
-import { PersonCard } from '@components/PersonsComponents/PersonCard';
-import { SnowflakeStructureNavigate } from '@components/SnowflakeStructureComponents/SnowflakeStructureNavigation';
-import { useBooks } from '@store/Books';
-import { useProjects } from '@store/Projects';
-import { RoutesAvailable } from '@config/routes/routesAvailable';
-import { useRoutes } from '@store/Routes';
-import { usePersons } from '@store/Persons';
-import { VenetianMask } from 'lucide-react';
+import { PersonCard } from '@components/PersonsComponents/PersonCard'
+import { SnowflakeStructureNavigate } from '@components/SnowflakeStructureComponents/SnowflakeStructureNavigation'
+import { useBooks } from '@store/Books'
+import { useProjects } from '@store/Projects'
+import { RoutesAvailable } from '@config/routes/routesAvailable'
+import { useRoutes } from '@store/Routes'
+import { usePersons } from '@store/Persons'
+import { VenetianMask } from 'lucide-react'
 
 export function SnowflakeStructurePersonDetailsPage() {
   const { project } = useProjects((state) => ({
     project: state.currentProject,
     updateSnowflakeStructure: state.updateSnowflakeStructure,
-  }));
+  }))
 
   const { person, isLoading, updateSnowflake } = usePersons((state) => ({
     person: state.currentPerson,
     isLoading: state.isLoading,
     updateSnowflake: state.updateSnowflake,
-  }));
+  }))
 
   return (
     <main className="flex flex-col py-4 min-w-[45rem] items-center mx-auto max-w-[45rem]">
@@ -41,5 +41,5 @@ export function SnowflakeStructurePersonDetailsPage() {
 
       <h2 className="text-3xl font-bold mt-4">{person?.name?.fullName}</h2>
     </main>
-  );
+  )
 }

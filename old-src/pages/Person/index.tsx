@@ -1,17 +1,17 @@
-import { usePersons } from '@store/Persons';
-import { useTheme } from '@hooks/useTheme';
-import { useProjects } from '@store/Projects';
-import { Page404 } from '@components/404';
-import { previewHistoryPersonStyles } from './styles';
+import { usePersons } from '@store/Persons'
+import { useTheme } from '@hooks/useTheme'
+import { useProjects } from '@store/Projects'
+import { Page404 } from '@components/404'
+import { previewHistoryPersonStyles } from './styles'
 
 export function PersonPage() {
-  const { person } = usePersons((state) => ({ person: state.currentPerson }));
+  const { person } = usePersons((state) => ({ person: state.currentPerson }))
   const { currentProject } = useProjects((state) => ({
     currentProject: state.currentProject,
-  }));
-  const { theme } = useTheme();
+  }))
+  const { theme } = useTheme()
 
-  if (currentProject?.structure === 'snowflake') return <Page404 />;
+  if (currentProject?.structure === 'snowflake') return <Page404 />
 
   return (
     <main className="p-4 flex flex-col gap-4 min-w-[45rem] mx-auto max-w-[45rem]">
@@ -35,5 +35,5 @@ export function PersonPage() {
         />
       </div>
     </main>
-  );
+  )
 }

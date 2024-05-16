@@ -1,5 +1,5 @@
-import { Person } from '@modules/Persons/models/Person';
-import { PersonModelResponse } from '../types';
+import { Person } from '@modules/Persons/models/Person'
+import { PersonModelResponse } from '../types'
 
 export function PersonParser(person: Person): PersonModelResponse {
   const personPartied: PersonModelResponse = {
@@ -44,7 +44,7 @@ export function PersonParser(person: Person): PersonModelResponse {
           povByThisEye: person.snowflakeStructureExpansion.povByThisEye ?? null,
         }
       : null,
-  };
+  }
 
-  return personPartied;
+  return personPartied
 }

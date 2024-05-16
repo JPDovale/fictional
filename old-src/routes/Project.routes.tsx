@@ -1,31 +1,31 @@
-import { RoutesAvailable } from '@config/routes/routesAvailable';
-import { BookTextPage } from '@pages/BookText';
-import { BooksPage } from '@pages/Books';
-import { PersonsPage } from '@pages/Persons';
-import { ProjectPage } from '@pages/Project';
-import { ProjectConfigPage } from '@pages/ProjectConfig';
-import { SnowflakeStructureCentralIdiaPage } from '@pages/SnowflakeStructureCentralIdia';
-import { SnowflakeStructureExpansionToPagePage } from '@pages/SnowflakeStructureExpansionToPage';
-import { SnowflakeStructureExpansionToParagraphPage } from '@pages/SnowflakeStructureExpansionToParagraph';
-import { SnowflakeStructureInterweavingPersonsAndExpansionPage } from '@pages/SnowflakeStructureInterweavingPersonsAndExpansion';
-import { SnowflakeStructurePersonBaseApprenticeshipPage } from '@pages/SnowflakeStructurePersonBaseApprenticeship';
-import { SnowflakeStructurePersonBaseFunctionPage } from '@pages/SnowflakeStructurePersonBaseFunction';
-import { SnowflakeStructurePersonBaseMotivationPage } from '@pages/SnowflakeStructurePersonBaseMotivation';
-import { SnowflakeStructurePersonBaseObjectivePage } from '@pages/SnowflakeStructurePersonBaseObjective';
-import { SnowflakeStructurePersonBaseObstaclePage } from '@pages/SnowflakeStructurePersonBaseObstacle';
-import { SnowflakeStructurePersonBasePovByThisEyePage } from '@pages/SnowflakeStructurePersonBasePovByThisEye';
-import { SnowflakeStructurePersonDetailsPage } from '@pages/SnowflakeStructurePersonDetails';
-import { SnowflakeStructurePersonExpansionApprenticeshipPage } from '@pages/SnowflakeStructurePersonExpansionApprenticeship';
-import { SnowflakeStructurePersonExpansionFunctionPage } from '@pages/SnowflakeStructurePersonExpansionFunction';
-import { SnowflakeStructurePersonExpansionMotivationPage } from '@pages/SnowflakeStructurePersonExpansionMotivation';
-import { SnowflakeStructurePersonExpansionObjectivePage } from '@pages/SnowflakeStructurePersonExpansionObjective';
-import { SnowflakeStructurePersonExpansionObstaclePage } from '@pages/SnowflakeStructurePersonExpansionObstacle';
-import { SnowflakeStructurePersonExpansionPovByThisEyePage } from '@pages/SnowflakeStructurePersonExpansionPovByThisEye';
-import { SnowflakeStructurePersonsBasePage } from '@pages/SnowflakeStructurePersonsBase';
-import { SnowflakeStructurePersonsExpansionPage } from '@pages/SnowflakeStructurePersonsExpansion';
-import { SnowflakeStructurePersonsFinalPage } from '@pages/SnowflakeStructurePersonsFinal';
-import { StructureProjectPage } from '@pages/StructureProject';
-import { Route } from 'react-router-dom';
+import { RoutesAvailable } from '@config/routes/routesAvailable'
+import { BookTextPage } from '@pages/BookText'
+import { BooksPage } from '@pages/Books'
+import { PersonsPage } from '@pages/Persons'
+import { ProjectPage } from '@pages/Project'
+import { ProjectConfigPage } from '@pages/ProjectConfig'
+import { SnowflakeStructureCentralIdiaPage } from '@pages/SnowflakeStructureCentralIdia'
+import { SnowflakeStructureExpansionToPagePage } from '@pages/SnowflakeStructureExpansionToPage'
+import { SnowflakeStructureExpansionToParagraphPage } from '@pages/SnowflakeStructureExpansionToParagraph'
+import { SnowflakeStructureInterweavingPersonsAndExpansionPage } from '@pages/SnowflakeStructureInterweavingPersonsAndExpansion'
+import { SnowflakeStructurePersonBaseApprenticeshipPage } from '@pages/SnowflakeStructurePersonBaseApprenticeship'
+import { SnowflakeStructurePersonBaseFunctionPage } from '@pages/SnowflakeStructurePersonBaseFunction'
+import { SnowflakeStructurePersonBaseMotivationPage } from '@pages/SnowflakeStructurePersonBaseMotivation'
+import { SnowflakeStructurePersonBaseObjectivePage } from '@pages/SnowflakeStructurePersonBaseObjective'
+import { SnowflakeStructurePersonBaseObstaclePage } from '@pages/SnowflakeStructurePersonBaseObstacle'
+import { SnowflakeStructurePersonBasePovByThisEyePage } from '@pages/SnowflakeStructurePersonBasePovByThisEye'
+import { SnowflakeStructurePersonDetailsPage } from '@pages/SnowflakeStructurePersonDetails'
+import { SnowflakeStructurePersonExpansionApprenticeshipPage } from '@pages/SnowflakeStructurePersonExpansionApprenticeship'
+import { SnowflakeStructurePersonExpansionFunctionPage } from '@pages/SnowflakeStructurePersonExpansionFunction'
+import { SnowflakeStructurePersonExpansionMotivationPage } from '@pages/SnowflakeStructurePersonExpansionMotivation'
+import { SnowflakeStructurePersonExpansionObjectivePage } from '@pages/SnowflakeStructurePersonExpansionObjective'
+import { SnowflakeStructurePersonExpansionObstaclePage } from '@pages/SnowflakeStructurePersonExpansionObstacle'
+import { SnowflakeStructurePersonExpansionPovByThisEyePage } from '@pages/SnowflakeStructurePersonExpansionPovByThisEye'
+import { SnowflakeStructurePersonsBasePage } from '@pages/SnowflakeStructurePersonsBase'
+import { SnowflakeStructurePersonsExpansionPage } from '@pages/SnowflakeStructurePersonsExpansion'
+import { SnowflakeStructurePersonsFinalPage } from '@pages/SnowflakeStructurePersonsFinal'
+import { StructureProjectPage } from '@pages/StructureProject'
+import { Route } from 'react-router-dom'
 
 export function ProjectRoutes() {
   return [
@@ -154,5 +154,5 @@ export function ProjectRoutes() {
       path={RoutesAvailable.projectSettings.path}
       element={<ProjectConfigPage />}
     />,
-  ];
+  ]
 }

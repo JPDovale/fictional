@@ -17,7 +17,8 @@ export interface FoundationFile {
 
 @injectable()
 export class FoundationsKnexMapper
-  implements RepositoryMapper<Foundation, FoundationFile> {
+  implements RepositoryMapper<Foundation, FoundationFile>
+{
   toDomain(raw: FoundationFile): Foundation {
     return Foundation.create(
       {

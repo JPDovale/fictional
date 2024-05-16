@@ -1,10 +1,10 @@
-import { fakerPT_BR } from '@faker-js/faker';
-import { Person, PersonProps } from '@modules/Persons/models/Person';
-import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
+import { fakerPT_BR } from '@faker-js/faker'
+import { Person, PersonProps } from '@modules/Persons/models/Person'
+import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId'
 
 export function makePerson(
   override: Partial<PersonProps> = {},
-  id?: UniqueEntityId
+  id?: UniqueEntityId,
 ) {
   const person = Person.create(
     {
@@ -17,8 +17,8 @@ export function makePerson(
       history: fakerPT_BR.person.bio(),
       ...override,
     },
-    id
-  );
+    id,
+  )
 
-  return person;
+  return person
 }

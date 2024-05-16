@@ -1,18 +1,18 @@
-import { ApplicationError } from '@shared/errors/ApplicationError';
-import { ValidationError } from 'class-validator';
+import { ApplicationError } from '@shared/errors/ApplicationError'
+import { ValidationError } from 'class-validator'
 
 export interface Redirector {
-  isToRedirect: boolean;
-  path: string;
+  isToRedirect: boolean
+  path: string
 }
 
 export interface ResponseProps<TypeResponseData> {
-  status: number;
-  data?: TypeResponseData | null;
-  error?: string | null;
-  errors?: ApplicationError[] | null;
-  message?: string | null;
-  redirector?: Redirector;
+  status: number
+  data?: TypeResponseData | null
+  error?: string | null
+  errors?: ApplicationError[] | null
+  message?: string | null
+  redirector?: Redirector
 }
 
 /**
@@ -23,39 +23,39 @@ export interface ResponseProps<TypeResponseData> {
 
 export function Response<TypeResponseData, Class, TypePrimitiveData>() {
   abstract class Res {
-    status: number;
+    status: number
 
-    data?: TypeResponseData | null;
+    data?: TypeResponseData | null
 
-    error?: string | null;
+    error?: string | null
 
-    errors?: ApplicationError[] | null;
+    errors?: ApplicationError[] | null
 
-    message?: string | null;
+    message?: string | null
 
-    redirector?: Redirector;
+    redirector?: Redirector
 
     protected constructor(
-      props?: ResponseProps<TypeResponseData> | null | undefined
+      props?: ResponseProps<TypeResponseData> | null | undefined,
     ) {
-      this.status = props?.status ?? 400;
-      this.data = props?.data;
-      this.error = props?.error;
-      this.message = props?.message;
-      this.errors = props?.errors;
-      this.redirector = props?.redirector;
+      this.status = props?.status ?? 400
+      this.data = props?.data
+      this.error = props?.error
+      this.message = props?.message
+      this.errors = props?.errors
+      this.redirector = props?.redirector
     }
 
-    abstract sendErrorValidation(errors: ValidationError[]): Class;
+    abstract sendErrorValidation(errors: ValidationError[]): Class
 
     abstract send(
-      props: ResponseProps<{ [x: string]: TypePrimitiveData }>
-    ): Class;
+      props: ResponseProps<{ [x: string]: TypePrimitiveData }>,
+    ): Class
 
     abstract parse(
-      primitiveData: TypePrimitiveData | null
-    ): TypeResponseData | null;
+      primitiveData: TypePrimitiveData | null,
+    ): TypeResponseData | null
   }
 
-  return Res;
+  return Res
 }

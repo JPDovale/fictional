@@ -1,10 +1,10 @@
-import { ProjectModelResponse } from '@modules/Projects/dtos/models/types';
-import * as Tabs from '@radix-ui/react-tabs';
-import { getDate } from '@utils/dates/getDate';
+import { ProjectModelResponse } from '@modules/Projects/dtos/models/types'
+import * as Tabs from '@radix-ui/react-tabs'
+import { getDate } from '@utils/dates/getDate'
 
 interface AboutContentProps {
-  isToShowContent: boolean;
-  project: ProjectModelResponse | null;
+  isToShowContent: boolean
+  project: ProjectModelResponse | null
 }
 
 export function AboutContent({ isToShowContent, project }: AboutContentProps) {
@@ -36,5 +36,5 @@ export function AboutContent({ isToShowContent, project }: AboutContentProps) {
         )}
       </div>
     </Tabs.Content>
-  );
+  )
 }

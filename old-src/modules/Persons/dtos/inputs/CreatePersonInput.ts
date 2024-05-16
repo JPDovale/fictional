@@ -5,7 +5,7 @@ import {
   IsUUID,
   MaxLength,
   MinLength,
-} from 'class-validator';
+} from 'class-validator'
 
 export class CreatePersonInput {
   /**
@@ -15,7 +15,7 @@ export class CreatePersonInput {
     always: true,
     message: 'User id not is valid',
   })
-  userId: string;
+  userId: string
 
   /**
    * projectId
@@ -24,7 +24,7 @@ export class CreatePersonInput {
     always: true,
     message: 'Project id not is valid',
   })
-  projectId: string;
+  projectId: string
 
   /**
    * name
@@ -38,7 +38,7 @@ export class CreatePersonInput {
     message: 'The name of person cannot exceed 60 charactery',
   })
   @IsOptional()
-  name: string | null;
+  name: string | null
 
   /**
    * lastName
@@ -52,7 +52,7 @@ export class CreatePersonInput {
     message: 'The lastname of person cannot exceed 60 charactery',
   })
   @IsOptional()
-  lastName: string | null;
+  lastName: string | null
 
   /**
    * biographic
@@ -69,29 +69,29 @@ export class CreatePersonInput {
     always: true,
     message: 'The Biographic of person cannot exceed 450 charactery',
   })
-  biographic: string;
+  biographic: string
 
   /**
    * imageUrl
    */
   @IsString()
   @IsOptional()
-  imageUrl?: string | null;
+  imageUrl?: string | null
 
   /**
    * age
    */
   @IsNumber()
   @IsOptional()
-  age: number | null;
+  age: number | null
 
   constructor(data: CreatePersonInput) {
-    this.name = data.name;
-    this.lastName = data.lastName;
-    this.projectId = data.projectId;
-    this.imageUrl = data.imageUrl;
-    this.userId = data.userId;
-    this.biographic = data.biographic;
-    this.age = data.age;
+    this.name = data.name
+    this.lastName = data.lastName
+    this.projectId = data.projectId
+    this.imageUrl = data.imageUrl
+    this.userId = data.userId
+    this.biographic = data.biographic
+    this.age = data.age
   }
 }

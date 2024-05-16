@@ -1,4 +1,4 @@
-import { CreateProjectForm } from './Components/CreateProjectForm';
+import { CreateProjectForm } from './Components/CreateProjectForm'
 
 export function CreateProjectPage() {
   return (
@@ -9,5 +9,5 @@ export function CreateProjectPage() {
 
       <CreateProjectForm />
     </main>
-  );
+  )
 }

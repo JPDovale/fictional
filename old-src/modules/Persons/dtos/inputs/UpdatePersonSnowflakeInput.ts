@@ -1,4 +1,4 @@
-import { IsOptional, IsString, IsUUID } from 'class-validator';
+import { IsOptional, IsString, IsUUID } from 'class-validator'
 
 export class UpdatePersonSnowflakeInput {
   /**
@@ -8,7 +8,7 @@ export class UpdatePersonSnowflakeInput {
     always: true,
     message: 'User id not is valid',
   })
-  userId: string;
+  userId: string
 
   /**
    * projectId
@@ -17,7 +17,7 @@ export class UpdatePersonSnowflakeInput {
     always: true,
     message: 'Project id not is valid',
   })
-  projectId: string;
+  projectId: string
 
   /**
    * personId
@@ -26,7 +26,7 @@ export class UpdatePersonSnowflakeInput {
     always: true,
     message: 'Person id not is valid',
   })
-  personId: string;
+  personId: string
 
   /**
    *
@@ -37,7 +37,7 @@ export class UpdatePersonSnowflakeInput {
     message: 'Function not is valid',
   })
   @IsOptional()
-  baseFunction: string | null;
+  baseFunction: string | null
 
   /**
    *
@@ -48,7 +48,7 @@ export class UpdatePersonSnowflakeInput {
     message: 'Objective not is valid',
   })
   @IsOptional()
-  baseObjective: string | null;
+  baseObjective: string | null
 
   /**
    *
@@ -59,7 +59,7 @@ export class UpdatePersonSnowflakeInput {
     message: 'Obstacle not is valid',
   })
   @IsOptional()
-  baseObstacle: string | null;
+  baseObstacle: string | null
 
   /**
    *
@@ -70,7 +70,7 @@ export class UpdatePersonSnowflakeInput {
     message: 'Apprenticeship not is valid',
   })
   @IsOptional()
-  baseApprenticeship: string | null;
+  baseApprenticeship: string | null
 
   /**
    *
@@ -81,7 +81,7 @@ export class UpdatePersonSnowflakeInput {
     message: 'Motivation not is valid',
   })
   @IsOptional()
-  baseMotivation: string | null;
+  baseMotivation: string | null
 
   /**
    *
@@ -92,7 +92,7 @@ export class UpdatePersonSnowflakeInput {
     message: 'PovByThisEye not is valid',
   })
   @IsOptional()
-  basePovByThisEye: string | null;
+  basePovByThisEye: string | null
 
   /**
    *
@@ -103,7 +103,7 @@ export class UpdatePersonSnowflakeInput {
     message: 'Function not is valid',
   })
   @IsOptional()
-  expansionFunction: string | null;
+  expansionFunction: string | null
 
   /**
    *
@@ -114,7 +114,7 @@ export class UpdatePersonSnowflakeInput {
     message: 'Objective not is valid',
   })
   @IsOptional()
-  expansionObjective: string | null;
+  expansionObjective: string | null
 
   /**
    *
@@ -125,7 +125,7 @@ export class UpdatePersonSnowflakeInput {
     message: 'Obstacle not is valid',
   })
   @IsOptional()
-  expansionObstacle: string | null;
+  expansionObstacle: string | null
 
   /**
    *
@@ -136,7 +136,7 @@ export class UpdatePersonSnowflakeInput {
     message: 'Apprenticeship not is valid',
   })
   @IsOptional()
-  expansionApprenticeship: string | null;
+  expansionApprenticeship: string | null
 
   /**
    *
@@ -147,7 +147,7 @@ export class UpdatePersonSnowflakeInput {
     message: 'Motivation not is valid',
   })
   @IsOptional()
-  expansionMotivation: string | null;
+  expansionMotivation: string | null
 
   /**
    *
@@ -158,23 +158,23 @@ export class UpdatePersonSnowflakeInput {
     message: 'PovByThisEye not is valid',
   })
   @IsOptional()
-  expansionPovByThisEye: string | null;
+  expansionPovByThisEye: string | null
 
   constructor(data: UpdatePersonSnowflakeInput) {
-    this.projectId = data.projectId;
-    this.userId = data.userId;
-    this.personId = data.personId;
-    this.baseApprenticeship = data.baseApprenticeship;
-    this.baseFunction = data.baseFunction;
-    this.baseMotivation = data.baseMotivation;
-    this.baseObjective = data.baseObjective;
-    this.baseObstacle = data.baseObstacle;
-    this.basePovByThisEye = data.basePovByThisEye;
-    this.expansionApprenticeship = data.expansionApprenticeship;
-    this.expansionFunction = data.expansionFunction;
-    this.expansionMotivation = data.expansionMotivation;
-    this.expansionObjective = data.expansionObjective;
-    this.expansionObstacle = data.expansionObstacle;
-    this.expansionPovByThisEye = data.expansionPovByThisEye;
+    this.projectId = data.projectId
+    this.userId = data.userId
+    this.personId = data.personId
+    this.baseApprenticeship = data.baseApprenticeship
+    this.baseFunction = data.baseFunction
+    this.baseMotivation = data.baseMotivation
+    this.baseObjective = data.baseObjective
+    this.baseObstacle = data.baseObstacle
+    this.basePovByThisEye = data.basePovByThisEye
+    this.expansionApprenticeship = data.expansionApprenticeship
+    this.expansionFunction = data.expansionFunction
+    this.expansionMotivation = data.expansionMotivation
+    this.expansionObjective = data.expansionObjective
+    this.expansionObstacle = data.expansionObstacle
+    this.expansionPovByThisEye = data.expansionPovByThisEye
   }
 }

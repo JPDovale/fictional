@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const newProjectFormSchema = z.object({
   name: z
@@ -57,12 +57,12 @@ export const newProjectFormSchema = z.object({
           .string()
           .max(60, 'O nome do livro não pode ter mais de 60 caracteres'),
         imageUrl: z.string().optional().nullable(),
-      })
+      }),
     )
     .optional()
     .nullable(),
-});
+})
 
-export type ProjectType = 'book' | 'rpg' | 'game-history' | 'roadmap';
-export type ProjectStructureType = 'three-acts' | 'hero-journey' | 'snowflake';
-export type INewProjectFormaData = z.infer<typeof newProjectFormSchema>;
+export type ProjectType = 'book' | 'rpg' | 'game-history' | 'roadmap'
+export type ProjectStructureType = 'three-acts' | 'hero-journey' | 'snowflake'
+export type INewProjectFormaData = z.infer<typeof newProjectFormSchema>

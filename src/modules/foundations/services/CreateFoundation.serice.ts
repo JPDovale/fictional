@@ -17,8 +17,9 @@ type Response = {
 
 @injectable()
 export class CreateFoundationService
-  implements Service<Request, PossibleErros, Response> {
-  constructor(private readonly foundationsRepository: FoundationsRepository) { }
+  implements Service<Request, PossibleErros, Response>
+{
+  constructor(private readonly foundationsRepository: FoundationsRepository) {}
 
   async execute({
     project,

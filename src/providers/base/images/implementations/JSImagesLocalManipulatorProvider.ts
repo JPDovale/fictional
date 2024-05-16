@@ -7,7 +7,8 @@ import { Image } from '../entities/Image'
 
 @injectable()
 export class JSImagesLocalManipulatorProvider
-  implements ImagesLocalManipulatorProvider {
+  implements ImagesLocalManipulatorProvider
+{
   async getImage(originPath: string): Promise<Image | null> {
     if (!originPath) return null
 

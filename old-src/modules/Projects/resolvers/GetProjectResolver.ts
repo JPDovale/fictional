@@ -11,7 +11,7 @@ export class GetProjectResolver {
   constructor(
     @inject(InjectableDependencies.Services.GetProjectService)
     private readonly getProjectService: GetProjectService,
-  ) { }
+  ) {}
 
   async handle({ _data }: RequesterType<GetProjectGateway>) {
     const data = new GetProjectGateway(_data)

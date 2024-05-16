@@ -45,24 +45,51 @@ export class Person extends AggregateRoot<PersonProps> {
     return person
   }
 
-  get name() {
+  get name(): string | null {
     return this.props.name
   }
 
-  get image() {
+  set name(name: string | undefined | null) {
+    this.props.name = name === undefined ? this.props.name : name
+    this.touch()
+  }
+
+  get image(): string | null {
     return this.props.image
   }
 
-  get type() {
+  set image(image: string | undefined | null) {
+    this.props.image = image === undefined ? this.props.image : image
+    this.touch()
+  }
+
+  get type(): PersonType {
     return this.props.type
   }
 
-  get birthDate() {
+  set type(type: PersonType | undefined) {
+    this.props.type = type === undefined ? this.props.type : type
+    this.touch()
+  }
+
+  get birthDate(): string | null {
     return this.props.birthDate
   }
 
-  get deathDate() {
+  set birthDate(birthDate: string | undefined | null) {
+    this.props.birthDate =
+      birthDate === undefined ? this.props.birthDate : birthDate
+    this.touch()
+  }
+
+  get deathDate(): string | null {
     return this.props.deathDate
+  }
+
+  set deathDate(deathDate: string | undefined | null) {
+    this.props.deathDate =
+      deathDate === undefined ? this.props.deathDate : deathDate
+    this.touch()
   }
 
   get createdAt() {
@@ -79,6 +106,12 @@ export class Person extends AggregateRoot<PersonProps> {
 
   get affiliationId() {
     return this.props.affiliationId
+  }
+
+  set affiliationId(affiliationId: UniqueId | undefined | null) {
+    this.props.affiliationId =
+      affiliationId === undefined ? this.props.affiliationId : affiliationId
+    this.touch()
   }
 
   touch() {

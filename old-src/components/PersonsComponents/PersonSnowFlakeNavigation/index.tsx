@@ -1,6 +1,6 @@
-import { Button } from '@components/useFull/Button';
-import * as Tabs from '@radix-ui/react-tabs';
-import * as Avatar from '@radix-ui/react-avatar';
+import { Button } from '@components/useFull/Button'
+import * as Tabs from '@radix-ui/react-tabs'
+import * as Avatar from '@radix-ui/react-avatar'
 import {
   ArrowBigLeft,
   BookOpenCheck,
@@ -10,47 +10,47 @@ import {
   MoveUpRight,
   Target,
   VenetianMask,
-} from 'lucide-react';
-import { usePersons } from '@store/Persons';
-import { getDate } from '@utils/dates/getDate';
-import { useEffect, useState } from 'react';
-import { useNav } from '@hooks/useNav';
-import { RoutesAvailable } from '@config/routes/routesAvailable';
-import { useRoutes } from '@store/Routes';
-import { useTheme } from '@hooks/useTheme';
-import { avatarImageStyles, avatarStyles, personNavStyles } from './styles';
+} from 'lucide-react'
+import { usePersons } from '@store/Persons'
+import { getDate } from '@utils/dates/getDate'
+import { useEffect, useState } from 'react'
+import { useNav } from '@hooks/useNav'
+import { RoutesAvailable } from '@config/routes/routesAvailable'
+import { useRoutes } from '@store/Routes'
+import { useTheme } from '@hooks/useTheme'
+import { avatarImageStyles, avatarStyles, personNavStyles } from './styles'
 
 export function PersonSnowFlakeNavigation() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isToShowContent, setIsToShowContent] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
+  const [isToShowContent, setIsToShowContent] = useState(false)
 
-  const { person } = usePersons((state) => ({ person: state.currentPerson }));
-  const { theme } = useTheme();
-  const { makeBaseUrl, pathname } = useNav();
+  const { person } = usePersons((state) => ({ person: state.currentPerson }))
+  const { theme } = useTheme()
+  const { makeBaseUrl, pathname } = useNav()
   const { setPathname } = useRoutes((state) => ({
     setPathname: state.setPathname,
-  }));
+  }))
 
   function handleChangeTab(tab: string) {
-    const tabIsOpem = tab !== 'editor';
+    const tabIsOpem = tab !== 'editor'
 
     if (!tabIsOpem) {
-      setIsToShowContent(false);
+      setIsToShowContent(false)
     }
 
-    setIsOpen(tabIsOpem);
+    setIsOpen(tabIsOpem)
   }
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: NodeJS.Timeout
     if (isOpen) {
       timeoutId = setTimeout(() => {
-        setIsToShowContent(true);
-      }, 335);
+        setIsToShowContent(true)
+      }, 335)
     }
 
-    return () => clearTimeout(timeoutId);
-  }, [isOpen]);
+    return () => clearTimeout(timeoutId)
+  }, [isOpen])
 
   return (
     <>
@@ -178,7 +178,7 @@ export function PersonSnowFlakeNavigation() {
                     routerParameterized:
                       RoutesAvailable.projectStructurePersonBaseFunction.to(
                         person!.projectId,
-                        person!.id
+                        person!.id,
                       ),
                   })
                 }
@@ -200,7 +200,7 @@ export function PersonSnowFlakeNavigation() {
                     routerParameterized:
                       RoutesAvailable.projectStructurePersonBaseObjective.to(
                         person!.projectId,
-                        person!.id
+                        person!.id,
                       ),
                   })
                 }
@@ -222,7 +222,7 @@ export function PersonSnowFlakeNavigation() {
                     routerParameterized:
                       RoutesAvailable.projectStructurePersonBaseMotivation.to(
                         person!.projectId,
-                        person!.id
+                        person!.id,
                       ),
                   })
                 }
@@ -244,7 +244,7 @@ export function PersonSnowFlakeNavigation() {
                     routerParameterized:
                       RoutesAvailable.projectStructurePersonBaseObstacle.to(
                         person!.projectId,
-                        person!.id
+                        person!.id,
                       ),
                   })
                 }
@@ -266,7 +266,7 @@ export function PersonSnowFlakeNavigation() {
                     routerParameterized:
                       RoutesAvailable.projectStructurePersonBaseApprenticeship.to(
                         person!.projectId,
-                        person!.id
+                        person!.id,
                       ),
                   })
                 }
@@ -288,7 +288,7 @@ export function PersonSnowFlakeNavigation() {
                     routerParameterized:
                       RoutesAvailable.projectStructurePersonBasePovByThisEye.to(
                         person!.projectId,
-                        person!.id
+                        person!.id,
                       ),
                   })
                 }
@@ -305,7 +305,7 @@ export function PersonSnowFlakeNavigation() {
                   setPathname({
                     routerParameterized:
                       RoutesAvailable.projectStructureCentralIdia.to(
-                        person!.projectId
+                        person!.projectId,
                       ),
                   })
                 }
@@ -323,5 +323,5 @@ export function PersonSnowFlakeNavigation() {
         className="min-w-[16rem] data-[open=false]:min-w-[4rem] ease-in-out duration-300"
       />
     </>
-  );
+  )
 }

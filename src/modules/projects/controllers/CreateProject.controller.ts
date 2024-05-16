@@ -14,7 +14,7 @@ export class CreateProjectController implements Controller<PresenterProps> {
     private readonly errorPresenter: ErrorPresenter,
     private readonly createProjectService: CreateProjectService,
     private readonly projectPresenter: ProjectPresenter,
-  ) { }
+  ) {}
 
   async handle({ _data }: Request): Promise<PresenterProps> {
     const body = this.createProjectGateway.transform(_data)

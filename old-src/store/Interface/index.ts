@@ -1,31 +1,31 @@
-import { localStorageKeys } from '@config/localStorage/keys';
-import { create } from 'zustand';
+import { localStorageKeys } from '@config/localStorage/keys'
+import { create } from 'zustand'
 
-type Theme = 'dark' | 'light';
+type Theme = 'dark' | 'light'
 
 interface UseInterface {
-  navIsOpen: boolean;
-  openNav: () => void;
-  closeNav: () => void;
-  handleChangeOpenNav: () => void;
+  navIsOpen: boolean
+  openNav: () => void
+  closeNav: () => void
+  handleChangeOpenNav: () => void
 
-  sideBarIsOpen: boolean;
-  openSideBar: () => void;
-  closeSideBar: () => void;
-  handleChangeOpenSideBar: () => void;
-  setSidBarIsOpen: (newState: Boolean) => void;
+  sideBarIsOpen: boolean
+  openSideBar: () => void
+  closeSideBar: () => void
+  handleChangeOpenSideBar: () => void
+  setSidBarIsOpen: (newState: boolean) => void
 
-  lockSnowflakeSteps: boolean;
-  setLockSnowflakeSteps: (newState: boolean) => void;
+  lockSnowflakeSteps: boolean
+  setLockSnowflakeSteps: (newState: boolean) => void
 
-  loadConfig: () => void;
+  loadConfig: () => void
 
-  theme: Theme;
-  changeTheme: (newState: Theme | 'system') => void;
+  theme: Theme
+  changeTheme: (newState: Theme | 'system') => void
 
-  commandKIsOpen: boolean;
-  setCommandKIsOpen: (newState: boolean) => void;
-  handleChangeOpenCommandK: () => void;
+  commandKIsOpen: boolean
+  setCommandKIsOpen: (newState: boolean) => void
+  handleChangeOpenCommandK: () => void
 }
 
 const useInterface = create<UseInterface>((set, get) => {
@@ -39,94 +39,94 @@ const useInterface = create<UseInterface>((set, get) => {
     setLockSnowflakeSteps: (newState) => {
       localStorage.setItem(
         localStorageKeys.lockSnowflakeSteps,
-        JSON.stringify(newState)
-      );
+        JSON.stringify(newState),
+      )
 
-      set({ lockSnowflakeSteps: newState });
+      set({ lockSnowflakeSteps: newState })
     },
 
     loadConfig: () => {
-      const themeSaved = localStorage.getItem(localStorageKeys.theme);
+      const themeSaved = localStorage.getItem(localStorageKeys.theme)
       const lockSnowflakeStepsSaved = localStorage.getItem(
-        localStorageKeys.lockSnowflakeSteps
-      );
+        localStorageKeys.lockSnowflakeSteps,
+      )
       const lockSnowflakeSteps: boolean = lockSnowflakeStepsSaved
         ? JSON.parse(lockSnowflakeStepsSaved)
-        : true;
-      let theme: Theme;
+        : true
+      let theme: Theme
 
       if (!themeSaved || themeSaved === 'system') {
         if (
           window.matchMedia &&
           window.matchMedia('(prefers-color-scheme: dark)').matches
         ) {
-          theme = 'dark';
+          theme = 'dark'
         } else {
-          theme = 'light';
+          theme = 'light'
         }
       } else {
-        theme = themeSaved as Theme;
+        theme = themeSaved as Theme
       }
 
       set({
         theme,
         lockSnowflakeSteps,
-      });
+      })
     },
 
     changeTheme: (newState: Theme | 'system') => {
-      let theme: Theme;
+      let theme: Theme
 
       if (newState === 'system') {
         if (
           window.matchMedia &&
           window.matchMedia('(prefers-color-scheme: dark)').matches
         ) {
-          theme = 'dark';
+          theme = 'dark'
         } else {
-          theme = 'light';
+          theme = 'light'
         }
       } else {
-        theme = newState;
+        theme = newState
       }
 
-      set({ theme });
+      set({ theme })
 
-      localStorage.setItem(localStorageKeys.theme, newState);
+      localStorage.setItem(localStorageKeys.theme, newState)
     },
     setCommandKIsOpen: (newState: boolean) => set({ commandKIsOpen: newState }),
     closeNav: () => set({ navIsOpen: false }),
     openNav: () => set({ navIsOpen: true, sideBarIsOpen: false }),
     handleChangeOpenNav: () => {
-      const { navIsOpen, openNav, closeNav } = get();
+      const { navIsOpen, openNav, closeNav } = get()
 
-      if (navIsOpen) closeNav();
-      if (!navIsOpen) openNav();
+      if (navIsOpen) closeNav()
+      if (!navIsOpen) openNav()
     },
 
     closeSideBar: () => set({ sideBarIsOpen: false }),
     openSideBar: () => set({ navIsOpen: false, sideBarIsOpen: true }),
     handleChangeOpenSideBar: () => {
-      const { openSideBar, closeSideBar, sideBarIsOpen } = get();
+      const { openSideBar, closeSideBar, sideBarIsOpen } = get()
 
-      if (sideBarIsOpen) closeSideBar();
-      if (!sideBarIsOpen) openSideBar();
+      if (sideBarIsOpen) closeSideBar()
+      if (!sideBarIsOpen) openSideBar()
     },
     setSidBarIsOpen: (newSideBarIsOpen) => {
-      const { openSideBar, closeSideBar } = get();
+      const { openSideBar, closeSideBar } = get()
 
-      if (newSideBarIsOpen) openSideBar();
-      if (!newSideBarIsOpen) closeSideBar();
+      if (newSideBarIsOpen) openSideBar()
+      if (!newSideBarIsOpen) closeSideBar()
     },
 
     handleChangeOpenCommandK: () => {
-      const { commandKIsOpen } = get();
+      const { commandKIsOpen } = get()
 
       set({
         commandKIsOpen: !commandKIsOpen,
-      });
+      })
     },
-  };
-});
+  }
+})
 
-export { useInterface };
+export { useInterface }

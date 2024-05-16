@@ -10,7 +10,12 @@ import { useProject } from './useProject'
 
 export function useProjectHeader() {
   const [projectId, setProjectId] = useState<string>('')
-  const { project } = useProject({ projectId })
+  const [personId, setPersonId] = useState<string>('')
+
+  const { project, usePersons } = useProject({ projectId })
+  const { persons } = usePersons()
+
+  const person = persons?.find((p) => p.id === personId) ?? null
 
   const { pathname } = useLocation()
 
@@ -29,10 +34,12 @@ export function useProjectHeader() {
       'why-happens': 'Por que acontece?',
       'who-happens': 'Com quem acontece?',
       new: 'Novo(a)',
+      identity: 'Identidade',
     }
 
     const uuidsPathsMapper: { [x: string]: string } = {
       projects: project?.name ?? '',
+      persons: person?.name ?? '',
     }
 
     function makePath(rawPath: string, rawPaths: string[], index: number) {
@@ -50,6 +57,10 @@ export function useProjectHeader() {
         setProjectId(rawPath)
       }
 
+      if (previousRawPath === 'persons') {
+        setPersonId(rawPath)
+      }
+
       return pathMapped
     }
 
@@ -61,7 +72,7 @@ export function useProjectHeader() {
     _paths.push(...mappedPaths)
 
     return { paths: _paths }
-  }, [pathname, project?.name])
+  }, [pathname, project?.name, person?.name])
 
   return {
     paths,

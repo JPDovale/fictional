@@ -1,9 +1,9 @@
-import { ServiceError } from '@shared/core/error/ServiceError';
+import { ServiceError } from '@shared/core/error/ServiceError'
 
 export class ResourceNotCreated extends Error implements ServiceError {
-  status: number = 400;
+  status = 400
 
   constructor() {
-    super('Resource not created');
+    super('Resource not created')
   }
 }

@@ -1,15 +1,15 @@
-import { Button } from '@components/useFull/Button';
-import { ScrollArea } from '@components/useFull/ScrollArea';
-import { NavLink } from '@config/navigation/links';
-import { useNav } from '@hooks/useNav';
+import { Button } from '@components/useFull/Button'
+import { ScrollArea } from '@components/useFull/ScrollArea'
+import { NavLink } from '@config/navigation/links'
+import { useNav } from '@hooks/useNav'
 
 interface NavigationNavigatorProps {
-  navLinks: NavLink[];
-  navIsOpen: boolean;
+  navLinks: NavLink[]
+  navIsOpen: boolean
 }
 
 export function Navigator({ navIsOpen, navLinks }: NavigationNavigatorProps) {
-  const { makePathname, navigate, pathname: actualPathname } = useNav();
+  const { makePathname, navigate, pathname: actualPathname } = useNav()
 
   return (
     <ScrollArea>
@@ -30,7 +30,7 @@ export function Navigator({ navIsOpen, navLinks }: NavigationNavigatorProps) {
         ))}
       </nav>
     </ScrollArea>
-  );
+  )
 }
 
-Navigator.displayName = 'Navigation.Navigator';
+Navigator.displayName = 'Navigation.Navigator'

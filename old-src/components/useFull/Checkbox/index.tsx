@@ -1,8 +1,8 @@
-import { CheckerIndicator } from './CheckerIndicator';
-import { CheckerRoot } from './CheckerRoot';
-import { Icon } from './Icon';
-import { Label } from './Label';
-import { Root } from './Root';
+import { CheckerIndicator } from './CheckerIndicator'
+import { CheckerRoot } from './CheckerRoot'
+import { Icon } from './Icon'
+import { Label } from './Label'
+import { Root } from './Root'
 
 export const Checkbox = {
   Root,
@@ -10,4 +10,4 @@ export const Checkbox = {
   CheckerRoot,
   CheckerIndicator,
   Icon,
-};
+}

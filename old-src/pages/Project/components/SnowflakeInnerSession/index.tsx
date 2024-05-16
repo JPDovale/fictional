@@ -10,18 +10,18 @@ import {
   UnfoldHorizontal,
   UserSquare,
   VenetianMask,
-} from 'lucide-react';
-import { RoutesAvailable } from '@config/routes/routesAvailable';
-import { useRoutes } from '@store/Routes';
-import { SnowflakeStepButton } from '@components/SnowflakeStructureComponents/SnowflakeStepButton';
-import { useSnowflakeStructure } from '@hooks/useSnowflakeStructure';
-import { BookModelResponse } from '@modules/Books/dtos/models/types';
+} from 'lucide-react'
+import { RoutesAvailable } from '@config/routes/routesAvailable'
+import { useRoutes } from '@store/Routes'
+import { SnowflakeStepButton } from '@components/SnowflakeStructureComponents/SnowflakeStepButton'
+import { useSnowflakeStructure } from '@hooks/useSnowflakeStructure'
+import { BookModelResponse } from '@modules/Books/dtos/models/types'
 
 interface SnowflakeInnerSessionProps {
-  projectId: string;
-  multiBooksTitle?: string;
-  redirectorMultiBook?: () => void;
-  bookReceived: BookModelResponse | null;
+  projectId: string
+  multiBooksTitle?: string
+  redirectorMultiBook?: () => void
+  bookReceived: BookModelResponse | null
 }
 
 export function SnowflakeInnerSession({
@@ -32,19 +32,19 @@ export function SnowflakeInnerSession({
 }: SnowflakeInnerSessionProps) {
   const { setPathname } = useRoutes((state) => ({
     setPathname: state.setPathname,
-  }));
+  }))
 
-  const { useSnowflakeStructureVerifications } = useSnowflakeStructure();
+  const { useSnowflakeStructureVerifications } = useSnowflakeStructure()
   const { verifications } = useSnowflakeStructureVerifications(
-    bookReceived?.snowflakeStructure
-  );
+    bookReceived?.snowflakeStructure,
+  )
 
   function handleNavigateToStructure() {
-    if (redirectorMultiBook) return redirectorMultiBook();
+    if (redirectorMultiBook) return redirectorMultiBook()
 
     return setPathname({
       routerParameterized: RoutesAvailable.projectStructure.to(projectId),
-    });
+    })
   }
 
   return (
@@ -113,5 +113,5 @@ export function SnowflakeInnerSession({
         />
       </div>
     </div>
-  );
+  )
 }

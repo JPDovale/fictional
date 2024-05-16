@@ -206,8 +206,8 @@ export class Features {
 
     acceptedFeatures.forEach(
       (featureAccepted) =>
-      (value[featureAccepted] =
-        this._featuresUsing.includes(featureAccepted)),
+        (value[featureAccepted] =
+          this._featuresUsing.includes(featureAccepted)),
     )
 
     return value

@@ -12,7 +12,7 @@ export class CreateProjectResolver {
   constructor(
     @inject(InjectableDependencies.Services.CreateProjectService)
     private readonly createProjectService: CreateProjectService,
-  ) { }
+  ) {}
 
   async handle({ _data }: RequesterType<CreateProjectGateway>) {
     const data = new CreateProjectGateway(_data)

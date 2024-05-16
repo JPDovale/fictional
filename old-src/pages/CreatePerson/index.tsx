@@ -1,4 +1,4 @@
-import { CreatePersonForm } from './components/CreatePersonForm';
+import { CreatePersonForm } from './components/CreatePersonForm'
 
 export function CreatePersonPage() {
   return (
@@ -9,5 +9,5 @@ export function CreatePersonPage() {
 
       <CreatePersonForm />
     </main>
-  );
+  )
 }

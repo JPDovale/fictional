@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 
 export const previewThreeActsStyles = cva(
   [
@@ -11,5 +11,5 @@ export const previewThreeActsStyles = cva(
         light: [],
       },
     },
-  }
-);
+  },
+)

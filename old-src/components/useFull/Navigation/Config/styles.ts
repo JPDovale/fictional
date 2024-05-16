@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 
 export const configContentStyle = cva(
   [
@@ -11,5 +11,5 @@ export const configContentStyle = cva(
         light: ['text-text800 bg-gray900'],
       },
     },
-  }
-);
+  },
+)

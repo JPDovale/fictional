@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 
 export const projectCardStyles = cva(
   [
@@ -18,8 +18,8 @@ export const projectCardStyles = cva(
         light: ['bg-gray800', 'shadow-default', 'focus:shadow-inFocus'],
       },
     },
-  }
-);
+  },
+)
 
 export const imageStyles = cva([
   'flex',
@@ -28,7 +28,7 @@ export const imageStyles = cva([
   'w-full',
   'min-h-[160px]',
   'max-h-[160px]',
-]);
+])
 
 export const projectInfoStyles = cva(
   ['flex flex-col gap-2', 'w-full h-full p-4', 'text-start'],
@@ -39,5 +39,5 @@ export const projectInfoStyles = cva(
         light: ['bg-gray700'],
       },
     },
-  }
-);
+  },
+)

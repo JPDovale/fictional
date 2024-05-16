@@ -1,6 +1,6 @@
-import { SnowflakeStructure } from '@modules/SnowflakeStructures/models/SnowflakeStructure';
-import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
-import { SnowflakeStructureFile } from '../types';
+import { SnowflakeStructure } from '@modules/SnowflakeStructures/models/SnowflakeStructure'
+import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId'
+import { SnowflakeStructureFile } from '../types'
 
 export class SnowflakeStructuresKnexMapper {
   static toEntity(raw: SnowflakeStructureFile): SnowflakeStructure {
@@ -25,12 +25,12 @@ export class SnowflakeStructuresKnexMapper {
         interweavingPersonsAndExpansion: raw.interweaving_persons_and_expansion,
         updatedAt: raw.updated_at,
       },
-      new UniqueEntityId(raw.id)
-    );
+      new UniqueEntityId(raw.id),
+    )
   }
 
   static toKnex(
-    snowflakeStructure: SnowflakeStructure
+    snowflakeStructure: SnowflakeStructure,
   ): SnowflakeStructureFile {
     return {
       central_idia: snowflakeStructure.centralIdia ?? null,
@@ -59,6 +59,6 @@ export class SnowflakeStructuresKnexMapper {
       interweaving_persons_and_expansion:
         snowflakeStructure.interweavingPersonsAndExpansion,
       updated_at: snowflakeStructure.updatedAt,
-    };
+    }
   }
 }

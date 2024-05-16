@@ -1,37 +1,37 @@
-import { PersonCard } from '@components/PersonsComponents/PersonCard';
-import { RoutesAvailable } from '@config/routes/routesAvailable';
-import { ProjectModelResponse } from '@modules/Projects/dtos/models/types';
-import { usePersons } from '@store/Persons';
-import { useRoutes } from '@store/Routes';
-import { useMemo } from 'react';
+import { PersonCard } from '@components/PersonsComponents/PersonCard'
+import { RoutesAvailable } from '@config/routes/routesAvailable'
+import { ProjectModelResponse } from '@modules/Projects/dtos/models/types'
+import { usePersons } from '@store/Persons'
+import { useRoutes } from '@store/Routes'
+import { useMemo } from 'react'
 
 interface ProjectImplementsPersonsProps {
-  project: ProjectModelResponse;
+  project: ProjectModelResponse
 }
 
 export function ProjectImplementsPersons({
   project,
 }: ProjectImplementsPersonsProps) {
-  const { persons } = usePersons((state) => ({ persons: state.persons }));
+  const { persons } = usePersons((state) => ({ persons: state.persons }))
   const { setPathname } = useRoutes((state) => ({
     setPathname: state.setPathname,
-  }));
+  }))
 
   const { personsThisProject } = useMemo(() => {
     const personsInProject = persons.filter(
-      (person) => person.projectId === project.id
-    );
+      (person) => person.projectId === project.id,
+    )
 
-    return { personsThisProject: personsInProject };
-  }, [persons, project]);
+    return { personsThisProject: personsInProject }
+  }, [persons, project])
 
   function handleNavigateToPersons(personId: string) {
     setPathname({
       routerParameterized: RoutesAvailable.projectPerson.to(
         project!.id,
-        personId
+        personId,
       ),
-    });
+    })
   }
 
   return (
@@ -61,5 +61,5 @@ export function ProjectImplementsPersons({
         )}
       </div>
     </div>
-  );
+  )
 }

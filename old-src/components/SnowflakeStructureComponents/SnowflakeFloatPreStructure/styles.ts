@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 
 export const snowflakeStructurePreFloat = cva(
   [
@@ -11,5 +11,5 @@ export const snowflakeStructurePreFloat = cva(
         light: ['bg-gray800 '],
       },
     },
-  }
-);
+  },
+)

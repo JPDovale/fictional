@@ -9,5 +9,5 @@ export function BooksPage() {
         Seus livros:
       </h2>
     </main>
-  );
+  )
 }

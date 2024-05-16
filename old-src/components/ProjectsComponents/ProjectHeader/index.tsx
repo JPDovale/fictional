@@ -1,35 +1,35 @@
-import { useTheme } from '@hooks/useTheme';
-import { useNav } from '@hooks/useNav';
-import { ProjectModelResponse } from '@modules/Projects/dtos/models/types';
-import { usePersons } from '@store/Persons';
-import { useParams } from 'react-router-dom';
-import { divider, pathOnHeaderStyles, projectHeaderStyles } from './styles';
+import { useTheme } from '@hooks/useTheme'
+import { useNav } from '@hooks/useNav'
+import { ProjectModelResponse } from '@modules/Projects/dtos/models/types'
+import { usePersons } from '@store/Persons'
+import { useParams } from 'react-router-dom'
+import { divider, pathOnHeaderStyles, projectHeaderStyles } from './styles'
 
 interface ProjectHeaderProps {
-  project?: ProjectModelResponse | null;
+  project?: ProjectModelResponse | null
 }
 
 export function ProjectHeader({ project }: ProjectHeaderProps) {
-  const { bookId } = useParams();
-  const { theme } = useTheme();
-  const { makePathsOnHeaderProject } = useNav();
+  const { bookId } = useParams()
+  const { theme } = useTheme()
+  const { makePathsOnHeaderProject } = useNav()
   const { currentPerson } = usePersons((state) => ({
     currentPerson: state.currentPerson,
-  }));
+  }))
 
-  const pathsOnHeader = makePathsOnHeaderProject();
+  const pathsOnHeader = makePathsOnHeaderProject()
 
   return (
     <header className={projectHeaderStyles({ theme })}>
       {pathsOnHeader.map((path) => {
-        if (!path) return null;
+        if (!path) return null
         if (typeof path === 'string') {
           return (
             <div className="flex items-center gap-0.5" key={path}>
               <span className={pathOnHeaderStyles()}>{path}</span>
               <span className={divider()}>/</span>
             </div>
-          );
+          )
         }
 
         if (path.name === ':id') {
@@ -41,7 +41,7 @@ export function ProjectHeader({ project }: ProjectHeaderProps) {
               </span>
               <span className={divider()}>/</span>
             </div>
-          );
+          )
         }
 
         if (path.name === ':personId') {
@@ -55,7 +55,7 @@ export function ProjectHeader({ project }: ProjectHeaderProps) {
               </span>
               <span className={divider()}>/</span>
             </div>
-          );
+          )
         }
 
         if (path.name === ':bookId') {
@@ -67,11 +67,11 @@ export function ProjectHeader({ project }: ProjectHeaderProps) {
               </span>
               <span className={divider()}>/</span>
             </div>
-          );
+          )
         }
 
-        return null;
+        return null
       })}
     </header>
-  );
+  )
 }

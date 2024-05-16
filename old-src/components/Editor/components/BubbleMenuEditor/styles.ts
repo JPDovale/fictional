@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 
 export const bubbleMenuWrapperStyles = cva(
   [
@@ -11,8 +11,8 @@ export const bubbleMenuWrapperStyles = cva(
         light: ['bg-gray700 border-gray600'],
       },
     },
-  }
-);
+  },
+)
 
 export const bubbleOptionStyles = cva(
   [
@@ -29,8 +29,8 @@ export const bubbleOptionStyles = cva(
         ],
       },
     },
-  }
-);
+  },
+)
 
 export const GroupStyles = cva(['flex border-r '], {
   variants: {
@@ -39,7 +39,7 @@ export const GroupStyles = cva(['flex border-r '], {
       light: ['border-r-gray600'],
     },
   },
-});
+})
 
 export const textHighlightersStyles = cva(
   [
@@ -52,8 +52,8 @@ export const textHighlightersStyles = cva(
         light: ['bg-gray700'],
       },
     },
-  }
-);
+  },
+)
 
 export const highlighterOptionStyles = cva(
   [
@@ -70,5 +70,5 @@ export const highlighterOptionStyles = cva(
         ],
       },
     },
-  }
-);
+  },
+)

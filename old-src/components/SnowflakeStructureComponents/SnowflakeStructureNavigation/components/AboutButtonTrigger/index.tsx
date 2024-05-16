@@ -1,9 +1,9 @@
-import { Button } from '@components/useFull/Button';
-import { Snowflake } from 'lucide-react';
-import * as Tabs from '@radix-ui/react-tabs';
+import { Button } from '@components/useFull/Button'
+import { Snowflake } from 'lucide-react'
+import * as Tabs from '@radix-ui/react-tabs'
 
 interface AboutButtonTriggerProps {
-  sideBarIsOpen: boolean;
+  sideBarIsOpen: boolean
 }
 
 export function AboutButtonTrigger({ sideBarIsOpen }: AboutButtonTriggerProps) {
@@ -26,5 +26,5 @@ export function AboutButtonTrigger({ sideBarIsOpen }: AboutButtonTriggerProps) {
         </div>
       </Button.Root>
     </Tabs.Trigger>
-  );
+  )
 }

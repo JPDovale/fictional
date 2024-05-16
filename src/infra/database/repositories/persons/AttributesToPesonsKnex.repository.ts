@@ -7,11 +7,12 @@ import { AttributesToPersonsKnexMapper } from './AttributesToPersonsKnex.mapper'
 
 @injectable()
 export class AttributesToPersonsKnexRepository
-  implements AttributesToPersonsRepository<KnexConfig> {
+  implements AttributesToPersonsRepository<KnexConfig>
+{
   constructor(
     private readonly knexConnection: KnexConnection,
     private readonly mapper: AttributesToPersonsKnexMapper,
-  ) { }
+  ) {}
 
   async create(data: AttributeToPerson, ctx?: KnexConfig): Promise<void> {
     const { db } = ctx ?? this.knexConnection

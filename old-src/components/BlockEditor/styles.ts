@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority'
 
 export const blockEditorTitleStyles = cva(
   ['text-start flex gap-3 leading-none items-center font-bold uppercase '],
@@ -9,8 +9,8 @@ export const blockEditorTitleStyles = cva(
         light: ['text-text800/40'],
       },
     },
-  }
-);
+  },
+)
 
 export const hoverContentStyles = cva(
   [
@@ -23,8 +23,8 @@ export const hoverContentStyles = cva(
         light: ['bg-gray800'],
       },
     },
-  }
-);
+  },
+)
 
 export const hoverInnerContentStyles = cva(['text-xs text-justify font-bold'], {
   variants: {
@@ -33,4 +33,4 @@ export const hoverInnerContentStyles = cva(['text-xs text-justify font-bold'], {
       light: ['text-text800/80'],
     },
   },
-});
+})

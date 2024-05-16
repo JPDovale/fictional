@@ -1,9 +1,9 @@
-import { ServiceError } from '@shared/core/error/ServiceError';
+import { ServiceError } from '@shared/core/error/ServiceError'
 
 export class UnexpectedError extends Error implements ServiceError {
-  status: number = 500;
+  status = 500
 
   constructor() {
-    super('Unexpected error ocurred');
+    super('Unexpected error ocurred')
   }
 }

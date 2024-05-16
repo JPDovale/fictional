@@ -1,5 +1,5 @@
-import { cva } from 'class-variance-authority';
-import { HTMLAttributes } from 'react';
+import { cva } from 'class-variance-authority'
+import { HTMLAttributes } from 'react'
 
 const rootStyles = cva([
   'flex',
@@ -7,10 +7,10 @@ const rootStyles = cva([
   'gap-2',
   'data-[disabled=true]:opacity-30',
   'group',
-]);
+])
 
 interface CheckboxRootProps extends HTMLAttributes<HTMLDivElement> {
-  disabled?: boolean;
+  disabled?: boolean
 }
 
 export function Root({
@@ -24,7 +24,7 @@ export function Root({
       className={rootStyles({ className })}
       {...props}
     />
-  );
+  )
 }
 
-Root.displayName = 'Checkbox.Root';
+Root.displayName = 'Checkbox.Root'

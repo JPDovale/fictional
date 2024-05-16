@@ -31,7 +31,7 @@ export const rootStyles = tv({
 
 interface NavigationRootProps
   extends HTMLAttributes<HTMLElement>,
-  VariantProps<typeof rootStyles> {
+    VariantProps<typeof rootStyles> {
   navIsOpen?: boolean
 }
 

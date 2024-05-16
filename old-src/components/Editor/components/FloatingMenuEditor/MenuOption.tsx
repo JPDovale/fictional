@@ -1,12 +1,12 @@
-import { useTheme } from '@hooks/useTheme';
-import { ReactNode } from 'react';
-import { menuOptionWrapperStyles } from './styles';
+import { useTheme } from '@hooks/useTheme'
+import { ReactNode } from 'react'
+import { menuOptionWrapperStyles } from './styles'
 
 interface MenuOptionProps {
-  icon: ReactNode;
-  title: string;
-  description: string;
-  handler: () => void;
+  icon: ReactNode
+  title: string
+  description: string
+  handler: () => void
 }
 
 export function MenuOption({
@@ -15,7 +15,7 @@ export function MenuOption({
   title,
   handler,
 }: MenuOptionProps) {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
 
   return (
     <button
@@ -29,5 +29,5 @@ export function MenuOption({
         <span className="text-xs">{description}</span>
       </div>
     </button>
-  );
+  )
 }

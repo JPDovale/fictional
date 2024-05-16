@@ -23,12 +23,13 @@ type Response = {
 
 @injectable()
 export class GetAttributesPreviewService
-  implements Service<Request, PossibleErrors, Response> {
+  implements Service<Request, PossibleErrors, Response>
+{
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly projectsRepository: ProjectsRepository,
     private readonly attributesRepository: AttributesRepository,
-  ) { }
+  ) {}
 
   async execute({
     userId,

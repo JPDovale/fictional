@@ -45,7 +45,7 @@ const buttonRootStyles = tv({
 
 interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
-  VariantProps<typeof buttonRootStyles> {
+    VariantProps<typeof buttonRootStyles> {
   asChild?: boolean
   active?: boolean
 }

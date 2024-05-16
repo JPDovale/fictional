@@ -69,7 +69,7 @@ export class CreateProjectService {
 
     @inject(InjectableDependencies.Providers.ImageProvider)
     private readonly imageProvider: ImageProvider,
-  ) { }
+  ) {}
 
   async execute({
     userId,

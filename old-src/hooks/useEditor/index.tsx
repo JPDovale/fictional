@@ -1,40 +1,40 @@
-import Color from '@tiptap/extension-color';
-import Highlight from '@tiptap/extension-highlight';
-import TextAlign from '@tiptap/extension-text-align';
-import TextStyle from '@tiptap/extension-text-style';
-import Typography from '@tiptap/extension-typography';
+import Color from '@tiptap/extension-color'
+import Highlight from '@tiptap/extension-highlight'
+import TextAlign from '@tiptap/extension-text-align'
+import TextStyle from '@tiptap/extension-text-style'
+import Typography from '@tiptap/extension-typography'
 import {
   Editor,
   ReactRenderer,
   useEditor as useTipTapEditor,
-} from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Mention from '@tiptap/extension-mention';
-import PlaceholderEditor from '@tiptap/extension-placeholder';
-import { MentionList } from '@components/Editor/components/MentionList';
-import tippy, { Instance, Props } from 'tippy.js';
-import { SuggestionProps } from '@tiptap/suggestion';
-import { ProjectModelResponse } from '@modules/Projects/dtos/models/types';
-import { usePersons } from '@store/Persons';
+} from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import Mention from '@tiptap/extension-mention'
+import PlaceholderEditor from '@tiptap/extension-placeholder'
+import { MentionList } from '@components/Editor/components/MentionList'
+import tippy, { Instance, Props } from 'tippy.js'
+import { SuggestionProps } from '@tiptap/suggestion'
+import { ProjectModelResponse } from '@modules/Projects/dtos/models/types'
+import { usePersons } from '@store/Persons'
 
 interface NewEditor {
-  id: string;
-  preValue: string;
-  useProject?: ProjectModelResponse[];
-  onUpdate: (value: string) => void;
+  id: string
+  preValue: string
+  useProject?: ProjectModelResponse[]
+  onUpdate: (value: string) => void
 }
 
 interface UseEditorProps {
-  editors: NewEditor[];
+  editors: NewEditor[]
 }
 
 interface OBJEditor {
-  editor: Editor | null;
-  id: string;
+  editor: Editor | null
+  id: string
 }
 
 export function useEditor({ editors }: UseEditorProps) {
-  const Editors: { [x: string]: OBJEditor } = {};
+  const Editors: { [x: string]: OBJEditor } = {}
 
   editors.forEach(({ id, onUpdate, preValue, useProject }) => {
     Editors[id] = {
@@ -42,10 +42,10 @@ export function useEditor({ editors }: UseEditorProps) {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       editor: useTipTapEditor({
         onUpdate: ({ editor }) => {
-          const editorValue = editor?.getHTML();
+          const editorValue = editor?.getHTML()
 
           if (editorValue && editorValue !== preValue) {
-            onUpdate(editorValue);
+            onUpdate(editorValue)
           }
         },
         extensions: [
@@ -58,57 +58,57 @@ export function useEditor({ editors }: UseEditorProps) {
               class: 'mention',
             },
             renderLabel: ({ node }) => {
-              const name = node.attrs.id.split('<==>')[0];
-              return `@${name}`;
+              const name = node.attrs.id.split('<==>')[0]
+              return `@${name}`
             },
             suggestion: {
               items: ({ query }) => {
-                const { persons } = usePersons.getState();
+                const { persons } = usePersons.getState()
 
                 const personsThisProject = useProject
                   ? persons.filter((person) => {
                       return !!useProject.find(
-                        (project) => project.id === person.projectId
-                      );
+                        (project) => project.id === person.projectId,
+                      )
                     })
-                  : [];
+                  : []
 
                 const sugges = personsThisProject.map((person) =>
                   person.name?.firstName || person.name?.lastName
                     ? `${person.name.fullName}<==>${person.id}`
                     : `???????<==>${person.id}<==> | ${person.biography?.slice(
                         0,
-                        70
-                      )}`
-                );
+                        70,
+                      )}`,
+                )
 
                 return sugges
                   .filter((person) =>
-                    person.toLowerCase().startsWith(query.toLowerCase())
+                    person.toLowerCase().startsWith(query.toLowerCase()),
                   )
-                  .slice(0, 5);
+                  .slice(0, 5)
               },
 
               render: () => {
                 let component: ReactRenderer<
                   HTMLElement,
                   SuggestionProps<any> & React.RefAttributes<HTMLElement>
-                >;
-                let popup: Instance<Props>[];
+                >
+                let popup: Instance<Props>[]
 
                 return {
                   onStart: (props) => {
                     component = new ReactRenderer(MentionList, {
                       props,
                       editor: props.editor,
-                    });
+                    })
 
                     const clientRect = props.clientRect
                       ? props.clientRect()
-                      : null;
+                      : null
 
                     if (!clientRect) {
-                      return;
+                      return
                     }
 
                     popup = tippy('body', {
@@ -129,18 +129,18 @@ export function useEditor({ editors }: UseEditorProps) {
                       interactive: true,
                       trigger: 'manual',
                       placement: 'bottom-start',
-                    });
+                    })
                   },
 
                   onUpdate: (props) => {
-                    component.updateProps(props);
+                    component.updateProps(props)
 
                     const clientRect = props.clientRect
                       ? props.clientRect()
-                      : null;
+                      : null
 
                     if (!clientRect) {
-                      return;
+                      return
                     }
 
                     popup[0].setProps({
@@ -155,29 +155,29 @@ export function useEditor({ editors }: UseEditorProps) {
                         x: clientRect.x,
                         y: clientRect.y,
                       }),
-                    });
+                    })
                   },
 
                   onKeyDown(props) {
                     if (props.event.key === 'Escape') {
-                      popup[0].hide();
+                      popup[0].hide()
 
-                      return true;
+                      return true
                     }
 
                     return (
                       component.ref?.onkeydown &&
                       component.ref?.onkeydown!(
-                        props as unknown as KeyboardEvent
+                        props as unknown as KeyboardEvent,
                       )
-                    );
+                    )
                   },
 
                   onExit() {
-                    component.destroy();
-                    popup[0].destroy();
+                    component.destroy()
+                    popup[0].destroy()
                   },
-                };
+                }
               },
             },
           }),
@@ -200,8 +200,8 @@ export function useEditor({ editors }: UseEditorProps) {
           },
         },
       }),
-    };
-  });
+    }
+  })
 
-  return { Editors };
+  return { Editors }
 }

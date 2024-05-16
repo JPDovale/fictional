@@ -1,5 +1,5 @@
-import { NavLink } from '@config/navigation/links';
-import { RoutesAvailable } from '@config/routes/routesAvailable';
+import { NavLink } from '@config/navigation/links'
+import { RoutesAvailable } from '@config/routes/routesAvailable'
 import {
   BookCopy,
   FolderCog,
@@ -8,7 +8,7 @@ import {
   LayoutPanelTop,
   PersonStanding,
   Text,
-} from 'lucide-react';
+} from 'lucide-react'
 
 export const projectLinks: NavLink[] = [
   {
@@ -49,4 +49,4 @@ export const projectLinks: NavLink[] = [
     Icon: FolderCog,
     label: 'Configurações',
   },
-];
+]

@@ -18,7 +18,7 @@ export interface PersonFile {
   affiliation_id: string | null
 }
 
-type PersonWithParents = PersonFile & {
+type PersonWithParentsType = PersonFile & {
   father_id: string | null
   mother_id: string | null
 }
@@ -59,7 +59,7 @@ export class PersonsKnexMapper extends RepositoryMapper<Person, PersonFile> {
     }
   }
 
-  toDomainWithParrents(raw: PersonWithParents) {
+  toDomainWithParrents(raw: PersonWithParentsType): PersonWithParents {
     return PersonWithParents.create({
       type: raw.type,
       name: raw.name,

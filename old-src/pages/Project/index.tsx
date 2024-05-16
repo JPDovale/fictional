@@ -1,64 +1,64 @@
-import { useProjects } from '@store/Projects';
-import { Edit, Eye } from 'lucide-react';
-import { RoutesAvailable } from '@config/routes/routesAvailable';
-import { useRoutes } from '@store/Routes';
-import { Feature } from '@modules/Projects/models/Project/valueObjects/Features';
-import { featuresIconsAndNameMapper } from '@config/mappers/projects/featuresIconsAndNameMapper';
-import { PersonCard } from '@components/PersonsComponents/PersonCard';
-import { useTheme } from '@hooks/useTheme';
-import { useEffect } from 'react';
-import { useBooks } from '@store/Books';
-import { FeatureUsing } from './components/FeatureUsing';
-import { ThreeActsSession } from './components/ThreeActsSession';
-import { SnowflakeSession } from './components/SnowflakeSession';
-import { previewTextStyles } from './styles';
+import { useProjects } from '@store/Projects'
+import { Edit, Eye } from 'lucide-react'
+import { RoutesAvailable } from '@config/routes/routesAvailable'
+import { useRoutes } from '@store/Routes'
+import { Feature } from '@modules/Projects/models/Project/valueObjects/Features'
+import { featuresIconsAndNameMapper } from '@config/mappers/projects/featuresIconsAndNameMapper'
+import { PersonCard } from '@components/PersonsComponents/PersonCard'
+import { useTheme } from '@hooks/useTheme'
+import { useEffect } from 'react'
+import { useBooks } from '@store/Books'
+import { FeatureUsing } from './components/FeatureUsing'
+import { ThreeActsSession } from './components/ThreeActsSession'
+import { SnowflakeSession } from './components/SnowflakeSession'
+import { previewTextStyles } from './styles'
 
 export function ProjectPage() {
-  const { theme } = useTheme();
-  const { setPathname } = useRoutes();
+  const { theme } = useTheme()
+  const { setPathname } = useRoutes()
   const { currentProject } = useProjects((state) => ({
     currentProject: state.currentProject,
-  }));
+  }))
   const { currentBook, loadBook } = useBooks((state) => ({
     currentBook: state.currentBook,
     loadBook: state.loadBook,
-  }));
+  }))
 
   useEffect(() => {
     if (!currentBook && currentProject) {
-      loadBook(currentProject.books[0].id);
+      loadBook(currentProject.books[0].id)
     }
-  }, [currentBook, currentProject, loadBook]);
+  }, [currentBook, currentProject, loadBook])
 
   function handleNavigateToPersons() {
     setPathname({
       routerParameterized: RoutesAvailable.projectPersons.to(
-        currentProject!.id
+        currentProject!.id,
       ),
-    });
+    })
   }
 
   function handleNavigateToProjectText() {
     setPathname({
       routerParameterized: RoutesAvailable.projectText.to(currentProject!.id),
-    });
+    })
   }
 
   function handleNavigateToPerson(personId: string) {
     setPathname({
       routerParameterized: RoutesAvailable.projectPerson.to(
         currentProject!.id,
-        personId
+        personId,
       ),
-    });
+    })
   }
 
   function handleNavigateToConfig() {
     setPathname({
       routerParameterized: RoutesAvailable.projectSettings.to(
-        currentProject!.id
+        currentProject!.id,
       ),
-    });
+    })
   }
 
   return (
@@ -94,7 +94,7 @@ export function ProjectPage() {
                       featuresIconsAndNameMapper[featureName as Feature].Icon
                     }
                   />
-                );
+                )
               })}
           </div>
         </div>
@@ -178,5 +178,5 @@ export function ProjectPage() {
           )}
       </div>
     </main>
-  );
+  )
 }

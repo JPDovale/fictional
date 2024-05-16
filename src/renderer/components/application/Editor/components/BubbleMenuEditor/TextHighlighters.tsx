@@ -32,7 +32,7 @@ export function TextHighlighters({ editor }: TextHighlightersProps) {
         <BubbleOption
           icon={<PaintBucket className="w-4 h-4" />}
           isActive={false}
-          handler={() => { }}
+          handler={() => {}}
         />
       </HoverCard.Trigger>
 

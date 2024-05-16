@@ -1,31 +1,31 @@
-import { Editor } from '@components/Editor';
-import { SnowflakeStructureNavigate } from '@components/SnowflakeStructureComponents/SnowflakeStructureNavigation';
-import { useEditor } from '@hooks/useEditor';
-import { useBooks } from '@store/Books';
-import { useProjects } from '@store/Projects';
-import { useEffect, useRef } from 'react';
+import { Editor } from '@components/Editor'
+import { SnowflakeStructureNavigate } from '@components/SnowflakeStructureComponents/SnowflakeStructureNavigation'
+import { useEditor } from '@hooks/useEditor'
+import { useBooks } from '@store/Books'
+import { useProjects } from '@store/Projects'
+import { useEffect, useRef } from 'react'
 
 export function SnowflakeStructureInterweavingPersonsAndExpansionPage() {
   const { project, updateSnowflakeStructure } = useProjects((state) => ({
     project: state.currentProject,
     updateSnowflakeStructure: state.updateSnowflakeStructure,
-  }));
+  }))
   const { bookSelected, isLoading } = useBooks((state) => ({
     bookSelected: state.currentBook,
     isLoading: state.isLoading,
-  }));
+  }))
 
-  const book = bookSelected || project?.books[0];
+  const book = bookSelected || project?.books[0]
   const editorStateRef = useRef<string>(
     (isLoading
       ? '<p></p>'
-      : book?.snowflakeStructure?.interweavingPersonsAndExpansion) ?? '<p></p>'
-  );
+      : book?.snowflakeStructure?.interweavingPersonsAndExpansion) ?? '<p></p>',
+  )
 
   useEffect(() => {
     const interval = setInterval(() => {
       const currentInterweavingPersonsAndExpansion =
-        book?.snowflakeStructure?.interweavingPersonsAndExpansion;
+        book?.snowflakeStructure?.interweavingPersonsAndExpansion
 
       if (
         !isLoading &&
@@ -35,15 +35,15 @@ export function SnowflakeStructureInterweavingPersonsAndExpansionPage() {
         updateSnowflakeStructure({
           bookId: book.id,
           interweavingPersonsAndExpansion: editorStateRef.current,
-        });
+        })
       }
-    }, 1000 * 2);
+    }, 1000 * 2)
 
-    return () => clearInterval(interval);
-  }, [book, updateSnowflakeStructure, isLoading]);
+    return () => clearInterval(interval)
+  }, [book, updateSnowflakeStructure, isLoading])
 
   function saveInterweavingPersonsAndExpansion(text: string) {
-    editorStateRef.current = text;
+    editorStateRef.current = text
   }
 
   const { Editors } = useEditor({
@@ -55,7 +55,7 @@ export function SnowflakeStructureInterweavingPersonsAndExpansionPage() {
           book?.snowflakeStructure?.interweavingPersonsAndExpansion ?? '',
       },
     ],
-  });
+  })
 
   return (
     <>
@@ -69,5 +69,5 @@ export function SnowflakeStructureInterweavingPersonsAndExpansionPage() {
       </main>
       {!project?.features['multi-book'] && <SnowflakeStructureNavigate />}
     </>
-  );
+  )
 }

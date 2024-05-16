@@ -1,5 +1,5 @@
-import { PersonNavigate } from '@components/PersonsComponents/PersonNavigation';
-import { Outlet } from 'react-router-dom';
+import { PersonNavigate } from '@components/PersonsComponents/PersonNavigation'
+import { Outlet } from 'react-router-dom'
 
 export function PersonsLayout() {
   return (
@@ -10,5 +10,5 @@ export function PersonsLayout() {
 
       <PersonNavigate />
     </div>
-  );
+  )
 }

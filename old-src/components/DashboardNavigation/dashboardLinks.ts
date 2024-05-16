@@ -1,6 +1,6 @@
-import { NavLink } from '@config/navigation/links';
-import { RoutesAvailable } from '@config/routes/routesAvailable';
-import { Folders, Home, PersonStanding } from 'lucide-react';
+import { NavLink } from '@config/navigation/links'
+import { RoutesAvailable } from '@config/routes/routesAvailable'
+import { Folders, Home, PersonStanding } from 'lucide-react'
 
 export const dashboardLinks: NavLink[] = [
   {
@@ -18,4 +18,4 @@ export const dashboardLinks: NavLink[] = [
     Icon: PersonStanding,
     label: 'Personagens',
   },
-];
+]

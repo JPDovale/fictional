@@ -1,4 +1,4 @@
-import { IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
+import { IsOptional, IsString, IsUUID, MaxLength } from 'class-validator'
 
 export class CreatePersonWithSnowflakeStructureInput {
   /**
@@ -8,7 +8,7 @@ export class CreatePersonWithSnowflakeStructureInput {
     always: true,
     message: 'User id not is valid',
   })
-  userId: string;
+  userId: string
 
   /**
    * projectId
@@ -17,7 +17,7 @@ export class CreatePersonWithSnowflakeStructureInput {
     always: true,
     message: 'Project id not is valid',
   })
-  projectId: string;
+  projectId: string
 
   /**
    * bookId
@@ -26,7 +26,7 @@ export class CreatePersonWithSnowflakeStructureInput {
     always: true,
     message: 'Book id not is valid',
   })
-  bookId: string;
+  bookId: string
 
   /**
    * name
@@ -39,7 +39,7 @@ export class CreatePersonWithSnowflakeStructureInput {
     always: true,
     message: 'The name of person cannot exceed 60 charactery',
   })
-  name: string;
+  name: string
 
   /**
    * lastName
@@ -53,21 +53,21 @@ export class CreatePersonWithSnowflakeStructureInput {
     message: 'The lastname of person cannot exceed 60 charactery',
   })
   @IsOptional()
-  lastName: string | null;
+  lastName: string | null
 
   /**
    * imageUrl
    */
   @IsString()
   @IsOptional()
-  imageUrl?: string | null;
+  imageUrl?: string | null
 
   constructor(data: CreatePersonWithSnowflakeStructureInput) {
-    this.name = data.name;
-    this.lastName = data.lastName;
-    this.projectId = data.projectId;
-    this.imageUrl = data.imageUrl;
-    this.userId = data.userId;
-    this.bookId = data.bookId;
+    this.name = data.name
+    this.lastName = data.lastName
+    this.projectId = data.projectId
+    this.imageUrl = data.imageUrl
+    this.userId = data.userId
+    this.bookId = data.bookId
   }
 }

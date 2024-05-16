@@ -1,19 +1,19 @@
-import { useTheme } from '@hooks/useTheme';
-import { snowflakeStructurePreFloat } from './styles';
+import { useTheme } from '@hooks/useTheme'
+import { snowflakeStructurePreFloat } from './styles'
 
 interface SnowflakeFloatPreStructureProps {
-  title: string;
+  title: string
   types: Array<{
-    title?: string;
-    html: string | null | undefined;
-  }>;
+    title?: string
+    html: string | null | undefined
+  }>
 }
 
 export function SnowflakeFloatPreStructure({
   title,
   types,
 }: SnowflakeFloatPreStructureProps) {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
 
   return (
     <div className="min-w-[18rem] max-w-[18rem]">
@@ -38,5 +38,5 @@ export function SnowflakeFloatPreStructure({
         ))}
       </div>
     </div>
-  );
+  )
 }

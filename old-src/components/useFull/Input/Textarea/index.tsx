@@ -1,6 +1,6 @@
-import { useTheme } from '@hooks/useTheme';
-import { cva } from 'class-variance-authority';
-import { TextareaHTMLAttributes, forwardRef } from 'react';
+import { useTheme } from '@hooks/useTheme'
+import { cva } from 'class-variance-authority'
+import { TextareaHTMLAttributes, forwardRef } from 'react'
 
 const textareaStyles = cva(
   [
@@ -22,23 +22,22 @@ const textareaStyles = cva(
         light: ['text-text800'],
       },
     },
-  }
-);
+  },
+)
 
-interface InputTextareaProps
-  extends TextareaHTMLAttributes<HTMLTextAreaElement> {}
+type InputTextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement>
 
 export const Textarea = forwardRef<HTMLTextAreaElement, InputTextareaProps>(
   ({ className, ...props }, ref) => {
-    const { theme } = useTheme();
+    const { theme } = useTheme()
     return (
       <textarea
         className={textareaStyles({ theme, className })}
         {...props}
         ref={ref}
       />
-    );
-  }
-);
+    )
+  },
+)
 
-Textarea.displayName = 'Input.Textarea';
+Textarea.displayName = 'Input.Textarea'

@@ -3,18 +3,18 @@ import {
   RxFontItalic,
   RxQuote,
   RxStrikethrough,
-} from 'react-icons/rx';
-import { Editor } from '@tiptap/react';
-import { useTheme } from '@hooks/useTheme';
-import { BubbleOption } from './BubbleOption';
-import { GroupStyles } from './styles';
+} from 'react-icons/rx'
+import { Editor } from '@tiptap/react'
+import { useTheme } from '@hooks/useTheme'
+import { BubbleOption } from './BubbleOption'
+import { GroupStyles } from './styles'
 
 interface TextAlignersProps {
-  editor: Editor;
+  editor: Editor
 }
 
 export function TextAligners({ editor }: TextAlignersProps) {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
 
   return (
     <div className={GroupStyles({ theme })}>
@@ -42,5 +42,5 @@ export function TextAligners({ editor }: TextAlignersProps) {
         handler={() => editor.chain().focus().toggleBlockquote().run()}
       />
     </div>
-  );
+  )
 }

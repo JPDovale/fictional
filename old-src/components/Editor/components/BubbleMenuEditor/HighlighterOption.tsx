@@ -1,12 +1,12 @@
-import { ReactNode } from 'react';
-import { useTheme } from '@hooks/useTheme';
-import { highlighterOptionStyles } from './styles';
+import { ReactNode } from 'react'
+import { useTheme } from '@hooks/useTheme'
+import { highlighterOptionStyles } from './styles'
 
 interface HighlighterOptionProps {
-  icon: ReactNode;
-  label: ReactNode;
-  isActive: boolean;
-  handler: () => void;
+  icon: ReactNode
+  label: ReactNode
+  isActive: boolean
+  handler: () => void
 }
 
 export function HighlighterOption({
@@ -15,7 +15,7 @@ export function HighlighterOption({
   isActive,
   label,
 }: HighlighterOptionProps) {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
 
   return (
     <button
@@ -27,5 +27,5 @@ export function HighlighterOption({
       {icon}
       {label}
     </button>
-  );
+  )
 }

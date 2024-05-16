@@ -51,7 +51,7 @@ export class GetProjectService {
 
     @inject(InjectableDependencies.Repositories.SnowflakeStructuresRepository)
     private readonly snowflakeStructuresRepository: SnowflakeStructuresRepository,
-  ) { }
+  ) {}
 
   async execute({ projectId, userId }: Request): Response {
     const user = await this.usersRepository.findById(userId)

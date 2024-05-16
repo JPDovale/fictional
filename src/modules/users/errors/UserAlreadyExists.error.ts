@@ -3,7 +3,8 @@ import { StatusCode } from '@shared/core/types/StatusCode'
 
 export class UserAlreadyExistsWithSameEmail
   extends Error
-  implements ServiceError {
+  implements ServiceError
+{
   title = 'Usuário já existe com o mesmo email'
   status: number = StatusCode.CONFLICT
 

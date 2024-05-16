@@ -1,31 +1,31 @@
-import { SnowflakeStructure } from '@modules/SnowflakeStructures/models/SnowflakeStructure';
-import { ThreeActsStructure } from '@modules/ThreeActsStructures/models/ThreeActsStructure';
-import { AggregateRoot } from '@shared/core/entities/AggregateRoot';
-import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
-import { Optional } from '@shared/core/types/Optional';
+import { SnowflakeStructure } from '@modules/SnowflakeStructures/models/SnowflakeStructure'
+import { ThreeActsStructure } from '@modules/ThreeActsStructures/models/ThreeActsStructure'
+import { AggregateRoot } from '@shared/core/entities/AggregateRoot'
+import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId'
+import { Optional } from '@shared/core/types/Optional'
 
-export type BookStructureType = 'three-acts' | 'snowflake' | 'hero-journey';
+export type BookStructureType = 'three-acts' | 'snowflake' | 'hero-journey'
 
 export interface BookProps {
-  title: string;
-  subtitle: string | null;
-  structure: BookStructureType;
-  text: string | null;
+  title: string
+  subtitle: string | null
+  structure: BookStructureType
+  text: string | null
 
-  userId: UniqueEntityId;
-  projectId: UniqueEntityId;
+  userId: UniqueEntityId
+  projectId: UniqueEntityId
 
-  threeActsStructure: ThreeActsStructure | null;
-  threeActsStructureId: UniqueEntityId | null;
+  threeActsStructure: ThreeActsStructure | null
+  threeActsStructureId: UniqueEntityId | null
 
-  snowflakeStructure: SnowflakeStructure | null;
-  snowflakeStructureId: UniqueEntityId | null;
+  snowflakeStructure: SnowflakeStructure | null
+  snowflakeStructureId: UniqueEntityId | null
 
-  imageUrl: string | null;
-  imageFilename: string | null;
+  imageUrl: string | null
+  imageFilename: string | null
 
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date
+  updatedAt: Date
 }
 
 export class Book extends AggregateRoot<BookProps> {
@@ -44,7 +44,7 @@ export class Book extends AggregateRoot<BookProps> {
       | 'snowflakeStructureId'
       | 'updatedAt'
     >,
-    id?: UniqueEntityId
+    id?: UniqueEntityId,
   ) {
     const propsBook: BookProps = {
       title: props.title,
@@ -61,92 +61,92 @@ export class Book extends AggregateRoot<BookProps> {
       createdAt: props.createdAt ?? new Date(),
       updatedAt: props.updatedAt ?? new Date(),
       text: props.text ?? null,
-    };
+    }
 
-    const book = new Book(propsBook, id);
+    const book = new Book(propsBook, id)
 
-    return book;
+    return book
   }
 
   get title() {
-    return this.props.title;
+    return this.props.title
   }
 
   get subtitle() {
-    return this.props.subtitle;
+    return this.props.subtitle
   }
 
   get text() {
-    return this.props.text;
+    return this.props.text
   }
 
   set text(text: string | null) {
-    this.props.text = text;
+    this.props.text = text
   }
 
   get structure() {
-    return this.props.structure;
+    return this.props.structure
   }
 
   get userId() {
-    return this.props.userId;
+    return this.props.userId
   }
 
   get projectId() {
-    return this.props.projectId;
+    return this.props.projectId
   }
 
   get threeActsStructureId() {
-    return this.props.threeActsStructureId;
+    return this.props.threeActsStructureId
   }
 
   get threeActsStructure() {
-    return this.props.threeActsStructure;
+    return this.props.threeActsStructure
   }
 
   set threeActsStructure(threeActsStructure) {
-    this.props.threeActsStructure = threeActsStructure;
+    this.props.threeActsStructure = threeActsStructure
     this.props.threeActsStructureId = threeActsStructure
       ? threeActsStructure.id
-      : null;
+      : null
   }
 
   get snowflakeStructureId() {
-    return this.props.snowflakeStructureId;
+    return this.props.snowflakeStructureId
   }
 
   set snowflakeStructureId(snowflakeStructureId) {
-    this.props.snowflakeStructureId = snowflakeStructureId;
+    this.props.snowflakeStructureId = snowflakeStructureId
   }
 
   get snowflakeStructure() {
-    return this.props.snowflakeStructure;
+    return this.props.snowflakeStructure
   }
 
   set snowflakeStructure(snowflakeStructure) {
-    this.props.snowflakeStructure = snowflakeStructure;
+    this.props.snowflakeStructure = snowflakeStructure
     this.props.snowflakeStructureId = snowflakeStructure
       ? snowflakeStructure.id
-      : null;
+      : null
   }
 
   get imageUrl() {
-    return this.props.imageUrl;
+    return this.props.imageUrl
   }
 
   get imageFilename() {
-    return this.props.imageFilename;
+    return this.props.imageFilename
   }
 
   get createdAt() {
-    return this.props.createdAt;
+    return this.props.createdAt
   }
 
   get updatedAt() {
-    return this.props.updatedAt;
+    return this.props.updatedAt
   }
 
   touch() {
-    this.props.updatedAt = new Date();
+    this.props.updatedAt = new Date()
   }
 }

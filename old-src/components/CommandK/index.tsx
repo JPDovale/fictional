@@ -5,15 +5,15 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@components/ui/command';
-import { Button } from '@components/useFull/Button';
-import { commandInterfaces } from '@config/command';
-import { RoutesAvailable } from '@config/routes/routesAvailable';
-import { useInterface } from '@store/Interface';
-import { usePersons } from '@store/Persons';
-import { useProjects } from '@store/Projects';
-import { useRoutes } from '@store/Routes';
-import { File, Search, VenetianMask } from 'lucide-react';
+} from '@components/ui/command'
+import { Button } from '@components/useFull/Button'
+import { commandInterfaces } from '@config/command'
+import { RoutesAvailable } from '@config/routes/routesAvailable'
+import { useInterface } from '@store/Interface'
+import { usePersons } from '@store/Persons'
+import { useProjects } from '@store/Projects'
+import { useRoutes } from '@store/Routes'
+import { File, Search, VenetianMask } from 'lucide-react'
 
 export function CommandK() {
   const { commandKIsOpen, setCommandKIsOpen, handleChangeOpenCommandK } =
@@ -21,19 +21,19 @@ export function CommandK() {
       commandKIsOpen: state.commandKIsOpen,
       setCommandKIsOpen: state.setCommandKIsOpen,
       handleChangeOpenCommandK: state.handleChangeOpenCommandK,
-    }));
+    }))
 
   const { setPathname } = useRoutes((state) => ({
     setPathname: state.setPathname,
-  }));
+  }))
 
   const { projects } = useProjects((state) => ({
     projects: state.projects,
-  }));
+  }))
 
   const { persons } = usePersons((state) => ({
     persons: state.persons,
-  }));
+  }))
 
   return (
     <>
@@ -55,9 +55,9 @@ export function CommandK() {
           {commandInterfaces.map((ci) => (
             <CommandGroup key={ci.title} className="pb-4" heading={ci.title}>
               {ci.commands.map(({ link, key, disabled = false }) => {
-                if (!link) return null;
+                if (!link) return null
 
-                const { Icon, label, pathname } = link;
+                const { Icon, label, pathname } = link
 
                 return (
                   <CommandItem key={key}>
@@ -80,12 +80,12 @@ export function CommandK() {
                           .map((k, i) =>
                             i === 0
                               ? `${k.toUpperCase()}`
-                              : `+ ${k.toUpperCase()} `
+                              : `+ ${k.toUpperCase()} `,
                           )}
                       </Button.Text>
                     </Button.Root>
                   </CommandItem>
-                );
+                )
               })}
             </CommandGroup>
           ))}
@@ -102,7 +102,7 @@ export function CommandK() {
                     onClick={() =>
                       setPathname({
                         routerParameterized: RoutesAvailable.project.to(
-                          project.id
+                          project.id,
                         ),
                       })
                     }
@@ -130,7 +130,7 @@ export function CommandK() {
                       setPathname({
                         routerParameterized: RoutesAvailable.projectPerson.to(
                           person.projectId,
-                          person.id
+                          person.id,
                         ),
                       })
                     }
@@ -152,5 +152,5 @@ export function CommandK() {
         </CommandList>
       </CommandDialog>
     </>
-  );
+  )
 }

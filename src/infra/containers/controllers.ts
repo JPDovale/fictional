@@ -10,6 +10,7 @@ import { CreatePersonController } from '@modules/persons/controllers/CreatePerso
 import { GetPersonsController } from '@modules/persons/controllers/GetPersons.controller'
 import { CreatePersonAttributeService } from '@modules/persons/services/CreatePersonAttribute.service'
 import { GetAttributesPreviewController } from '@modules/persons/controllers/GetAttributesPreview.controller'
+import { UpdatePersonController } from '@modules/persons/controllers/UpdatePerson.controller'
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -33,3 +34,4 @@ container.registerSingleton(CreatePersonController)
 container.registerSingleton(GetPersonsController)
 container.registerSingleton(CreatePersonAttributeService)
 container.registerSingleton(GetAttributesPreviewController)
+container.registerSingleton(UpdatePersonController)

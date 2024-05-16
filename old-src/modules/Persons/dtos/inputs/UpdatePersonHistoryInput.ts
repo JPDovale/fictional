@@ -1,4 +1,4 @@
-import { IsOptional, IsString, IsUUID } from 'class-validator';
+import { IsOptional, IsString, IsUUID } from 'class-validator'
 
 export class UpdatePersonHistoryInput {
   /**
@@ -8,7 +8,7 @@ export class UpdatePersonHistoryInput {
     always: true,
     message: 'User id not is valid',
   })
-  userId: string;
+  userId: string
 
   /**
    * projectId
@@ -17,7 +17,7 @@ export class UpdatePersonHistoryInput {
     always: true,
     message: 'Project id not is valid',
   })
-  projectId: string;
+  projectId: string
 
   /**
    * personId
@@ -26,7 +26,7 @@ export class UpdatePersonHistoryInput {
     always: true,
     message: 'Person id not is valid',
   })
-  personId: string;
+  personId: string
 
   /**
    *
@@ -37,12 +37,12 @@ export class UpdatePersonHistoryInput {
     message: 'History not is valid',
   })
   @IsOptional()
-  history: string | null;
+  history: string | null
 
   constructor(data: UpdatePersonHistoryInput) {
-    this.projectId = data.projectId;
-    this.userId = data.userId;
-    this.history = data.history;
-    this.personId = data.personId;
+    this.projectId = data.projectId
+    this.userId = data.userId
+    this.history = data.history
+    this.personId = data.personId
   }
 }

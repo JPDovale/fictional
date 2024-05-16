@@ -1,11 +1,11 @@
-import { fakerPT_BR } from '@faker-js/faker';
-import { Project, ProjectProps } from '@modules/Projects/models/Project';
-import { Features } from '@modules/Projects/models/Project/valueObjects/Features';
-import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
+import { fakerPT_BR } from '@faker-js/faker'
+import { Project, ProjectProps } from '@modules/Projects/models/Project'
+import { Features } from '@modules/Projects/models/Project/valueObjects/Features'
+import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId'
 
 export function makeProject(
   override: Partial<ProjectProps> = {},
-  id?: UniqueEntityId
+  id?: UniqueEntityId,
 ): Project {
   const project = Project.create(
     {
@@ -27,8 +27,8 @@ export function makeProject(
       userId: new UniqueEntityId(),
       ...override,
     },
-    id
-  );
+    id,
+  )
 
-  return project;
+  return project
 }

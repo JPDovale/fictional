@@ -1,6 +1,6 @@
-import { ThreeActsStructure } from '@modules/ThreeActsStructures/models/ThreeActsStructure';
-import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
-import { ThreeActsStructureFile } from '../types';
+import { ThreeActsStructure } from '@modules/ThreeActsStructures/models/ThreeActsStructure'
+import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId'
+import { ThreeActsStructureFile } from '../types'
 
 export class ThreeActsStructuresKnexMapper {
   static toEntity(raw: ThreeActsStructureFile): ThreeActsStructure {
@@ -12,12 +12,12 @@ export class ThreeActsStructuresKnexMapper {
         createdAt: raw.created_at,
         updatedAt: raw.updated_at,
       },
-      new UniqueEntityId(raw.id)
-    );
+      new UniqueEntityId(raw.id),
+    )
   }
 
   static toKnex(
-    threeActsStructure: ThreeActsStructure
+    threeActsStructure: ThreeActsStructure,
   ): ThreeActsStructureFile {
     return {
       act_1: threeActsStructure.act1 ?? null,
@@ -26,6 +26,6 @@ export class ThreeActsStructuresKnexMapper {
       created_at: threeActsStructure.createdAt,
       updated_at: threeActsStructure.updatedAt,
       id: threeActsStructure.id.toString(),
-    };
+    }
   }
 }

@@ -11,11 +11,12 @@ import { TransactorService } from '@infra/database/transactor/contracts/Transact
 import { File } from '@modules/files/entites/File'
 import { FilesRepository } from '@modules/files/repositories/Files.repository'
 import { PersonsRepository } from '../repositories/Persons.repository'
-import { Attribute, AttributeType } from '../entities/Attribute'
+import { Attribute } from '../entities/Attribute'
 import { PersonNotFound } from '../errors/PersonNotFound.error'
 import { AttributeToPerson } from '../entities/AttributeToPerson'
 import { AttributesRepository } from '../repositories/Attributes.repository'
 import { AttributesToPersonsRepository } from '../repositories/AttributesToPersons.repository'
+import { AttributeType } from '../entities/types'
 
 type Request = {
   type: AttributeType
@@ -36,7 +37,8 @@ type Response = {
 
 @injectable()
 export class CreatePersonAttributeService
-  implements Service<Request, PossibleErrors, Response> {
+  implements Service<Request, PossibleErrors, Response>
+{
   constructor(
     private readonly transactor: TransactorService,
     private readonly usersRepository: UsersRepository,
@@ -45,7 +47,7 @@ export class CreatePersonAttributeService
     private readonly filesRepository: FilesRepository,
     private readonly attributesRepository: AttributesRepository,
     private readonly attributesToPersonsRepository: AttributesToPersonsRepository,
-  ) { }
+  ) {}
 
   async execute({
     userId,

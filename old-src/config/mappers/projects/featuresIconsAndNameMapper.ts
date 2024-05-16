@@ -13,10 +13,10 @@ import {
   Sunrise,
   Users,
   Wand2,
-} from 'lucide-react';
+} from 'lucide-react'
 
 export const featuresIconsAndNameMapper: {
-  [x: string]: { Icon: LucideIcon; name: string };
+  [x: string]: { Icon: LucideIcon; name: string }
 } = {
   structure: {
     Icon: LayoutPanelTop,
@@ -70,4 +70,4 @@ export const featuresIconsAndNameMapper: {
     Icon: Languages,
     name: 'Idiomas',
   },
-} as const;
+} as const

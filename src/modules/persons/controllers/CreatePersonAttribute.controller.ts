@@ -8,12 +8,13 @@ import { CreatePersonAttributeService } from '../services/CreatePersonAttribute.
 
 @injectable()
 export class CreatePersonAttributeController
-  implements Controller<PresenterProps> {
+  implements Controller<PresenterProps>
+{
   constructor(
     private readonly createPersonAttributeGateway: CreatePersonAttributeGateway,
     private readonly errorPresenter: ErrorPresenter,
     private readonly createPersonAttributeService: CreatePersonAttributeService,
-  ) { }
+  ) {}
 
   async handle({ _data }: Request): Promise<PresenterProps> {
     const body = this.createPersonAttributeGateway.transform(_data)

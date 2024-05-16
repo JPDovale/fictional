@@ -10,4 +10,5 @@ export enum Accessors {
   GET_PERSONS = 'GPrss',
   CREATE_PERSON_ATTRIBUTE = 'CPA',
   GET_ATTRIBUTES_PREVIEW = 'GAP',
+  UPDATE_PERSON = 'UP',
 }

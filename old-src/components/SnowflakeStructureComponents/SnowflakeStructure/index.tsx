@@ -9,48 +9,48 @@ import {
   UnfoldHorizontal,
   UserSquare,
   VenetianMask,
-} from 'lucide-react';
-import { BookModelResponse } from '@modules/Books/dtos/models/types';
-import { useRoutes } from '@store/Routes';
-import { useProjects } from '@store/Projects';
-import { useSnowflakeStructure } from '@hooks/useSnowflakeStructure';
-import { SnowflakeStepButton } from '../SnowflakeStepButton';
+} from 'lucide-react'
+import { BookModelResponse } from '@modules/Books/dtos/models/types'
+import { useRoutes } from '@store/Routes'
+import { useProjects } from '@store/Projects'
+import { useSnowflakeStructure } from '@hooks/useSnowflakeStructure'
+import { SnowflakeStepButton } from '../SnowflakeStepButton'
 
 interface SnowflakeStructureProps {
-  book?: BookModelResponse;
+  book?: BookModelResponse
 }
 
 export function SnowflakeStructure({ book }: SnowflakeStructureProps) {
   const { setPathname } = useRoutes((state) => ({
     setPathname: state.setPathname,
-  }));
+  }))
   const { project } = useProjects((state) => ({
     project: state.currentProject,
-  }));
+  }))
 
-  const bookReceived = book || project?.books[0];
-  const isToMultiBook = project?.features['multi-book'] ?? false;
+  const bookReceived = book || project?.books[0]
+  const isToMultiBook = project?.features['multi-book'] ?? false
 
-  const { useSnowflakeStructureVerifications } = useSnowflakeStructure();
+  const { useSnowflakeStructureVerifications } = useSnowflakeStructure()
   const { verifications } = useSnowflakeStructureVerifications(
-    bookReceived?.snowflakeStructure
-  );
+    bookReceived?.snowflakeStructure,
+  )
 
   function handleNavigateToStep(step: keyof typeof verifications) {
-    const { redirectorBook, redirectorProject } = verifications[step]();
+    const { redirectorBook, redirectorProject } = verifications[step]()
 
     if (isToMultiBook) {
       return setPathname({
         routerParameterized: redirectorBook(
           bookReceived!.projectId,
-          bookReceived!.id
+          bookReceived!.id,
         ),
-      });
+      })
     }
 
     return setPathname({
       routerParameterized: redirectorProject(bookReceived!.projectId),
-    });
+    })
   }
 
   return (
@@ -144,5 +144,5 @@ export function SnowflakeStructure({ book }: SnowflakeStructureProps) {
         />
       </div>
     </main>
-  );
+  )
 }

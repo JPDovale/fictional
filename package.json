@@ -291,12 +291,7 @@
     },
     "extraResources": [
       "./assets/**"
-    ],
-    "publish": {
-      "provider": "https://magiscrita.com",
-      "owner": "JPDovale",
-      "repo": "ms-desktop"
-    }
+    ]
   },
   "devEngines": {
     "node": ">=14.x",

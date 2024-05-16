@@ -3,7 +3,8 @@ import { StatusCode } from '@shared/core/types/StatusCode'
 
 export class CannotGetSafeLocationForImage
   extends Error
-  implements ServiceError {
+  implements ServiceError
+{
   title = 'Local seguro não encontrado.'
   status: number = StatusCode.CONFLICT
 

@@ -1,9 +1,9 @@
-import { useTheme } from '@hooks/useTheme';
-import * as PrimitiveCheckbox from '@radix-ui/react-checkbox';
-import { cva } from 'class-variance-authority';
-import { forwardRef } from 'react';
+import { useTheme } from '@hooks/useTheme'
+import * as PrimitiveCheckbox from '@radix-ui/react-checkbox'
+import { cva } from 'class-variance-authority'
+import { forwardRef } from 'react'
 
-interface CheckboxCheckerProps extends PrimitiveCheckbox.CheckboxProps {}
+type CheckboxCheckerProps = PrimitiveCheckbox.CheckboxProps
 
 const checkerRootStyles = cva(
   [
@@ -20,20 +20,20 @@ const checkerRootStyles = cva(
         ],
       },
     },
-  }
-);
+  },
+)
 
 export const CheckerRoot = forwardRef<HTMLButtonElement, CheckboxCheckerProps>(
   ({ className, ...props }, ref) => {
-    const { theme } = useTheme();
+    const { theme } = useTheme()
     return (
       <PrimitiveCheckbox.Root
         className={checkerRootStyles({ theme, className })}
         ref={ref}
         {...props}
       />
-    );
-  }
-);
+    )
+  },
+)
 
-CheckerRoot.displayName = 'Checkbox.CheckerRoot';
+CheckerRoot.displayName = 'Checkbox.CheckerRoot'

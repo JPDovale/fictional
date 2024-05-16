@@ -30,7 +30,8 @@ export interface PersonsPresented {
 
 @injectable()
 export class PersonPresenter
-  implements Presenter<Person, PersonPresented, PersonsPresented> {
+  implements Presenter<Person, PersonPresented, PersonsPresented>
+{
   private parse(raw: Person): PersonResponse {
     return {
       id: raw.id.toString(),

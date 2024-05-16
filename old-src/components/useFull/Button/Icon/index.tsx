@@ -1,5 +1,5 @@
-import { cva } from 'class-variance-authority';
-import { HtmlHTMLAttributes } from 'react';
+import { cva } from 'class-variance-authority'
+import { HtmlHTMLAttributes } from 'react'
 
 const buttonIconStyles = cva([
   'text-text100',
@@ -23,12 +23,12 @@ const buttonIconStyles = cva([
   'group-data-[size=xxs]:last:w-3.5',
   'group-data-[size=xxs]:last:h-3.5',
   'group-data-[active=true]:text-text300',
-]);
+])
 
-interface IconProps extends HtmlHTMLAttributes<HTMLDivElement> {}
+type IconProps = HtmlHTMLAttributes<HTMLDivElement>
 
 export function Icon({ className, ...props }: IconProps) {
-  return <div className={buttonIconStyles({ className })} {...props} />;
+  return <div className={buttonIconStyles({ className })} {...props} />
 }
 
-Icon.displayName = 'Button.Icon';
+Icon.displayName = 'Button.Icon'

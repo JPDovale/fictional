@@ -1,72 +1,72 @@
-import { PersonsRepository } from '@database/repositories/Person/contracts/PersonsRepository';
-import { SnowflakeStructuresRepository } from '@database/repositories/SnowflakeStructure/contracts/SnowflakeStructuresRepository';
-import { SnowflakeStructureFile } from '@database/repositories/SnowflakeStructure/types';
-import { SnowflakeStructure } from '@modules/SnowflakeStructures/models/SnowflakeStructure';
-import { Either, left, right } from '@shared/core/error/Either';
+import { PersonsRepository } from '@database/repositories/Person/contracts/PersonsRepository'
+import { SnowflakeStructuresRepository } from '@database/repositories/SnowflakeStructure/contracts/SnowflakeStructuresRepository'
+import { SnowflakeStructureFile } from '@database/repositories/SnowflakeStructure/types'
+import { SnowflakeStructure } from '@modules/SnowflakeStructures/models/SnowflakeStructure'
+import { Either, left, right } from '@shared/core/error/Either'
 
 export class SnowflakeStructuresInMemoryRepository
   implements SnowflakeStructuresRepository
 {
   constructor(private readonly personsRepository: PersonsRepository) {}
 
-  private snowflakeStructuresList: SnowflakeStructureFile[] = [];
+  private snowflakeStructuresList: SnowflakeStructureFile[] = []
 
   get snowflakeStructures() {
-    return this.snowflakeStructuresList;
+    return this.snowflakeStructuresList
   }
 
   async create(
-    snowflakeStructure: SnowflakeStructure
+    snowflakeStructure: SnowflakeStructure,
   ): Promise<Either<{}, {}>> {
     try {
-      const newPersons = snowflakeStructure.persons?.getNewItems() ?? [];
+      const newPersons = snowflakeStructure.persons?.getNewItems() ?? []
       newPersons.forEach(async (person) => {
-        await this.personsRepository.create(person);
-      });
+        await this.personsRepository.create(person)
+      })
 
       this.snowflakeStructuresList.push(
-        SnowflakeStructuresRepository.parserToFile(snowflakeStructure)
-      );
-      return right({});
+        SnowflakeStructuresRepository.parserToFile(snowflakeStructure),
+      )
+      return right({})
     } catch (err) {
-      return left({});
+      return left({})
     }
   }
 
   async findById(id: string): Promise<Either<{}, SnowflakeStructure | null>> {
     try {
       const snowflakeStructure = this.snowflakeStructuresList.find(
-        (SFS) => SFS.id === id
-      );
+        (SFS) => SFS.id === id,
+      )
       return right(
         snowflakeStructure
           ? SnowflakeStructuresRepository.parser(snowflakeStructure)
-          : null
-      );
+          : null,
+      )
     } catch (err) {
-      console.log(err);
-      return left({});
+      console.log(err)
+      return left({})
     }
   }
 
   async save(snowflakeStructure: SnowflakeStructure): Promise<Either<{}, {}>> {
     try {
-      const newPersons = snowflakeStructure.persons?.getNewItems() ?? [];
+      const newPersons = snowflakeStructure.persons?.getNewItems() ?? []
       newPersons.forEach(async (person) => {
-        await this.personsRepository.create(person);
-      });
+        await this.personsRepository.create(person)
+      })
 
       const snowflakeStructureIndex = this.snowflakeStructuresList.findIndex(
-        (SFS) => SFS.id === snowflakeStructure.id.toString()
-      );
+        (SFS) => SFS.id === snowflakeStructure.id.toString(),
+      )
 
       this.snowflakeStructuresList[snowflakeStructureIndex] =
-        SnowflakeStructuresRepository.parserToFile(snowflakeStructure);
+        SnowflakeStructuresRepository.parserToFile(snowflakeStructure)
 
-      return right({});
+      return right({})
     } catch (err) {
-      console.log(err);
-      return left({});
+      console.log(err)
+      return left({})
     }
   }
 

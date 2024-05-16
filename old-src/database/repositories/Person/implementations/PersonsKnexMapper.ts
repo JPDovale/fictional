@@ -1,8 +1,8 @@
-import { Person } from '@modules/Persons/models/Person';
-import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
-import { PersonSnowflakeStructureBase } from '@modules/Persons/models/Person/valueObjects/PersonSnowflakeStructureBase';
-import { PersonSnowflakeStructureExpansion } from '@modules/Persons/models/Person/valueObjects/PersonSnowflakeStructureExpansion';
-import { PersonFile } from '../types';
+import { Person } from '@modules/Persons/models/Person'
+import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId'
+import { PersonSnowflakeStructureBase } from '@modules/Persons/models/Person/valueObjects/PersonSnowflakeStructureBase'
+import { PersonSnowflakeStructureExpansion } from '@modules/Persons/models/Person/valueObjects/PersonSnowflakeStructureExpansion'
+import { PersonFile } from '../types'
 
 export class PersonsKnexMapper {
   static toEntity(raw: PersonFile): Person {
@@ -19,7 +19,7 @@ export class PersonsKnexMapper {
       snowflake_structure_expansion_objective,
       snowflake_structure_expansion_obstacle,
       snowflake_structure_expansion_pov_by_this_eye,
-    } = raw;
+    } = raw
 
     const itIsWithSnowflakeStructure =
       !!snowflake_structure_base_apprenticeship ||
@@ -33,7 +33,7 @@ export class PersonsKnexMapper {
       !!snowflake_structure_expansion_motivation ||
       !!snowflake_structure_expansion_objective ||
       !!snowflake_structure_expansion_obstacle ||
-      !!snowflake_structure_expansion_pov_by_this_eye;
+      !!snowflake_structure_expansion_pov_by_this_eye
 
     const person = Person.create(
       {
@@ -70,10 +70,10 @@ export class PersonsKnexMapper {
             })
           : null,
       },
-      new UniqueEntityId(raw.id)
-    );
+      new UniqueEntityId(raw.id),
+    )
 
-    return person;
+    return person
   }
 
   static toKnex(person: Person): PersonFile {
@@ -133,6 +133,6 @@ export class PersonsKnexMapper {
       user_id: person.userId.toString(),
       updated_at: person.updatedAt,
       book_id: person.bookId?.toString() ?? null,
-    };
+    }
   }
 }

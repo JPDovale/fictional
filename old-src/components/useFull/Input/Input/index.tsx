@@ -1,6 +1,6 @@
-import { useTheme } from '@hooks/useTheme';
-import { VariantProps, cva } from 'class-variance-authority';
-import { HTMLAttributes } from 'react';
+import { useTheme } from '@hooks/useTheme'
+import { VariantProps, cva } from 'class-variance-authority'
+import { HTMLAttributes } from 'react'
 
 const inputStyles = cva(
   [
@@ -40,13 +40,13 @@ const inputStyles = cva(
       size: 'md',
       variant: 'default',
     },
-  }
-);
+  },
+)
 
 interface InputInputProps
   extends HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof inputStyles> {
-  disabled?: boolean;
+  disabled?: boolean
 }
 
 export function Input({
@@ -56,14 +56,14 @@ export function Input({
   className,
   ...props
 }: InputInputProps) {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
   return (
     <div
       aria-disabled={disabled}
       className={`${inputStyles({ size, variant, theme, className })} `}
       {...props}
     />
-  );
+  )
 }
 
-Input.displayName = 'Input.Input';
+Input.displayName = 'Input.Input'

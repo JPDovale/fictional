@@ -1,16 +1,16 @@
-import { useTheme } from '@hooks/useTheme';
-import { PersonModelResponse } from '@modules/Persons/dtos/models/types';
-import * as Avatar from '@radix-ui/react-avatar';
-import { VenetianMask } from 'lucide-react';
-import { personCardStyles } from './styles';
+import { useTheme } from '@hooks/useTheme'
+import { PersonModelResponse } from '@modules/Persons/dtos/models/types'
+import * as Avatar from '@radix-ui/react-avatar'
+import { VenetianMask } from 'lucide-react'
+import { personCardStyles } from './styles'
 
 interface PersonCardProps {
-  person: PersonModelResponse;
-  onClick: (id: string) => void;
+  person: PersonModelResponse
+  onClick: (id: string) => void
 }
 
 export function PersonCard({ person, onClick }: PersonCardProps) {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
 
   return (
     <button
@@ -45,5 +45,5 @@ export function PersonCard({ person, onClick }: PersonCardProps) {
         </span>
       )}
     </button>
-  );
+  )
 }

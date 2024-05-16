@@ -1,52 +1,52 @@
-import * as Tabs from '@radix-ui/react-tabs';
-import * as Avatar from '@radix-ui/react-avatar';
-import { Snowflake } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useTheme } from '@hooks/useTheme';
-import { useProjects } from '@store/Projects';
-import { useInterface } from '@store/Interface';
-import { avatarImageStyles, avatarStyles, personNavStyles } from './styles';
-import { AboutButtonTrigger } from './components/AboutButtonTrigger';
-import { EditorButtonTrigger } from './components/EditorButtonTrigger';
-import { AboutContent } from './components/AboutContent';
-import { EditorContent } from './components/EditorContent';
+import * as Tabs from '@radix-ui/react-tabs'
+import * as Avatar from '@radix-ui/react-avatar'
+import { Snowflake } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useTheme } from '@hooks/useTheme'
+import { useProjects } from '@store/Projects'
+import { useInterface } from '@store/Interface'
+import { avatarImageStyles, avatarStyles, personNavStyles } from './styles'
+import { AboutButtonTrigger } from './components/AboutButtonTrigger'
+import { EditorButtonTrigger } from './components/EditorButtonTrigger'
+import { AboutContent } from './components/AboutContent'
+import { EditorContent } from './components/EditorContent'
 
 export function SnowflakeStructureNavigate() {
   const { sideBarIsOpen, setSideBarIsOpen } = useInterface((state) => ({
     sideBarIsOpen: state.sideBarIsOpen,
     setSideBarIsOpen: state.setSidBarIsOpen,
-  }));
-  const [isToShowContent, setIsToShowContent] = useState(false);
+  }))
+  const [isToShowContent, setIsToShowContent] = useState(false)
 
   const { project } = useProjects((state) => ({
     project: state.currentProject,
-  }));
-  const { theme } = useTheme();
+  }))
+  const { theme } = useTheme()
 
   function handleChangeTab(tab: string) {
-    const tabIsOpem = tab !== 'editor';
+    const tabIsOpem = tab !== 'editor'
 
     if (!tabIsOpem) {
-      setIsToShowContent(false);
+      setIsToShowContent(false)
     }
 
-    setSideBarIsOpen(tabIsOpem);
+    setSideBarIsOpen(tabIsOpem)
   }
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: NodeJS.Timeout
     if (!sideBarIsOpen) {
-      setIsToShowContent(false);
+      setIsToShowContent(false)
     }
 
     if (sideBarIsOpen) {
       timeoutId = setTimeout(() => {
-        setIsToShowContent(true);
-      }, 335);
+        setIsToShowContent(true)
+      }, 335)
     }
 
-    return () => clearTimeout(timeoutId);
-  }, [sideBarIsOpen]);
+    return () => clearTimeout(timeoutId)
+  }, [sideBarIsOpen])
 
   return (
     <>
@@ -83,5 +83,5 @@ export function SnowflakeStructureNavigate() {
         className="min-w-[16rem] max-w-[16rem] w-full data-[open=false]:min-w-[3.5rem] data-[open=false]:max-w-[3.5rem] ease-in-out duration-300"
       />
     </>
-  );
+  )
 }

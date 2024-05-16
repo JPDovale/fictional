@@ -13,7 +13,7 @@ export class UpdateFoundationController implements Controller<PresenterProps> {
     private readonly errorPresenter: ErrorPresenter,
     private readonly updateFoundationService: UpdateFoundationService,
     private readonly foundationPresenter: FoundationPresenter,
-  ) { }
+  ) {}
 
   async handle({ _data }: Request): Promise<PresenterProps> {
     const body = this.updateFoundationGateway.transform(_data)

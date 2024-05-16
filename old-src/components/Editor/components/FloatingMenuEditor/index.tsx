@@ -1,32 +1,30 @@
-import { FloatingMenu, Editor } from '@tiptap/react';
-import { RxText } from 'react-icons/rx';
-import { useTheme } from '@hooks/useTheme';
-import { Heading1, Heading2, Heading3, Heading4, List } from 'lucide-react';
-import * as Popover from '@radix-ui/react-popover';
-import * as State from '@tiptap/pm/state';
-import { MenuOption } from './MenuOption';
-import { floatingMenuStyles } from './styles';
+import { FloatingMenu, Editor } from '@tiptap/react'
+import { RxText } from 'react-icons/rx'
+import { useTheme } from '@hooks/useTheme'
+import { Heading1, Heading2, Heading3, Heading4, List } from 'lucide-react'
+import * as Popover from '@radix-ui/react-popover'
+import * as State from '@tiptap/pm/state'
+import { MenuOption } from './MenuOption'
+import { floatingMenuStyles } from './styles'
 
 interface FloatingMenuEditorProps {
-  editor: Editor | null;
+  editor: Editor | null
 }
 
 interface ItShouldShowProps {
-  state: State.EditorState;
+  state: State.EditorState
 }
 
 export function FloatingMenuEditor({ editor }: FloatingMenuEditorProps) {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
 
-  if (!editor) return null;
+  if (!editor) return null
 
   function itShouldShow({ state }: ItShouldShowProps): boolean {
-    const { $from } = state.selection;
-    const currentLineText = $from.nodeBefore?.textContent;
+    const { $from } = state.selection
+    const currentLineText = $from.nodeBefore?.textContent
 
-    return (
-      currentLineText === '/' && $from.nodeAfter?.textContent === undefined
-    );
+    return currentLineText === '/' && $from.nodeAfter?.textContent === undefined
   }
 
   return (
@@ -50,7 +48,7 @@ export function FloatingMenuEditor({ editor }: FloatingMenuEditorProps) {
               description="Insira um bloco de titulo primário"
               icon={<Heading1 className="w-10 h-10 p-2" />}
               handler={() => {
-                editor.chain().focus().toggleHeading({ level: 1 }).run();
+                editor.chain().focus().toggleHeading({ level: 1 }).run()
               }}
             />
 
@@ -59,7 +57,7 @@ export function FloatingMenuEditor({ editor }: FloatingMenuEditorProps) {
               description="Insira um bloco de titulo secundário"
               icon={<Heading2 className="w-10 h-10 p-2" />}
               handler={() => {
-                editor.chain().focus().toggleHeading({ level: 2 }).run();
+                editor.chain().focus().toggleHeading({ level: 2 }).run()
               }}
             />
 
@@ -68,7 +66,7 @@ export function FloatingMenuEditor({ editor }: FloatingMenuEditorProps) {
               description="Insira um bloco de titulo terciário"
               icon={<Heading3 className="w-10 h-10 p-2" />}
               handler={() => {
-                editor.chain().focus().toggleHeading({ level: 3 }).run();
+                editor.chain().focus().toggleHeading({ level: 3 }).run()
               }}
             />
 
@@ -77,7 +75,7 @@ export function FloatingMenuEditor({ editor }: FloatingMenuEditorProps) {
               description="Insira um bloco de titulo pequeno"
               icon={<Heading4 className="w-10 h-10 p-2" />}
               handler={() => {
-                editor.chain().focus().toggleHeading({ level: 4 }).run();
+                editor.chain().focus().toggleHeading({ level: 4 }).run()
               }}
             />
 
@@ -86,12 +84,12 @@ export function FloatingMenuEditor({ editor }: FloatingMenuEditorProps) {
               description="Insira uma lista numerada"
               icon={<List className="w-10 h-10 p-2" />}
               handler={() => {
-                editor.chain().focus().toggleOrderedList().run();
+                editor.chain().focus().toggleOrderedList().run()
               }}
             />
           </FloatingMenu>
         </Popover.Content>
       </Popover.Portal>
     </Popover.Root>
-  );
+  )
 }

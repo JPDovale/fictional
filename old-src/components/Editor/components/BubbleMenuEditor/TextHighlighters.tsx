@@ -1,18 +1,18 @@
-import { Editor } from '@tiptap/react';
-import { useTheme } from '@hooks/useTheme';
-import * as HoverCard from '@radix-ui/react-hover-card';
-import { CaseUpper, PaintBucket } from 'lucide-react';
-import { colors } from '@styles/colors';
-import { textHighlightersStyles } from './styles';
-import { BubbleOption } from './BubbleOption';
-import { HighlighterOption } from './HighlighterOption';
+import { Editor } from '@tiptap/react'
+import { useTheme } from '@hooks/useTheme'
+import * as HoverCard from '@radix-ui/react-hover-card'
+import { CaseUpper, PaintBucket } from 'lucide-react'
+import { colors } from '@styles/colors'
+import { textHighlightersStyles } from './styles'
+import { BubbleOption } from './BubbleOption'
+import { HighlighterOption } from './HighlighterOption'
 
 interface TextHighlightersProps {
-  editor: Editor;
+  editor: Editor
 }
 
 export function TextHighlighters({ editor }: TextHighlightersProps) {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
 
   return (
     <HoverCard.Root>
@@ -402,5 +402,5 @@ export function TextHighlighters({ editor }: TextHighlightersProps) {
         />
       </HoverCard.Content>
     </HoverCard.Root>
-  );
+  )
 }

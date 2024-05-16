@@ -1,6 +1,6 @@
-import { Book } from '@modules/Books/models/Book';
-import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
-import { BookFile } from '../types';
+import { Book } from '@modules/Books/models/Book'
+import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId'
+import { BookFile } from '../types'
 
 export class BooksKnexMapper {
   static toEntity(raw: BookFile): Book {
@@ -23,8 +23,8 @@ export class BooksKnexMapper {
           : null,
         updatedAt: raw.updated_at,
       },
-      new UniqueEntityId(raw.id)
-    );
+      new UniqueEntityId(raw.id),
+    )
   }
 
   static toKnex(book: Book): BookFile {
@@ -46,6 +46,6 @@ export class BooksKnexMapper {
         : null,
       created_at: book.createdAt,
       updated_at: book.updatedAt,
-    };
+    }
   }
 }

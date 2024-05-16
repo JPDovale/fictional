@@ -11,7 +11,7 @@ export class ProjectsKnexRepository implements ProjectsRepository {
   constructor(
     @inject(InjectableDependencies.Repositories.BooksRepository)
     private readonly booksRepository: BooksRepository,
-  ) { }
+  ) {}
 
   async create(project: Project): Promise<void> {
     await db('projects').insert(ProjectsKnexMapper.toKnex(project))

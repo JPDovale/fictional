@@ -28,7 +28,8 @@ export interface ProjectsPresented {
 
 @injectable()
 export class ProjectPresenter
-  implements Presenter<Project, ProjectPresented, ProjectsPresented> {
+  implements Presenter<Project, ProjectPresented, ProjectsPresented>
+{
   private parse(raw: Project): ProjectResponse {
     return {
       id: raw.id.toString(),

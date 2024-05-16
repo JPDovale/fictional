@@ -36,12 +36,13 @@ type Response = {
 
 @injectable()
 export class UpdateFoundationService
-  implements Service<Request, PossibleErrors, Response> {
+  implements Service<Request, PossibleErrors, Response>
+{
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly projectsRepository: ProjectsRepository,
     private readonly foundationsRepository: FoundationsRepository,
-  ) { }
+  ) {}
 
   async execute({
     userId,

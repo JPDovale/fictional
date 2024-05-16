@@ -1,3 +1,3 @@
 export function ProjectConfigPage() {
-  return <h1> CONFIG</h1>;
+  return <h1> CONFIG</h1>
 }

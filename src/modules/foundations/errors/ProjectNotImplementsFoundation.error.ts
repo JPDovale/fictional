@@ -3,7 +3,8 @@ import { StatusCode } from '@shared/core/types/StatusCode'
 
 export class ProjectNotImplementsFoundation
   extends Error
-  implements ServiceError {
+  implements ServiceError
+{
   title = 'Bloco requisitado inválido'
   status: number = StatusCode.FORBIDDEN
 

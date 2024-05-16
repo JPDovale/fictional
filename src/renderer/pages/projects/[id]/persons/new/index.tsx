@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Requester } from '@infra/requester/requester'
 import { Accessors } from '@infra/requester/types'
-import { GetAffiliationByParrentsIdBody } from '@modules/affiliations/gateways/GetAffiliationByParrentsId.gateway'
 import { PersonType } from '@modules/persons/entities/types'
 import { CreatePersonBody } from '@modules/persons/gateways/CreatePerson.gateway'
 import { Button } from '@rComponents/application/Button'
@@ -12,7 +11,6 @@ import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
 } from '@rComponents/ui/command'
 import {
@@ -163,8 +161,6 @@ export function ProjectNewPersonPage() {
       setImageSelected('')
       refetchPersons()
     }
-
-    console.log(response)
   }
 
   return (
@@ -273,7 +269,10 @@ export function ProjectNewPersonPage() {
                             />
 
                             <Avatar className="w-7 h-7 mr-2">
-                              <AvatarImage src={p.image.url ?? undefined} />
+                              <AvatarImage
+                                src={p.image.url ?? undefined}
+                                className="object-cover"
+                              />
                               <AvatarFallback>
                                 <VenetianMask />
                               </AvatarFallback>
@@ -331,7 +330,10 @@ export function ProjectNewPersonPage() {
                             />
 
                             <Avatar className="w-7 h-7 mr-2">
-                              <AvatarImage src={p.image.url ?? undefined} />
+                              <AvatarImage
+                                src={p.image.url ?? undefined}
+                                className="object-cover"
+                              />
                               <AvatarFallback>
                                 <VenetianMask />
                               </AvatarFallback>

@@ -1,12 +1,12 @@
-import { LucideIcon } from 'lucide-react';
-import { useTheme } from '@hooks/useTheme';
-import { snowflakeStepButtonStyles } from './styles';
+import { LucideIcon } from 'lucide-react'
+import { useTheme } from '@hooks/useTheme'
+import { snowflakeStepButtonStyles } from './styles'
 
 interface SnowflakeStepButtonProps {
-  Icon: LucideIcon;
-  text: string;
-  onClick?: () => void;
-  disabled?: boolean;
+  Icon: LucideIcon
+  text: string
+  onClick?: () => void
+  disabled?: boolean
 }
 
 export function SnowflakeStepButton({
@@ -15,10 +15,10 @@ export function SnowflakeStepButton({
   disabled = false,
   onClick,
 }: SnowflakeStepButtonProps) {
-  const { theme } = useTheme();
-  const isClickable = !!onClick;
+  const { theme } = useTheme()
+  const isClickable = !!onClick
 
-  const Element = isClickable ? 'button' : 'div';
+  const Element = isClickable ? 'button' : 'div'
 
   return (
     <Element
@@ -32,5 +32,5 @@ export function SnowflakeStepButton({
         <span className="leading-none font-title text-xs">{text}</span>
       </div>
     </Element>
-  );
+  )
 }

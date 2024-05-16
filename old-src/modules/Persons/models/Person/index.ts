@@ -1,32 +1,32 @@
-import { AggregateRoot } from '@shared/core/entities/AggregateRoot';
-import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId';
-import { Optional } from '@shared/core/types/Optional';
-import { BornDate } from './valueObjects/BornDate';
-import { DeathDate } from './valueObjects/DeathDate';
-import { PersonSnowflakeStructureBase } from './valueObjects/PersonSnowflakeStructureBase';
-import { PersonSnowflakeStructureExpansion } from './valueObjects/PersonSnowflakeStructureExpansion';
+import { AggregateRoot } from '@shared/core/entities/AggregateRoot'
+import { UniqueEntityId } from '@shared/core/entities/valueObjects/UniqueEntityId'
+import { Optional } from '@shared/core/types/Optional'
+import { BornDate } from './valueObjects/BornDate'
+import { DeathDate } from './valueObjects/DeathDate'
+import { PersonSnowflakeStructureBase } from './valueObjects/PersonSnowflakeStructureBase'
+import { PersonSnowflakeStructureExpansion } from './valueObjects/PersonSnowflakeStructureExpansion'
 
 export interface PersonProps {
-  name: string | null;
-  lastName: string | null;
-  biographic: string | null;
-  imageUrl: string | null;
-  imageFilename: string | null;
-  age: number | null;
-  history: string | null;
-  bornDate: BornDate | null;
-  deathDate: DeathDate | null;
+  name: string | null
+  lastName: string | null
+  biographic: string | null
+  imageUrl: string | null
+  imageFilename: string | null
+  age: number | null
+  history: string | null
+  bornDate: BornDate | null
+  deathDate: DeathDate | null
 
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date
+  updatedAt: Date
 
   // Snowflake
-  snowflakeStructureBase: PersonSnowflakeStructureBase | null;
-  snowflakeStructureExpansion: PersonSnowflakeStructureExpansion | null;
+  snowflakeStructureBase: PersonSnowflakeStructureBase | null
+  snowflakeStructureExpansion: PersonSnowflakeStructureExpansion | null
 
-  userId: UniqueEntityId;
-  projectId: UniqueEntityId;
-  bookId: UniqueEntityId | null;
+  userId: UniqueEntityId
+  projectId: UniqueEntityId
+  bookId: UniqueEntityId | null
 }
 
 export class Person extends AggregateRoot<PersonProps> {
@@ -47,7 +47,7 @@ export class Person extends AggregateRoot<PersonProps> {
       | 'biographic'
       | 'bookId'
     >,
-    id?: UniqueEntityId
+    id?: UniqueEntityId,
   ) {
     const personProps: PersonProps = {
       name: props.name ?? null,
@@ -66,94 +66,94 @@ export class Person extends AggregateRoot<PersonProps> {
       snowflakeStructureBase: props.snowflakeStructureBase ?? null,
       snowflakeStructureExpansion: props.snowflakeStructureExpansion ?? null,
       bookId: props.bookId ?? null,
-    };
+    }
 
-    const person = new Person(personProps, id);
+    const person = new Person(personProps, id)
 
-    return person;
+    return person
   }
 
   get name() {
-    return this.props.name;
+    return this.props.name
   }
 
   get lastName() {
-    return this.props.lastName;
+    return this.props.lastName
   }
 
   get biographic() {
-    return this.props.biographic;
+    return this.props.biographic
   }
 
   get imageUrl() {
-    return this.props.imageUrl;
+    return this.props.imageUrl
   }
 
   get age() {
-    return this.props.age;
+    return this.props.age
   }
 
   get bornDate() {
-    return this.props.bornDate;
+    return this.props.bornDate
   }
 
   get createdAt() {
-    return this.props.createdAt;
+    return this.props.createdAt
   }
 
   get deathDate() {
-    return this.props.deathDate;
+    return this.props.deathDate
   }
 
   get history() {
-    return this.props.history;
+    return this.props.history
   }
 
   set history(history) {
-    this.props.history = history;
+    this.props.history = history
   }
 
   get imageFilename() {
-    return this.props.imageFilename;
+    return this.props.imageFilename
   }
 
   get updatedAt() {
-    return this.props.updatedAt;
+    return this.props.updatedAt
   }
 
   get userId() {
-    return this.props.userId;
+    return this.props.userId
   }
 
   get projectId() {
-    return this.props.projectId;
+    return this.props.projectId
   }
 
   get bookId() {
-    return this.props.bookId;
+    return this.props.bookId
   }
 
   get snowflakeStructureBase() {
-    return this.props.snowflakeStructureBase;
+    return this.props.snowflakeStructureBase
   }
 
   set snowflakeStructureBase(
-    snowflakeStructureBase: PersonSnowflakeStructureBase | null
+    snowflakeStructureBase: PersonSnowflakeStructureBase | null,
   ) {
-    this.props.snowflakeStructureBase = snowflakeStructureBase;
+    this.props.snowflakeStructureBase = snowflakeStructureBase
   }
 
   get snowflakeStructureExpansion() {
-    return this.props.snowflakeStructureExpansion;
+    return this.props.snowflakeStructureExpansion
   }
 
   set snowflakeStructureExpansion(
-    snowflakeStructureExpansion: PersonSnowflakeStructureExpansion | null
+    snowflakeStructureExpansion: PersonSnowflakeStructureExpansion | null,
   ) {
-    this.props.snowflakeStructureExpansion = snowflakeStructureExpansion;
+    this.props.snowflakeStructureExpansion = snowflakeStructureExpansion
   }
 
   touch() {
-    this.props.updatedAt = new Date();
+    this.props.updatedAt = new Date()
   }
 }

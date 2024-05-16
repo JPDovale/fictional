@@ -32,11 +32,12 @@ export interface PersonsWithParentsPresented {
 @injectable()
 export class PersonWithParentsPresenter
   implements
-  Presenter<
-    PersonWithParents,
-    PersonWithParentsPresented,
-    PersonsWithParentsPresented
-  > {
+    Presenter<
+      PersonWithParents,
+      PersonWithParentsPresented,
+      PersonsWithParentsPresented
+    >
+{
   private parse(raw: PersonWithParents): PersonWithParentsResponse {
     return {
       id: raw.personId.toString(),

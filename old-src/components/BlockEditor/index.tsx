@@ -1,23 +1,23 @@
-import { Editor } from '@components/Editor';
-import * as HoverCard from '@radix-ui/react-hover-card';
-import { InfoIcon } from 'lucide-react';
-import { useTheme } from '@hooks/useTheme';
-import { ReactNode } from 'react';
-import { Editor as EditorTipTap } from '@tiptap/react';
+import { Editor } from '@components/Editor'
+import * as HoverCard from '@radix-ui/react-hover-card'
+import { InfoIcon } from 'lucide-react'
+import { useTheme } from '@hooks/useTheme'
+import { ReactNode } from 'react'
+import { Editor as EditorTipTap } from '@tiptap/react'
 import {
   blockEditorTitleStyles,
   hoverContentStyles,
   hoverInnerContentStyles,
-} from './styles';
+} from './styles'
 
 interface BlockEditorProps {
-  title: string;
-  content?: ReactNode;
-  editor: EditorTipTap | null;
+  title: string
+  content?: ReactNode
+  editor: EditorTipTap | null
 }
 
 export function BlockEditor({ content, title, editor }: BlockEditorProps) {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
 
   return (
     <div className="pt-16 min-w-[38rem] max-w-[38rem] w-full flex flex-col">
@@ -45,5 +45,5 @@ export function BlockEditor({ content, title, editor }: BlockEditorProps) {
 
       <Editor editor={editor} />
     </div>
-  );
+  )
 }

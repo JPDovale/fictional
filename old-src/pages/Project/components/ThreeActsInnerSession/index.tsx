@@ -1,14 +1,14 @@
-import { useTheme } from '@hooks/useTheme';
-import { ThreeActsStructureModelResponse } from '@modules/ThreeActsStructures/dtos/models/types';
-import { Edit } from 'lucide-react';
-import { RoutesAvailable } from '@config/routes/routesAvailable';
-import { useRoutes } from '@store/Routes';
-import { previewThreeActsStyles } from './styles';
+import { useTheme } from '@hooks/useTheme'
+import { ThreeActsStructureModelResponse } from '@modules/ThreeActsStructures/dtos/models/types'
+import { Edit } from 'lucide-react'
+import { RoutesAvailable } from '@config/routes/routesAvailable'
+import { useRoutes } from '@store/Routes'
+import { previewThreeActsStyles } from './styles'
 
 interface ThreeActsInnerSessionProps {
-  threeActsStructure?: ThreeActsStructureModelResponse | null;
-  multiBooksTitle?: string;
-  projectId: string;
+  threeActsStructure?: ThreeActsStructureModelResponse | null
+  multiBooksTitle?: string
+  projectId: string
 }
 
 export function ThreeActsInnerSession({
@@ -16,16 +16,16 @@ export function ThreeActsInnerSession({
   projectId,
   multiBooksTitle,
 }: ThreeActsInnerSessionProps) {
-  const { theme } = useTheme();
-  const { setPathname } = useRoutes();
+  const { theme } = useTheme()
+  const { setPathname } = useRoutes()
 
   function handleNavigateToStructure() {
     setPathname({
       routerParameterized: RoutesAvailable.projectStructure.to(projectId),
-    });
+    })
   }
 
-  if (!threeActsStructure) return null;
+  if (!threeActsStructure) return null
 
   return (
     <div className="w-full border-l-4 border-base600 border-opacity-75 px-4">
@@ -96,5 +96,5 @@ export function ThreeActsInnerSession({
         </div>
       </div>
     </div>
-  );
+  )
 }
