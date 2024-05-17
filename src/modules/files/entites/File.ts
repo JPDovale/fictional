@@ -28,12 +28,22 @@ export class File extends AggregateRoot<FileProps> {
     return file
   }
 
-  get title() {
+  get title(): string {
     return this.props.title
   }
 
-  get content() {
+  set title(title: string | undefined | null) {
+    this.props.title = title === undefined ? this.props.title : title === null ? 'Untitle' : title
+    this.touch()
+  }
+
+  get content(): string {
     return this.props.content
+  }
+
+  set content(content: string | undefined | null) {
+    this.props.content = content === undefined ? this.props.content : content === null ? '' : content
+    this.touch()
   }
 
   get projectId() {

@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 import { AttributesPreviewsPresented } from '@modules/persons/presenters/AttributesPreview.presenter'
 import { useUser } from './useUser'
 
+
 interface UsePersonsAttributesPreviewProps {
   projectId: string
 }
@@ -41,6 +42,8 @@ export function usePersonsAttributes({
     },
     staleTime: 1000 * 60 * 5,
   })
+
+
 
   return {
     attributes: data?.attributes ?? [],

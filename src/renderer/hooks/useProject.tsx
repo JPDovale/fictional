@@ -10,6 +10,7 @@ import { useFoundation } from './useFoundation'
 import { usePersons } from './usePersons'
 import { useProjectTreeFolder } from './useProjectTreeFolder'
 import { usePersonsAttributes } from './usePersonsAttributes'
+import { useFile } from './useFile'
 
 interface UseProjectProps {
   projectId: string
@@ -56,5 +57,6 @@ export function useProject({ projectId }: UseProjectProps) {
     usePersons: () => usePersons({ projectId }),
     useTreeFolder: () => useProjectTreeFolder({ projectId }),
     usePersonsAttributes: () => usePersonsAttributes({ projectId }),
+    useFile: ({ fileId }: { fileId: string }) => useFile({ fileId, projectId }),
   }
 }

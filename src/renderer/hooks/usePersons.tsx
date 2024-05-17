@@ -65,8 +65,6 @@ export function usePersons({ projectId }: UsePersonsProps) {
       },
     })
 
-    console.log(response)
-
     if (response.status === StatusCode.CREATED) {
       refetchAttributes()
     }

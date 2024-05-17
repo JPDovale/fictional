@@ -7,6 +7,7 @@ import { AffiliationPresenter } from '@modules/affiliations/presenters/Affiliati
 import { PersonWithParentsPresenter } from '@modules/persons/presenters/PersonWithParents.presenter'
 import { AttributePreviewPresenter } from '@modules/persons/presenters/AttributesPreview.presenter'
 import { ErrorPresenter } from '../requester/presenters/Error.presenter'
+import { FilePresenter } from '@modules/files/presenters/File.presenter'
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++
 // Errors
@@ -33,3 +34,8 @@ container.registerSingleton(AttributePreviewPresenter)
 // ++++++++++++++++++++++++++++++++++++++++++++++++
 // Affiliations
 container.registerSingleton(AffiliationPresenter)
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++
+// Files
+container.registerSingleton(FilePresenter)
+

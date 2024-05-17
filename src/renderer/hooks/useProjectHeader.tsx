@@ -11,9 +11,11 @@ import { useProject } from './useProject'
 export function useProjectHeader() {
   const [projectId, setProjectId] = useState<string>('')
   const [personId, setPersonId] = useState<string>('')
+  const [fileId, setFileId] = useState<string>('')
 
-  const { project, usePersons } = useProject({ projectId })
+  const { project, usePersons, useFile } = useProject({ projectId })
   const { persons } = usePersons()
+  const { file } = useFile({ fileId })
 
   const person = persons?.find((p) => p.id === personId) ?? null
 
@@ -35,11 +37,23 @@ export function useProjectHeader() {
       'who-happens': 'Com quem acontece?',
       new: 'Novo(a)',
       identity: 'Identidade',
+      appearences: 'Aparências',
+      dreams: 'Sonhos',
+      objectives: 'Objetivos',
+      personalities: 'Personalidades',
+      traumas: 'Traumas',
+      values: 'Valores',
     }
 
     const uuidsPathsMapper: { [x: string]: string } = {
       projects: project?.name ?? '',
       persons: person?.name ?? '',
+      appearences: file?.title ?? '',
+      dreams: file?.title ?? '',
+      objectives: file?.title ?? '',
+      personalities: file?.title ?? '',
+      traumas: file?.title ?? '',
+      values: file?.title ?? '',
     }
 
     function makePath(rawPath: string, rawPaths: string[], index: number) {
@@ -59,6 +73,19 @@ export function useProjectHeader() {
 
       if (previousRawPath === 'persons') {
         setPersonId(rawPath)
+      }
+
+      const prevForFile = [
+        'appearences',
+        'dreams',
+        'objectives',
+        'personalities',
+        'traumas',
+        'values',
+      ]
+
+      if (prevForFile.includes(previousRawPath)) {
+        setFileId(rawPath)
       }
 
       return pathMapped
