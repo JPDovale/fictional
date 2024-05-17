@@ -1,5 +1,11 @@
 # magiscrita
 
+## 0.2.3
+
+### Patch Changes
+
+- Add createion and update of attributes on persons
+
 ## 0.2.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 ## 0.2.0
 
+## 0.2.3
+
+### Patch Changes
+
+- Add creation and update of attributes on persons
+
 ## 0.2.2
 
 ### Patch Changes
