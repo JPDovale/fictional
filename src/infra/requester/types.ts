@@ -11,4 +11,6 @@ export enum Accessors {
   CREATE_PERSON_ATTRIBUTE = 'CPA',
   GET_ATTRIBUTES_PREVIEW = 'GAP',
   UPDATE_PERSON = 'UP',
+  UPDATE_FILE = 'UFl',
+  GET_FILE = 'GFl',
 }

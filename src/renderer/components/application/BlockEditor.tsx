@@ -41,12 +41,12 @@ const hoverInnerContentStyles = tv({
 })
 
 interface BlockEditorProps {
-  title: string
+  title?: string
   content?: ReactNode
   editor: EditorTipTap | null
 }
 
-export function BlockEditor({ content, title, editor }: BlockEditorProps) {
+export function BlockEditor({ content, title = '', editor }: BlockEditorProps) {
   const { theme } = useTheme()
 
   return (
