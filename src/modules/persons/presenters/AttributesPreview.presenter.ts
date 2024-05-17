@@ -27,12 +27,11 @@ export interface AttributesPreviewsPresented {
 @injectable()
 export class AttributePreviewPresenter
   implements
-    Presenter<
-      AttributePreview,
-      AttributePreviewPresented,
-      AttributesPreviewsPresented
-    >
-{
+  Presenter<
+    AttributePreview,
+    AttributePreviewPresented,
+    AttributesPreviewsPresented
+  > {
   private parse(raw: AttributePreview): AttributePreviewResponse {
     return {
       id: raw.attributeId.toString(),

@@ -5,6 +5,7 @@ import { AttributeType } from '../entities/types'
 interface AttributePreviewProps {
   fileId: UniqueId
   fileTitle: string
+  fileContent: string
   fileCreatedAt: Date
   fileUpdatedAt: Date | null
   attributeType: AttributeType

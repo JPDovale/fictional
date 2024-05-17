@@ -12,6 +12,8 @@ import { CreatePersonAttributeController } from '@modules/persons/controllers/Cr
 import { GetAttributesPreviewController } from '@modules/persons/controllers/GetAttributesPreview.controller'
 import { UpdatePersonController } from '@modules/persons/controllers/UpdatePerson.controller'
 import { Accessors } from './types'
+import { UpdateFileController } from '@modules/files/controllers/UpdateFile.controller'
+import { GetFileController } from '@modules/files/controllers/GetFile.controller'
 
 export const accessors = {
   [Accessors.CREATE_USER]: container.resolve(CreateUserController),
@@ -30,4 +32,6 @@ export const accessors = {
     GetAttributesPreviewController,
   ),
   [Accessors.UPDATE_PERSON]: container.resolve(UpdatePersonController),
+  [Accessors.UPDATE_FILE]: container.resolve(UpdateFileController),
+  [Accessors.GET_FILE]: container.resolve(GetFileController),
 }

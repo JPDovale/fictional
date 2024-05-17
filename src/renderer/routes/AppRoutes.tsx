@@ -16,6 +16,12 @@ import { ProjectFoundationWhoHappensPage } from '../pages/projects/[id]/foundati
 import { ProjectNewPersonPage } from '../pages/projects/[id]/persons/new'
 import { PersonIdentityPage } from '../pages/projects/[id]/persons/[id]'
 import { WrapperLayout } from '../layouts/WrapperLayout'
+import { PersonAppearenceAttributrePage } from '../pages/projects/[id]/persons/[id]/appearences'
+import { PersonDreamAttributrePage } from '../pages/projects/[id]/persons/[id]/dreams'
+import { PersonObjectiveAttributrePage } from '../pages/projects/[id]/persons/[id]/objectives'
+import { PersonPersonalityAttributrePage } from '../pages/projects/[id]/persons/[id]/personalities'
+import { PersonTraumaAttributrePage } from '../pages/projects/[id]/persons/[id]/traumas'
+import { PersonValueAttributrePage } from '../pages/projects/[id]/persons/[id]/values'
 
 export function AppRoutes() {
   const { isLoading } = usePreload()
@@ -67,9 +73,40 @@ export function AppRoutes() {
           />
 
           <Route
+            path="/projects/:projectId/persons/:personId/appearences/:fileId"
+            element={<PersonAppearenceAttributrePage />}
+          />
+
+          <Route
+            path="/projects/:projectId/persons/:personId/dreams/:fileId"
+            element={<PersonDreamAttributrePage />}
+          />
+
+          <Route
+            path="/projects/:projectId/persons/:personId/objectives/:fileId"
+            element={<PersonObjectiveAttributrePage />}
+          />
+
+          <Route
+            path="/projects/:projectId/persons/:personId/personalities/:fileId"
+            element={<PersonPersonalityAttributrePage />}
+          />
+
+          <Route
+            path="/projects/:projectId/persons/:personId/traumas/:fileId"
+            element={<PersonTraumaAttributrePage />}
+          />
+
+          <Route
+            path="/projects/:projectId/persons/:personId/values/:fileId"
+            element={<PersonValueAttributrePage />}
+          />
+
+          <Route
             path="/projects/:projectId/time-lines"
             element={<ProjectTimeLinesPage />}
           />
+
           <Route
             path="/projects/:projectId/config"
             element={<ProjectConfigPage />}
