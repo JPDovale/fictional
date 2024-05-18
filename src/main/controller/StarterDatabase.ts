@@ -5,11 +5,11 @@ import { existsSync, mkdirSync } from "node:fs";
 export class StarterDatabase {
   constructor() {
     if (!existsSync(getDatabasePath())) {
-      mkdirSync(getDatabasePath());
+      mkdirSync(getDatabasePath(), { recursive: true });
     }
 
     if (!existsSync(getDatabaseImagesPath())) {
-      mkdirSync(getDatabaseImagesPath());
+      mkdirSync(getDatabaseImagesPath(), { recursive: true });
     }
 
     const db = new KnexConnection()
