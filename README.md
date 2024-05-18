@@ -4,6 +4,9 @@
 
 Fictional é um aplicativo de escrita criativa totalmente focado em escritores. Com ele, você pode definir e desenvolver histórias, criar personagens e seus atributos, e usar um editor de texto inteligente para dar vida às suas ideias. O Fictional é open source e está disponível no GitHub.
 
+![Fictional](./assets/examples/01.png)
+![Fictional](./assets/examples/03.png)
+
 ## Funcionalidades
 
 - **Criação de Histórias**: Defina a base da sua história e outros elementos essenciais.
