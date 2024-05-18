@@ -20,6 +20,7 @@ import { PersonNotFound } from '../errors/PersonNotFound.error'
 
 type Request = {
   name?: string | null
+  history?: string | null
   image?: string | null
   birthDate?: string | null
   deathDate?: string | null
@@ -45,8 +46,7 @@ type Response = {
 
 @injectable()
 export class UpdatePersonService
-  implements Service<Request, PossibleErrors, Response>
-{
+  implements Service<Request, PossibleErrors, Response> {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly projectsRepository: ProjectsRepository,
@@ -54,7 +54,7 @@ export class UpdatePersonService
     private readonly imagesLocalManipulatorProvider: ImagesLocalManipulatorProvider,
     private readonly getAffiliationByParentsIdService: GetAffiliationByParentsIdService,
     private readonly createAffiliationService: CreateAffiliationService,
-  ) {}
+  ) { }
 
   async execute({
     name,
@@ -62,6 +62,7 @@ export class UpdatePersonService
     birthDate,
     deathDate,
     type,
+    history,
     fatherId,
     motherId,
     projectId,
@@ -149,6 +150,7 @@ export class UpdatePersonService
     person.birthDate = birthDate
     person.deathDate = deathDate
     person.type = type ?? undefined
+    person.history = history
     person.affiliationId = affiliationId
 
     await this.personsRepository.save(person)

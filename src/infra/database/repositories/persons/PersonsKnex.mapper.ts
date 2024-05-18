@@ -16,6 +16,7 @@ export interface PersonFile {
   updated_at: Date | null
   project_id: string
   affiliation_id: string | null
+  history: string | null
 }
 
 type PersonWithParentsType = PersonFile & {
@@ -39,6 +40,7 @@ export class PersonsKnexMapper extends RepositoryMapper<Person, PersonFile> {
         image: raw.image,
         createdAt: raw.created_at,
         updatedAt: raw.updated_at,
+        history: raw.history,
       },
       UniqueId.create(raw.id),
     )
@@ -56,6 +58,7 @@ export class PersonsKnexMapper extends RepositoryMapper<Person, PersonFile> {
       affiliation_id: entity.affiliationId?.toString() ?? null,
       created_at: entity.createdAt,
       updated_at: entity.updatedAt,
+      history: entity.history,
     }
   }
 
@@ -72,6 +75,7 @@ export class PersonsKnexMapper extends RepositoryMapper<Person, PersonFile> {
       createdAt: raw.created_at,
       updatedAt: raw.updated_at,
       personId: UniqueId.create(raw.id),
+      history: raw.history
     })
   }
 }

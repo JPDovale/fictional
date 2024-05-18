@@ -6,6 +6,7 @@ import { PersonType } from './types'
 interface PersonProps {
   name: string | null
   image: string | null
+  history: string | null
   type: PersonType
   birthDate: string | null
   deathDate: string | null
@@ -26,6 +27,7 @@ export class Person extends AggregateRoot<PersonProps> {
       | 'affiliationId'
       | 'birthDate'
       | 'deathDate'
+      | 'history'
     >,
     id?: UniqueId,
   ) {
@@ -38,6 +40,7 @@ export class Person extends AggregateRoot<PersonProps> {
       affiliationId: props.affiliationId ?? null,
       createdAt: props.createdAt ?? new Date(),
       updatedAt: props.updatedAt ?? null,
+      history: props.history ?? null,
     }
 
     const person = new Person(personProps, id)
@@ -51,6 +54,15 @@ export class Person extends AggregateRoot<PersonProps> {
 
   set name(name: string | undefined | null) {
     this.props.name = name === undefined ? this.props.name : name
+    this.touch()
+  }
+
+  get history(): string | null {
+    return this.props.history
+  }
+
+  set history(history: string | undefined | null) {
+    this.props.history = history === undefined ? this.props.history : history
     this.touch()
   }
 

@@ -9,20 +9,22 @@ import { ProjectsRepository } from '@modules/projects/repositories/Projects.repo
 import { BuildBlock } from '@modules/projects/valueObjects/BuildBlocks'
 import { PersonsRepository } from '../repositories/Persons.repository'
 import { PersonWithParents } from '../valuesObjects/PersonWithParents'
+import { PersonNotFound } from '../errors/PersonNotFound.error'
 
 type Request = {
   projectId: string
   userId: string
+  personId: string
 }
 
-type PossibleErrors = UserNotFound | ProjectNotFound | ProjectAcctionBlocked
+type PossibleErrors = UserNotFound | ProjectNotFound | ProjectAcctionBlocked | PersonNotFound
 
 type Response = {
-  persons: PersonWithParents[]
+  person: PersonWithParents
 }
 
 @injectable()
-export class GetPersonsService
+export class GetPersonService
   implements Service<Request, PossibleErrors, Response> {
   constructor(
     private readonly usersRepository: UsersRepository,
@@ -33,6 +35,7 @@ export class GetPersonsService
   async execute({
     userId,
     projectId,
+    personId
   }: Request): Promise<Either<UserNotFound, Response>> {
     const user = await this.usersRepository.findById(userId)
     if (!user) {
@@ -52,10 +55,17 @@ export class GetPersonsService
       return left(new ProjectAcctionBlocked())
     }
 
-    const persons = await this.personsRepository.findManyWithParentsByProjectId(
-      project.id.toString(),
+    const person = await this.personsRepository.findWithParentsById(
+      personId
     )
+    if (!person) {
+      return left(new PersonNotFound())
+    }
 
-    return right({ persons })
+    if (!person.projectId.equals(project.id)) {
+      return left(new ProjectAcctionBlocked())
+    }
+
+    return right({ person })
   }
 }

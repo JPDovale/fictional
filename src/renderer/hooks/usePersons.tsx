@@ -6,8 +6,6 @@ import { useQuery } from '@tanstack/react-query'
 import { PersonsWithParentsPresented } from '@modules/persons/presenters/PersonWithParents.presenter'
 import { CreatePersonAttributeBody } from '@modules/persons/gateways/CreatePersonAttribute.gateway'
 import { AttributeType } from '@modules/persons/entities/types'
-import { LocalStorageKeys } from '@rConfigs/localstorageKeys'
-import localstorageFunctions from '@rUtils/localstorageFunctions'
 import { useUser } from './useUser'
 import { usePersonsAttributes } from './usePersonsAttributes'
 
@@ -70,23 +68,10 @@ export function usePersons({ projectId }: UsePersonsProps) {
     }
   }
 
-  function getTempPersistenceKey(to: 'history', personId: string) {
-    return `${LocalStorageKeys.EDITOR_TEMP_PERSISTENCE}:projects:${projectId}:persons:${personId}:${to}` as LocalStorageKeys
-  }
-
-  function getTempPersistence(to: 'history', personId: string) {
-    const value = localstorageFunctions.Get<string>(
-      getTempPersistenceKey(to, personId),
-    )
-    return value ?? ''
-  }
-
   return {
     persons: data?.persons ?? [],
     isLoading,
     refetchPersons: refetch,
     createAttributeForPerson,
-    getTempPersistence,
-    getTempPersistenceKey,
   }
 }

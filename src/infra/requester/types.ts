@@ -13,4 +13,5 @@ export enum Accessors {
   UPDATE_PERSON = 'UP',
   UPDATE_FILE = 'UFl',
   GET_FILE = 'GFl',
+  GET_PERSON = 'GPrs',
 }
