@@ -1,5 +1,11 @@
 # magiscrita
 
+## 0.2.5
+
+### Patch Changes
+
+- solve exclusion of affilation when edit history of person
+
 ## 0.2.4
 
 ### Patch Changes
