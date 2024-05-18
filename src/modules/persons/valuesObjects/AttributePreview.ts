@@ -5,7 +5,7 @@ import { AttributeType } from '../entities/types'
 interface AttributePreviewProps {
   fileId: UniqueId
   fileTitle: string
-  fileContent: string
+  fileContentPreview: string
   fileCreatedAt: Date
   fileUpdatedAt: Date | null
   attributeType: AttributeType
@@ -24,6 +24,10 @@ export class AttributePreview extends ValueObject<AttributePreviewProps> {
 
   get fileTitle() {
     return this.props.fileTitle
+  }
+
+  get fileContentPreview() {
+    return this.props.fileContentPreview
   }
 
   get fileCreatedAt() {

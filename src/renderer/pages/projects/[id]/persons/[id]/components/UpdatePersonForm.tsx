@@ -107,9 +107,10 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
 
   const { theme } = useTheme()
   const { user } = useUser()
-  const { usePersons } = useProject({ projectId: projectId as string })
+  const { usePersons, usePerson } = useProject({ projectId: projectId as string })
   const { persons: personsWithSelected, refetchPersons } = usePersons()
-  const person = personsWithSelected.find((p) => p.id === personId)
+  const { person, refetchPerson } = usePerson({ personId: personId as string })
+
   const persons = personsWithSelected.filter((p) => p.id !== personId)
 
   const {
@@ -180,6 +181,7 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
 
     if (response.status === StatusCode.OK) {
       refetchPersons()
+      refetchPerson()
       onEdited()
       reset()
     }

@@ -11,6 +11,7 @@ export interface PersonWithParentsResponse {
     url: string | null
     alt: string
   }
+  history: string | null
   birthDate: string | null
   deathDate: string | null
   projectId: string
@@ -32,12 +33,11 @@ export interface PersonsWithParentsPresented {
 @injectable()
 export class PersonWithParentsPresenter
   implements
-    Presenter<
-      PersonWithParents,
-      PersonWithParentsPresented,
-      PersonsWithParentsPresented
-    >
-{
+  Presenter<
+    PersonWithParents,
+    PersonWithParentsPresented,
+    PersonsWithParentsPresented
+  > {
   private parse(raw: PersonWithParents): PersonWithParentsResponse {
     return {
       id: raw.personId.toString(),
@@ -47,6 +47,7 @@ export class PersonWithParentsPresenter
         alt: raw.name ?? '',
       },
       type: raw.type,
+      history: raw.history,
       fatherId: raw.fatherId?.toString() || null,
       motherId: raw.motherId?.toString() || null,
       birthDate: raw.birthDate,

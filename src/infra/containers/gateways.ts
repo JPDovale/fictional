@@ -13,6 +13,7 @@ import { GetAttributesPreviewGateway } from '@modules/persons/gateways/GetAttrib
 import { UpdatePersonGateway } from '@modules/persons/gateways/UpdatePerson.gateway'
 import { UpdateFileGateway } from '@modules/files/gateways/UpdateFile.gateway'
 import { GetFileGateway } from '@modules/files/gateways/GetFile.gateway'
+import { GetPersonGateway } from '@modules/persons/gateways/GetPerson.gateway'
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -37,9 +38,10 @@ container.registerSingleton(GetPersonsGateway)
 container.registerSingleton(CreatePersonAttributeGateway)
 container.registerSingleton(GetAttributesPreviewGateway)
 container.registerSingleton(UpdatePersonGateway)
+container.registerSingleton(GetPersonGateway)
 
 // ++++++++++++++++++++++++++++++++++++++++++
-// Persons
+// Files
 container.registerSingleton(UpdateFileGateway)
 container.registerSingleton(GetFileGateway)
 

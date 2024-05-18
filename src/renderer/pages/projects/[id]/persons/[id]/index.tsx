@@ -3,28 +3,36 @@ import { NotFound } from '@rComponents/application/NotFound'
 import { useProject } from '@rHooks/useProject'
 import { useParams } from 'react-router-dom'
 import { useEditor } from '@rHooks/useEditor'
-import { BlockEditor } from '@rComponents/application/BlockEditor'
 import { useEffect, useState } from 'react'
 import { IdentityPersonCard } from './components/IdentityPersonCard'
 import { UpdatePersonForm } from './components/UpdatePersonForm'
+import { AttributesCards } from './components/AttributesCards'
+import { BlockEditor } from '@rComponents/application/BlockEditor'
 
 export function PersonIdentityPage() {
   const [editIsOpen, setEditIsOpen] = useState(false)
   const { projectId, personId } = useParams()
 
-  const { usePersons, isLoading } = useProject({
+  const { usePersons, usePerson, isLoading } = useProject({
     projectId: projectId as string,
   })
-  const { persons: personsWithSelected, getTempPersistenceKey } = usePersons()
-  const person = personsWithSelected.find((p) => p.id === personId)
+  const { persons: personsWithSelected, refetchPersons } = usePersons()
+  const { person, getTempPersistenceKey, updatePerson } = usePerson({ personId: personId as string })
 
   const { editor } = useEditor({
-    preValueKey: getTempPersistenceKey('history', personId as string),
-    onDiff: (value) => console.log(value),
+    preValueKey: getTempPersistenceKey(),
+    onDiff: (value) => updatePersonOnDiff(value),
     personsSuggestion: personsWithSelected,
   })
 
-  console.log(editor)
+  async function updatePersonOnDiff(value: string) {
+    if (isLoading) return
+    if (!person) return
+    if (person.history === value) return
+
+    await updatePerson({ history: value })
+    refetchPersons()
+  }
 
   useEffect(() => {
     setEditIsOpen(false)
@@ -44,18 +52,20 @@ export function PersonIdentityPage() {
       {editIsOpen ? (
         <UpdatePersonForm onEdited={() => setEditIsOpen(false)} />
       ) : (
-        <IdentityPersonCard
-          person={person}
-          onEdit={() => setEditIsOpen(true)}
-        />
+        <>
+          <IdentityPersonCard onEdit={() => setEditIsOpen(true)} />
+
+          {editor && (
+            <BlockEditor
+              title={`História de ${person.name}`}
+              editor={editor}
+            />
+          )}
+
+          <AttributesCards />
+        </>
       )}
 
-      {/* {editor && ( */}
-      {/*   <BlockEditor */}
-      {/*     title={`História de ${person.name}`} */}
-      {/*     editor={editor} */}
-      {/*   /> */}
-      {/* )} */}
     </main>
   )
 }

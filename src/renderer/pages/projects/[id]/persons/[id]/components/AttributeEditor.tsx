@@ -12,11 +12,12 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
 export function AttributeEditor() {
-  const { fileId, projectId } = useParams()
+  const { fileId, projectId, personId } = useParams()
 
   const { user } = useUser()
-  const { usePersonsAttributes, usePersons, useFile } = useProject({ projectId: projectId as string })
+  const { usePersonsAttributes, usePersons, useFile, usePerson } = useProject({ projectId: projectId as string })
   const { persons } = usePersons()
+  const { refetchPerson } = usePerson({ personId: personId as string })
   const { refetchAttributes } = usePersonsAttributes()
   const { file, getTempPersistenceKey, refetchFile, isLoading, updateFile } = useFile({ fileId: fileId as string })
 
@@ -28,12 +29,14 @@ export function AttributeEditor() {
     personsSuggestion: persons,
   })
 
-  function updateFileOnDiff(value: string) {
+  async function updateFileOnDiff(value: string) {
     if (isLoading) return
     if (!file) return
     if (file.content === value) return
 
-    updateFile({ content: value })
+    await updateFile({ content: value })
+    await refetchAttributes()
+    refetchPerson()
   }
 
   async function handleSave() {
@@ -54,6 +57,7 @@ export function AttributeEditor() {
     if (response.status === StatusCode.OK) {
       refetchAttributes()
       refetchFile()
+      refetchPerson()
     }
   }
 

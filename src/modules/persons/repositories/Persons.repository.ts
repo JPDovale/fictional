@@ -7,4 +7,7 @@ export abstract class PersonsRepository extends Repository<Person> {
   abstract findManyWithParentsByProjectId(
     projectId: string,
   ): Promise<PersonWithParents[]>
+  abstract findWithParentsById(
+    id: string,
+  ): Promise<PersonWithParents | null>
 }

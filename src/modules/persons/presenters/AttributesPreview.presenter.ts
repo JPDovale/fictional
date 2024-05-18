@@ -11,6 +11,7 @@ export interface AttributePreviewResponse {
   file: {
     id: string
     title: string
+    contentPreview: string
     createdAt: Date
     updatedAt: Date | null
   }
@@ -40,6 +41,7 @@ export class AttributePreviewPresenter
       file: {
         id: raw.fileId.toString(),
         title: raw.fileTitle,
+        contentPreview: raw.fileContentPreview,
         createdAt: raw.fileCreatedAt,
         updatedAt: raw.fileUpdatedAt,
       },

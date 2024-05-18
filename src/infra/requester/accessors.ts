@@ -14,6 +14,7 @@ import { UpdatePersonController } from '@modules/persons/controllers/UpdatePerso
 import { Accessors } from './types'
 import { UpdateFileController } from '@modules/files/controllers/UpdateFile.controller'
 import { GetFileController } from '@modules/files/controllers/GetFile.controller'
+import { GetPersonController } from '@modules/persons/controllers/GetPerson.controller'
 
 export const accessors = {
   [Accessors.CREATE_USER]: container.resolve(CreateUserController),
@@ -34,4 +35,5 @@ export const accessors = {
   [Accessors.UPDATE_PERSON]: container.resolve(UpdatePersonController),
   [Accessors.UPDATE_FILE]: container.resolve(UpdateFileController),
   [Accessors.GET_FILE]: container.resolve(GetFileController),
+  [Accessors.GET_PERSON]: container.resolve(GetPersonController),
 }

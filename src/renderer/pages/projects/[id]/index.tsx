@@ -42,6 +42,17 @@ export function ProjectPage() {
   const personsLinks: { target: string; source: string }[] = []
 
   persons.forEach((p) => {
+    const mentions = p.history?.split('data-id')
+      .filter(mention => mention.startsWith('='))
+      .map(mention => mention.split('<==>')[1].split('"')[0]) ?? []
+
+    mentions.forEach(mention => {
+      personsLinks.push({
+        source: p.id,
+        target: mention
+      })
+    })
+
     personsLinks.push({
       source: p.id,
       target: personTypeTargetMapper[p.type],
@@ -74,6 +85,7 @@ export function ProjectPage() {
         target: '4',
       })
     }
+
     const personAttributes = attributes.filter((attr) => attr.personId === p.id)
 
     personAttributes.forEach((a) => {

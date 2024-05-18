@@ -5,6 +5,7 @@ import { PersonType } from '../entities/types'
 
 const updatePersonSchema = z.object({
   name: z.string().trim().max(255).optional().nullable(),
+  history: z.string().trim().optional().nullable(),
   image: z.string().trim().optional().nullable(),
   birthDate: z.string().trim().optional().nullable(),
   deathDate: z.string().trim().optional().nullable(),

@@ -8,6 +8,7 @@ interface PersonWithParrentsProps {
   motherId: UniqueId | null
   name: string | null
   image: string | null
+  history: string | null
   type: PersonType
   birthDate: string | null
   deathDate: string | null
@@ -33,6 +34,10 @@ export class PersonWithParents extends ValueObject<PersonWithParrentsProps> {
 
   get name() {
     return this.props.name
+  }
+
+  get history() {
+    return this.props.history
   }
 
   get image() {
