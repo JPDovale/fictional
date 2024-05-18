@@ -1,5 +1,11 @@
 ## 0.2.0
 
+## 0.2.6
+
+### Patch Changes
+
+- move database files on windows
+
 ## 0.2.5
 
 ### Patch Changes
