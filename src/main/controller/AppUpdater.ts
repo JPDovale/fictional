@@ -3,12 +3,12 @@ import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
 
 
-autoUpdater.on('update-available', ({ releaseNotes, version }) => {
+autoUpdater.on('update-available', ({ version }) => {
   dialog.showMessageBox({
-    type: 'info',
+    type: 'none',
     buttons: ['OK'],
     title: `Fictional update available ${version}`,
-    message: releaseNotes?.toString() ?? 'New version has created',
+    message: `New version has created! Beta version: ${version} is coming soon!`,
     detail: 'A new version is being downloaded',
   })
 })
@@ -16,10 +16,10 @@ autoUpdater.on('update-available', ({ releaseNotes, version }) => {
 autoUpdater.on('update-downloaded', () => {
   dialog
     .showMessageBox({
-      type: 'info',
-      buttons: ['Restart'],
+      type: 'none',
+      buttons: ['Close'],
       title: `Updating`,
-      message: 'Restart the app for use new version',
+      message: 'Close the app for use new version',
       detail: 'A new version is being installed',
     })
     .then(() => {

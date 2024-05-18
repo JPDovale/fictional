@@ -22,7 +22,6 @@ export function getDatabasePath() {
     os.homedir(),
     'AppData',
     'Local',
-    'Programs',
     'Fictional',
     'database',
   )
