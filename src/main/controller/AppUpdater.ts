@@ -1,12 +1,13 @@
-import { dialog } from 'electron'
+import { app, dialog } from 'electron'
 import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
+
 
 autoUpdater.on('update-available', ({ releaseNotes, version }) => {
   dialog.showMessageBox({
     type: 'info',
     buttons: ['OK'],
-    title: `MagiScrita update available ${version}`,
+    title: `Fictional update available ${version}`,
     message: releaseNotes?.toString() ?? 'New version has created',
     detail: 'A new version is being downloaded',
   })
@@ -22,7 +23,7 @@ autoUpdater.on('update-downloaded', () => {
       detail: 'A new version is being installed',
     })
     .then(() => {
-      autoUpdater.quitAndInstall()
+      app.quit()
     })
     .catch((err) => {
       throw err
@@ -41,6 +42,9 @@ export class AppUpdater {
   constructor() {
     log.transports.file.level = 'info'
     autoUpdater.logger = log
-    autoUpdater.checkForUpdatesAndNotify()
+    autoUpdater.checkForUpdatesAndNotify({
+      title: 'Fictional',
+      body: 'Update available',
+    })
   }
 }

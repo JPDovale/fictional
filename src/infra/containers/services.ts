@@ -16,6 +16,7 @@ import { GetAttributesPreviewService } from '@modules/persons/services/GetAttrib
 import { UpdatePersonService } from '@modules/persons/services/UpdatePerson.service'
 import { UpdateFileService } from '@modules/files/services/UpdateFile.service'
 import { GetFileService } from '@modules/files/services/GetFile.service'
+import { GetPersonService } from '@modules/persons/services/GetPerson.service'
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -41,6 +42,7 @@ container.registerSingleton(GetPersonsService)
 container.registerSingleton(CreatePersonAttributeService)
 container.registerSingleton(GetAttributesPreviewService)
 container.registerSingleton(UpdatePersonService)
+container.registerSingleton(GetPersonService)
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Affiliations
@@ -48,6 +50,6 @@ container.registerSingleton(GetAffiliationByParentsIdService)
 container.registerSingleton(CreateAffiliationService)
 
 // ++++++++++++++++++++++++++++++++++++++++++
-// Affiliations
+// Files
 container.registerSingleton(UpdateFileService)
 container.registerSingleton(GetFileService)

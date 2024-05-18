@@ -10,7 +10,8 @@ export class PersonsKnexRepository implements PersonsRepository {
   constructor(
     private readonly knexConnection: KnexConnection,
     private readonly mapper: PersonsKnexMapper,
-  ) {}
+  ) { }
+
 
   async create(person: Person): Promise<void> {
     await this.knexConnection
@@ -74,5 +75,27 @@ export class PersonsKnexRepository implements PersonsRepository {
       .orderBy('created_at', 'desc')
 
     return persons.map(this.mapper.toDomainWithParrents)
+  }
+
+  async findWithParentsById(id: string): Promise<PersonWithParents | null> {
+    const person = await this.knexConnection
+      .db('persons')
+      .where('persons.id', '=', id)
+      .leftJoin(
+        'person_affiliations',
+        'persons.affiliation_id',
+        '=',
+        'person_affiliations.id',
+      )
+      .select(
+        'persons.*',
+        'person_affiliations.father_id',
+        'person_affiliations.mother_id',
+      )
+      .first()
+
+    if (!person) return null
+
+    return this.mapper.toDomainWithParrents(person)
   }
 }

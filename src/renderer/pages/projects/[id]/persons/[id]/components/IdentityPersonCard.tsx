@@ -1,4 +1,3 @@
-import { PersonWithParentsResponse } from '@modules/persons/presenters/PersonWithParents.presenter'
 import { Button } from '@rComponents/application/Button'
 import { Avatar, AvatarFallback, AvatarImage } from '@rComponents/ui/avatar'
 import { useProject } from '@rHooks/useProject'
@@ -7,21 +6,22 @@ import { Pen, VenetianMask } from 'lucide-react'
 import { useParams } from 'react-router-dom'
 
 interface IndentityPersonCardProps {
-  person: PersonWithParentsResponse
   onEdit: () => void
 }
 
 export function IdentityPersonCard({
-  person,
   onEdit,
 }: IndentityPersonCardProps) {
   const { theme } = useTheme()
-  const { projectId } = useParams()
-  const { usePersons } = useProject({ projectId: projectId as string })
+  const { projectId, personId } = useParams()
+  const { usePersons, usePerson } = useProject({ projectId: projectId as string })
   const { persons } = usePersons()
+  const { person } = usePerson({ personId: personId as string })
 
-  const mother = persons.find((p) => p.id === person.motherId)
-  const father = persons.find((p) => p.id === person.fatherId)
+  const mother = persons.find((p) => p.id === person?.motherId)
+  const father = persons.find((p) => p.id === person?.fatherId)
+
+  if (!person) return null
 
   return (
     <div data-theme={theme} className="flex flex-col bg-gray100/30 data-[theme=light]:bg-gray900/30 relative shadow-2xl backdrop-blur-sm rounded-lg gap-4 p-4">

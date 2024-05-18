@@ -13,6 +13,7 @@ import { GetAttributesPreviewController } from '@modules/persons/controllers/Get
 import { UpdatePersonController } from '@modules/persons/controllers/UpdatePerson.controller'
 import { UpdateFileController } from '@modules/files/controllers/UpdateFile.controller'
 import { GetFileController } from '@modules/files/controllers/GetFile.controller'
+import { GetPersonController } from '@modules/persons/controllers/GetPerson.controller'
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -37,6 +38,7 @@ container.registerSingleton(GetPersonsController)
 container.registerSingleton(CreatePersonAttributeService)
 container.registerSingleton(GetAttributesPreviewController)
 container.registerSingleton(UpdatePersonController)
+container.registerSingleton(GetPersonController)
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Files

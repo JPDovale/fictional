@@ -11,6 +11,8 @@ import { usePersons } from './usePersons'
 import { useProjectTreeFolder } from './useProjectTreeFolder'
 import { usePersonsAttributes } from './usePersonsAttributes'
 import { useFile } from './useFile'
+import { string } from 'zod'
+import { usePerson } from './usePerson'
 
 interface UseProjectProps {
   projectId: string
@@ -58,5 +60,6 @@ export function useProject({ projectId }: UseProjectProps) {
     useTreeFolder: () => useProjectTreeFolder({ projectId }),
     usePersonsAttributes: () => usePersonsAttributes({ projectId }),
     useFile: ({ fileId }: { fileId: string }) => useFile({ fileId, projectId }),
+    usePerson: ({ personId }: { personId: string }) => usePerson({ projectId, personId })
   }
 }

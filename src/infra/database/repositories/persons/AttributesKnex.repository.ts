@@ -51,6 +51,7 @@ export class AttributesKnexRepository
         'persons_attributes.id as attribute_id',
         'files.id as file_id',
         'files.title as file_title',
+        'files.content as file_content',
         'files.created_at as file_created_at',
         'files.updated_at as file_updated_at',
       )

@@ -12,6 +12,7 @@ export interface PersonResponse {
     alt: string
   }
   birthDate: string | null
+  history: string | null
   deathDate: string | null
   affiliationId: string | null
   projectId: string
@@ -30,8 +31,7 @@ export interface PersonsPresented {
 
 @injectable()
 export class PersonPresenter
-  implements Presenter<Person, PersonPresented, PersonsPresented>
-{
+  implements Presenter<Person, PersonPresented, PersonsPresented> {
   private parse(raw: Person): PersonResponse {
     return {
       id: raw.id.toString(),
@@ -40,6 +40,7 @@ export class PersonPresenter
         url: raw.image,
         alt: raw.name ?? '',
       },
+      history: raw.history,
       type: raw.type,
       affiliationId: raw.affiliationId?.toString() ?? null,
       birthDate: raw.birthDate,
