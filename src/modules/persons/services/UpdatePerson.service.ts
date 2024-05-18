@@ -69,6 +69,13 @@ export class UpdatePersonService
     userId,
     personId,
   }: Request): Promise<Either<PossibleErrors, Response>> {
+
+    console.log({
+      fatherId,
+      motherId
+    });
+
+
     const user = await this.usersRepository.findById(userId)
     if (!user) {
       return left(new UserNotFound())
@@ -151,7 +158,7 @@ export class UpdatePersonService
     person.deathDate = deathDate
     person.type = type ?? undefined
     person.history = history
-    person.affiliationId = affiliationId
+    person.affiliationId = affiliationId ?? undefined
 
     await this.personsRepository.save(person)
 
