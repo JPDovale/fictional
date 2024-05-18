@@ -1,5 +1,11 @@
 # magiscrita
 
+## 0.2.7
+
+### Patch Changes
+
+- hot fix
+
 ## 0.2.6
 
 ### Patch Changes
