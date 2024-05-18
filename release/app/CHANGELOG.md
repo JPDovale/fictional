@@ -1,5 +1,11 @@
 # magiscrita
 
+## 0.2.4
+
+### Patch Changes
+
+- feat: fix auto update on Windows and add person history
+
 ## 0.2.3
 
 ### Patch Changes
