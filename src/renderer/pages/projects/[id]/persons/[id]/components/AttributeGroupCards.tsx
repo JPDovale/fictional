@@ -30,7 +30,7 @@ export function AttributeGroupCards({ attributes, title, Icon }: AttributeGroupC
               {attr.file.contentPreview ? (
                 <div
                   data-theme={theme}
-                  className="text-xs flex max-h-24 overflow-hidden flex-col gap-1 prose prose-sm data-[theme=dark]:prose-invert"
+                  className="text-xs flex max-h-24 overflow-hidden flex-col gap-1 prose prose-sm data-[theme=dark]:prose-invert group"
                   dangerouslySetInnerHTML={{ __html: attr.file.contentPreview }}
                 />
               ) : (
