@@ -3,10 +3,7 @@
     "incremental": true,
     "target": "es2021",
     "module": "commonjs",
-    "lib": [
-      "dom",
-      "es2021"
-    ],
+    "lib": ["dom", "es2021"],
     "jsx": "react-jsx",
     "strict": true,
     "sourceMap": true,
@@ -20,94 +17,35 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "paths": {
-      "@infra/*": [
-        "./src/infra/*"
-      ],
-      "@components/*": [
-        "./src/components/*"
-      ],
-      "@contexts/*": [
-        "./src/contexts/*"
-      ],
-      "@hooks/*": [
-        "./src/hooks/*"
-      ],
-      "@pages/*": [
-        "./src/pages/*"
-      ],
-      "@services/*": [
-        "./src/services/*"
-      ],
-      "@styles/*": [
-        "./src/styles/*"
-      ],
-      "@routes/*": [
-        "./src/routes/*"
-      ],
-      "@layouts/*": [
-        "./src/layouts/*"
-      ],
-      "@store/*": [
-        "./src/store/*"
-      ],
-      "@@types/*": [
-        "./src/@types/*"
-      ],
-      "@modules/*": [
-        "./src/modules/*"
-      ],
-      "@config/*": [
-        "./src/config/*"
-      ],
-      "@shared/*": [
-        "./src/shared/*"
-      ],
-      "@env/*": [
-        "./src/env/*"
-      ],
-      "@utils/*": [
-        "./src/utils/*"
-      ],
-      "@database/*": [
-        "./src/database/*"
-      ],
-      "@providers/*": [
-        "./src/providers/*"
-      ],
-      "@tests/*": [
-        "./src/tests/*"
-      ],
-      "@rRoutes/*": [
-        "./src/renderer/routes/*"
-      ],
-      "@rStyles/*": [
-        "./src/renderer/styles/*"
-      ],
-      "@rHooks/*": [
-        "./src/renderer/hooks/*"
-      ],
-      "@rStores/*": [
-        "./src/renderer/stores/*"
-      ],
-      "@rComponents/*": [
-        "./src/renderer/components/*"
-      ],
-      "@rConfigs/*": [
-        "./src/renderer/configs/*"
-      ],
-      "@rUtils/*": [
-        "./src/renderer/utils/*"
-      ]
+      "@infra/*": ["./src/infra/*"],
+      "@test/*": ["./test/*"],
+      "@components/*": ["./src/components/*"],
+      "@contexts/*": ["./src/contexts/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@services/*": ["./src/services/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@routes/*": ["./src/routes/*"],
+      "@layouts/*": ["./src/layouts/*"],
+      "@store/*": ["./src/store/*"],
+      "@@types/*": ["./src/@types/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@config/*": ["./src/config/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@env/*": ["./src/env/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@database/*": ["./src/database/*"],
+      "@providers/*": ["./src/providers/*"],
+      "@tests/*": ["./src/tests/*"],
+      "@rRoutes/*": ["./src/renderer/routes/*"],
+      "@rStyles/*": ["./src/renderer/styles/*"],
+      "@rHooks/*": ["./src/renderer/hooks/*"],
+      "@rStores/*": ["./src/renderer/stores/*"],
+      "@rComponents/*": ["./src/renderer/components/*"],
+      "@rConfigs/*": ["./src/renderer/configs/*"],
+      "@rUtils/*": ["./src/renderer/utils/*"]
     },
-    "types": [
-      "vitest/globals",
-      "vitest/importMeta"
-    ]
+    "types": ["vitest/globals", "vitest/importMeta"]
   },
-  "exclude": [
-    "test",
-    "release/build",
-    "release/app/dist",
-    ".erb/dll"
-  ]
+  "exclude": ["release/build", "release/app/dist", ".erb/dll", "legacy-src"]
 }
