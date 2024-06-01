@@ -5,8 +5,6 @@ import { ProjectsInMemoryRepository } from '@test/repositories/ProjectsInMemory.
 import { UniqueId } from '@shared/core/valueObjects/UniqueId';
 import { UserNotFound } from '@modules/users/errors/UserNotFound.error';
 import { makeProject } from '@test/factories/MakeProject';
-import { Project } from '../entities/Project';
-import { ProjectNotFound } from '../errors/ProjectNotFound.error';
 import { GetProjectsService } from './GetProjects.service';
 
 let usersRepository: UsersInMemoryRepository;
