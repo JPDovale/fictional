@@ -1,6 +1,11 @@
-import { OnProjectWithFoundationCreated } from '@modules/foundations/subscribers/onProjectWithFoundationCreated.subscriber'
-import { container } from 'tsyringe'
+import { OnProjectWithFoundationCreated } from '@modules/foundations/subscribers/OnProjectWithFoundationCreated.subscriber';
+import { OnProjectWithTimelineCreated } from '@modules/timelines/subscribers/OnProjectWithTimelineCreated.subscriber';
+import { container } from 'tsyringe';
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Foundations
-container.resolve(OnProjectWithFoundationCreated)
+container.resolve(OnProjectWithFoundationCreated);
+
+// ++++++++++++++++++++++++++++++++++++++++++
+// Timelines
+container.resolve(OnProjectWithTimelineCreated);

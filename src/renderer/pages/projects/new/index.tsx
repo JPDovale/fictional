@@ -1,20 +1,20 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Requester } from '@infra/requester/requester'
-import { Accessors } from '@infra/requester/types'
-import { CreateProjectBody } from '@modules/projects/gateways/CreateProject.gateway'
-import { BuildBlock } from '@modules/projects/valueObjects/BuildBlocks'
-import { Buildings, Clock, Users } from '@phosphor-icons/react'
-import { Button } from '@rComponents/application/Button'
-import { Checkbox } from '@rComponents/application/Checkbox'
-import { DropZone } from '@rComponents/application/DropZone'
-import { Input } from '@rComponents/application/Input'
-import { useProjects } from '@rHooks/useProjects'
-import { useUser } from '@rHooks/useUser'
-import { StatusCode } from '@shared/core/types/StatusCode'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
-import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Requester } from '@infra/requester/requester';
+import { Accessors } from '@infra/requester/types';
+import { CreateProjectBody } from '@modules/projects/gateways/CreateProject.gateway';
+import { BuildBlock } from '@modules/projects/valueObjects/BuildBlocks';
+import { Buildings, Clock, Users } from '@phosphor-icons/react';
+import { Button } from '@rComponents/application/Button';
+import { Checkbox } from '@rComponents/application/Checkbox';
+import { DropZone } from '@rComponents/application/DropZone';
+import { Input } from '@rComponents/application/Input';
+import { useProjects } from '@rHooks/useProjects';
+import { useUser } from '@rHooks/useUser';
+import { StatusCode } from '@shared/core/types/StatusCode';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 
 const createProjectSchema = z.object({
   name: z
@@ -27,18 +27,18 @@ const createProjectSchema = z.object({
     .default([
       BuildBlock.FOUNDATION,
       BuildBlock.PERSONS,
-      // BuildBlock.TIME_LINES,
+      BuildBlock.TIME_LINES,
     ]),
   image: z.string().trim().optional(),
-})
+});
 
-type CreateProjectData = z.infer<typeof createProjectSchema>
+type CreateProjectData = z.infer<typeof createProjectSchema>;
 
 export function NewProjectPage() {
-  const { user } = useUser()
-  const { refetchProjects } = useProjects()
-  const navigate = useNavigate()
-  const [imageSelected, setImageSelected] = useState('')
+  const { user } = useUser();
+  const { refetchProjects } = useProjects();
+  const navigate = useNavigate();
+  const [imageSelected, setImageSelected] = useState('');
 
   const {
     register,
@@ -53,48 +53,48 @@ export function NewProjectPage() {
       buildBlocks: [
         BuildBlock.FOUNDATION,
         BuildBlock.PERSONS,
-        // BuildBlock.TIME_LINES,
+        BuildBlock.TIME_LINES,
       ],
     },
-  })
+  });
 
-  const buildBlocks = watch('buildBlocks')
+  const buildBlocks = watch('buildBlocks');
 
   function handleSelectImage(files: File[]) {
-    const image = files[0]
+    const image = files[0];
 
-    if (!image) return
+    if (!image) return;
 
-    setValue('image', image.path)
-    setImageSelected(URL.createObjectURL(image))
+    setValue('image', image.path);
+    setImageSelected(URL.createObjectURL(image));
   }
 
   function handleDeleteImage() {
-    setValue('image', '')
-    setImageSelected('')
+    setValue('image', '');
+    setImageSelected('');
   }
 
   function addBuildBlock(buildBlock: BuildBlock) {
-    setValue('buildBlocks', [...buildBlocks, buildBlock])
+    setValue('buildBlocks', [...buildBlocks, buildBlock]);
   }
 
   function removeBuildBlock(buildBlock: BuildBlock) {
     setValue(
       'buildBlocks',
-      buildBlocks.filter((bb) => bb !== buildBlock),
-    )
+      buildBlocks.filter((bb) => bb !== buildBlock)
+    );
   }
 
   function handleToggleBuildBlock(buildBlock: BuildBlock, event: boolean) {
     if (event) {
-      return addBuildBlock(buildBlock)
+      return addBuildBlock(buildBlock);
     }
 
-    return removeBuildBlock(buildBlock)
+    return removeBuildBlock(buildBlock);
   }
 
   async function handleCreateProject(data: CreateProjectData) {
-    if (!user) return
+    if (!user) return;
 
     const response = await Requester.requester<CreateProjectBody>({
       access: Accessors.CREATE_PROJECT,
@@ -102,12 +102,12 @@ export function NewProjectPage() {
         ...data,
         userId: user.id,
       },
-    })
+    });
 
     if (response.status === StatusCode.CREATED) {
-      reset()
-      await refetchProjects()
-      navigate('/')
+      reset();
+      await refetchProjects();
+      navigate('/');
     }
   }
 
@@ -171,7 +171,7 @@ export function NewProjectPage() {
                   onCheckedChange={(e) =>
                     handleToggleBuildBlock(
                       BuildBlock.FOUNDATION,
-                      e as unknown as boolean,
+                      e as unknown as boolean
                     )
                   }
                 >
@@ -191,7 +191,7 @@ export function NewProjectPage() {
                   onCheckedChange={(e) =>
                     handleToggleBuildBlock(
                       BuildBlock.PERSONS,
-                      e as unknown as boolean,
+                      e as unknown as boolean
                     )
                   }
                 >
@@ -205,14 +205,13 @@ export function NewProjectPage() {
                 </Checkbox.Icon>
               </Checkbox.Root>
 
-              <Checkbox.Root disabled>
+              <Checkbox.Root>
                 <Checkbox.CheckerRoot
                   checked={buildBlocks.includes(BuildBlock.TIME_LINES)}
-                  disabled
                   onCheckedChange={(e) =>
                     handleToggleBuildBlock(
                       BuildBlock.TIME_LINES,
-                      e as unknown as boolean,
+                      e as unknown as boolean
                     )
                   }
                 >
@@ -230,5 +229,5 @@ export function NewProjectPage() {
         </div>
       </form>
     </main>
-  )
+  );
 }
