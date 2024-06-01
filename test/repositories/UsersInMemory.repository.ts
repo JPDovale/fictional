@@ -12,9 +12,12 @@ export class UsersInMemoryRepository implements UsersRepository {
     this.users.push(data);
   }
 
-  findById(id: string, ctx?: unknown): Promise<User | null> {
-    throw new Error('Method not implemented.');
+  async findById(id: string, ctx?: unknown): Promise<User | null> {
+    const user = this.users.find((user) => user.id.toString() === id);
+    if (!user) return null;
+    return user;
   }
+
   findAll(ctx?: unknown): Promise<User[]> {
     throw new Error('Method not implemented.');
   }
