@@ -1,16 +1,17 @@
-import { RequestError } from '@shared/core/errors/RequestError'
-import { StatusCode } from '@shared/core/types/StatusCode'
-import { ipcMain } from 'electron'
-import { AppWindow } from 'src/main/view/AppWindow'
-import { Resolver } from './resolver'
+import { RequestError } from '@shared/core/errors/RequestError';
+import { StatusCode } from '@shared/core/types/StatusCode';
+import { ipcMain } from 'electron';
+import { AppWindow } from 'src/main/view/AppWindow';
+import { Resolver } from './resolver';
+import { Logger } from '@utils/logger';
 
-const { appWindow } = AppWindow
+const { appWindow } = AppWindow;
 
 ipcMain.handle(Resolver.key, async (e, data) => {
   try {
-    return await Resolver.handler(e, data, appWindow)
+    return await Resolver.handler(e, data, appWindow);
   } catch (error) {
-    console.error(error)
+    Logger.error(error);
 
     if (error instanceof RequestError) {
       return {
@@ -18,7 +19,7 @@ ipcMain.handle(Resolver.key, async (e, data) => {
         message: error.message,
         status: error.status,
         errors: { ...error.details },
-      }
+      };
     }
 
     return {
@@ -26,6 +27,6 @@ ipcMain.handle(Resolver.key, async (e, data) => {
       message:
         'Ocorreu um erro interno. Por favor, tente novamente, ou contate o suporte',
       status: StatusCode.INTERNAL_SERVER_ERROR,
-    }
+    };
   }
-})
+});

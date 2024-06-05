@@ -1,28 +1,32 @@
-import { useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
-import { z } from 'zod'
+import { useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { z } from 'zod';
 import {
   ProjectPageHeader,
   ProjectPageHeaderProps,
-} from '@rComponents/projects/ProjectPageHeader'
-import { Optional } from '@shared/core/types/Optional'
-import { useProject } from './useProject'
+} from '@rComponents/projects/ProjectPageHeader';
+import { Optional } from '@shared/core/types/Optional';
+import { useProject } from './useProject';
 
 export function useProjectHeader() {
-  const [projectId, setProjectId] = useState<string>('')
-  const [personId, setPersonId] = useState<string>('')
-  const [fileId, setFileId] = useState<string>('')
+  const [projectId, setProjectId] = useState<string>('');
+  const [personId, setPersonId] = useState<string>('');
+  const [fileId, setFileId] = useState<string>('');
+  const [timelineId, setTimelineId] = useState<string>('');
 
-  const { project, usePersons, useFile } = useProject({ projectId })
-  const { persons } = usePersons()
-  const { file } = useFile({ fileId })
+  const { project, usePersons, useFile, useTimeline } = useProject({
+    projectId,
+  });
+  const { persons } = usePersons();
+  const { file } = useFile({ fileId });
+  const { timeline } = useTimeline({ timelineId });
 
-  const person = persons?.find((p) => p.id === personId) ?? null
+  const person = persons?.find((p) => p.id === personId) ?? null;
 
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
 
   const { paths } = useMemo(() => {
-    const _paths: string[] = []
+    const _paths: string[] = [];
 
     const pathsMapper: { [x: string]: string } = {
       projects: 'Projeto',
@@ -43,7 +47,7 @@ export function useProjectHeader() {
       personalities: 'Personalidades',
       traumas: 'Traumas',
       values: 'Valores',
-    }
+    };
 
     const uuidsPathsMapper: { [x: string]: string } = {
       projects: project?.name ?? '',
@@ -54,25 +58,26 @@ export function useProjectHeader() {
       personalities: file?.title ?? '',
       traumas: file?.title ?? '',
       values: file?.title ?? '',
-    }
+      'time-lines': timeline?.name ?? '',
+    };
 
     function makePath(rawPath: string, rawPaths: string[], index: number) {
-      const path = pathsMapper[rawPath] ?? rawPath
+      const path = pathsMapper[rawPath] ?? rawPath;
 
-      const isUUIDSchema = z.string().uuid()
-      const isUUID = isUUIDSchema.safeParse(rawPath).success
+      const isUUIDSchema = z.string().uuid();
+      const isUUID = isUUIDSchema.safeParse(rawPath).success;
 
-      if (!isUUID) return path
+      if (!isUUID) return path;
 
-      const previousRawPath = rawPaths[index - 1]
-      const pathMapped = uuidsPathsMapper[previousRawPath] ?? ''
+      const previousRawPath = rawPaths[index - 1];
+      const pathMapped = uuidsPathsMapper[previousRawPath] ?? '';
 
       if (previousRawPath === 'projects') {
-        setProjectId(rawPath)
+        setProjectId(rawPath);
       }
 
       if (previousRawPath === 'persons') {
-        setPersonId(rawPath)
+        setPersonId(rawPath);
       }
 
       const prevForFile = [
@@ -82,29 +87,33 @@ export function useProjectHeader() {
         'personalities',
         'traumas',
         'values',
-      ]
+      ];
 
       if (prevForFile.includes(previousRawPath)) {
-        setFileId(rawPath)
+        setFileId(rawPath);
       }
 
-      return pathMapped
+      if (previousRawPath === 'time-lines') {
+        setTimelineId(rawPath);
+      }
+
+      return pathMapped;
     }
 
-    const rawPaths = pathname.split('/').slice(1)
+    const rawPaths = pathname.split('/').slice(1);
     const mappedPaths = rawPaths.map((rawPath, index) =>
-      makePath(rawPath, rawPaths, index),
-    )
+      makePath(rawPath, rawPaths, index)
+    );
 
-    _paths.push(...mappedPaths)
+    _paths.push(...mappedPaths);
 
-    return { paths: _paths }
-  }, [pathname, project?.name, person?.name])
+    return { paths: _paths };
+  }, [pathname, project?.name, person?.name]);
 
   return {
     paths,
     Header: ({ ...props }: Optional<ProjectPageHeaderProps, 'projectId'>) => (
       <ProjectPageHeader projectId={projectId} {...props} />
     ),
-  }
+  };
 }

@@ -1,9 +1,9 @@
-import { NotFound } from '@rComponents/application/NotFound'
-import { useProject } from '@rHooks/useProject'
-import { useNavigate, useParams } from 'react-router-dom'
-import ForceGraph2D, { GraphData } from 'react-force-graph-2d'
-import { useTheme } from '@rHooks/useTheme'
-import { AttributeType, PersonType } from '@modules/persons/entities/types'
+import { NotFound } from '@rComponents/application/NotFound';
+import { useProject } from '@rHooks/useProject';
+import { useNavigate, useParams } from 'react-router-dom';
+import ForceGraph2D, { GraphData } from 'react-force-graph-2d';
+import { useTheme } from '@rHooks/useTheme';
+import { AttributeType, PersonType } from '@modules/persons/entities/types';
 
 const personTypeTargetMapper = {
   [PersonType.SUPPORTING]: '27',
@@ -15,7 +15,7 @@ const personTypeTargetMapper = {
   [PersonType.COMIC]: '21',
   [PersonType.PROTAGONIST]: '20',
   [PersonType.ANTAGONIST]: '28',
-}
+};
 
 const attributeTypeNameMapper = {
   [AttributeType.TRAUMA]: 'Trauma',
@@ -24,93 +24,95 @@ const attributeTypeNameMapper = {
   [AttributeType.OBJECTIVE]: 'Objetivo',
   [AttributeType.DREAM]: 'Sonho',
   [AttributeType.APPEARENCE]: 'Aparencia',
-}
+};
 
 export function ProjectPage() {
-  const { projectId } = useParams()
+  const { projectId } = useParams();
   const { project, usePersons, useFoundation, usePersonsAttributes } =
-    useProject({
-      projectId: projectId as string,
-    })
-  const { foundation } = useFoundation()
-  const { graphBaseColor } = useTheme()
-  const { persons } = usePersons()
-  const { attributes } = usePersonsAttributes()
+    useProject({ projectId });
+  const { foundation } = useFoundation();
+  const { graphBaseColor } = useTheme();
+  const { persons } = usePersons();
+  const { attributes } = usePersonsAttributes();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const personsLinks: { target: string; source: string }[] = []
+  const personsLinks: { target: string; source: string }[] = [];
 
   persons.forEach((p) => {
-    const mentions = p.history?.split('data-id')
-      .filter(mention => mention.startsWith('='))
-      .map(mention => mention.split('<==>')[1].split('"')[0]) ?? []
+    const mentions =
+      p.history
+        ?.split('data-id')
+        .filter((mention) => mention.startsWith('='))
+        .map((mention) => mention.split('<==>')[1].split('"')[0]) ?? [];
 
-    mentions.forEach(mention => {
+    mentions.forEach((mention) => {
       personsLinks.push({
         source: p.id,
-        target: mention
-      })
-    })
+        target: mention,
+      });
+    });
 
     personsLinks.push({
       source: p.id,
       target: personTypeTargetMapper[p.type],
-    })
+    });
 
     if (foundation?.whoHappens.includes(p.id)) {
       personsLinks.push({
         source: p.id,
         target: '5',
-      })
+      });
     }
 
     if (foundation?.whyHappens.includes(p.id)) {
       personsLinks.push({
         source: p.id,
         target: '3',
-      })
+      });
     }
 
     if (foundation?.whatHappens.includes(p.id)) {
       personsLinks.push({
         source: p.id,
         target: '2',
-      })
+      });
     }
 
     if (foundation?.whereHappens.includes(p.id)) {
       personsLinks.push({
         source: p.id,
         target: '4',
-      })
+      });
     }
 
-    const personAttributes = attributes.filter((attr) => attr.personId === p.id)
+    const personAttributes = attributes.filter(
+      (attr) => attr.personId === p.id
+    );
 
     personAttributes.forEach((a) => {
       personsLinks.push({
         source: p.id,
         target: a.id,
-      })
-    })
+      });
+    });
 
-    if (!p.fatherId && !p.motherId) return
+    if (!p.fatherId && !p.motherId) return;
 
     if (p.fatherId) {
       personsLinks.push({
         source: p.id,
         target: p.fatherId,
-      })
+      });
     }
 
     if (p.motherId) {
       personsLinks.push({
         source: p.id,
         target: p.motherId,
-      })
+      });
     }
-  })
+  });
 
   const data: GraphData = {
     nodes: [
@@ -262,9 +264,9 @@ export function ProjectPage() {
 
       ...personsLinks,
     ],
-  }
+  };
 
-  if (!project) return <NotFound />
+  if (!project) return <NotFound />;
 
   return (
     <main className="w-full absolute h-screen -top-48 overflow-hidden">
@@ -273,38 +275,38 @@ export function ProjectPage() {
         width={window.innerWidth}
         graphData={data}
         onNodeClick={(node) => {
-          if (!node || !node.path) return
-          navigate(node.path)
+          if (!node || !node.path) return;
+          navigate(node.path);
         }}
         maxZoom={12}
         minZoom={1.2}
         nodeAutoColorBy="group"
         linkCanvasObject={(link, ctx) => {
-          ctx.strokeStyle = `${graphBaseColor}50`
-          ctx.lineWidth = 0.1
-          ctx.beginPath()
-          ctx.moveTo(link.source?.x ?? 0, link.source?.y ?? 0)
-          ctx.lineTo(link.target?.x ?? 0, link.target?.y ?? 0)
-          ctx.stroke()
+          ctx.strokeStyle = `${graphBaseColor}50`;
+          ctx.lineWidth = 0.1;
+          ctx.beginPath();
+          ctx.moveTo(link.source?.x ?? 0, link.source?.y ?? 0);
+          ctx.lineTo(link.target?.x ?? 0, link.target?.y ?? 0);
+          ctx.stroke();
         }}
         nodeCanvasObject={(node, ctx, globalScale) => {
-          const { label } = node
-          const fontSize = 12 / globalScale
+          const { label } = node;
+          const fontSize = 12 / globalScale;
 
           if (globalScale > 2) {
-            ctx.font = `${fontSize}px Roboto`
-            ctx.textAlign = 'center'
-            ctx.textBaseline = 'middle'
-            ctx.fillStyle = node.color
-            ctx.fillText(label, node.x ?? 0, (node.y ?? 0) + 15 / globalScale)
+            ctx.font = `${fontSize}px Roboto`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = node.color;
+            ctx.fillText(label, node.x ?? 0, (node.y ?? 0) + 15 / globalScale);
           }
 
-          ctx.beginPath()
-          ctx.arc(node.x ?? 0, node.y ?? 0, 4 / globalScale, 0, 2 * Math.PI)
-          ctx.fillStyle = node.color ?? 'white'
-          ctx.fill()
+          ctx.beginPath();
+          ctx.arc(node.x ?? 0, node.y ?? 0, 4 / globalScale, 0, 2 * Math.PI);
+          ctx.fillStyle = node.color ?? 'white';
+          ctx.fill();
         }}
       />
     </main>
-  )
+  );
 }

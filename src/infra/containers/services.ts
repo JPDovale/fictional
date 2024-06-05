@@ -18,6 +18,9 @@ import { UpdateFileService } from '@modules/files/services/UpdateFile.service';
 import { GetFileService } from '@modules/files/services/GetFile.service';
 import { GetPersonService } from '@modules/persons/services/GetPerson.service';
 import { CreateTimelineService } from '@modules/timelines/services/CreateTimeline.service';
+import { CreateManyPersonEventsForDefaultTimelineService } from '@modules/timelines/services/CreateManyPersonEventsForDefaultTimeline.service';
+import { GetTimelinesService } from '@modules/timelines/services/GetTimelines.service';
+import { GetTimelineService } from '@modules/timelines/services/GetTimeline.service';
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -58,3 +61,6 @@ container.registerSingleton(GetFileService);
 // ++++++++++++++++++++++++++++++++++++++++++
 // Timelines
 container.registerSingleton(CreateTimelineService);
+container.registerSingleton(CreateManyPersonEventsForDefaultTimelineService);
+container.registerSingleton(GetTimelinesService);
+container.registerSingleton(GetTimelineService);

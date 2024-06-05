@@ -28,6 +28,8 @@ export class EventDate extends ValueObject<EventDateProps> {
 
   /**
    * @prop date = `day:month:year:period:hour:minute:second`
+   * 12:04:1305:0:12:19:32
+   * 30:06:1918:0:12:19:32
    */
   static createFromString(date: string) {
     const dateParts = date.split(':');
@@ -49,5 +51,14 @@ export class EventDate extends ValueObject<EventDateProps> {
     });
 
     return eventDate;
+  }
+
+  toString() {
+    const { day, month, year, period, hour, minute, second } = this.props;
+    return `${day}:${month}:${year}:${period}:${hour}:${minute}:${second}`;
+  }
+
+  toValue() {
+    return { ...this.props };
   }
 }

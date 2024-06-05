@@ -26,6 +26,12 @@ import { FilesKnexMapper } from '@infra/database/repositories/files/FilesKnex.ma
 import { TimelinesRepository } from '@modules/timelines/repositories/Timelines.repository';
 import { TimelinesKnexRepository } from '@infra/database/repositories/timelines/TimelinesKnex.repository';
 import { TimelinesKnexMapper } from '@infra/database/repositories/timelines/TimelinesKnex.mapper';
+import { EventsRepository } from '@modules/timelines/repositories/Events.respository';
+import { EventsKnexRepository } from '@infra/database/repositories/timelines/EventsKnex.repository';
+import { EventsKnexMapper } from '@infra/database/repositories/timelines/EventsKnex.mapper';
+import { EventsToPersonRepository } from '@modules/timelines/repositories/EventsToPerson.repository';
+import { EventsToPersonKnexRepository } from '@infra/database/repositories/timelines/EventsToPersonKnex.repository';
+import { EventsToPersonKnexMapper } from '@infra/database/repositories/timelines/EventsToPersonKnex.mapper';
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -92,3 +98,13 @@ container.registerSingleton(
   TimelinesKnexRepository
 );
 container.registerSingleton(TimelinesKnexMapper);
+container.registerSingleton(
+  EventsRepository as unknown as string,
+  EventsKnexRepository
+);
+container.registerSingleton(EventsKnexMapper);
+container.registerSingleton(
+  EventsToPersonRepository as unknown as string,
+  EventsToPersonKnexRepository
+);
+container.registerSingleton(EventsToPersonKnexMapper);

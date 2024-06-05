@@ -1,32 +1,32 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Requester } from '@infra/requester/requester'
-import { Accessors } from '@infra/requester/types'
-import { PersonType } from '@modules/persons/entities/types'
-import { CreatePersonBody } from '@modules/persons/gateways/CreatePerson.gateway'
-import { Button } from '@rComponents/application/Button'
-import { DropZone } from '@rComponents/application/DropZone'
-import { Input } from '@rComponents/application/Input'
-import { Avatar, AvatarFallback, AvatarImage } from '@rComponents/ui/avatar'
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Requester } from '@infra/requester/requester';
+import { Accessors } from '@infra/requester/types';
+import { PersonType } from '@modules/persons/entities/types';
+import { CreatePersonBody } from '@modules/persons/gateways/CreatePerson.gateway';
+import { Button } from '@rComponents/application/Button';
+import { DropZone } from '@rComponents/application/DropZone';
+import { Input } from '@rComponents/application/Input';
+import { Avatar, AvatarFallback, AvatarImage } from '@rComponents/ui/avatar';
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandItem,
-} from '@rComponents/ui/command'
+} from '@rComponents/ui/command';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@rComponents/ui/popover'
-import { usePersons } from '@rHooks/usePersons'
-import { useTheme } from '@rHooks/useTheme'
-import { useUser } from '@rHooks/useUser'
-import { StatusCode } from '@shared/core/types/StatusCode'
-import { Check, UserPlus, VenetianMask } from 'lucide-react'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { useParams } from 'react-router-dom'
-import { z } from 'zod'
+} from '@rComponents/ui/popover';
+import { usePersons } from '@rHooks/usePersons';
+import { useTheme } from '@rHooks/useTheme';
+import { useUser } from '@rHooks/useUser';
+import { StatusCode } from '@shared/core/types/StatusCode';
+import { Check, UserPlus, VenetianMask } from 'lucide-react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
+import { z } from 'zod';
 
 const createPersonSchema = z.object({
   name: z
@@ -40,14 +40,14 @@ const createPersonSchema = z.object({
   deathDate: z.string().trim().optional(),
   type: z.nativeEnum(PersonType).default(PersonType.EXTRA),
   image: z.string().trim().optional(),
-})
+});
 
-type CreatePersonData = z.infer<typeof createPersonSchema>
+type CreatePersonData = z.infer<typeof createPersonSchema>;
 
 type PersonTypeValue = {
-  label: string
-  value: PersonType
-}
+  label: string;
+  value: PersonType;
+};
 
 const types: PersonTypeValue[] = [
   {
@@ -86,20 +86,18 @@ const types: PersonTypeValue[] = [
     label: 'Mentor',
     value: PersonType.MENTOR,
   },
-]
+];
 
 export function ProjectNewPersonPage() {
-  const [imageSelected, setImageSelected] = useState('')
-  const [openFatherPicker, setOpenFatherPicker] = useState(false)
-  const [openMotherPicker, setOpenMotherPicker] = useState(false)
-  const [openTypePicker, setOpenTypePicker] = useState(false)
+  const [imageSelected, setImageSelected] = useState('');
+  const [openFatherPicker, setOpenFatherPicker] = useState(false);
+  const [openMotherPicker, setOpenMotherPicker] = useState(false);
+  const [openTypePicker, setOpenTypePicker] = useState(false);
 
-  const { theme } = useTheme()
-  const { projectId } = useParams()
-  const { user } = useUser()
-  const { persons, refetchPersons } = usePersons({
-    projectId: projectId as string,
-  })
+  const { theme } = useTheme();
+  const { projectId } = useParams();
+  const { user } = useUser();
+  const { persons, refetchPersons } = usePersons({ projectId });
 
   const {
     handleSubmit,
@@ -114,35 +112,35 @@ export function ProjectNewPersonPage() {
     defaultValues: {
       type: PersonType.EXTRA,
     },
-  })
+  });
 
-  const personType = watch('type')
-  const fatherId = watch('fatherId')
-  const motherId = watch('motherId')
+  const personType = watch('type');
+  const fatherId = watch('fatherId');
+  const motherId = watch('motherId');
 
-  const personTypeSelected = types.find((t) => t.value === personType)
-  const motherSelected = persons.find((p) => p.id === motherId)
-  const fatherSelected = persons.find((p) => p.id === fatherId)
+  const personTypeSelected = types.find((t) => t.value === personType);
+  const motherSelected = persons.find((p) => p.id === motherId);
+  const fatherSelected = persons.find((p) => p.id === fatherId);
 
   function handleSelectImage(files: File[]) {
-    const image = files[0]
+    const image = files[0];
 
-    if (!image) return
+    if (!image) return;
 
-    setValue('image', image.path)
-    setImageSelected(URL.createObjectURL(image))
+    setValue('image', image.path);
+    setImageSelected(URL.createObjectURL(image));
   }
 
   function handleDeleteImage() {
-    setValue('image', '')
-    setImageSelected('')
+    setValue('image', '');
+    setImageSelected('');
   }
 
   async function handleCreatePerson(data: CreatePersonData) {
     if (fatherId === motherId && (fatherId || motherId)) {
-      setError('motherId', { message: 'A mãe deve ser diferente do pai' })
-      setError('fatherId', { message: 'A mãe deve ser diferente do pai' })
-      return
+      setError('motherId', { message: 'A mãe deve ser diferente do pai' });
+      setError('fatherId', { message: 'A mãe deve ser diferente do pai' });
+      return;
     }
 
     const response = await Requester.requester<CreatePersonBody>({
@@ -153,15 +151,17 @@ export function ProjectNewPersonPage() {
         type: data.type,
         fatherId: data.fatherId,
         motherId: data.motherId,
+        birthDate: data.birthDate,
+        deathDate: data.deathDate,
         projectId: projectId as string,
         userId: user?.id ?? '',
       },
-    })
+    });
 
     if (response.status === StatusCode.CREATED) {
-      reset()
-      setImageSelected('')
-      refetchPersons()
+      reset();
+      setImageSelected('');
+      refetchPersons();
     }
   }
 
@@ -261,9 +261,9 @@ export function ProjectNewPersonPage() {
                                 'fatherId',
                                 currentValue === fatherId
                                   ? undefined
-                                  : currentValue,
-                              )
-                              setOpenFatherPicker(false)
+                                  : currentValue
+                              );
+                              setOpenFatherPicker(false);
                             }}
                           >
                             <Check
@@ -276,7 +276,7 @@ export function ProjectNewPersonPage() {
                                 src={p.image.url ?? undefined}
                                 className="object-cover"
                               />
-                              <AvatarFallback className='border border-purple800 bg-transparent'>
+                              <AvatarFallback className="border border-purple800 bg-transparent">
                                 <VenetianMask className="w-4 h-4" />
                               </AvatarFallback>
                             </Avatar>
@@ -322,9 +322,9 @@ export function ProjectNewPersonPage() {
                                 'motherId',
                                 currentValue === motherId
                                   ? undefined
-                                  : currentValue,
-                              )
-                              setOpenMotherPicker(false)
+                                  : currentValue
+                              );
+                              setOpenMotherPicker(false);
                             }}
                           >
                             <Check
@@ -337,7 +337,7 @@ export function ProjectNewPersonPage() {
                                 src={p.image.url ?? undefined}
                                 className="object-cover"
                               />
-                              <AvatarFallback className='border border-purple800 bg-transparent'>
+                              <AvatarFallback className="border border-purple800 bg-transparent">
                                 <VenetianMask className="w-4 h-4" />
                               </AvatarFallback>
                             </Avatar>
@@ -374,13 +374,13 @@ export function ProjectNewPersonPage() {
                           key={t.label}
                           value={t.value}
                           onSelect={(currentValue) => {
-                            const v = currentValue.toUpperCase() as PersonType
+                            const v = currentValue.toUpperCase() as PersonType;
 
                             setValue(
                               'type',
-                              v === personType ? PersonType.EXTRA : v,
-                            )
-                            setOpenTypePicker(false)
+                              v === personType ? PersonType.EXTRA : v
+                            );
+                            setOpenTypePicker(false);
                           }}
                         >
                           <Check
@@ -412,5 +412,5 @@ export function ProjectNewPersonPage() {
         </Button.Root>
       </form>
     </main>
-  )
+  );
 }

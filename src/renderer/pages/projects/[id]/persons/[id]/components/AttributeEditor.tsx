@@ -1,47 +1,50 @@
-import { Requester } from "@infra/requester/requester"
-import { Accessors } from "@infra/requester/types"
-import { UpdateFileBody } from "@modules/files/gateways/UpdateFile.gateway"
-import { BlockEditor } from "@rComponents/application/BlockEditor"
-import { Loading } from "@rComponents/application/Loading"
-import { NotFound } from "@rComponents/application/NotFound"
-import { useEditor } from "@rHooks/useEditor"
-import { useProject } from "@rHooks/useProject"
-import { useUser } from "@rHooks/useUser"
-import { StatusCode } from "@shared/core/types/StatusCode"
-import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { Requester } from '@infra/requester/requester';
+import { Accessors } from '@infra/requester/types';
+import { UpdateFileBody } from '@modules/files/gateways/UpdateFile.gateway';
+import { BlockEditor } from '@rComponents/application/BlockEditor';
+import { Loading } from '@rComponents/application/Loading';
+import { NotFound } from '@rComponents/application/NotFound';
+import { useEditor } from '@rHooks/useEditor';
+import { useProject } from '@rHooks/useProject';
+import { useUser } from '@rHooks/useUser';
+import { StatusCode } from '@shared/core/types/StatusCode';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 export function AttributeEditor() {
-  const { fileId, projectId, personId } = useParams()
+  const { fileId, projectId, personId } = useParams();
 
-  const { user } = useUser()
-  const { usePersonsAttributes, usePersons, useFile, usePerson } = useProject({ projectId: projectId as string })
-  const { persons } = usePersons()
-  const { refetchPerson } = usePerson({ personId: personId as string })
-  const { refetchAttributes } = usePersonsAttributes()
-  const { file, getTempPersistenceKey, refetchFile, isLoading, updateFile } = useFile({ fileId: fileId as string })
+  const { user } = useUser();
+  const { usePersonsAttributes, usePersons, useFile, usePerson } = useProject({
+    projectId,
+  });
+  const { persons } = usePersons();
+  const { refetchPerson } = usePerson({ personId });
+  const { refetchAttributes } = usePersonsAttributes();
+  const { file, getTempPersistenceKey, refetchFile, isLoading, updateFile } =
+    useFile({ fileId });
 
-  const [title, setTitle] = useState('')
+  const [title, setTitle] = useState('');
 
   const { editor } = useEditor({
     preValueKey: getTempPersistenceKey(),
     onDiff: (value) => updateFileOnDiff(value),
     personsSuggestion: persons,
-  })
+  });
 
   async function updateFileOnDiff(value: string) {
-    if (isLoading) return
-    if (!file) return
-    if (file.content === value) return
+    if (isLoading) return;
+    if (!file) return;
+    if (file.content === value) return;
 
-    await updateFile({ content: value })
-    await refetchAttributes()
-    refetchPerson()
+    await updateFile({ content: value });
+    await refetchAttributes();
+    refetchPerson();
   }
 
   async function handleSave() {
     if (title === file?.title) {
-      return
+      return;
     }
 
     const response = await Requester.requester<UpdateFileBody>({
@@ -51,23 +54,22 @@ export function AttributeEditor() {
         projectId: projectId as string,
         userId: user?.id as string,
         title,
-      }
-    })
+      },
+    });
 
     if (response.status === StatusCode.OK) {
-      refetchAttributes()
-      refetchFile()
-      refetchPerson()
+      refetchAttributes();
+      refetchFile();
+      refetchPerson();
     }
   }
 
   useEffect(() => {
-    setTitle(file?.title ?? '')
-  }, [file?.title])
-
+    setTitle(file?.title ?? '');
+  }, [file?.title]);
 
   if (!file) {
-    return <NotFound />
+    return <NotFound />;
   }
 
   return (
@@ -80,6 +82,6 @@ export function AttributeEditor() {
       />
 
       {editor && <BlockEditor editor={editor} />}
-    </main >
-  )
+    </main>
+  );
 }

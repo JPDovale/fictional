@@ -14,4 +14,6 @@ export enum Accessors {
   UPDATE_FILE = 'UFl',
   GET_FILE = 'GFl',
   GET_PERSON = 'GPrs',
+  GET_TIMELINES = 'GTs',
+  GET_TIMELINE = 'GT',
 }

@@ -12,7 +12,6 @@ export class TimelinesKnexRepository
     private readonly knexConnection: KnexConnection,
     private readonly mapper: TimelinesKnexMapper
   ) {}
-
   async findByProjectId(projectId: string): Promise<Timeline | null> {
     const timeline = await this.knexConnection
       .db('time_lines')
@@ -22,6 +21,32 @@ export class TimelinesKnexRepository
     if (!timeline) return null;
 
     return this.mapper.toDomain(timeline);
+  }
+
+  async findManyByProjectId(projectId: string): Promise<Timeline[]> {
+    const timelines = await this.knexConnection
+      .db('time_lines')
+      .where({ project_id: projectId })
+      .orderBy('created_at', 'desc');
+
+    return timelines.map(this.mapper.toDomain);
+  }
+
+  async findWihtEventsById(id: string): Promise<Timeline | null> {
+    const timeline = await this.knexConnection
+      .db('time_lines')
+      .where({ id })
+      .first();
+    if (!timeline) return null;
+
+    const events = await this.knexConnection
+      .db('time_line_events')
+      .where({ time_line_id: id })
+      .orderBy('created_at', 'asc');
+
+    const timelineWithEvents = { ...timeline, events };
+
+    return this.mapper.toDomainWithEvents(timelineWithEvents);
   }
 
   async create(data: Timeline, ctx?: KnexConfig | undefined): Promise<void> {

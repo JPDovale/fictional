@@ -1,32 +1,32 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Requester } from '@infra/requester/requester'
-import { Accessors } from '@infra/requester/types'
-import { PersonType } from '@modules/persons/entities/types'
-import { UpdatePersonBody } from '@modules/persons/gateways/UpdatePerson.gateway'
-import { Button } from '@rComponents/application/Button'
-import { DropZone } from '@rComponents/application/DropZone'
-import { Input } from '@rComponents/application/Input'
-import { Avatar, AvatarFallback, AvatarImage } from '@rComponents/ui/avatar'
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Requester } from '@infra/requester/requester';
+import { Accessors } from '@infra/requester/types';
+import { PersonType } from '@modules/persons/entities/types';
+import { UpdatePersonBody } from '@modules/persons/gateways/UpdatePerson.gateway';
+import { Button } from '@rComponents/application/Button';
+import { DropZone } from '@rComponents/application/DropZone';
+import { Input } from '@rComponents/application/Input';
+import { Avatar, AvatarFallback, AvatarImage } from '@rComponents/ui/avatar';
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandItem,
-} from '@rComponents/ui/command'
+} from '@rComponents/ui/command';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@rComponents/ui/popover'
-import { useProject } from '@rHooks/useProject'
-import { useTheme } from '@rHooks/useTheme'
-import { useUser } from '@rHooks/useUser'
-import { StatusCode } from '@shared/core/types/StatusCode'
-import { Check, VenetianMask, X } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { useParams } from 'react-router-dom'
-import { z } from 'zod'
+} from '@rComponents/ui/popover';
+import { useProject } from '@rHooks/useProject';
+import { useTheme } from '@rHooks/useTheme';
+import { useUser } from '@rHooks/useUser';
+import { StatusCode } from '@shared/core/types/StatusCode';
+import { Check, VenetianMask, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
+import { z } from 'zod';
 
 const updatePersonSchema = z.object({
   name: z
@@ -45,14 +45,14 @@ const updatePersonSchema = z.object({
     .optional()
     .nullable(),
   image: z.string().trim().optional().nullable(),
-})
+});
 
-type UpdatePersonData = z.infer<typeof updatePersonSchema>
+type UpdatePersonData = z.infer<typeof updatePersonSchema>;
 
 type PersonTypeValue = {
-  label: string
-  value: PersonType
-}
+  label: string;
+  value: PersonType;
+};
 
 const types: PersonTypeValue[] = [
   {
@@ -91,27 +91,27 @@ const types: PersonTypeValue[] = [
     label: 'Mentor',
     value: PersonType.MENTOR,
   },
-]
+];
 
 interface UpdatePersonFormProps {
-  onEdited: () => void
+  onEdited: () => void;
 }
 
 export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
-  const [imageSelected, setImageSelected] = useState('')
-  const [openFatherPicker, setOpenFatherPicker] = useState(false)
-  const [openMotherPicker, setOpenMotherPicker] = useState(false)
-  const [openTypePicker, setOpenTypePicker] = useState(false)
+  const [imageSelected, setImageSelected] = useState('');
+  const [openFatherPicker, setOpenFatherPicker] = useState(false);
+  const [openMotherPicker, setOpenMotherPicker] = useState(false);
+  const [openTypePicker, setOpenTypePicker] = useState(false);
 
-  const { projectId, personId } = useParams()
+  const { projectId, personId } = useParams();
 
-  const { theme } = useTheme()
-  const { user } = useUser()
-  const { usePersons, usePerson } = useProject({ projectId: projectId as string })
-  const { persons: personsWithSelected, refetchPersons } = usePersons()
-  const { person, refetchPerson } = usePerson({ personId: personId as string })
+  const { theme } = useTheme();
+  const { user } = useUser();
+  const { usePersons, usePerson } = useProject({ projectId });
+  const { persons: personsWithSelected, refetchPersons } = usePersons();
+  const { person, refetchPerson } = usePerson({ personId });
 
-  const persons = personsWithSelected.filter((p) => p.id !== personId)
+  const persons = personsWithSelected.filter((p) => p.id !== personId);
 
   const {
     handleSubmit,
@@ -131,43 +131,43 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
       birthDate: person?.birthDate,
       deathDate: person?.deathDate,
     },
-  })
+  });
 
-  const personType = watch('type')
-  const fatherId = watch('fatherId')
-  const motherId = watch('motherId')
+  const personType = watch('type');
+  const fatherId = watch('fatherId');
+  const motherId = watch('motherId');
 
-  const personTypeSelected = types.find((t) => t.value === personType)
-  const motherSelected = persons.find((p) => p.id === motherId)
-  const fatherSelected = persons.find((p) => p.id === fatherId)
+  const personTypeSelected = types.find((t) => t.value === personType);
+  const motherSelected = persons.find((p) => p.id === motherId);
+  const fatherSelected = persons.find((p) => p.id === fatherId);
 
   function handleSelectImage(files: File[]) {
-    const image = files[0]
+    const image = files[0];
 
-    if (!image) return
+    if (!image) return;
 
-    setValue('image', image.path)
-    setImageSelected(URL.createObjectURL(image))
+    setValue('image', image.path);
+    setImageSelected(URL.createObjectURL(image));
   }
 
   function handleDeleteImage() {
-    setValue('image', '')
-    setImageSelected('')
+    setValue('image', '');
+    setImageSelected('');
   }
 
   useEffect(() => {
     if (person && person.image.url) {
-      setValue('image', person.image.url)
-      setImageSelected(person.image.url ?? '')
+      setValue('image', person.image.url);
+      setImageSelected(person.image.url ?? '');
     }
 
-    reset()
-  }, [person])
+    reset();
+  }, [person]);
 
   async function handleUpdatePerson(data: UpdatePersonData) {
-    if (!projectId) return
-    if (!personId) return
-    if (!user?.id) return
+    if (!projectId) return;
+    if (!personId) return;
+    if (!user?.id) return;
 
     const response = await Requester.requester<UpdatePersonBody, void>({
       access: Accessors.UPDATE_PERSON,
@@ -177,13 +177,13 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
         userId: user.id,
         ...data,
       },
-    })
+    });
 
     if (response.status === StatusCode.OK) {
-      refetchPersons()
-      refetchPerson()
-      onEdited()
-      reset()
+      refetchPersons();
+      refetchPerson();
+      onEdited();
+      reset();
     }
   }
 
@@ -280,9 +280,9 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
                               'fatherId',
                               currentValue === fatherId
                                 ? undefined
-                                : currentValue,
-                            )
-                            setOpenFatherPicker(false)
+                                : currentValue
+                            );
+                            setOpenFatherPicker(false);
                           }}
                         >
                           <Check
@@ -290,13 +290,12 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
                             className="w-4 h-4 data-[hidden=true]:invisible mr-2"
                           />
 
-
                           <Avatar className="w-6 h-6 mr-2">
                             <AvatarImage
                               src={p.image.url ?? undefined}
                               className="object-cover"
                             />
-                            <AvatarFallback className='border border-purple800 bg-transparent'>
+                            <AvatarFallback className="border border-purple800 bg-transparent">
                               <VenetianMask className="w-4 h-4" />
                             </AvatarFallback>
                           </Avatar>
@@ -342,9 +341,9 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
                               'motherId',
                               currentValue === motherId
                                 ? undefined
-                                : currentValue,
-                            )
-                            setOpenMotherPicker(false)
+                                : currentValue
+                            );
+                            setOpenMotherPicker(false);
                           }}
                         >
                           <Check
@@ -357,13 +356,12 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
                               src={p.image.url ?? undefined}
                               className="object-cover"
                             />
-                            <AvatarFallback className='border border-purple800 bg-transparent'>
+                            <AvatarFallback className="border border-purple800 bg-transparent">
                               <VenetianMask className="w-4 h-4" />
                             </AvatarFallback>
                           </Avatar>
 
                           <span className="text-xs">{p.name}</span>
-
                         </CommandItem>
                       ))}
                     </CommandGroup>
@@ -395,13 +393,13 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
                         key={t.label}
                         value={t.value}
                         onSelect={(currentValue) => {
-                          const v = currentValue.toUpperCase() as PersonType
+                          const v = currentValue.toUpperCase() as PersonType;
 
                           setValue(
                             'type',
-                            v === personType ? PersonType.EXTRA : v,
-                          )
-                          setOpenTypePicker(false)
+                            v === personType ? PersonType.EXTRA : v
+                          );
+                          setOpenTypePicker(false);
                         }}
                       >
                         <Check
@@ -437,5 +435,5 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
         </Button.Root>
       </div>
     </form>
-  )
+  );
 }

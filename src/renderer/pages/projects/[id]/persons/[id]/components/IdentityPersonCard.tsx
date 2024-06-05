@@ -1,30 +1,31 @@
-import { Button } from '@rComponents/application/Button'
-import { Avatar, AvatarFallback, AvatarImage } from '@rComponents/ui/avatar'
-import { useProject } from '@rHooks/useProject'
-import { useTheme } from '@rHooks/useTheme'
-import { Pen, VenetianMask } from 'lucide-react'
-import { useParams } from 'react-router-dom'
+import { Button } from '@rComponents/application/Button';
+import { Avatar, AvatarFallback, AvatarImage } from '@rComponents/ui/avatar';
+import { useProject } from '@rHooks/useProject';
+import { useTheme } from '@rHooks/useTheme';
+import { Pen, VenetianMask } from 'lucide-react';
+import { useParams } from 'react-router-dom';
 
 interface IndentityPersonCardProps {
-  onEdit: () => void
+  onEdit: () => void;
 }
 
-export function IdentityPersonCard({
-  onEdit,
-}: IndentityPersonCardProps) {
-  const { theme } = useTheme()
-  const { projectId, personId } = useParams()
-  const { usePersons, usePerson } = useProject({ projectId: projectId as string })
-  const { persons } = usePersons()
-  const { person } = usePerson({ personId: personId as string })
+export function IdentityPersonCard({ onEdit }: IndentityPersonCardProps) {
+  const { theme } = useTheme();
+  const { projectId, personId } = useParams();
+  const { usePersons, usePerson } = useProject({ projectId });
+  const { persons } = usePersons();
+  const { person } = usePerson({ personId });
 
-  const mother = persons.find((p) => p.id === person?.motherId)
-  const father = persons.find((p) => p.id === person?.fatherId)
+  const mother = persons.find((p) => p.id === person?.motherId);
+  const father = persons.find((p) => p.id === person?.fatherId);
 
-  if (!person) return null
+  if (!person) return null;
 
   return (
-    <div data-theme={theme} className="flex flex-col bg-gray100/30 data-[theme=light]:bg-gray900/30 relative shadow-2xl backdrop-blur-sm rounded-lg gap-4 p-4">
+    <div
+      data-theme={theme}
+      className="flex flex-col bg-gray100/30 data-[theme=light]:bg-gray900/30 relative shadow-2xl backdrop-blur-sm rounded-lg gap-4 p-4"
+    >
       <div className="flex items-center gap-8">
         <Avatar className="w-48 h-48 ">
           <AvatarImage
@@ -83,5 +84,5 @@ export function IdentityPersonCard({
         </Button.Icon>
       </Button.Root>
     </div>
-  )
+  );
 }
