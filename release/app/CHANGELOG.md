@@ -1,5 +1,11 @@
 # magiscrita
 
+## 0.3.0
+
+### Minor Changes
+
+- Add time lines build blocks
+
 ## 0.2.7
 
 ### Patch Changes
