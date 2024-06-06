@@ -42,9 +42,8 @@ export class Project extends AggregateRoot<ProjectProps> {
     };
 
     const project = new Project(propsProject, id);
-    const isNewProject = !id;
 
-    if (isNewProject) {
+    if (project.isNewEntity) {
       const isProjectWithFoundation = project.buildBlocks.implements(
         BuildBlock.FOUNDATION
       );

@@ -52,6 +52,7 @@ export function useTimeline({ projectId, timelineId }: UseTimelineProps) {
         attributesThisPerson: [],
       };
     },
+    staleTime: 1000,
   });
 
   const timeline = data?.timeline ?? null;

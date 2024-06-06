@@ -146,11 +146,20 @@ export class UpdatePersonService
       await imageSecure.copyToSecure();
     }
 
+    const oldName = person.name;
+
     person.name = name;
     person.image = image;
     person.type = type ?? undefined;
     person.history = history;
     person.affiliationId = affiliationId ?? undefined;
+
+    if (
+      project.buildBlocks.implements(BuildBlock.TIME_LINES) &&
+      oldName !== name
+    ) {
+      person.addPersonInfosUsedInEventsUpdatedEvent();
+    }
 
     await this.personsRepository.save(person);
 

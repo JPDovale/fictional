@@ -5,7 +5,7 @@
  *  @prop {T} props - The value to be saved
  */
 export class ValueObject<T> {
-  protected props: T
+  protected props: T;
 
   /**
    * @prop {T} props - The value to be saved
@@ -13,7 +13,7 @@ export class ValueObject<T> {
    * Initializes a value object
    */
   protected constructor(props: T) {
-    this.props = props
+    this.props = props;
   }
 
   /**
@@ -22,16 +22,17 @@ export class ValueObject<T> {
    *
    * Used to compare equality between two value objects
    */
-  public equals(valueObject: ValueObject<unknown>): boolean {
+  public equals(valueObject: ValueObject<unknown> | null): boolean {
+    if (!valueObject) return false;
     if (valueObject === this) {
-      return true
+      return true;
     }
 
     if (JSON.stringify(valueObject.props) === JSON.stringify(this.props)) {
-      return true
+      return true;
     }
 
-    return false
+    return false;
   }
 
   /**
@@ -40,6 +41,6 @@ export class ValueObject<T> {
    * Used to get the value of props
    */
   public toValue(): T {
-    return this.props
+    return this.props;
   }
 }

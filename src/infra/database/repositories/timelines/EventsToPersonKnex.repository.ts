@@ -24,6 +24,18 @@ export class EventsToPersonKnexRepository
     );
   }
 
+  async findManyByPersonId(
+    personId: string,
+    ctx?: KnexConfig | undefined
+  ): Promise<EventToPerson[]> {
+    const { db } = ctx || this.knexConnection;
+    const eventsToPerson = await db('time_line_events_to_person').where({
+      person_id: personId,
+    });
+
+    return eventsToPerson.map(this.mapper.toDomain);
+  }
+
   create(data: EventToPerson, ctx?: KnexConfig | undefined): Promise<void> {
     throw new Error('Method not implemented.');
   }

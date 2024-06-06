@@ -35,6 +35,12 @@ export class Event extends AggregateRoot<EventProps> {
     return this.props.event;
   }
 
+  set event(event: string) {
+    if (event === this.props.event) return;
+    this.props.event = event;
+    this.touch();
+  }
+
   get timelineId() {
     return this.props.timelineId;
   }
@@ -45,5 +51,9 @@ export class Event extends AggregateRoot<EventProps> {
 
   get updatedAt() {
     return this.props.updatedAt;
+  }
+
+  touch() {
+    this.props.updatedAt = new Date();
   }
 }

@@ -4,6 +4,8 @@ import { UniqueId } from '@shared/core/valueObjects/UniqueId';
 import { PersonType } from './types';
 import { PersonCreatedWithTimelineEvent } from '../events/PersonCreatedWithTimelineEvent.event';
 import { EventToPersonType } from '@modules/timelines/entities/EventToPerson';
+import { DomainEvent } from '@shared/core/events/DomainEvent';
+import { PersonInfosUsedInEventUpdatedEvent } from '../events/PersonInfosUsedInEventsUpdated.event';
 
 interface PersonProps {
   name: string | null;
@@ -17,18 +19,8 @@ interface PersonProps {
 }
 
 type CreatePersonProps = Optional<
-  PersonProps & {
-    birthDate: string;
-    deathDate: string;
-  },
-  | 'createdAt'
-  | 'updatedAt'
-  | 'name'
-  | 'image'
-  | 'affiliationId'
-  | 'birthDate'
-  | 'deathDate'
-  | 'history'
+  PersonProps,
+  'createdAt' | 'updatedAt' | 'name' | 'image' | 'affiliationId' | 'history'
 >;
 
 export class Person extends AggregateRoot<PersonProps> {
@@ -45,31 +37,6 @@ export class Person extends AggregateRoot<PersonProps> {
 
     const person = new Person(personProps, id);
 
-    const isNewPerson = !id;
-
-    if (isNewPerson && (props.birthDate || props.deathDate)) {
-      const events: { date: string; event: string; type: EventToPersonType }[] =
-        [];
-
-      if (props.birthDate) {
-        events.push({
-          date: props.birthDate,
-          event: `Nascimento de ${person.name}`,
-          type: EventToPersonType.BIRTH,
-        });
-      }
-
-      if (props.deathDate) {
-        events.push({
-          date: props.deathDate,
-          event: `Morte de ${person.name}`,
-          type: EventToPersonType.DEATH,
-        });
-      }
-
-      person.addDomainEvent(new PersonCreatedWithTimelineEvent(person, events));
-    }
-
     return person;
   }
 
@@ -78,6 +45,8 @@ export class Person extends AggregateRoot<PersonProps> {
   }
 
   set name(name: string | undefined | null) {
+    if (name === this.props.name) return;
+
     this.props.name = name === undefined ? this.props.name : name;
     this.touch();
   }
@@ -87,6 +56,8 @@ export class Person extends AggregateRoot<PersonProps> {
   }
 
   set history(history: string | undefined | null) {
+    if (history === this.props.history) return;
+
     this.props.history = history === undefined ? this.props.history : history;
     this.touch();
   }
@@ -96,6 +67,8 @@ export class Person extends AggregateRoot<PersonProps> {
   }
 
   set image(image: string | undefined | null) {
+    if (image === this.props.image) return;
+
     this.props.image = image === undefined ? this.props.image : image;
     this.touch();
   }
@@ -105,6 +78,8 @@ export class Person extends AggregateRoot<PersonProps> {
   }
 
   set type(type: PersonType | undefined) {
+    if (type === this.props.type) return;
+
     this.props.type = type === undefined ? this.props.type : type;
     this.touch();
   }
@@ -126,6 +101,8 @@ export class Person extends AggregateRoot<PersonProps> {
   }
 
   set affiliationId(affiliationId: UniqueId | undefined | null) {
+    if (affiliationId?.equals(this.props?.affiliationId)) return;
+
     this.props.affiliationId =
       affiliationId === undefined ? this.props.affiliationId : affiliationId;
     this.touch();
@@ -133,5 +110,15 @@ export class Person extends AggregateRoot<PersonProps> {
 
   touch() {
     this.props.updatedAt = new Date();
+  }
+
+  addPersonCreatedWithTimelineEvent(
+    events: { date: string; event: string; type: EventToPersonType }[]
+  ) {
+    this.addDomainEvent(new PersonCreatedWithTimelineEvent(this, events));
+  }
+
+  addPersonInfosUsedInEventsUpdatedEvent() {
+    this.addDomainEvent(new PersonInfosUsedInEventUpdatedEvent(this));
   }
 }

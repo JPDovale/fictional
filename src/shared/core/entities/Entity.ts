@@ -1,4 +1,4 @@
-import { UniqueId } from '../valueObjects/UniqueId'
+import { UniqueId } from '../valueObjects/UniqueId';
 /**
  * @class Entity - Entity is a base class that can be extended to create a new entity. The entity is responsible for validating the data and creating the id
  * @template T The type of the props
@@ -7,8 +7,9 @@ import { UniqueId } from '../valueObjects/UniqueId'
  * @prop {T} props - The props that are required to create a new entity
  */
 export class Entity<T> {
-  private _id: UniqueId
-  protected props: T
+  private _id: UniqueId;
+  private _isNewEntity: boolean;
+  protected props: T;
 
   /**
    * A protected constructor that is used to create a new entity with the required properties...
@@ -18,8 +19,9 @@ export class Entity<T> {
    * @param {UniqueId=} id - The id of the entity. If not provided, it will be generated
    */
   protected constructor(props: T, id?: UniqueId) {
-    this._id = id ?? UniqueId.create()
-    this.props = props
+    this._id = id ?? UniqueId.create();
+    this._isNewEntity = !id;
+    this.props = props;
   }
 
   /**
@@ -27,7 +29,11 @@ export class Entity<T> {
    * @returns {UniqueId}
    */
   get id(): UniqueId {
-    return this._id
+    return this._id;
+  }
+
+  get isNewEntity(): boolean {
+    return this._isNewEntity;
   }
 
   /**
@@ -38,13 +44,13 @@ export class Entity<T> {
    */
   public equals(entity: Entity<unknown>): boolean {
     if (entity === this) {
-      return true
+      return true;
     }
 
     if (entity.id.equals(this.id)) {
-      return true
+      return true;
     }
 
-    return false
+    return false;
   }
 }

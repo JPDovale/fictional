@@ -41,6 +41,8 @@ export class PersonsKnexRepository implements PersonsRepository {
       .db('persons')
       .where({ id: person.id.toValue() })
       .update(this.mapper.toPersistence(person));
+
+    DomainEvents.dispatchEventsForAggregate(person.id);
   }
 
   delete(id: string): Promise<void> {

@@ -6,4 +6,6 @@ export abstract class EventsRepository<T = unknown> extends Repository<
   T
 > {
   abstract createMany(events: Event[], ctx?: T): Promise<void>;
+  abstract findManyByIds(ids: string[], ctx?: T): Promise<Event[]>;
+  abstract saveMany(events: Event[], ctx?: T): Promise<void>;
 }

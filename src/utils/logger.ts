@@ -28,13 +28,13 @@ export class Logger {
     return highlightedJson;
   }
 
-  static preLog(preLog: PreLog, ...args: unknown[]) {
+  static preLog(preLog: PreLog, isDefault = false, ...args: unknown[]) {
     console.log(
       chalk[prelogColorMap[preLog]].bold(
         `============================================================${preLog}============================================================`
       )
     );
-    this.log(...args);
+    this.log(isDefault, ...args);
     console.log(
       chalk[prelogColorMap[preLog]].bold(
         `============================================================${preLog}============================================================`
@@ -42,7 +42,7 @@ export class Logger {
     );
   }
 
-  static log(...args: unknown[]) {
+  static log(isDefault = false, ...args: unknown[]) {
     let msg = '';
 
     for (const arg of args) {
@@ -83,9 +83,13 @@ export class Logger {
         continue;
       }
 
-      if (isObject(arg)) {
+      if (isObject(arg) && !isDefault) {
         msg += this.makeHighligth(arg);
         msg += `\n`;
+      }
+
+      if (isObject(arg) && isDefault) {
+        console.log(arg);
       }
     }
 
@@ -93,22 +97,26 @@ export class Logger {
   }
 
   static debug(...args: unknown[]) {
-    this.preLog(PreLog.DEBUG, ...args);
+    this.preLog(PreLog.DEBUG, false, ...args);
   }
 
   static error(...args: unknown[]) {
-    this.preLog(PreLog.ERROR, ...args);
+    this.preLog(PreLog.ERROR, false, ...args);
   }
 
   static info(...args: unknown[]) {
-    this.preLog(PreLog.INFO, ...args);
+    this.preLog(PreLog.INFO, false, ...args);
   }
 
   static panic(...args: unknown[]) {
-    this.preLog(PreLog.PANIC, ...args);
+    this.preLog(PreLog.PANIC, false, ...args);
   }
 
   static warn(...args: unknown[]) {
-    this.preLog(PreLog.WARN, ...args);
+    this.preLog(PreLog.WARN, false, ...args);
+  }
+
+  static defaultLog(...args: unknown[]) {
+    this.preLog(PreLog.DEBUG, true, ...args);
   }
 }

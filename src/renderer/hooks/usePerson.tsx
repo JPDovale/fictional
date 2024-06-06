@@ -92,6 +92,7 @@ export function usePerson({ projectId, personId }: UsePersonProps) {
 
       await Requester.requester<UpdatePersonBody>({
         access: Accessors.UPDATE_PERSON,
+        isDebug: true,
         data: {
           projectId,
           personId,

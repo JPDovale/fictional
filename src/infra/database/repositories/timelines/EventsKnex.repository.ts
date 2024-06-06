@@ -20,6 +20,27 @@ export class EventsKnexRepository implements EventsRepository<KnexConfig> {
     await db('time_line_events').insert(events.map(this.mapper.toPersistence));
   }
 
+  async findManyByIds(
+    ids: string[],
+    ctx?: KnexConfig | undefined
+  ): Promise<Event[]> {
+    const { db } = ctx || this.knexConnection;
+    const events = await db('time_line_events').whereIn('id', ids);
+    return events.map(this.mapper.toDomain);
+  }
+
+  async saveMany(events: Event[], ctx?: KnexConfig | undefined): Promise<void> {
+    const { db } = ctx || this.knexConnection;
+
+    const updatesPromises = events.map((event) =>
+      db('time_line_events')
+        .update(this.mapper.toPersistence(event))
+        .where('id', event.id.toString())
+    );
+
+    await Promise.all(updatesPromises);
+  }
+
   create(data: Event, ctx?: KnexConfig | undefined): Promise<void> {
     throw new Error('Method not implemented.');
   }
