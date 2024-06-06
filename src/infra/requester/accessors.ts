@@ -17,6 +17,7 @@ import { GetFileController } from '@modules/files/controllers/GetFile.controller
 import { GetPersonController } from '@modules/persons/controllers/GetPerson.controller';
 import { GetTimelinesController } from '@modules/timelines/controllers/GetTimelines.controller';
 import { GetTimelineController } from '@modules/timelines/controllers/GetTimeline.controller';
+import { UpdateProjectBuildBlocksController } from '@modules/projects/controllers/UpdateProjectBuildBlocks.controller';
 
 export const accessors = {
   [Accessors.CREATE_USER]: container.resolve(CreateUserController),
@@ -40,4 +41,7 @@ export const accessors = {
   [Accessors.GET_PERSON]: container.resolve(GetPersonController),
   [Accessors.GET_TIMELINES]: container.resolve(GetTimelinesController),
   [Accessors.GET_TIMELINE]: container.resolve(GetTimelineController),
+  [Accessors.UPDATE_PROJECT_BUILD_BLOCKS]: container.resolve(
+    UpdateProjectBuildBlocksController
+  ),
 };

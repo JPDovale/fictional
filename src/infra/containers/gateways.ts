@@ -16,6 +16,7 @@ import { GetFileGateway } from '@modules/files/gateways/GetFile.gateway';
 import { GetPersonGateway } from '@modules/persons/gateways/GetPerson.gateway';
 import { GetTimelinesGateway } from '@modules/timelines/gateways/GetTimelines.gateways';
 import { GetTimelineGateway } from '@modules/timelines/gateways/GetTimeline.gateways';
+import { UpdateProjectBuildBlocksGateway } from '@modules/projects/gateways/UpdateProjectBuildBlocks.gateway';
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -27,6 +28,7 @@ container.registerSingleton(GetUserGateway);
 container.registerSingleton(CreateProjectGateway);
 container.registerSingleton(GetProjectsGateway);
 container.registerSingleton(GetProjectGateway);
+container.registerSingleton(UpdateProjectBuildBlocksGateway);
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Foundations

@@ -16,4 +16,5 @@ export enum Accessors {
   GET_PERSON = 'GPrs',
   GET_TIMELINES = 'GTs',
   GET_TIMELINE = 'GT',
+  UPDATE_PROJECT_BUILD_BLOCKS = 'UPBB',
 }

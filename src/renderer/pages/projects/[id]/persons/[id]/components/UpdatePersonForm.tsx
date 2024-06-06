@@ -227,28 +227,28 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
           </Input.Root>
 
           <div className="grid grid-cols-2 gap-4">
-            <Input.Root>
-              <Input.Header>
-                <Input.Label>Data de nascimento</Input.Label>
-                <Input.Error>{errors.birthDate?.message}</Input.Error>
-              </Input.Header>
-
-              <Input.Input size="sm">
-                <Input.TextInput {...register('birthDate')} />
-              </Input.Input>
-            </Input.Root>
-
-            <Input.Root>
-              <Input.Header>
-                <Input.Label>Data de óbito</Input.Label>
-                <Input.Error>{errors.deathDate?.message}</Input.Error>
-              </Input.Header>
-
-              <Input.Input size="sm">
-                <Input.TextInput {...register('deathDate')} />
-              </Input.Input>
-            </Input.Root>
-
+            {/* <Input.Root> */}
+            {/*   <Input.Header> */}
+            {/*     <Input.Label>Data de nascimento</Input.Label> */}
+            {/*     <Input.Error>{errors.birthDate?.message}</Input.Error> */}
+            {/*   </Input.Header> */}
+            {/**/}
+            {/*   <Input.Input size="sm"> */}
+            {/*     <Input.TextInput {...register('birthDate')} /> */}
+            {/*   </Input.Input> */}
+            {/* </Input.Root> */}
+            {/**/}
+            {/* <Input.Root> */}
+            {/*   <Input.Header> */}
+            {/*     <Input.Label>Data de óbito</Input.Label> */}
+            {/*     <Input.Error>{errors.deathDate?.message}</Input.Error> */}
+            {/*   </Input.Header> */}
+            {/**/}
+            {/*   <Input.Input size="sm"> */}
+            {/*     <Input.TextInput {...register('deathDate')} /> */}
+            {/*   </Input.Input> */}
+            {/* </Input.Root> */}
+            {/**/}
             <Input.Root>
               <Input.Header>
                 <Input.Label>Pai</Input.Label>

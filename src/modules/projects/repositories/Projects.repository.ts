@@ -1,6 +1,9 @@
-import { Repository } from '@shared/core/contracts/Repository'
-import { Project } from '../entities/Project'
+import { Repository } from '@shared/core/contracts/Repository';
+import { Project } from '../entities/Project';
 
-export abstract class ProjectsRepository extends Repository<Project> {
-  abstract findManyByUserId(userId: string): Promise<Project[]>
+export abstract class ProjectsRepository<T = unknown> extends Repository<
+  Project,
+  T
+> {
+  abstract findManyByUserId(userId: string, ctx?: T): Promise<Project[]>;
 }

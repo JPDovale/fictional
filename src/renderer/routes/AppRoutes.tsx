@@ -23,6 +23,7 @@ import { PersonPersonalityAttributrePage } from '../pages/projects/[id]/persons/
 import { PersonTraumaAttributrePage } from '../pages/projects/[id]/persons/[id]/traumas';
 import { PersonValueAttributrePage } from '../pages/projects/[id]/persons/[id]/values';
 import { ProjectTimelinePage } from '../pages/projects/[id]/time-lines/[id]';
+import { ProjectEditBuildBlocksPage } from '../pages/projects/[id]/config/build-blocks';
 
 export function AppRoutes() {
   const { isLoading } = usePreload();
@@ -116,6 +117,11 @@ export function AppRoutes() {
           <Route
             path="/projects/:projectId/config"
             element={<ProjectConfigPage />}
+          />
+
+          <Route
+            path="/projects/:projectId/edit/build-blocks"
+            element={<ProjectEditBuildBlocksPage />}
           />
         </Route>
       </Route>

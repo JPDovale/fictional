@@ -67,6 +67,7 @@ export function useTimelineEvents({ events }: UseTimelineEventsProps) {
         monthName: string;
         days: {
           day: number;
+          dayString: string;
           events: EventResponse[];
         }[];
       }[];
@@ -105,6 +106,7 @@ export function useTimelineEvents({ events }: UseTimelineEventsProps) {
     if (!dayGroup) {
       dayGroup = {
         day,
+        dayString: `${day}:${month}:${year}:${period}`,
         events: [],
       };
       monthGroup.days.push(dayGroup);

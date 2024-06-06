@@ -1,6 +1,6 @@
 import { NotFound } from '@rComponents/application/NotFound';
 import { useProject } from '@rHooks/useProject';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { BuildBlockUsing } from '@rComponents/projects/BuildBlockUsing';
 import { BuildBlock } from '@modules/projects/valueObjects/BuildBlocks';
 import { InfoBlock } from '../components/InfoBlock';
@@ -8,6 +8,8 @@ import { InfoBlock } from '../components/InfoBlock';
 export function ProjectConfigPage() {
   const { projectId } = useParams();
   const { project } = useProject({ projectId });
+
+  const navigate = useNavigate();
 
   if (!project) return <NotFound />;
 
@@ -18,7 +20,11 @@ export function ProjectConfigPage() {
           <InfoBlock.Title>
             Você está usando os blocos de construção:
           </InfoBlock.Title>
-          <InfoBlock.EditButton />
+          <InfoBlock.EditButton
+            onClick={() =>
+              navigate(`/projects/${project.id}/edit/build-blocks`)
+            }
+          />
         </InfoBlock.Header>
 
         <InfoBlock.Body className="grid grid-cols-4 gap-4 mt-4">

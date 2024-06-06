@@ -6,6 +6,7 @@ import { CreatePersonBody } from '@modules/persons/gateways/CreatePerson.gateway
 import { Button } from '@rComponents/application/Button';
 import { DropZone } from '@rComponents/application/DropZone';
 import { Input } from '@rComponents/application/Input';
+import { NotFound } from '@rComponents/application/NotFound';
 import { Avatar, AvatarFallback, AvatarImage } from '@rComponents/ui/avatar';
 import {
   Command,
@@ -18,7 +19,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@rComponents/ui/popover';
-import { usePersons } from '@rHooks/usePersons';
+import { useProject } from '@rHooks/useProject';
 import { useTheme } from '@rHooks/useTheme';
 import { useUser } from '@rHooks/useUser';
 import { StatusCode } from '@shared/core/types/StatusCode';
@@ -36,8 +37,20 @@ const createPersonSchema = z.object({
     .optional(),
   fatherId: z.string().trim().uuid().optional(),
   motherId: z.string().trim().uuid().optional(),
-  birthDate: z.string().trim().optional(),
-  deathDate: z.string().trim().optional(),
+  birthDateDay: z.coerce.number().max(31, 'Dia inválido').optional(),
+  birthDateMonth: z.coerce.number().max(12, 'Mês inválido').optional(),
+  birthDateYear: z.coerce.number().optional(),
+  birthDatePeriod: z.coerce.number().optional(),
+  birthDateHour: z.coerce.number().max(23, 'Hora inválida').optional(),
+  birthDateMinute: z.coerce.number().max(59, 'Minuto inválido').optional(),
+  birthDateSecond: z.coerce.number().max(59, 'Segundo inválido').optional(),
+  deathDateDay: z.coerce.number().max(31, 'Dia inválido').optional(),
+  deathDateMonth: z.coerce.number().max(12, 'Mês inválido').optional(),
+  deathDateYear: z.coerce.number().optional(),
+  deathDatePeriod: z.coerce.number().optional(),
+  deathDateHour: z.coerce.number().max(23, 'Hora inválida').optional(),
+  deathDateMinute: z.coerce.number().max(59, 'Minuto inválido').optional(),
+  deathDateSecond: z.coerce.number().max(59, 'Segundo inválido').optional(),
   type: z.nativeEnum(PersonType).default(PersonType.EXTRA),
   image: z.string().trim().optional(),
 });
@@ -88,16 +101,43 @@ const types: PersonTypeValue[] = [
   },
 ];
 
+function isLeapYearFn(year: number) {
+  if (year % 4 !== 0) return false;
+  if (year % 100 !== 0) return true;
+  if (year % 400 !== 0) return false;
+  return true;
+}
+
+const maxDayForMonthsMapper = {
+  1: 31, // Janeiro
+  2: 29, // Fevereiro (considerando anos bissextos)
+  3: 31, // Março
+  4: 30, // Abril
+  5: 31, // Maio
+  6: 30, // Junho
+  7: 31, // Julho
+  8: 31, // Agosto
+  9: 30, // Setembro
+  10: 31, // Outubro
+  11: 30, // Novembro
+  12: 31, // Dezembro
+} as { [x: number]: number };
+
 export function ProjectNewPersonPage() {
   const [imageSelected, setImageSelected] = useState('');
   const [openFatherPicker, setOpenFatherPicker] = useState(false);
   const [openMotherPicker, setOpenMotherPicker] = useState(false);
   const [openTypePicker, setOpenTypePicker] = useState(false);
+  const [openBirthDatePeriodPicker, setOpenBirthDatePeriodPicker] =
+    useState(false);
+  const [openDeathDatePeriodPicker, setOpenDeathDatePeriodPicker] =
+    useState(false);
 
   const { theme } = useTheme();
   const { projectId } = useParams();
   const { user } = useUser();
-  const { persons, refetchPersons } = usePersons({ projectId });
+  const { usePersons, project } = useProject({ projectId });
+  const { persons, refetchPersons } = usePersons();
 
   const {
     handleSubmit,
@@ -115,6 +155,8 @@ export function ProjectNewPersonPage() {
   });
 
   const personType = watch('type');
+  const birthDatePeriod = watch('birthDatePeriod');
+  const deathDatePeriod = watch('deathDatePeriod');
   const fatherId = watch('fatherId');
   const motherId = watch('motherId');
 
@@ -143,6 +185,157 @@ export function ProjectNewPersonPage() {
       return;
     }
 
+    let birthDate: string | undefined = undefined;
+    let deathDate: string | undefined = undefined;
+
+    if (
+      data.birthDateDay !== 0 ||
+      data.birthDateMonth !== 0 ||
+      data.birthDateYear !== 0 ||
+      data.birthDateHour !== 0 ||
+      data.birthDateMinute !== 0 ||
+      data.birthDateSecond !== 0
+    ) {
+      if (
+        data.birthDateDay === 0 ||
+        data.birthDateMonth === 0 ||
+        data.birthDateYear === 0 ||
+        (data.birthDatePeriod !== -1 && data.birthDatePeriod !== 0)
+      ) {
+        setError('birthDateDay', {
+          message:
+            'Ao preencher um campo da data, os campo "Dia", "Mês", "Ano" e "Periodo" devem ser preenchidos"',
+        });
+        return;
+      }
+
+      if (data.birthDateDay && data.birthDateDay <= 0) {
+        setError('birthDateDay', { message: 'Dia inválido' });
+        return;
+      }
+
+      if (data.birthDateMonth && data.birthDateMonth <= 0) {
+        setError('birthDateDay', { message: 'Mês inválido' });
+        return;
+      }
+
+      if (data.birthDateYear && data.birthDateYear <= 0) {
+        setError('birthDateDay', { message: 'Ano inválido' });
+        return;
+      }
+
+      if (data.birthDateHour && data.birthDateHour < 0) {
+        setError('birthDateDay', { message: 'Hora inválido' });
+        return;
+      }
+
+      if (data.birthDateMinute && data.birthDateMinute < 0) {
+        setError('birthDateDay', { message: 'Minuto inválido' });
+        return;
+      }
+
+      if (data.birthDateSecond && data.birthDateSecond < 0) {
+        setError('birthDateDay', { message: 'Segundo inválido' });
+        return;
+      }
+
+      if (data.birthDateMonth === 2) {
+        const isLeapYear = isLeapYearFn(data.birthDateYear!);
+
+        if (isLeapYear && data.birthDateDay! > 29) {
+          setError('birthDateDay', { message: 'Dia inválido' });
+          return;
+        }
+
+        if (!isLeapYear && data.birthDateDay! > 28) {
+          setError('birthDateDay', { message: 'Dia inválido' });
+          return;
+        }
+      } else {
+        const daysInMonth = maxDayForMonthsMapper[data.birthDateMonth!];
+
+        if (data.birthDateDay! > daysInMonth) {
+          return setError('birthDateDay', { message: 'Dia inválido' });
+        }
+      }
+
+      birthDate = `${data.birthDateDay}:${data.birthDateMonth}:${data.birthDateYear}:${data.birthDatePeriod}:${data.birthDateHour}:${data.birthDateMinute}:${data.birthDateSecond}`;
+    }
+
+    if (
+      data.deathDateDay !== 0 ||
+      data.deathDateMonth !== 0 ||
+      data.deathDateYear !== 0 ||
+      data.deathDateHour !== 0 ||
+      data.deathDateMinute !== 0 ||
+      data.deathDateSecond !== 0
+    ) {
+      if (
+        data.deathDateDay === 0 ||
+        data.deathDateMonth === 0 ||
+        data.deathDateYear === 0 ||
+        (data.deathDatePeriod !== -1 && data.deathDatePeriod !== 0)
+      ) {
+        setError('deathDateDay', {
+          message:
+            'Ao preencher um campo da data, os campo "Dia", "Mês", "Ano" e "Periodo" devem ser preenchidos"',
+        });
+        return;
+      }
+
+      if (data.deathDateDay && data.deathDateDay <= 0) {
+        setError('deathDateDay', { message: 'Dia inválido' });
+        return;
+      }
+
+      if (data.deathDateMonth && data.deathDateMonth <= 0) {
+        setError('deathDateDay', { message: 'Mês inválido' });
+        return;
+      }
+
+      if (data.deathDateYear && data.deathDateYear <= 0) {
+        setError('deathDateDay', { message: 'Ano inválido' });
+        return;
+      }
+
+      if (data.deathDateHour && data.deathDateHour < 0) {
+        setError('deathDateDay', { message: 'Hora inválido' });
+        return;
+      }
+
+      if (data.deathDateMinute && data.deathDateMinute < 0) {
+        setError('deathDateDay', { message: 'Minuto inválido' });
+        return;
+      }
+
+      if (data.deathDateSecond && data.deathDateSecond < 0) {
+        setError('deathDateDay', { message: 'Segundo inválido' });
+        return;
+      }
+
+      if (data.deathDateMonth === 2) {
+        const isLeapYear = isLeapYearFn(data.deathDateYear!);
+
+        if (isLeapYear && data.deathDateDay! > 29) {
+          setError('deathDateDay', { message: 'Dia inválido' });
+          return;
+        }
+
+        if (!isLeapYear && data.deathDateDay! > 28) {
+          setError('deathDateDay', { message: 'Dia inválido' });
+          return;
+        }
+      } else {
+        const daysInMonth = maxDayForMonthsMapper[data.deathDateMonth!];
+
+        if (data.deathDateDay! > daysInMonth) {
+          return setError('deathDateDay', { message: 'Dia inválido' });
+        }
+      }
+
+      deathDate = `${data.deathDateDay}:${data.deathDateMonth}:${data.deathDateYear}:${data.deathDatePeriod}:${data.deathDateHour}:${data.deathDateMinute}:${data.deathDateSecond}`;
+    }
+
     const response = await Requester.requester<CreatePersonBody>({
       access: Accessors.CREATE_PERSON,
       data: {
@@ -151,10 +344,10 @@ export function ProjectNewPersonPage() {
         type: data.type,
         fatherId: data.fatherId,
         motherId: data.motherId,
-        birthDate: data.birthDate,
-        deathDate: data.deathDate,
         projectId: projectId as string,
         userId: user?.id ?? '',
+        deathDate,
+        birthDate,
       },
     });
 
@@ -163,6 +356,10 @@ export function ProjectNewPersonPage() {
       setImageSelected('');
       refetchPersons();
     }
+  }
+
+  if (!project?.buildBlocks.PERSONS) {
+    return <NotFound />;
   }
 
   return (
@@ -207,29 +404,219 @@ export function ProjectNewPersonPage() {
               </Input.Input>
             </Input.Root>
 
+            {project.buildBlocks.TIME_LINES && (
+              <>
+                <Input.Root>
+                  <Input.Header>
+                    <Input.Label>Data de nascimento</Input.Label>
+                    <Input.Error>
+                      {errors.birthDateDay?.message ??
+                        errors.birthDateMonth?.message ??
+                        errors.birthDateYear?.message ??
+                        errors.birthDatePeriod?.message ??
+                        errors.birthDateHour?.message ??
+                        errors.birthDateMinute?.message ??
+                        errors.birthDateSecond?.message}
+                    </Input.Error>
+                  </Input.Header>
+
+                  <div className="grid grid-cols-7 gap-1">
+                    <Input.Input size="sm">
+                      <Input.TextInput {...register('birthDateDay')} />
+                    </Input.Input>
+
+                    <Input.Input size="sm">
+                      <Input.TextInput {...register('birthDateMonth')} />
+                    </Input.Input>
+
+                    <Input.Input size="sm">
+                      <Input.TextInput {...register('birthDateYear')} />
+                    </Input.Input>
+
+                    <Popover
+                      open={openBirthDatePeriodPicker}
+                      onOpenChange={setOpenBirthDatePeriodPicker}
+                    >
+                      <PopoverTrigger>
+                        <Input.Input size="sm">
+                          <span className="text-xs">
+                            {birthDatePeriod === -1
+                              ? 'A.C.'
+                              : birthDatePeriod === 0
+                              ? 'D.C.'
+                              : 'Selecionar'}
+                          </span>
+                        </Input.Input>
+                      </PopoverTrigger>
+
+                      <PopoverContent className="p-0 w-64 max-h-36">
+                        <Command>
+                          <CommandGroup>
+                            <CommandItem
+                              className="font-bold"
+                              value="-1"
+                              onSelect={() => {
+                                setValue('birthDatePeriod', -1);
+                                setOpenBirthDatePeriodPicker(false);
+                              }}
+                            >
+                              <Check
+                                data-hidden={birthDatePeriod !== -1}
+                                className="w-4 h-4 data-[hidden=true]:invisible mr-2"
+                              />
+
+                              <span className="text-xs">Antes de Cristo</span>
+                            </CommandItem>
+
+                            <CommandItem
+                              className="font-bold"
+                              value="0"
+                              onSelect={() => {
+                                setValue('birthDatePeriod', 0);
+                                setOpenBirthDatePeriodPicker(false);
+                              }}
+                            >
+                              <Check
+                                data-hidden={birthDatePeriod !== 0}
+                                className="w-4 h-4 data-[hidden=true]:invisible mr-2"
+                              />
+
+                              <span className="text-xs">Depois de Cristo</span>
+                            </CommandItem>
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+
+                    <Input.Input size="sm">
+                      <Input.TextInput {...register('birthDateHour')} />
+                    </Input.Input>
+
+                    <Input.Input size="sm">
+                      <Input.TextInput {...register('birthDateMinute')} />
+                    </Input.Input>
+
+                    <Input.Input size="sm">
+                      <Input.TextInput {...register('birthDateSecond')} />
+                    </Input.Input>
+
+                    <span className="text-xs font-bold opacity-60">Dia</span>
+                    <span className="text-xs font-bold opacity-60">Mês</span>
+                    <span className="text-xs font-bold opacity-60">Ano</span>
+                    <span className="text-xs font-bold opacity-60">Prd</span>
+                    <span className="text-xs font-bold opacity-60">Hora</span>
+                    <span className="text-xs font-bold opacity-60">Min</span>
+                    <span className="text-xs font-bold opacity-60">Sec</span>
+                  </div>
+                </Input.Root>
+
+                <Input.Root>
+                  <Input.Header>
+                    <Input.Label>Data de óbito</Input.Label>
+                    <Input.Error>
+                      {errors.deathDateDay?.message ??
+                        errors.deathDateMonth?.message ??
+                        errors.deathDateYear?.message ??
+                        errors.deathDatePeriod?.message ??
+                        errors.deathDateHour?.message ??
+                        errors.deathDateMinute?.message ??
+                        errors.deathDateSecond?.message}
+                    </Input.Error>
+                  </Input.Header>
+
+                  <div className="grid grid-cols-7 gap-1">
+                    <Input.Input size="sm">
+                      <Input.TextInput {...register('deathDateDay')} />
+                    </Input.Input>
+
+                    <Input.Input size="sm">
+                      <Input.TextInput {...register('deathDateMonth')} />
+                    </Input.Input>
+
+                    <Input.Input size="sm">
+                      <Input.TextInput {...register('deathDateYear')} />
+                    </Input.Input>
+
+                    <Popover
+                      open={openDeathDatePeriodPicker}
+                      onOpenChange={setOpenDeathDatePeriodPicker}
+                    >
+                      <PopoverTrigger>
+                        <Input.Input size="sm">
+                          <span className="text-xs">
+                            {deathDatePeriod === -1
+                              ? 'A.C.'
+                              : deathDatePeriod === 0
+                              ? 'D.C.'
+                              : 'Selecionar'}
+                          </span>
+                        </Input.Input>
+                      </PopoverTrigger>
+
+                      <PopoverContent className="p-0 w-64 max-h-36">
+                        <Command>
+                          <CommandGroup>
+                            <CommandItem
+                              className="font-bold"
+                              value="-1"
+                              onSelect={() => {
+                                setValue('deathDatePeriod', -1);
+                                setOpenDeathDatePeriodPicker(false);
+                              }}
+                            >
+                              <Check
+                                data-hidden={deathDatePeriod !== -1}
+                                className="w-4 h-4 data-[hidden=true]:invisible mr-2"
+                              />
+
+                              <span className="text-xs">Antes de Cristo</span>
+                            </CommandItem>
+
+                            <CommandItem
+                              className="font-bold"
+                              value="0"
+                              onSelect={() => {
+                                setValue('deathDatePeriod', 0);
+                                setOpenDeathDatePeriodPicker(false);
+                              }}
+                            >
+                              <Check
+                                data-hidden={deathDatePeriod !== 0}
+                                className="w-4 h-4 data-[hidden=true]:invisible mr-2"
+                              />
+
+                              <span className="text-xs">Depois de Cristo</span>
+                            </CommandItem>
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+
+                    <Input.Input size="sm">
+                      <Input.TextInput {...register('deathDateHour')} />
+                    </Input.Input>
+
+                    <Input.Input size="sm">
+                      <Input.TextInput {...register('deathDateMinute')} />
+                    </Input.Input>
+
+                    <Input.Input size="sm">
+                      <Input.TextInput {...register('deathDateSecond')} />
+                    </Input.Input>
+
+                    <span className="text-xs font-bold opacity-60">Dia</span>
+                    <span className="text-xs font-bold opacity-60">Mês</span>
+                    <span className="text-xs font-bold opacity-60">Ano</span>
+                    <span className="text-xs font-bold opacity-60">Prd</span>
+                    <span className="text-xs font-bold opacity-60">Hora</span>
+                    <span className="text-xs font-bold opacity-60">Min</span>
+                    <span className="text-xs font-bold opacity-60">Sec</span>
+                  </div>
+                </Input.Root>
+              </>
+            )}
+
             <div className="grid grid-cols-2 gap-4">
-              <Input.Root>
-                <Input.Header>
-                  <Input.Label>Data de nascimento</Input.Label>
-                  <Input.Error>{errors.birthDate?.message}</Input.Error>
-                </Input.Header>
-
-                <Input.Input size="sm">
-                  <Input.TextInput {...register('birthDate')} />
-                </Input.Input>
-              </Input.Root>
-
-              <Input.Root>
-                <Input.Header>
-                  <Input.Label>Data de óbito</Input.Label>
-                  <Input.Error>{errors.deathDate?.message}</Input.Error>
-                </Input.Header>
-
-                <Input.Input size="sm">
-                  <Input.TextInput {...register('deathDate')} />
-                </Input.Input>
-              </Input.Root>
-
               <Input.Root>
                 <Input.Header>
                   <Input.Label>Pai</Input.Label>

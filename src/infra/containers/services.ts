@@ -21,6 +21,7 @@ import { CreateTimelineService } from '@modules/timelines/services/CreateTimelin
 import { CreateManyPersonEventsForDefaultTimelineService } from '@modules/timelines/services/CreateManyPersonEventsForDefaultTimeline.service';
 import { GetTimelinesService } from '@modules/timelines/services/GetTimelines.service';
 import { GetTimelineService } from '@modules/timelines/services/GetTimeline.service';
+import { UpdateProjectBuildBlocksService } from '@modules/projects/services/UpdateProjectBuildBlocks.service';
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -32,6 +33,7 @@ container.registerSingleton(GetUserService);
 container.registerSingleton(CreateProjectService);
 container.registerSingleton(GetProjectsService);
 container.registerSingleton(GetProjectService);
+container.registerSingleton(UpdateProjectBuildBlocksService);
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Foundations

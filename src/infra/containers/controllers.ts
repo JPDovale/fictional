@@ -16,6 +16,7 @@ import { GetFileController } from '@modules/files/controllers/GetFile.controller
 import { GetPersonController } from '@modules/persons/controllers/GetPerson.controller';
 import { GetTimelinesController } from '@modules/timelines/controllers/GetTimelines.controller';
 import { GetTimelineController } from '@modules/timelines/controllers/GetTimeline.controller';
+import { UpdateProjectBuildBlocksController } from '@modules/projects/controllers/UpdateProjectBuildBlocks.controller';
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -27,6 +28,7 @@ container.registerSingleton(GetUserController);
 container.registerSingleton(CreateProjectController);
 container.registerSingleton(GetProjectsController);
 container.registerSingleton(GetProjectController);
+container.registerSingleton(UpdateProjectBuildBlocksController);
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Foundations

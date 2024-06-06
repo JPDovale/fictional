@@ -32,7 +32,6 @@ export function useTimeline({ projectId, timelineId }: UseTimelineProps) {
         TimelineWithEventsPresented
       >({
         access: Accessors.GET_TIMELINE,
-        isDebug: true,
         data: {
           userId: user?.id ?? '',
           projectId,
@@ -53,7 +52,6 @@ export function useTimeline({ projectId, timelineId }: UseTimelineProps) {
         attributesThisPerson: [],
       };
     },
-    staleTime: 1000 * 60 * 5,
   });
 
   const timeline = data?.timeline ?? null;

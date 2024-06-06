@@ -99,4 +99,22 @@ export class Project extends AggregateRoot<ProjectProps> {
   touch() {
     this.props.updatedAt = new Date();
   }
+
+  disableAllBuildBlocks() {
+    this.props.buildBlocks.disableAll();
+    this.touch();
+  }
+
+  enableBuildBlock(buildBlock: BuildBlock) {
+    this.props.buildBlocks.enable(buildBlock);
+    this.touch();
+
+    if (buildBlock === BuildBlock.TIME_LINES) {
+      this.addDomainEvent(new ProjectCreatedWithTimelineEvent(this));
+    }
+
+    if (buildBlock === BuildBlock.FOUNDATION) {
+      this.addDomainEvent(new ProjectCreatedWithFoundationEvent(this));
+    }
+  }
 }

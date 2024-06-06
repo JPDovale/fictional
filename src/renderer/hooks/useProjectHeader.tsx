@@ -47,6 +47,8 @@ export function useProjectHeader() {
       personalities: 'Personalidades',
       traumas: 'Traumas',
       values: 'Valores',
+      edit: 'Editar',
+      'build-blocks': 'Bloco de construção',
     };
 
     const uuidsPathsMapper: { [x: string]: string } = {
