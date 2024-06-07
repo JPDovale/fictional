@@ -1,5 +1,11 @@
 ## 0.2.0
 
+## 0.3.1
+
+### Patch Changes
+
+- Add update of birth and death date of person
+
 ## 0.3.0
 
 ### Minor Changes
