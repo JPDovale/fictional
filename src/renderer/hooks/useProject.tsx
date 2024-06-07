@@ -7,11 +7,11 @@ import { ProjectPresented } from '@modules/projects/presenters/Project.presenter
 import { useUser } from './useUser';
 import { useProjectHeader } from './useProjectHeader';
 import { useFoundation } from './useFoundation';
-import { usePersons } from './usePersons';
+import { usePersons } from './persons/usePersons';
 import { useProjectTreeFolder } from './useProjectTreeFolder';
-import { usePersonsAttributes } from './usePersonsAttributes';
+import { usePersonsAttributes } from './persons/usePersonsAttributes';
 import { useFile } from './useFile';
-import { usePerson } from './usePerson';
+import { usePerson } from './persons/usePerson';
 import { useTimelines } from './useTimelines';
 import { useTimeline } from './useTimeline';
 

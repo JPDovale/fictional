@@ -5,9 +5,9 @@ exports.up = async function up(knex) {
       .primary()
       .unique()
       .notNullable()
-      .defaultTo(knex.fn.uuid())
-    table.dateTime('created_at').notNullable().defaultTo(knex.fn.now())
-    table.dateTime('updated_at').defaultTo(null)
+      .defaultTo(knex.fn.uuid());
+    table.dateTime('created_at').notNullable().defaultTo(knex.fn.now());
+    table.dateTime('updated_at').defaultTo(null);
     table
       .enum('type', [
         'APPEARENCE',
@@ -17,16 +17,16 @@ exports.up = async function up(knex) {
         'TRAUMA',
         'VALUE',
       ])
-      .notNullable()
+      .notNullable();
 
     table
       .string('file_id')
       .references('files.id')
       .notNullable()
-      .onDelete('CASCADE')
-  })
-}
+      .onDelete('CASCADE');
+  });
+};
 
 exports.down = async function down(knex) {
-  return knex.schema.dropTable('persons_attributes')
-}
+  return knex.schema.dropTable('persons_attributes');
+};

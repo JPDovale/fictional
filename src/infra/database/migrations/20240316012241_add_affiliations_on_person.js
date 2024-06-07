@@ -4,12 +4,12 @@ exports.up = async function up(knex) {
       .string('affiliation_id')
       .references('person_affiliations.id')
       .defaultTo(null)
-      .onDelete('CASCADE')
-  })
-}
+      .onDelete('CASCADE');
+  });
+};
 
 exports.down = async function down(knex) {
   return knex.schema.alterTable('persons', (table) => {
-    table.dropColumn('affiliation_id')
-  })
-}
+    table.dropColumn('affiliation_id');
+  });
+};

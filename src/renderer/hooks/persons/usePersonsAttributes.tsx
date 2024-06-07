@@ -4,7 +4,7 @@ import { GetAttributesPreviewBody } from '@modules/persons/gateways/GetAttribute
 import { StatusCode } from '@shared/core/types/StatusCode';
 import { useQuery } from '@tanstack/react-query';
 import { AttributesPreviewsPresented } from '@modules/persons/presenters/AttributesPreview.presenter';
-import { useUser } from './useUser';
+import { useUser } from '../useUser';
 
 interface UsePersonsAttributesPreviewProps {
   projectId?: string;

@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { PersonsWithParentsPresented } from '@modules/persons/presenters/PersonWithParents.presenter';
 import { CreatePersonAttributeBody } from '@modules/persons/gateways/CreatePersonAttribute.gateway';
 import { AttributeType } from '@modules/persons/entities/types';
-import { useUser } from './useUser';
+import { useUser } from '../useUser';
 import { usePersonsAttributes } from './usePersonsAttributes';
 
 interface UsePersonsProps {

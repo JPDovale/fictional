@@ -41,7 +41,7 @@ export class TimelinesKnexRepository
 
     const events = await this.knexConnection
       .db('time_line_events')
-      .where({ time_line_id: id })
+      .where({ time_line_id: id, trashed_at: null })
       .orderBy('created_at', 'asc');
 
     const timelineWithEvents = { ...timeline, events };

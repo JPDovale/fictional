@@ -5,22 +5,22 @@ exports.up = async function up(knex) {
       .primary()
       .unique()
       .notNullable()
-      .defaultTo(knex.fn.uuid())
+      .defaultTo(knex.fn.uuid());
 
     table
       .string('attribute_id')
       .references('persons_attributes.id')
       .notNullable()
-      .onDelete('CASCADE')
+      .onDelete('CASCADE');
 
     table
       .string('person_id')
       .references('persons.id')
       .onDelete('CASCADE')
-      .notNullable()
-  })
-}
+      .notNullable();
+  });
+};
 
 exports.down = async function down(knex) {
-  return knex.schema.dropTable('person_attribute_to_person')
-}
+  return knex.schema.dropTable('person_attribute_to_person');
+};

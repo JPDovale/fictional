@@ -5,20 +5,20 @@ exports.up = async function up(knex) {
       .primary()
       .unique()
       .notNullable()
-      .defaultTo(knex.fn.uuid())
-    table.string('name').notNullable()
+      .defaultTo(knex.fn.uuid());
+    table.string('name').notNullable();
 
     table
       .string('project_id')
       .references('projects.id')
       .notNullable()
-      .onDelete('CASCADE')
+      .onDelete('CASCADE');
 
-    table.dateTime('created_at').notNullable().defaultTo(knex.fn.now())
-    table.dateTime('updated_at').defaultTo(null)
-  })
-}
+    table.dateTime('created_at').notNullable().defaultTo(knex.fn.now());
+    table.dateTime('updated_at').defaultTo(null);
+  });
+};
 
 exports.down = async function down(knex) {
-  return knex.schema.dropTable('time_lines')
-}
+  return knex.schema.dropTable('time_lines');
+};

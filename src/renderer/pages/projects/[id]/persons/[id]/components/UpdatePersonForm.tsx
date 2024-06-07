@@ -6,6 +6,7 @@ import { UpdatePersonBody } from '@modules/persons/gateways/UpdatePerson.gateway
 import { Button } from '@rComponents/application/Button';
 import { DropZone } from '@rComponents/application/DropZone';
 import { Input } from '@rComponents/application/Input';
+import { NotFound } from '@rComponents/application/NotFound';
 import { Avatar, AvatarFallback, AvatarImage } from '@rComponents/ui/avatar';
 import {
   Command,
@@ -22,7 +23,7 @@ import { useProject } from '@rHooks/useProject';
 import { useTheme } from '@rHooks/useTheme';
 import { useUser } from '@rHooks/useUser';
 import { StatusCode } from '@shared/core/types/StatusCode';
-import { Check, VenetianMask, X } from 'lucide-react';
+import { Check, Trash, VenetianMask, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
@@ -37,8 +38,52 @@ const updatePersonSchema = z.object({
     .nullable(),
   fatherId: z.string().trim().uuid().optional().nullable(),
   motherId: z.string().trim().uuid().optional().nullable(),
-  birthDate: z.string().trim().optional().nullable(),
-  deathDate: z.string().trim().optional().nullable(),
+  birthDateDay: z.coerce.number().max(31, 'Dia inválido').optional().nullable(),
+  birthDateMonth: z.coerce
+    .number()
+    .max(12, 'Mês inválido')
+    .optional()
+    .nullable(),
+  birthDateYear: z.coerce.number().optional().nullable(),
+  birthDatePeriod: z.coerce.number().optional().nullable(),
+  birthDateHour: z.coerce
+    .number()
+    .max(23, 'Hora inválida')
+    .optional()
+    .nullable(),
+  birthDateMinute: z.coerce
+    .number()
+    .max(59, 'Minuto inválido')
+    .optional()
+    .nullable(),
+  birthDateSecond: z.coerce
+    .number()
+    .max(59, 'Segundo inválido')
+    .optional()
+    .nullable(),
+  deathDateDay: z.coerce.number().max(31, 'Dia inválido').optional().nullable(),
+  deathDateMonth: z.coerce
+    .number()
+    .max(12, 'Mês inválido')
+    .optional()
+    .nullable(),
+  deathDateYear: z.coerce.number().optional().nullable(),
+  deathDatePeriod: z.coerce.number().optional().nullable(),
+  deathDateHour: z.coerce
+    .number()
+    .max(23, 'Hora inválida')
+    .optional()
+    .nullable(),
+  deathDateMinute: z.coerce
+    .number()
+    .max(59, 'Minuto inválido')
+    .optional()
+    .nullable(),
+  deathDateSecond: z.coerce
+    .number()
+    .max(59, 'Segundo inválido')
+    .optional()
+    .nullable(),
   type: z
     .nativeEnum(PersonType)
     .default(PersonType.EXTRA)
@@ -102,14 +147,21 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
   const [openFatherPicker, setOpenFatherPicker] = useState(false);
   const [openMotherPicker, setOpenMotherPicker] = useState(false);
   const [openTypePicker, setOpenTypePicker] = useState(false);
+  const [openBirthDatePeriodPicker, setOpenBirthDatePeriodPicker] =
+    useState(false);
+  const [openDeathDatePeriodPicker, setOpenDeathDatePeriodPicker] =
+    useState(false);
 
   const { projectId, personId } = useParams();
 
   const { theme } = useTheme();
   const { user } = useUser();
-  const { usePersons, usePerson } = useProject({ projectId });
+  const { project, usePersons, usePerson, useTimelines } = useProject({
+    projectId,
+  });
   const { persons: personsWithSelected, refetchPersons } = usePersons();
   const { person, refetchPerson } = usePerson({ personId });
+  const { makeEventDate, verifyEventDate } = useTimelines();
 
   const persons = personsWithSelected.filter((p) => p.id !== personId);
 
@@ -117,6 +169,7 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
     handleSubmit,
     register,
     setValue,
+    setError,
     reset,
     watch,
     formState: { errors, isSubmitting },
@@ -128,12 +181,26 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
       image: person?.image.url,
       fatherId: person?.fatherId,
       motherId: person?.motherId,
-      birthDate: person?.birthDate,
-      deathDate: person?.deathDate,
+      birthDateDay: person?.birthDate?.day,
+      birthDateMonth: person?.birthDate?.month,
+      birthDateYear: person?.birthDate?.year,
+      birthDatePeriod: person?.birthDate?.period,
+      birthDateHour: person?.birthDate?.hour,
+      birthDateMinute: person?.birthDate?.minute,
+      birthDateSecond: person?.birthDate?.second,
+      deathDateDay: person?.deathDate?.day,
+      deathDateMonth: person?.deathDate?.month,
+      deathDateYear: person?.deathDate?.year,
+      deathDatePeriod: person?.deathDate?.period,
+      deathDateHour: person?.deathDate?.hour,
+      deathDateMinute: person?.deathDate?.minute,
+      deathDateSecond: person?.deathDate?.second,
     },
   });
 
   const personType = watch('type');
+  const birthDatePeriod = watch('birthDatePeriod');
+  const deathDatePeriod = watch('deathDatePeriod');
   const fatherId = watch('fatherId');
   const motherId = watch('motherId');
 
@@ -164,18 +231,110 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
     reset();
   }, [person]);
 
+  function clearDate(type: 'birth' | 'death') {
+    setValue(`${type}DateDay`, null);
+    setValue(`${type}DateMonth`, null);
+    setValue(`${type}DateYear`, null);
+    setValue(`${type}DatePeriod`, null);
+    setValue(`${type}DateHour`, null);
+    setValue(`${type}DateMinute`, null);
+    setValue(`${type}DateSecond`, null);
+  }
+
   async function handleUpdatePerson(data: UpdatePersonData) {
     if (!projectId) return;
     if (!personId) return;
     if (!user?.id) return;
 
+    const {
+      birthDateDay,
+      birthDateMonth,
+      birthDateYear,
+      birthDatePeriod,
+      birthDateHour,
+      birthDateMinute,
+      birthDateSecond,
+      deathDateDay,
+      deathDateMonth,
+      deathDateYear,
+      deathDatePeriod,
+      deathDateHour,
+      deathDateMinute,
+      deathDateSecond,
+      ...rest
+    } = data;
+
+    let birthDate: string | null | undefined = undefined;
+    let deathDate: string | null | undefined = undefined;
+
+    const verificationOfBirthDateError = verifyEventDate({
+      day: birthDateDay,
+      month: birthDateMonth,
+      year: birthDateYear,
+      period: birthDatePeriod,
+      hour: birthDateHour,
+      minute: birthDateMinute,
+      second: birthDateSecond,
+    });
+
+    const verificationOfDeathDateError = verifyEventDate({
+      day: deathDateDay,
+      month: deathDateMonth,
+      year: deathDateYear,
+      period: deathDatePeriod,
+      hour: deathDateHour,
+      minute: deathDateMinute,
+      second: deathDateSecond,
+    });
+
+    if (verificationOfBirthDateError) {
+      setError('birthDateDay', { message: verificationOfBirthDateError });
+      return;
+    }
+
+    if (verificationOfDeathDateError) {
+      setError('deathDateDay', { message: verificationOfDeathDateError });
+      return;
+    }
+
+    birthDate = makeEventDate({
+      day: birthDateDay,
+      month: birthDateMonth,
+      year: birthDateYear,
+      period: birthDatePeriod,
+      hour: birthDateHour,
+      minute: birthDateMinute,
+      second: birthDateSecond,
+    });
+
+    deathDate = makeEventDate({
+      day: deathDateDay,
+      month: deathDateMonth,
+      year: deathDateYear,
+      period: deathDatePeriod,
+      hour: deathDateHour,
+      minute: deathDateMinute,
+      second: deathDateSecond,
+    });
+
+    if (birthDate === person?.birthDate?.date) {
+      birthDate = undefined;
+    }
+
+    if (deathDate === person?.deathDate?.date) {
+      deathDate = undefined;
+    }
+
     const response = await Requester.requester<UpdatePersonBody, void>({
       access: Accessors.UPDATE_PERSON,
+      isDebug: true,
       data: {
         projectId,
         personId,
         userId: user.id,
-        ...data,
+        deathDate,
+        birthDate,
+        ...rest,
       },
     });
 
@@ -186,6 +345,8 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
       reset();
     }
   }
+
+  if (!person || !project) return <NotFound />;
 
   return (
     <form
@@ -226,29 +387,240 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
             </Input.Input>
           </Input.Root>
 
+          {project.buildBlocks.TIME_LINES && (
+            <>
+              <Input.Root>
+                <Input.Header>
+                  <Input.Label>Data de nascimento</Input.Label>
+                  <Input.Error>
+                    {errors.birthDateDay?.message ??
+                      errors.birthDateMonth?.message ??
+                      errors.birthDateYear?.message ??
+                      errors.birthDatePeriod?.message ??
+                      errors.birthDateHour?.message ??
+                      errors.birthDateMinute?.message ??
+                      errors.birthDateSecond?.message}
+                  </Input.Error>
+                </Input.Header>
+
+                <div className="grid grid-cols-8 gap-1">
+                  <Input.Input size="sm">
+                    <Input.TextInput {...register('birthDateDay')} />
+                  </Input.Input>
+
+                  <Input.Input size="sm">
+                    <Input.TextInput {...register('birthDateMonth')} />
+                  </Input.Input>
+
+                  <Input.Input size="sm">
+                    <Input.TextInput {...register('birthDateYear')} />
+                  </Input.Input>
+
+                  <Popover
+                    open={openBirthDatePeriodPicker}
+                    onOpenChange={setOpenBirthDatePeriodPicker}
+                  >
+                    <PopoverTrigger>
+                      <Input.Input size="sm">
+                        <span className="text-xs">
+                          {birthDatePeriod === -1
+                            ? 'A.C.'
+                            : birthDatePeriod === 0
+                            ? 'D.C.'
+                            : 'Selec...'}
+                        </span>
+                      </Input.Input>
+                    </PopoverTrigger>
+
+                    <PopoverContent className="p-0 w-64 max-h-36">
+                      <Command>
+                        <CommandGroup>
+                          <CommandItem
+                            className="font-bold"
+                            value="-1"
+                            onSelect={() => {
+                              setValue('birthDatePeriod', -1);
+                              setOpenBirthDatePeriodPicker(false);
+                            }}
+                          >
+                            <Check
+                              data-hidden={birthDatePeriod !== -1}
+                              className="w-4 h-4 data-[hidden=true]:invisible mr-2"
+                            />
+
+                            <span className="text-xs">Antes de Cristo</span>
+                          </CommandItem>
+
+                          <CommandItem
+                            className="font-bold"
+                            value="0"
+                            onSelect={() => {
+                              setValue('birthDatePeriod', 0);
+                              setOpenBirthDatePeriodPicker(false);
+                            }}
+                          >
+                            <Check
+                              data-hidden={birthDatePeriod !== 0}
+                              className="w-4 h-4 data-[hidden=true]:invisible mr-2"
+                            />
+
+                            <span className="text-xs">Depois de Cristo</span>
+                          </CommandItem>
+                        </CommandGroup>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+
+                  <Input.Input size="sm">
+                    <Input.TextInput {...register('birthDateHour')} />
+                  </Input.Input>
+
+                  <Input.Input size="sm">
+                    <Input.TextInput {...register('birthDateMinute')} />
+                  </Input.Input>
+
+                  <Input.Input size="sm">
+                    <Input.TextInput {...register('birthDateSecond')} />
+                  </Input.Input>
+
+                  <Button.Root
+                    type="button"
+                    size="sm"
+                    className="shadow-none"
+                    onClick={() => clearDate('birth')}
+                  >
+                    <Button.Icon>
+                      <Trash />
+                    </Button.Icon>
+                  </Button.Root>
+
+                  <span className="text-xs font-bold opacity-60">Dia</span>
+                  <span className="text-xs font-bold opacity-60">Mês</span>
+                  <span className="text-xs font-bold opacity-60">Ano</span>
+                  <span className="text-xs font-bold opacity-60">Prd</span>
+                  <span className="text-xs font-bold opacity-60">Hora</span>
+                  <span className="text-xs font-bold opacity-60">Min</span>
+                  <span className="text-xs font-bold opacity-60">Sec</span>
+                </div>
+              </Input.Root>
+
+              <Input.Root>
+                <Input.Header>
+                  <Input.Label>Data de óbito</Input.Label>
+                  <Input.Error>
+                    {errors.deathDateDay?.message ??
+                      errors.deathDateMonth?.message ??
+                      errors.deathDateYear?.message ??
+                      errors.deathDatePeriod?.message ??
+                      errors.deathDateHour?.message ??
+                      errors.deathDateMinute?.message ??
+                      errors.deathDateSecond?.message}
+                  </Input.Error>
+                </Input.Header>
+
+                <div className="grid grid-cols-8 gap-1">
+                  <Input.Input size="sm">
+                    <Input.TextInput {...register('deathDateDay')} />
+                  </Input.Input>
+
+                  <Input.Input size="sm">
+                    <Input.TextInput {...register('deathDateMonth')} />
+                  </Input.Input>
+
+                  <Input.Input size="sm">
+                    <Input.TextInput {...register('deathDateYear')} />
+                  </Input.Input>
+
+                  <Popover
+                    open={openDeathDatePeriodPicker}
+                    onOpenChange={setOpenDeathDatePeriodPicker}
+                  >
+                    <PopoverTrigger>
+                      <Input.Input size="sm">
+                        <span className="text-xs">
+                          {deathDatePeriod === -1
+                            ? 'A.C.'
+                            : deathDatePeriod === 0
+                            ? 'D.C.'
+                            : 'Selec...'}
+                        </span>
+                      </Input.Input>
+                    </PopoverTrigger>
+
+                    <PopoverContent className="p-0 w-64 max-h-36">
+                      <Command>
+                        <CommandGroup>
+                          <CommandItem
+                            className="font-bold"
+                            value="-1"
+                            onSelect={() => {
+                              setValue('deathDatePeriod', -1);
+                              setOpenDeathDatePeriodPicker(false);
+                            }}
+                          >
+                            <Check
+                              data-hidden={deathDatePeriod !== -1}
+                              className="w-4 h-4 data-[hidden=true]:invisible mr-2"
+                            />
+
+                            <span className="text-xs">Antes de Cristo</span>
+                          </CommandItem>
+
+                          <CommandItem
+                            className="font-bold"
+                            value="0"
+                            onSelect={() => {
+                              setValue('deathDatePeriod', 0);
+                              setOpenDeathDatePeriodPicker(false);
+                            }}
+                          >
+                            <Check
+                              data-hidden={deathDatePeriod !== 0}
+                              className="w-4 h-4 data-[hidden=true]:invisible mr-2"
+                            />
+
+                            <span className="text-xs">Depois de Cristo</span>
+                          </CommandItem>
+                        </CommandGroup>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+
+                  <Input.Input size="sm">
+                    <Input.TextInput {...register('deathDateHour')} />
+                  </Input.Input>
+
+                  <Input.Input size="sm">
+                    <Input.TextInput {...register('deathDateMinute')} />
+                  </Input.Input>
+
+                  <Input.Input size="sm">
+                    <Input.TextInput {...register('deathDateSecond')} />
+                  </Input.Input>
+
+                  <Button.Root
+                    type="button"
+                    size="sm"
+                    className="shadow-none"
+                    onClick={() => clearDate('death')}
+                  >
+                    <Button.Icon>
+                      <Trash />
+                    </Button.Icon>
+                  </Button.Root>
+
+                  <span className="text-xs font-bold opacity-60">Dia</span>
+                  <span className="text-xs font-bold opacity-60">Mês</span>
+                  <span className="text-xs font-bold opacity-60">Ano</span>
+                  <span className="text-xs font-bold opacity-60">Prd</span>
+                  <span className="text-xs font-bold opacity-60">Hora</span>
+                  <span className="text-xs font-bold opacity-60">Min</span>
+                  <span className="text-xs font-bold opacity-60">Sec</span>
+                </div>
+              </Input.Root>
+            </>
+          )}
           <div className="grid grid-cols-2 gap-4">
-            {/* <Input.Root> */}
-            {/*   <Input.Header> */}
-            {/*     <Input.Label>Data de nascimento</Input.Label> */}
-            {/*     <Input.Error>{errors.birthDate?.message}</Input.Error> */}
-            {/*   </Input.Header> */}
-            {/**/}
-            {/*   <Input.Input size="sm"> */}
-            {/*     <Input.TextInput {...register('birthDate')} /> */}
-            {/*   </Input.Input> */}
-            {/* </Input.Root> */}
-            {/**/}
-            {/* <Input.Root> */}
-            {/*   <Input.Header> */}
-            {/*     <Input.Label>Data de óbito</Input.Label> */}
-            {/*     <Input.Error>{errors.deathDate?.message}</Input.Error> */}
-            {/*   </Input.Header> */}
-            {/**/}
-            {/*   <Input.Input size="sm"> */}
-            {/*     <Input.TextInput {...register('deathDate')} /> */}
-            {/*   </Input.Input> */}
-            {/* </Input.Root> */}
-            {/**/}
             <Input.Root>
               <Input.Header>
                 <Input.Label>Pai</Input.Label>
@@ -371,7 +743,6 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
               </Popover>
             </Input.Root>
           </div>
-
           <Input.Root>
             <Input.Header>
               <Input.Label>Tipo do personagem</Input.Label>

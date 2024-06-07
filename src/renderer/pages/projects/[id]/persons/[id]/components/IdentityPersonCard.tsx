@@ -2,6 +2,7 @@ import { Button } from '@rComponents/application/Button';
 import { Avatar, AvatarFallback, AvatarImage } from '@rComponents/ui/avatar';
 import { useProject } from '@rHooks/useProject';
 import { useTheme } from '@rHooks/useTheme';
+import { normalizeEventDate } from '@rUtils/normalizeEventDate';
 import { Pen, VenetianMask } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
@@ -48,14 +49,18 @@ export function IdentityPersonCard({ onEdit }: IndentityPersonCardProps) {
               <span className="text-xs font-bold opacity-60">
                 Data de nascimento
               </span>
-              <span className="text-sm">{person.birthDate ?? '??????'}</span>
+              <span className="text-xs font-bold">
+                {normalizeEventDate(person.birthDate?.date)}
+              </span>
             </div>
 
             <div className="flex flex-col">
               <span className="text-xs font-bold opacity-60">
                 Data de óbito
               </span>
-              <span className="text-sm">{person.deathDate ?? '??????'}</span>
+              <span className="text-xs font-bold">
+                {normalizeEventDate(person.deathDate?.date)}
+              </span>
             </div>
           </div>
 

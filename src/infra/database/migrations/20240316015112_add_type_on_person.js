@@ -13,12 +13,12 @@ exports.up = async function up(knex) {
         'EXTRA',
       ])
       .notNullable()
-      .defaultTo('EXTRA')
-  })
-}
+      .defaultTo('EXTRA');
+  });
+};
 
 exports.down = async function down(knex) {
   return knex.schema.alterTable('persons', (table) => {
-    table.dropColumn('type')
-  })
-}
+    table.dropColumn('type');
+  });
+};

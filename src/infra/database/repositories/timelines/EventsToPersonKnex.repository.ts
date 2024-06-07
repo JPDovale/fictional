@@ -1,7 +1,13 @@
 import { KnexConfig, KnexConnection } from '@infra/database';
 import { injectable } from 'tsyringe';
-import { EventsToPersonRepository } from '@modules/timelines/repositories/EventsToPerson.repository';
-import { EventToPerson } from '@modules/timelines/entities/EventToPerson';
+import {
+  EventsToPersonRepository,
+  FindBirthAndDeathByPersonIdAndTimelineIdProps,
+} from '@modules/timelines/repositories/EventsToPerson.repository';
+import {
+  EventToPerson,
+  EventToPersonType,
+} from '@modules/timelines/entities/EventToPerson';
 import { EventsToPersonKnexMapper } from './EventsToPersonKnex.mapper';
 
 @injectable()
@@ -31,14 +37,51 @@ export class EventsToPersonKnexRepository
     const { db } = ctx || this.knexConnection;
     const eventsToPerson = await db('time_line_events_to_person').where({
       person_id: personId,
+      trashed_at: null,
     });
 
     return eventsToPerson.map(this.mapper.toDomain);
   }
 
-  create(data: EventToPerson, ctx?: KnexConfig | undefined): Promise<void> {
-    throw new Error('Method not implemented.');
+  async findBirthAndDeathByPersonIdAndTimelineId(
+    { personId, timelineId }: FindBirthAndDeathByPersonIdAndTimelineIdProps,
+    ctx?: KnexConfig | undefined
+  ): Promise<EventToPerson[]> {
+    const { db } = ctx || this.knexConnection;
+
+    const eventsToPerson = await db('time_line_events_to_person')
+      .join(
+        'time_line_events',
+        'time_line_events_to_person.event_id',
+        '=',
+        'time_line_events.id'
+      )
+      .where({
+        'time_line_events_to_person.person_id': personId,
+        'time_line_events.time_line_id': timelineId,
+        'time_line_events_to_person.trashed_at': null,
+        'time_line_events.trashed_at': null,
+      })
+      .whereIn('time_line_events_to_person.type', [
+        EventToPersonType.BIRTH,
+        EventToPersonType.DEATH,
+      ])
+      .select('time_line_events_to_person.*');
+
+    return eventsToPerson.map(this.mapper.toDomain);
   }
+
+  async create(
+    data: EventToPerson,
+    ctx?: KnexConfig | undefined
+  ): Promise<void> {
+    const { db } = ctx || this.knexConnection;
+
+    await db('time_line_events_to_person').insert(
+      this.mapper.toPersistence(data)
+    );
+  }
+
   findById(
     id: string,
     ctx?: KnexConfig | undefined
@@ -48,9 +91,15 @@ export class EventsToPersonKnexRepository
   findAll(ctx?: KnexConfig | undefined): Promise<EventToPerson[]> {
     throw new Error('Method not implemented.');
   }
-  save(data: EventToPerson, ctx?: KnexConfig | undefined): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async save(data: EventToPerson, ctx?: KnexConfig | undefined): Promise<void> {
+    const { db } = ctx || this.knexConnection;
+
+    await db('time_line_events_to_person')
+      .update(this.mapper.toPersistence(data))
+      .where('id', data.id.toString());
   }
+
   delete(id: string, ctx?: KnexConfig | undefined): Promise<void> {
     throw new Error('Method not implemented.');
   }

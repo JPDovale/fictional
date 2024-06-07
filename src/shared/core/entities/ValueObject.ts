@@ -22,7 +22,7 @@ export class ValueObject<T> {
    *
    * Used to compare equality between two value objects
    */
-  public equals(valueObject: ValueObject<unknown> | null): boolean {
+  public equals(valueObject?: ValueObject<unknown> | null): boolean {
     if (!valueObject) return false;
     if (valueObject === this) {
       return true;

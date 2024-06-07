@@ -9,17 +9,19 @@ interface EventProps {
   timelineId: UniqueId;
   createdAt: Date;
   updatedAt: Date | null;
+  trashedAt: Date | null;
 }
 
 export class Event extends AggregateRoot<EventProps> {
   static create(
-    props: Optional<EventProps, 'createdAt' | 'updatedAt'>,
+    props: Optional<EventProps, 'createdAt' | 'updatedAt' | 'trashedAt'>,
     id?: UniqueId
   ) {
     const eventProps: EventProps = {
       ...props,
       createdAt: props?.createdAt ?? new Date(),
       updatedAt: props?.updatedAt ?? null,
+      trashedAt: props?.trashedAt ?? null,
     };
 
     const event = new Event(eventProps, id);
@@ -29,6 +31,12 @@ export class Event extends AggregateRoot<EventProps> {
 
   get date() {
     return this.props.date;
+  }
+
+  set date(eventDate: EventDate) {
+    if (eventDate.equals(this.date)) return;
+    this.props.date = eventDate;
+    this.touch();
   }
 
   get event() {
@@ -53,7 +61,15 @@ export class Event extends AggregateRoot<EventProps> {
     return this.props.updatedAt;
   }
 
+  get trashedAt() {
+    return this.props.trashedAt;
+  }
+
   touch() {
     this.props.updatedAt = new Date();
+  }
+
+  moveToTrash() {
+    this.props.trashedAt = new Date();
   }
 }

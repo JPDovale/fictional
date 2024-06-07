@@ -154,11 +154,17 @@ export class UpdatePersonService
     person.history = history;
     person.affiliationId = affiliationId ?? undefined;
 
-    if (
-      project.buildBlocks.implements(BuildBlock.TIME_LINES) &&
-      oldName !== name
-    ) {
-      person.addPersonInfosUsedInEventsUpdatedEvent();
+    if (project.buildBlocks.implements(BuildBlock.TIME_LINES)) {
+      if (oldName !== name) {
+        person.addPersonInfosUsedInEventsUpdatedEvent();
+      }
+
+      if (!(birthDate === undefined && deathDate === undefined)) {
+        person.addPersonBirthOrDeathDateUpdateEvent({
+          birthDate: birthDate,
+          deathDate: deathDate,
+        });
+      }
     }
 
     await this.personsRepository.save(person);

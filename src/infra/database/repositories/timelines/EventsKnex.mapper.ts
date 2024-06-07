@@ -11,6 +11,7 @@ export interface EventFile {
   time_line_id: string;
   created_at: Date;
   updated_at: Date | null;
+  trashed_at: Date | null;
 }
 
 @injectable()
@@ -23,6 +24,7 @@ export class EventsKnexMapper extends RepositoryMapper<Event, EventFile> {
         timelineId: UniqueId.create(raw.time_line_id),
         createdAt: raw.created_at,
         updatedAt: raw.updated_at,
+        trashedAt: raw.trashed_at,
       },
       UniqueId.create(raw.id)
     );
@@ -36,6 +38,7 @@ export class EventsKnexMapper extends RepositoryMapper<Event, EventFile> {
       time_line_id: entity.timelineId.toString(),
       created_at: entity.createdAt,
       updated_at: entity.updatedAt,
+      trashed_at: entity.trashedAt,
     };
   }
 }

@@ -6,6 +6,7 @@ import { PersonCreatedWithTimelineEvent } from '../events/PersonCreatedWithTimel
 import { EventToPersonType } from '@modules/timelines/entities/EventToPerson';
 import { DomainEvent } from '@shared/core/events/DomainEvent';
 import { PersonInfosUsedInEventUpdatedEvent } from '../events/PersonInfosUsedInEventsUpdated.event';
+import { PersonBirthOrDeathDateUpdatedEvent } from '../events/PersonBirthOrDeathDateUpdated.event';
 
 interface PersonProps {
   name: string | null;
@@ -120,5 +121,18 @@ export class Person extends AggregateRoot<PersonProps> {
 
   addPersonInfosUsedInEventsUpdatedEvent() {
     this.addDomainEvent(new PersonInfosUsedInEventUpdatedEvent(this));
+  }
+
+  addPersonBirthOrDeathDateUpdateEvent(props: {
+    birthDate?: string | null;
+    deathDate?: string | null;
+  }) {
+    this.addDomainEvent(
+      new PersonBirthOrDeathDateUpdatedEvent(
+        this,
+        props.birthDate,
+        props.deathDate
+      )
+    );
   }
 }

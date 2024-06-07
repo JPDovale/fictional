@@ -5,29 +5,24 @@ exports.up = async function up(knex) {
       .primary()
       .unique()
       .notNullable()
-      .defaultTo(knex.fn.uuid())
+      .defaultTo(knex.fn.uuid());
 
-    table
-      .enum('type', [
-        'BIRTH',
-        'DEATH',
-      ])
-      .notNullable()
+    table.enum('type', ['BIRTH', 'DEATH']).notNullable();
 
     table
       .string('event_id')
       .references('time_line_events.id')
       .notNullable()
-      .onDelete('CASCADE')
+      .onDelete('CASCADE');
 
     table
       .string('person_id')
       .references('persons.id')
       .onDelete('CASCADE')
-      .notNullable()
-  })
-}
+      .notNullable();
+  });
+};
 
 exports.down = async function down(knex) {
-  return knex.schema.dropTable('time_line_events_to_person')
-}
+  return knex.schema.dropTable('time_line_events_to_person');
+};

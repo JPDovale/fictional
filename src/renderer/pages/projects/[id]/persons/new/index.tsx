@@ -22,6 +22,7 @@ import {
 import { useProject } from '@rHooks/useProject';
 import { useTheme } from '@rHooks/useTheme';
 import { useUser } from '@rHooks/useUser';
+import { verifyIsLeapYear } from '@rUtils/verifyIsLeepYear';
 import { StatusCode } from '@shared/core/types/StatusCode';
 import { Check, UserPlus, VenetianMask } from 'lucide-react';
 import { useState } from 'react';
@@ -101,13 +102,6 @@ const types: PersonTypeValue[] = [
   },
 ];
 
-function isLeapYearFn(year: number) {
-  if (year % 4 !== 0) return false;
-  if (year % 100 !== 0) return true;
-  if (year % 400 !== 0) return false;
-  return true;
-}
-
 const maxDayForMonthsMapper = {
   1: 31, // Janeiro
   2: 29, // Fevereiro (considerando anos bissextos)
@@ -136,8 +130,9 @@ export function ProjectNewPersonPage() {
   const { theme } = useTheme();
   const { projectId } = useParams();
   const { user } = useUser();
-  const { usePersons, project } = useProject({ projectId });
+  const { usePersons, project, useTimelines } = useProject({ projectId });
   const { persons, refetchPersons } = usePersons();
+  const { verifyEventDate, makeEventDate } = useTimelines();
 
   const {
     handleSubmit,
@@ -188,153 +183,57 @@ export function ProjectNewPersonPage() {
     let birthDate: string | undefined = undefined;
     let deathDate: string | undefined = undefined;
 
-    if (
-      data.birthDateDay !== 0 ||
-      data.birthDateMonth !== 0 ||
-      data.birthDateYear !== 0 ||
-      data.birthDateHour !== 0 ||
-      data.birthDateMinute !== 0 ||
-      data.birthDateSecond !== 0
-    ) {
-      if (
-        data.birthDateDay === 0 ||
-        data.birthDateMonth === 0 ||
-        data.birthDateYear === 0 ||
-        (data.birthDatePeriod !== -1 && data.birthDatePeriod !== 0)
-      ) {
-        setError('birthDateDay', {
-          message:
-            'Ao preencher um campo da data, os campo "Dia", "Mês", "Ano" e "Periodo" devem ser preenchidos"',
-        });
-        return;
-      }
+    const verificationOfBirthDateError = verifyEventDate({
+      day: data.birthDateDay,
+      month: data.birthDateMonth,
+      year: data.birthDateYear,
+      period: data.birthDatePeriod,
+      hour: data.birthDateHour,
+      minute: data.birthDateMinute,
+      second: data.birthDateSecond,
+    });
 
-      if (data.birthDateDay && data.birthDateDay <= 0) {
-        setError('birthDateDay', { message: 'Dia inválido' });
-        return;
-      }
+    const verificationOfDeathDateError = verifyEventDate({
+      day: data.deathDateDay,
+      month: data.deathDateMonth,
+      year: data.deathDateYear,
+      period: data.deathDatePeriod,
+      hour: data.deathDateHour,
+      minute: data.deathDateMinute,
+      second: data.deathDateSecond,
+    });
 
-      if (data.birthDateMonth && data.birthDateMonth <= 0) {
-        setError('birthDateDay', { message: 'Mês inválido' });
-        return;
-      }
-
-      if (data.birthDateYear && data.birthDateYear <= 0) {
-        setError('birthDateDay', { message: 'Ano inválido' });
-        return;
-      }
-
-      if (data.birthDateHour && data.birthDateHour < 0) {
-        setError('birthDateDay', { message: 'Hora inválido' });
-        return;
-      }
-
-      if (data.birthDateMinute && data.birthDateMinute < 0) {
-        setError('birthDateDay', { message: 'Minuto inválido' });
-        return;
-      }
-
-      if (data.birthDateSecond && data.birthDateSecond < 0) {
-        setError('birthDateDay', { message: 'Segundo inválido' });
-        return;
-      }
-
-      if (data.birthDateMonth === 2) {
-        const isLeapYear = isLeapYearFn(data.birthDateYear!);
-
-        if (isLeapYear && data.birthDateDay! > 29) {
-          setError('birthDateDay', { message: 'Dia inválido' });
-          return;
-        }
-
-        if (!isLeapYear && data.birthDateDay! > 28) {
-          setError('birthDateDay', { message: 'Dia inválido' });
-          return;
-        }
-      } else {
-        const daysInMonth = maxDayForMonthsMapper[data.birthDateMonth!];
-
-        if (data.birthDateDay! > daysInMonth) {
-          return setError('birthDateDay', { message: 'Dia inválido' });
-        }
-      }
-
-      birthDate = `${data.birthDateDay}:${data.birthDateMonth}:${data.birthDateYear}:${data.birthDatePeriod}:${data.birthDateHour}:${data.birthDateMinute}:${data.birthDateSecond}`;
+    if (verificationOfBirthDateError) {
+      setError('birthDateDay', { message: verificationOfBirthDateError });
+      return;
     }
 
-    if (
-      data.deathDateDay !== 0 ||
-      data.deathDateMonth !== 0 ||
-      data.deathDateYear !== 0 ||
-      data.deathDateHour !== 0 ||
-      data.deathDateMinute !== 0 ||
-      data.deathDateSecond !== 0
-    ) {
-      if (
-        data.deathDateDay === 0 ||
-        data.deathDateMonth === 0 ||
-        data.deathDateYear === 0 ||
-        (data.deathDatePeriod !== -1 && data.deathDatePeriod !== 0)
-      ) {
-        setError('deathDateDay', {
-          message:
-            'Ao preencher um campo da data, os campo "Dia", "Mês", "Ano" e "Periodo" devem ser preenchidos"',
-        });
-        return;
-      }
-
-      if (data.deathDateDay && data.deathDateDay <= 0) {
-        setError('deathDateDay', { message: 'Dia inválido' });
-        return;
-      }
-
-      if (data.deathDateMonth && data.deathDateMonth <= 0) {
-        setError('deathDateDay', { message: 'Mês inválido' });
-        return;
-      }
-
-      if (data.deathDateYear && data.deathDateYear <= 0) {
-        setError('deathDateDay', { message: 'Ano inválido' });
-        return;
-      }
-
-      if (data.deathDateHour && data.deathDateHour < 0) {
-        setError('deathDateDay', { message: 'Hora inválido' });
-        return;
-      }
-
-      if (data.deathDateMinute && data.deathDateMinute < 0) {
-        setError('deathDateDay', { message: 'Minuto inválido' });
-        return;
-      }
-
-      if (data.deathDateSecond && data.deathDateSecond < 0) {
-        setError('deathDateDay', { message: 'Segundo inválido' });
-        return;
-      }
-
-      if (data.deathDateMonth === 2) {
-        const isLeapYear = isLeapYearFn(data.deathDateYear!);
-
-        if (isLeapYear && data.deathDateDay! > 29) {
-          setError('deathDateDay', { message: 'Dia inválido' });
-          return;
-        }
-
-        if (!isLeapYear && data.deathDateDay! > 28) {
-          setError('deathDateDay', { message: 'Dia inválido' });
-          return;
-        }
-      } else {
-        const daysInMonth = maxDayForMonthsMapper[data.deathDateMonth!];
-
-        if (data.deathDateDay! > daysInMonth) {
-          return setError('deathDateDay', { message: 'Dia inválido' });
-        }
-      }
-
-      deathDate = `${data.deathDateDay}:${data.deathDateMonth}:${data.deathDateYear}:${data.deathDatePeriod}:${data.deathDateHour}:${data.deathDateMinute}:${data.deathDateSecond}`;
+    if (verificationOfDeathDateError) {
+      setError('deathDateDay', { message: verificationOfDeathDateError });
+      return;
     }
+
+    birthDate =
+      makeEventDate({
+        day: data.birthDateDay,
+        month: data.birthDateMonth,
+        year: data.birthDateYear,
+        period: data.birthDatePeriod,
+        hour: data.birthDateHour,
+        minute: data.birthDateMinute,
+        second: data.birthDateSecond,
+      }) ?? undefined;
+
+    deathDate =
+      makeEventDate({
+        day: data.deathDateDay,
+        month: data.deathDateMonth,
+        year: data.deathDateYear,
+        period: data.deathDatePeriod,
+        hour: data.deathDateHour,
+        minute: data.deathDateMinute,
+        second: data.deathDateSecond,
+      }) ?? undefined;
 
     const response = await Requester.requester<CreatePersonBody>({
       access: Accessors.CREATE_PERSON,

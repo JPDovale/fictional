@@ -10,6 +10,7 @@ import { ErrorPresenter } from '../requester/presenters/Error.presenter';
 import { FilePresenter } from '@modules/files/presenters/File.presenter';
 import { TimelinePresenter } from '@modules/timelines/presenters/Timeline.presenter';
 import { TimelineWithEventsPresenter } from '@modules/timelines/presenters/TimelineWithEvents.presenter';
+import { PersonWithDetailsPresenter } from '@modules/persons/presenters/PersonWithDetails.presenter';
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++
 // Errors
@@ -32,6 +33,7 @@ container.registerSingleton(FoundationPresenter);
 container.registerSingleton(PersonPresenter);
 container.registerSingleton(PersonWithParentsPresenter);
 container.registerSingleton(AttributePreviewPresenter);
+container.registerSingleton(PersonWithDetailsPresenter);
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++
 // Affiliations

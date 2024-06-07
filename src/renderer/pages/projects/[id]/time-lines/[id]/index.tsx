@@ -4,6 +4,7 @@ import { useProject } from '@rHooks/useProject';
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { normalizeEventDate } from '@rUtils/normalizeEventDate';
 
 interface CalendarDate {
   day: number;
@@ -216,7 +217,6 @@ export function ProjectTimelinePage() {
       []
     );
 
-    console.log({ calendarWeeks });
     return {
       calendarWeeks,
     };
@@ -296,10 +296,7 @@ export function ProjectTimelinePage() {
                           <div className="flex gap-2">
                             <div className="w-2 h-2 bg-gray400 rounded-full shadow-defaultDark -ml-1 mt-1"></div>
                             <span className="text-xs opacity-60 font-bold">
-                              Dia {event.dateObject.day} de {month.monthName} de{' '}
-                              {date.yearName.replaceAll(' Anos ', ' ')} às{' '}
-                              {event.dateObject.hour}:{event.dateObject.minute}:
-                              {event.dateObject.second}
+                              {normalizeEventDate(event.date)}
                             </span>
                           </div>
 

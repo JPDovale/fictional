@@ -25,7 +25,9 @@ export class EventsKnexRepository implements EventsRepository<KnexConfig> {
     ctx?: KnexConfig | undefined
   ): Promise<Event[]> {
     const { db } = ctx || this.knexConnection;
-    const events = await db('time_line_events').whereIn('id', ids);
+    const events = await db('time_line_events')
+      .where('trashed_at', null)
+      .whereIn('id', ids);
     return events.map(this.mapper.toDomain);
   }
 
@@ -41,18 +43,27 @@ export class EventsKnexRepository implements EventsRepository<KnexConfig> {
     await Promise.all(updatesPromises);
   }
 
-  create(data: Event, ctx?: KnexConfig | undefined): Promise<void> {
-    throw new Error('Method not implemented.');
+  async create(data: Event, ctx?: KnexConfig | undefined): Promise<void> {
+    const { db } = ctx || this.knexConnection;
+
+    await db('time_line_events').insert(this.mapper.toPersistence(data));
   }
+
   findById(id: string, ctx?: KnexConfig | undefined): Promise<Event | null> {
     throw new Error('Method not implemented.');
   }
   findAll(ctx?: KnexConfig | undefined): Promise<Event[]> {
     throw new Error('Method not implemented.');
   }
-  save(data: Event, ctx?: KnexConfig | undefined): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async save(data: Event, ctx?: KnexConfig | undefined): Promise<void> {
+    const { db } = ctx || this.knexConnection;
+
+    await db('time_line_events')
+      .update(this.mapper.toPersistence(data))
+      .where('id', data.id.toString());
   }
+
   delete(id: string, ctx?: KnexConfig | undefined): Promise<void> {
     throw new Error('Method not implemented.');
   }

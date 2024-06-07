@@ -1,86 +1,31 @@
 import { Requester } from '@infra/requester/requester';
 import { Accessors } from '@infra/requester/types';
-import { StatusCode } from '@shared/core/types/StatusCode';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useUser } from './useUser';
-import { GetPersonBody } from '@modules/persons/gateways/GetPerson.gateway';
-import localstorageFunctions from '@rUtils/localstorageFunctions';
-import { LocalStorageKeys } from '@rConfigs/localstorageKeys';
-import { Optional } from '@shared/core/types/Optional';
 import { UpdatePersonBody } from '@modules/persons/gateways/UpdatePerson.gateway';
-import {
-  PersonWithParentsPresented,
-  PersonWithParentsResponse,
-} from '@modules/persons/presenters/PersonWithParents.presenter';
-import { usePersonsAttributes } from './usePersonsAttributes';
 import { AttributePreviewResponse } from '@modules/persons/presenters/AttributesPreview.presenter';
+import { PersonWithDetailsResponse } from '@modules/persons/presenters/PersonWithDetails.presenter';
+import { LocalStorageKeys } from '@rConfigs/localstorageKeys';
+import { useUser } from '@rHooks/useUser';
+import localstorageFunctions from '@rUtils/localstorageFunctions';
+import { Optional } from '@shared/core/types/Optional';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-interface UsePersonProps {
+interface UsePersonMutationProps {
   projectId?: string;
   personId?: string;
 }
 
 interface PersonQueryData {
-  person: PersonWithParentsResponse | null;
+  person: PersonWithDetailsResponse | null;
   attributesThisPerson: AttributePreviewResponse[];
 }
 
-export function usePerson({ projectId, personId }: UsePersonProps) {
+export function usePersonMutation({
+  projectId,
+  personId,
+}: UsePersonMutationProps) {
   const { user } = useUser();
-  const { attributes } = usePersonsAttributes({ projectId });
 
   const queryClient = useQueryClient();
-
-  const { data, isLoading, refetch } = useQuery<
-    unknown,
-    Error,
-    PersonQueryData
-  >({
-    queryKey: [`projects:${projectId}:persons:${personId}`],
-    queryFn: async () => {
-      if (!user?.id || !projectId || !personId) {
-        return {
-          person: null,
-        };
-      }
-
-      const response = await Requester.requester<
-        GetPersonBody,
-        PersonWithParentsPresented
-      >({
-        access: Accessors.GET_PERSON,
-        data: {
-          userId: user?.id ?? '',
-          projectId,
-          personId,
-        },
-      });
-
-      if (response.status === StatusCode.OK && response.data) {
-        const { person } = response.data;
-
-        localstorageFunctions.Set(getTempPersistenceKey(), person.history);
-
-        const attributesThisPerson = attributes.filter(
-          (attr) => attr.personId === personId
-        );
-
-        return {
-          person,
-          attributesThisPerson,
-        };
-      }
-
-      return {
-        person: null,
-        attributesThisPerson: [],
-      };
-    },
-    staleTime: 1000 * 60 * 5,
-  });
-
-  const person = data?.person ?? null;
-  const attributesThisPerson = data?.attributesThisPerson ?? [];
 
   const { mutateAsync: updatePerson } = useMutation<
     void,
@@ -92,7 +37,6 @@ export function usePerson({ projectId, personId }: UsePersonProps) {
 
       await Requester.requester<UpdatePersonBody>({
         access: Accessors.UPDATE_PERSON,
-        isDebug: true,
         data: {
           projectId,
           personId,
@@ -148,13 +92,5 @@ export function usePerson({ projectId, personId }: UsePersonProps) {
     return value ?? '';
   }
 
-  return {
-    person,
-    attributesThisPerson,
-    isLoading,
-    refetchPerson: refetch,
-    getTempPersistenceKey,
-    getTempPersistence,
-    updatePerson,
-  };
+  return { updatePerson, getTempPersistence, getTempPersistenceKey };
 }
