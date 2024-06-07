@@ -327,7 +327,6 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
 
     const response = await Requester.requester<UpdatePersonBody, void>({
       access: Accessors.UPDATE_PERSON,
-      isDebug: true,
       data: {
         projectId,
         personId,

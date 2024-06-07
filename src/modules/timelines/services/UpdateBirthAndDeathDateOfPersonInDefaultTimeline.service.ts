@@ -14,7 +14,6 @@ import { BuildBlock } from '@modules/projects/valueObjects/BuildBlocks';
 import { ProjectAcctionBlocked } from '@modules/projects/errors/ProjectAcctionBlocked.error';
 import { EventsToPersonRepository } from '../repositories/EventsToPerson.repository';
 import { TransactorService } from '@infra/database/transactor/contracts/Transactor.service';
-import { Logger } from '@utils/logger';
 
 type Request = {
   person: Person;
