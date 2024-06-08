@@ -1,4 +1,4 @@
-import { Event } from '@modules/timelines/entities/Event';
+import { Event, ImportanceLevel } from '@modules/timelines/entities/Event';
 import { EventDate } from '@modules/timelines/valueObjects/EventDate';
 import { RepositoryMapper } from '@shared/core/contracts/Repository';
 import { UniqueId } from '@shared/core/valueObjects/UniqueId';
@@ -8,6 +8,7 @@ export interface EventFile {
   id: string;
   event: string;
   date: string;
+  importance_level: ImportanceLevel;
   time_line_id: string;
   created_at: Date;
   updated_at: Date | null;
@@ -22,6 +23,7 @@ export class EventsKnexMapper extends RepositoryMapper<Event, EventFile> {
         event: raw.event,
         date: EventDate.createFromString(raw.date),
         timelineId: UniqueId.create(raw.time_line_id),
+        importanceLevel: raw.importance_level,
         createdAt: raw.created_at,
         updatedAt: raw.updated_at,
         trashedAt: raw.trashed_at,
@@ -34,6 +36,7 @@ export class EventsKnexMapper extends RepositoryMapper<Event, EventFile> {
     return {
       id: entity.id.toString(),
       event: entity.event,
+      importance_level: entity.importanceLevel,
       date: entity.date.toString(),
       time_line_id: entity.timelineId.toString(),
       created_at: entity.createdAt,

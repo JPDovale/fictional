@@ -11,7 +11,7 @@ import { useProject } from '@rHooks/useProject';
 import { useTheme } from '@rHooks/useTheme';
 import { Theme } from '@rStores/useInterfaceStore';
 import { mainStyles } from '@rStyles/theme';
-import { Home } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import { Outlet, useParams } from 'react-router-dom';
 import { tv } from 'tailwind-variants';
 
@@ -69,8 +69,8 @@ export function ProjectLayout() {
           <ScrollArea>
             <FolderTree
               nodes={[
-                { id: '1', name: 'Inicio', path: '/', icon: Home },
-                projectTree,
+                ...projectTree.childs,
+                { id: '1', name: 'Sair', path: '/', icon: LogOut },
               ]}
               nodeSelected={nodeIdSelected}
               setNodeSelected={setNodeIdSelected}

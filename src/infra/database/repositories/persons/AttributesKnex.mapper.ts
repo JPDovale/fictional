@@ -1,10 +1,12 @@
-import { Attribute } from '@modules/persons/entities/Attribute'
-import { AttributeType } from '@modules/persons/entities/types'
-import { AttributePreview } from '@modules/persons/valuesObjects/AttributePreview'
-import { RepositoryMapper } from '@shared/core/contracts/Repository'
-import { UniqueId } from '@shared/core/valueObjects/UniqueId'
-import { injectable } from 'tsyringe'
-import { load } from 'cheerio'
+import { Attribute } from '@modules/persons/entities/Attribute';
+import { AttributeType } from '@modules/persons/entities/types';
+import { AttributePreview } from '@modules/persons/valuesObjects/AttributePreview';
+import { RepositoryMapper } from '@shared/core/contracts/Repository';
+import { UniqueId } from '@shared/core/valueObjects/UniqueId';
+import { injectable } from 'tsyringe';
+import { load } from 'cheerio';
+import { AttributeMutation } from '@modules/persons/entities/AttributeMutation';
+import { AttributeMutationList } from '@modules/persons/entities/AttributeMutationList';
 
 // essa função está duplicando o conteúdo interno da tag
 // ex para: <p><span>test</span></p>
@@ -31,22 +33,22 @@ function extractFirstTags(htmlContent: string, numTags: number) {
 }
 
 export interface AttributeFile {
-  id: string
-  file_id: string
-  type: AttributeType
-  created_at: Date
-  updated_at: Date | null
+  id: string;
+  file_id: string;
+  type: AttributeType;
+  created_at: Date;
+  updated_at: Date | null;
 }
 
 interface AttributePreviewSelect {
-  person_id: string
-  attribute_type: AttributeType
-  attribute_id: string
-  file_id: string
-  file_title: string
-  file_content: string
-  file_created_at: Date
-  file_updated_at: Date | null
+  person_id: string;
+  attribute_type: AttributeType;
+  attribute_id: string;
+  file_id: string;
+  file_title: string;
+  file_content: string;
+  file_created_at: Date;
+  file_updated_at: Date | null;
 }
 
 @injectable()
@@ -54,16 +56,19 @@ export class AttributesKnexMapper extends RepositoryMapper<
   Attribute,
   AttributeFile
 > {
-  toDomain(raw: AttributeFile): Attribute {
+  toDomain(
+    raw: AttributeFile & { mutations?: AttributeMutation[] }
+  ): Attribute {
     return Attribute.create(
       {
         fileId: UniqueId.create(raw.file_id),
         type: raw.type,
+        mutations: new AttributeMutationList(raw.mutations ?? []),
         createdAt: raw.created_at,
         updatedAt: raw.updated_at,
       },
-      UniqueId.create(raw.id),
-    )
+      UniqueId.create(raw.id)
+    );
   }
 
   toPersistence(entity: Attribute): AttributeFile {
@@ -73,7 +78,7 @@ export class AttributesKnexMapper extends RepositoryMapper<
       type: entity.type,
       created_at: entity.createdAt,
       updated_at: entity.updatedAt,
-    }
+    };
   }
 
   toDomainPreview(raw: AttributePreviewSelect): AttributePreview {
@@ -86,6 +91,6 @@ export class AttributesKnexMapper extends RepositoryMapper<
       fileTitle: raw.file_title,
       personId: UniqueId.create(raw.person_id),
       attributeId: UniqueId.create(raw.attribute_id),
-    })
+    });
   }
 }

@@ -9,7 +9,7 @@ import localstorageFunctions from '@rUtils/localstorageFunctions';
 import { Optional } from '@shared/core/types/Optional';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-interface UsePersonMutationProps {
+interface UsePersonQueryMutationProps {
   projectId?: string;
   personId?: string;
 }
@@ -19,10 +19,10 @@ interface PersonQueryData {
   attributesThisPerson: AttributePreviewResponse[];
 }
 
-export function usePersonMutation({
+export function usePersonQueryMutation({
   projectId,
   personId,
-}: UsePersonMutationProps) {
+}: UsePersonQueryMutationProps) {
   const { user } = useUser();
 
   const queryClient = useQueryClient();

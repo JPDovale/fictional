@@ -1,15 +1,19 @@
-import { Editor } from '@tiptap/react'
-import * as HoverCard from '@radix-ui/react-hover-card'
-import { CaseUpper, PaintBucket } from 'lucide-react'
-import { useTheme } from '@rHooks/useTheme'
-import { colors } from '@rStyles/colors'
-import { tv } from 'tailwind-variants'
-import { Theme } from '@rStores/useInterfaceStore'
-import { BubbleOption } from './BubbleOption'
-import { HighlighterOption } from './HighlighterOption'
+import { Editor } from '@tiptap/react';
+import { CaseUpper, PaintBucket } from 'lucide-react';
+import { useTheme } from '@rHooks/useTheme';
+import { colors } from '@rStyles/colors';
+import { tv } from 'tailwind-variants';
+import { Theme } from '@rStores/useInterfaceStore';
+import { BubbleOption } from './BubbleOption';
+import { HighlighterOption } from './HighlighterOption';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@rComponents/ui/popover';
 
 const textHighlightersStyles = tv({
-  base: 'mt-2 rounded-md shadow-lg shadow-semiTransparentBack overflow-x-hidden overflow-y-auto max-h-80',
+  base: 'mt-2 rounded-md shadow-lg shadow-semiTransparentBack overflow-x-hidden overflow-y-auto max-h-80 p-0 text-text100 w-60',
   variants: {
     theme: {
       [Theme.DARK]: 'bg-gray300',
@@ -17,26 +21,26 @@ const textHighlightersStyles = tv({
       [Theme.SYSTEM]: '',
     },
   },
-})
+});
 
 interface TextHighlightersProps {
-  editor: Editor
+  editor: Editor;
 }
 
 export function TextHighlighters({ editor }: TextHighlightersProps) {
-  const { theme } = useTheme()
+  const { theme } = useTheme();
 
   return (
-    <HoverCard.Root>
-      <HoverCard.Trigger>
+    <Popover>
+      <PopoverTrigger>
         <BubbleOption
           icon={<PaintBucket className="w-4 h-4" />}
           isActive={false}
           handler={() => {}}
         />
-      </HoverCard.Trigger>
+      </PopoverTrigger>
 
-      <HoverCard.Content className={textHighlightersStyles({ theme })}>
+      <PopoverContent align="end" className={textHighlightersStyles({ theme })}>
         <span className="p-2 text-xs opacity-60">Cor do texto</span>
         <HighlighterOption
           icon={<CaseUpper className="w-4 h-4" />}
@@ -412,7 +416,7 @@ export function TextHighlighters({ editor }: TextHighlightersProps) {
             <span className="bg-importance1/70 p-0.5 rounded-sm">Azul</span>
           }
         />
-      </HoverCard.Content>
-    </HoverCard.Root>
-  )
+      </PopoverContent>
+    </Popover>
+  );
 }

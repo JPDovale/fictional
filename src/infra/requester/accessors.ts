@@ -18,6 +18,8 @@ import { GetPersonController } from '@modules/persons/controllers/GetPerson.cont
 import { GetTimelinesController } from '@modules/timelines/controllers/GetTimelines.controller';
 import { GetTimelineController } from '@modules/timelines/controllers/GetTimeline.controller';
 import { UpdateProjectBuildBlocksController } from '@modules/projects/controllers/UpdateProjectBuildBlocks.controller';
+import { CreatePersonAttributeMutationController } from '@modules/persons/controllers/CreatePersonAttributeMutation.controller';
+import { GetPersonAttributeController } from '@modules/persons/controllers/GetPersonAttribute.controller';
 
 export const accessors = {
   [Accessors.CREATE_USER]: container.resolve(CreateUserController),
@@ -43,5 +45,11 @@ export const accessors = {
   [Accessors.GET_TIMELINE]: container.resolve(GetTimelineController),
   [Accessors.UPDATE_PROJECT_BUILD_BLOCKS]: container.resolve(
     UpdateProjectBuildBlocksController
+  ),
+  [Accessors.CREATE_PERSON_ATTRIBUTE_MUTATION]: container.resolve(
+    CreatePersonAttributeMutationController
+  ),
+  [Accessors.GET_PERSON_ATTRIBUTE]: container.resolve(
+    GetPersonAttributeController
   ),
 };

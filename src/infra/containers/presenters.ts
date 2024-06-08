@@ -11,6 +11,7 @@ import { FilePresenter } from '@modules/files/presenters/File.presenter';
 import { TimelinePresenter } from '@modules/timelines/presenters/Timeline.presenter';
 import { TimelineWithEventsPresenter } from '@modules/timelines/presenters/TimelineWithEvents.presenter';
 import { PersonWithDetailsPresenter } from '@modules/persons/presenters/PersonWithDetails.presenter';
+import { AttributePresenter } from '@modules/persons/presenters/Attribute.presenter';
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++
 // Errors
@@ -34,6 +35,7 @@ container.registerSingleton(PersonPresenter);
 container.registerSingleton(PersonWithParentsPresenter);
 container.registerSingleton(AttributePreviewPresenter);
 container.registerSingleton(PersonWithDetailsPresenter);
+container.registerSingleton(AttributePresenter);
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++
 // Affiliations

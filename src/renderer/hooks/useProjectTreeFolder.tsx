@@ -1,5 +1,5 @@
 import { NodeTree } from '@rComponents/application/FolderTree';
-import { Clock, Folder, Settings, UserPlus } from 'lucide-react';
+import { Clock, Folder, Home, Settings, UserPlus } from 'lucide-react';
 import { BuildBlock } from '@modules/projects/valueObjects/BuildBlocks';
 import { makeFoundationFolderTreeNode } from '@rConfigs/projectFolderTree/foundation';
 import { useMemo } from 'react';
@@ -51,7 +51,7 @@ export function useProjectTreeFolder({ projectId }: UseProjectTreeFolderProps) {
 
   const homeNode: NodeTree = {
     id: '3',
-    icon: Folder,
+    icon: Home,
     name: 'Inicio',
     path: `/projects/${projectId}`,
   };

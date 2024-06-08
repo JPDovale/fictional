@@ -24,6 +24,8 @@ import { GetTimelineService } from '@modules/timelines/services/GetTimeline.serv
 import { UpdateProjectBuildBlocksService } from '@modules/projects/services/UpdateProjectBuildBlocks.service';
 import { UpdateAllPersonEventsService } from '@modules/timelines/services/UpdateAllPersonEvents.service';
 import { UpdateBirthAndDeathDateOfPersonInDeafultTimelineService } from '@modules/timelines/services/UpdateBirthAndDeathDateOfPersonInDefaultTimeline.service';
+import { CreatePersonAttributeMutationService } from '@modules/persons/services/CreatePersonAttributeMutation.service';
+import { GetPersonAttributeService } from '@modules/persons/services/GetPersonAttribute.service';
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -51,6 +53,8 @@ container.registerSingleton(CreatePersonAttributeService);
 container.registerSingleton(GetAttributesPreviewService);
 container.registerSingleton(UpdatePersonService);
 container.registerSingleton(GetPersonService);
+container.registerSingleton(CreatePersonAttributeMutationService);
+container.registerSingleton(GetPersonAttributeService);
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Affiliations

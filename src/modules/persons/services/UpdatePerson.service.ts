@@ -146,7 +146,7 @@ export class UpdatePersonService
       await imageSecure.copyToSecure();
     }
 
-    const oldName = person.name;
+    const oldType = person.type;
 
     person.name = name;
     person.image = image;
@@ -155,7 +155,7 @@ export class UpdatePersonService
     person.affiliationId = affiliationId ?? undefined;
 
     if (project.buildBlocks.implements(BuildBlock.TIME_LINES)) {
-      if (oldName !== name) {
+      if (oldType !== type) {
         person.addPersonInfosUsedInEventsUpdatedEvent();
       }
 

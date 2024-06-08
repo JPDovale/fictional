@@ -1,10 +1,13 @@
-import './styles.css'
-import { EditorContent, Editor as EditorTipTap } from '@tiptap/react'
-import { useTheme } from '@rHooks/useTheme'
-import { tv } from 'tailwind-variants'
-import { Theme } from '@rStores/useInterfaceStore'
-import { FloatingMenuEditor } from './components/FloatingMenuEditor'
-import { BubbleMenuEditor } from './components/BubbleMenuEditor'
+import './styles.css';
+import { EditorContent, Editor as EditorTipTap } from '@tiptap/react';
+import { useTheme } from '@rHooks/useTheme';
+import { tv } from 'tailwind-variants';
+import { Theme } from '@rStores/useInterfaceStore';
+import {
+  EditorMenuOption,
+  FloatingMenuEditor,
+} from './components/FloatingMenuEditor';
+import { BubbleMenuEditor } from './components/BubbleMenuEditor';
 
 const editorStyles = tv({
   base: 'min-w-[45rem] max-w-[45rem] prose prose-purple group',
@@ -15,20 +18,21 @@ const editorStyles = tv({
       [Theme.SYSTEM]: '',
     },
   },
-})
+});
 
 interface EditorProps {
-  editor: EditorTipTap | null
+  editor: EditorTipTap | null;
+  menuOptions: EditorMenuOption[];
 }
 
-export function Editor({ editor }: EditorProps) {
-  const { theme } = useTheme()
+export function Editor({ editor, menuOptions = [] }: EditorProps) {
+  const { theme } = useTheme();
 
   // const { findPerson } = usePersons((state) => ({
   //   findPerson: state.findPerson,
   // }));
 
-  if (!editor) return null
+  if (!editor) return null;
 
   function handleDoubleClick() {
     // if (!editor) return
@@ -56,8 +60,8 @@ export function Editor({ editor }: EditorProps) {
         editor={editor}
         onDoubleClick={handleDoubleClick}
       />
-      <FloatingMenuEditor editor={editor} />
+      <FloatingMenuEditor editor={editor} menuOptions={menuOptions} />
       <BubbleMenuEditor editor={editor} />
     </>
-  )
+  );
 }

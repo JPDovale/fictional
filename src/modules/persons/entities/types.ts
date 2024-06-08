@@ -17,4 +17,10 @@ export enum AttributeType {
   PERSONALITY = 'PERSONALITY',
   TRAUMA = 'TRAUMA',
   VALUE = 'VALUE',
+  HOBBY = 'HOBBY',
+  FEAR = 'FEAR',
+  MOTIVATION = 'MOTIVATION',
+  ADDICTION = 'ADDICTION',
+  DESIRE = 'DESIRE',
+  HABIT = 'HABIT',
 }

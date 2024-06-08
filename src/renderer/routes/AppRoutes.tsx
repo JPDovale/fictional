@@ -24,6 +24,12 @@ import { PersonTraumaAttributrePage } from '../pages/projects/[id]/persons/[id]/
 import { PersonValueAttributrePage } from '../pages/projects/[id]/persons/[id]/values';
 import { ProjectTimelinePage } from '../pages/projects/[id]/time-lines/[id]';
 import { ProjectEditBuildBlocksPage } from '../pages/projects/[id]/config/build-blocks';
+import { PersonHobbieAttributrePage } from '../pages/projects/[id]/persons/[id]/hobbies';
+import { PersonFearAttributrePage } from '../pages/projects/[id]/persons/[id]/fears';
+import { PersonMotivationAttributrePage } from '../pages/projects/[id]/persons/[id]/motivations';
+import { PersonDesireAttributrePage } from '../pages/projects/[id]/persons/[id]/desires';
+import { PersonAddctionAttributrePage } from '../pages/projects/[id]/persons/[id]/addictions';
+import { PersonHabitAttributrePage } from '../pages/projects/[id]/persons/[id]/habits';
 
 export function AppRoutes() {
   const { isLoading } = usePreload();
@@ -75,33 +81,63 @@ export function AppRoutes() {
           />
 
           <Route
-            path="/projects/:projectId/persons/:personId/appearences/:fileId"
+            path="/projects/:projectId/persons/:personId/attributes/appearences/:attributeId"
             element={<PersonAppearenceAttributrePage />}
           />
 
           <Route
-            path="/projects/:projectId/persons/:personId/dreams/:fileId"
+            path="/projects/:projectId/persons/:personId/attributes/dreams/:attributeId"
             element={<PersonDreamAttributrePage />}
           />
 
           <Route
-            path="/projects/:projectId/persons/:personId/objectives/:fileId"
+            path="/projects/:projectId/persons/:personId/attributes/objectives/:attributeId"
             element={<PersonObjectiveAttributrePage />}
           />
 
           <Route
-            path="/projects/:projectId/persons/:personId/personalities/:fileId"
+            path="/projects/:projectId/persons/:personId/attributes/personalities/:attributeId"
             element={<PersonPersonalityAttributrePage />}
           />
 
           <Route
-            path="/projects/:projectId/persons/:personId/traumas/:fileId"
+            path="/projects/:projectId/persons/:personId/attributes/traumas/:attributeId"
             element={<PersonTraumaAttributrePage />}
           />
 
           <Route
-            path="/projects/:projectId/persons/:personId/values/:fileId"
+            path="/projects/:projectId/persons/:personId/attributes/values/:attributeId"
             element={<PersonValueAttributrePage />}
+          />
+
+          <Route
+            path="/projects/:projectId/persons/:personId/attributes/hobbies/:attributeId"
+            element={<PersonHobbieAttributrePage />}
+          />
+
+          <Route
+            path="/projects/:projectId/persons/:personId/attributes/fears/:attributeId"
+            element={<PersonFearAttributrePage />}
+          />
+
+          <Route
+            path="/projects/:projectId/persons/:personId/attributes/motivations/:attributeId"
+            element={<PersonMotivationAttributrePage />}
+          />
+
+          <Route
+            path="/projects/:projectId/persons/:personId/attributes/addictions/:attributeId"
+            element={<PersonAddctionAttributrePage />}
+          />
+
+          <Route
+            path="/projects/:projectId/persons/:personId/attributes/desires/:attributeId"
+            element={<PersonDesireAttributrePage />}
+          />
+
+          <Route
+            path="/projects/:projectId/persons/:personId/attributes/habits/:attributeId"
+            element={<PersonHabitAttributrePage />}
           />
 
           <Route

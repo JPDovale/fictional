@@ -17,6 +17,8 @@ import { GetPersonController } from '@modules/persons/controllers/GetPerson.cont
 import { GetTimelinesController } from '@modules/timelines/controllers/GetTimelines.controller';
 import { GetTimelineController } from '@modules/timelines/controllers/GetTimeline.controller';
 import { UpdateProjectBuildBlocksController } from '@modules/projects/controllers/UpdateProjectBuildBlocks.controller';
+import { CreatePersonAttributeMutationController } from '@modules/persons/controllers/CreatePersonAttributeMutation.controller';
+import { GetPersonAttributeController } from '@modules/persons/controllers/GetPersonAttribute.controller';
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -43,6 +45,8 @@ container.registerSingleton(CreatePersonAttributeService);
 container.registerSingleton(GetAttributesPreviewController);
 container.registerSingleton(UpdatePersonController);
 container.registerSingleton(GetPersonController);
+container.registerSingleton(CreatePersonAttributeMutationController);
+container.registerSingleton(GetPersonAttributeController);
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Files

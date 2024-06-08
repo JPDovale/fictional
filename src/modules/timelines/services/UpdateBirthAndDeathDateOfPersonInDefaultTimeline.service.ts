@@ -97,8 +97,12 @@ export class UpdateBirthAndDeathDateOfPersonInDeafultTimelineService
 
       const event = Event.create({
         timelineId: timeline!.id,
-        event: `${firstWordOfEvent} de ${person.name ?? '??????'}`,
+        event: `${firstWordOfEvent} de $=${person.id.toString()}=pers$=`,
         date: EventDate.createFromString(date),
+        importanceLevel: Event.getImportanceLevelForPersonEvent(
+          person.type,
+          type
+        ),
       });
 
       const eventToPerson = EventToPerson.create({

@@ -1,11 +1,12 @@
-import * as HoverCard from '@radix-ui/react-hover-card'
-import { InfoIcon } from 'lucide-react'
-import { ReactNode } from 'react'
-import { Editor as EditorTipTap } from '@tiptap/react'
-import { useTheme } from '@rHooks/useTheme'
-import { tv } from 'tailwind-variants'
-import { Theme } from '@rStores/useInterfaceStore'
-import { Editor } from './Editor'
+import * as HoverCard from '@radix-ui/react-hover-card';
+import { InfoIcon } from 'lucide-react';
+import { ReactNode } from 'react';
+import { Editor as EditorTipTap } from '@tiptap/react';
+import { useTheme } from '@rHooks/useTheme';
+import { tv } from 'tailwind-variants';
+import { Theme } from '@rStores/useInterfaceStore';
+import { Editor } from './Editor';
+import { EditorMenuOption } from './Editor/components/FloatingMenuEditor';
 
 const blockEditorTitleStyles = tv({
   base: 'text-start flex gap-3 leading-none items-center font-bold uppercase ',
@@ -16,7 +17,7 @@ const blockEditorTitleStyles = tv({
       [Theme.SYSTEM]: '',
     },
   },
-})
+});
 
 const hoverContentStyles = tv({
   base: 'relative max-w-lg p-2 z-50 rounded-sm border border-purple900 shadow-lg shadow-semiTransparentBack',
@@ -27,7 +28,7 @@ const hoverContentStyles = tv({
       [Theme.SYSTEM]: '',
     },
   },
-})
+});
 
 const hoverInnerContentStyles = tv({
   base: 'text-xs text-justify font-bold',
@@ -38,16 +39,22 @@ const hoverInnerContentStyles = tv({
       [Theme.SYSTEM]: '',
     },
   },
-})
+});
 
 interface BlockEditorProps {
-  title?: string
-  content?: ReactNode
-  editor: EditorTipTap | null
+  title?: string;
+  content?: ReactNode;
+  editor: EditorTipTap | null;
+  menuOptions?: EditorMenuOption[];
 }
 
-export function BlockEditor({ content, title = '', editor }: BlockEditorProps) {
-  const { theme } = useTheme()
+export function BlockEditor({
+  content,
+  title = '',
+  editor,
+  menuOptions,
+}: BlockEditorProps) {
+  const { theme } = useTheme();
 
   return (
     <div className="pt-16 min-w-[38rem] max-w-[38rem] w-full flex flex-col">
@@ -73,7 +80,7 @@ export function BlockEditor({ content, title = '', editor }: BlockEditorProps) {
         </HoverCard.Portal>
       </HoverCard.Root>
 
-      <Editor editor={editor} />
+      <Editor editor={editor} menuOptions={menuOptions ?? []} />
     </div>
-  )
+  );
 }

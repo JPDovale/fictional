@@ -123,7 +123,7 @@ export function Calendar({
 
         {calendarWeeks.length === 0 && (
           <div className="flex text-gray500 flex-col justify-center items-center text-sm absolute -bottom-[100%] left-1/2 -translate-x-1/2 font-bold">
-            <span>Não há eventos registrados</span>
+            <span className="text-center">Não há eventos registrados</span>
           </div>
         )}
       </table>

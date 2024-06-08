@@ -2,10 +2,12 @@ import { Presenter, PresenterProps } from '@shared/core/contracts/Presenter';
 import { StatusCode } from '@shared/core/types/StatusCode';
 import { injectable } from 'tsyringe';
 import { Timeline } from '../entities/Timeline';
+import { ImportanceLevel } from '../entities/Event';
 
 export interface EventResponse {
   id: string;
   event: string;
+  importanceLevel: ImportanceLevel;
   date: string;
   dateObject: {
     day: number;
@@ -53,6 +55,7 @@ export class TimelineWithEventsPresenter
       events: raw.events.getItems().map((event) => ({
         id: event.id.toString(),
         event: event.event,
+        importanceLevel: event.importanceLevel,
         date: event.date.toString(),
         dateObject: {
           ...event.date.toValue(),

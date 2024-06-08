@@ -61,9 +61,8 @@ export class UpdateAllPersonEventsService
         return left(new ProjectAcctionBlocked());
       }
 
-      events[eventIndex].event = `${
-        eventType === EventToPersonType.BIRTH ? 'Nascimento' : 'Morte'
-      } de ${person.name ?? '??????'}`;
+      events[eventIndex].importanceLevel =
+        Event.getImportanceLevelForPersonEvent(person.type, eventType);
     }
 
     await this.eventsRepository.saveMany(events);

@@ -32,6 +32,9 @@ import { EventsKnexMapper } from '@infra/database/repositories/timelines/EventsK
 import { EventsToPersonRepository } from '@modules/timelines/repositories/EventsToPerson.repository';
 import { EventsToPersonKnexRepository } from '@infra/database/repositories/timelines/EventsToPersonKnex.repository';
 import { EventsToPersonKnexMapper } from '@infra/database/repositories/timelines/EventsToPersonKnex.mapper';
+import { AttributeMutationsRepository } from '@modules/persons/repositories/AttributeMutations.repository';
+import { AttributeMutationsKnexRepository } from '@infra/database/repositories/persons/AttributeMutationsKnex.repository';
+import { AttributeMutationsKnexMapper } from '@infra/database/repositories/persons/AttributeMutationsKnex.mapper';
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -74,6 +77,11 @@ container.registerSingleton(
   AttributesToPersonsKnexRepository
 );
 container.registerSingleton(AttributesToPersonsKnexMapper);
+container.registerSingleton(
+  AttributeMutationsRepository as unknown as string,
+  AttributeMutationsKnexRepository
+);
+container.registerSingleton(AttributeMutationsKnexMapper);
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Affiliations

@@ -11,7 +11,8 @@ import {
   PersonWithDetailsPresented,
   PersonWithDetailsResponse,
 } from '@modules/persons/presenters/PersonWithDetails.presenter';
-import { usePersonMutation } from './usePersonMutation';
+import { usePersonQueryMutation } from './usePersonQueryMutation';
+import { useAttribute } from './useAttribute';
 
 interface UsePersonProps {
   projectId?: string;
@@ -27,7 +28,7 @@ export function usePerson({ projectId, personId }: UsePersonProps) {
   const { user } = useUser();
   const { attributes } = usePersonsAttributes({ projectId });
   const { getTempPersistenceKey, getTempPersistence, updatePerson } =
-    usePersonMutation({ projectId, personId });
+    usePersonQueryMutation({ projectId, personId });
 
   const { data, isLoading, refetch } = useQuery<
     unknown,
@@ -88,5 +89,7 @@ export function usePerson({ projectId, personId }: UsePersonProps) {
     getTempPersistenceKey,
     getTempPersistence,
     updatePerson,
+    useAttribute: ({ attributeId }: { attributeId?: string }) =>
+      useAttribute({ attributeId, personId, projectId }),
   };
 }

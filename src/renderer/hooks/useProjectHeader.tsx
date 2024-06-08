@@ -11,17 +11,16 @@ import { useProject } from './useProject';
 export function useProjectHeader() {
   const [projectId, setProjectId] = useState<string>('');
   const [personId, setPersonId] = useState<string>('');
-  const [fileId, setFileId] = useState<string>('');
+  const [attributeId, setAttributeId] = useState<string>('');
   const [timelineId, setTimelineId] = useState<string>('');
 
-  const { project, usePersons, useFile, useTimeline } = useProject({
+  const { project, usePerson, useFile, useTimeline } = useProject({
     projectId,
   });
-  const { persons } = usePersons();
-  const { file } = useFile({ fileId });
+  const { person, useAttribute } = usePerson({ personId });
+  const { attribute } = useAttribute({ attributeId });
+  const { file } = useFile({ fileId: attribute?.fileId });
   const { timeline } = useTimeline({ timelineId });
-
-  const person = persons?.find((p) => p.id === personId) ?? null;
 
   const { pathname } = useLocation();
 
@@ -47,8 +46,15 @@ export function useProjectHeader() {
       personalities: 'Personalidades',
       traumas: 'Traumas',
       values: 'Valores',
+      hobbies: 'Hobbies',
+      fears: 'Medos',
+      motivations: 'Motivações',
+      addictions: 'Vicios',
+      desires: 'Desejos',
+      habits: 'Habitos',
       edit: 'Editar',
       'build-blocks': 'Bloco de construção',
+      attributes: 'Atributos',
     };
 
     const uuidsPathsMapper: { [x: string]: string } = {
@@ -60,6 +66,12 @@ export function useProjectHeader() {
       personalities: file?.title ?? '',
       traumas: file?.title ?? '',
       values: file?.title ?? '',
+      hobbies: file?.title ?? '',
+      fears: file?.title ?? '',
+      motivations: file?.title ?? '',
+      addictions: file?.title ?? '',
+      desires: file?.title ?? '',
+      habits: file?.title ?? '',
       'time-lines': timeline?.name ?? '',
     };
 
@@ -89,10 +101,16 @@ export function useProjectHeader() {
         'personalities',
         'traumas',
         'values',
+        'hobbies',
+        'fears',
+        'motivations',
+        'addictions',
+        'desires',
+        'habits',
       ];
 
       if (prevForFile.includes(previousRawPath)) {
-        setFileId(rawPath);
+        setAttributeId(rawPath);
       }
 
       if (previousRawPath === 'time-lines') {

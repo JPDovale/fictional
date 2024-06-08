@@ -17,7 +17,6 @@ import { Person } from '../entities/Person';
 import { PersonsRepository } from '../repositories/Persons.repository';
 import { PersonType } from '../entities/types';
 import { EventToPersonType } from '@modules/timelines/entities/EventToPerson';
-import { PersonCreatedWithTimelineEvent } from '../events/PersonCreatedWithTimelineEvent.event';
 
 type Request = {
   name?: string;
@@ -148,7 +147,7 @@ export class CreatePersonService
       if (birthDate) {
         events.push({
           date: birthDate,
-          event: `Nascimento de ${person.name ?? '??????'}`,
+          event: `Nascimento de $=${person.id.toString()}=pers$=`,
           type: EventToPersonType.BIRTH,
         });
       }
@@ -156,7 +155,7 @@ export class CreatePersonService
       if (deathDate) {
         events.push({
           date: deathDate,
-          event: `Morte de ${person.name ?? '??????'}`,
+          event: `Morte de $=${person.id.toString()}=pers$=`,
           type: EventToPersonType.DEATH,
         });
       }

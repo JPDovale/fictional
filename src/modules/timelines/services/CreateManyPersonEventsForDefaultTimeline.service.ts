@@ -1,8 +1,6 @@
 import { Service } from '@shared/core/contracts/Service';
 import { Either, left, right } from '@shared/core/errors/Either';
 import { injectable } from 'tsyringe';
-import { Project } from '@modules/projects/entities/Project';
-import { Timeline } from '../entities/Timeline';
 import { TimelinesRepository } from '../repositories/Timelines.repository';
 import { ProjectsRepository } from '@modules/projects/repositories/Projects.repository';
 import { ProjectNotFound } from '@modules/projects/errors/ProjectNotFound.error';
@@ -75,6 +73,10 @@ export class CreateManyPersonEventsForDefaultTimelineService
         date,
         timelineId: timeline.id,
         event: eventReceived.event,
+        importanceLevel: Event.getImportanceLevelForPersonEvent(
+          person.type,
+          eventReceived.type
+        ),
       });
 
       events.push(event);

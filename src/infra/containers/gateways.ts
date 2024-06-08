@@ -17,6 +17,8 @@ import { GetPersonGateway } from '@modules/persons/gateways/GetPerson.gateway';
 import { GetTimelinesGateway } from '@modules/timelines/gateways/GetTimelines.gateways';
 import { GetTimelineGateway } from '@modules/timelines/gateways/GetTimeline.gateways';
 import { UpdateProjectBuildBlocksGateway } from '@modules/projects/gateways/UpdateProjectBuildBlocks.gateway';
+import { CreatePersonAttributeMutationGateway } from '@modules/persons/gateways/CreatePersonAttributeMutation.gateway';
+import { GetPersonAttributeGateway } from '@modules/persons/gateways/GetPersonAttribute.gateway';
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -43,6 +45,8 @@ container.registerSingleton(CreatePersonAttributeGateway);
 container.registerSingleton(GetAttributesPreviewGateway);
 container.registerSingleton(UpdatePersonGateway);
 container.registerSingleton(GetPersonGateway);
+container.registerSingleton(CreatePersonAttributeMutationGateway);
+container.registerSingleton(GetPersonAttributeGateway);
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Files

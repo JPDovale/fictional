@@ -1,27 +1,33 @@
-import { AttributeType, PersonType } from '@modules/persons/entities/types'
-import { AttributePreviewResponse } from '@modules/persons/presenters/AttributesPreview.presenter'
-import { PersonWithParentsResponse } from '@modules/persons/presenters/PersonWithParents.presenter'
-import { NodeTree } from '@rComponents/application/FolderTree'
-import { CreateAttributeForPersonProps } from '@rHooks/usePersons'
+import { AttributeType, PersonType } from '@modules/persons/entities/types';
+import { AttributePreviewResponse } from '@modules/persons/presenters/AttributesPreview.presenter';
+import { PersonWithParentsResponse } from '@modules/persons/presenters/PersonWithParents.presenter';
+import { NodeTree } from '@rComponents/application/FolderTree';
+import { CreateAttributeForPersonProps } from '@rHooks/persons/usePersons';
 import {
+  Apple,
   BedDouble,
+  Bike,
+  Cigarette,
   Contact,
   FileEdit,
   Fingerprint,
   HeartCrack,
   Leaf,
+  LoaderCircle,
+  Route,
   ScanFace,
+  Siren,
   Target,
   User,
   Users,
-} from 'lucide-react'
+} from 'lucide-react';
 
 interface MakeTypePersonsFolderTreeNodeProps {
-  personsType: PersonType
-  projectId: string
-  attributes: AttributePreviewResponse[]
-  persons: PersonWithParentsResponse[]
-  createAttributeForPerson: (props: CreateAttributeForPersonProps) => void
+  personsType: PersonType;
+  projectId: string;
+  attributes: AttributePreviewResponse[];
+  persons: PersonWithParentsResponse[];
+  createAttributeForPerson: (props: CreateAttributeForPersonProps) => void;
 }
 
 export const personTypeNameMapper = {
@@ -34,6 +40,151 @@ export const personTypeNameMapper = {
   [PersonType.SECONDARY]: 'Secundarios',
   [PersonType.ANTAGONIST]: 'Antagonistas',
   [PersonType.SUPPORTING]: 'Suportes',
+};
+
+export const attributeIconsMapper = {
+  [AttributeType.APPEARENCE]: ScanFace,
+  [AttributeType.DREAM]: BedDouble,
+  [AttributeType.OBJECTIVE]: Target,
+  [AttributeType.PERSONALITY]: Fingerprint,
+  [AttributeType.TRAUMA]: HeartCrack,
+  [AttributeType.VALUE]: Leaf,
+  [AttributeType.HOBBY]: Bike,
+  [AttributeType.FEAR]: Siren,
+  [AttributeType.MOTIVATION]: Route,
+  [AttributeType.ADDICTION]: Cigarette,
+  [AttributeType.DESIRE]: Apple,
+  [AttributeType.HABIT]: LoaderCircle,
+};
+
+export const attributeTypeNameMapper = {
+  [AttributeType.APPEARENCE]: 'Aparncia',
+  [AttributeType.DREAM]: 'Sonho',
+  [AttributeType.OBJECTIVE]: 'Objetivo',
+  [AttributeType.PERSONALITY]: 'Personalidade',
+  [AttributeType.TRAUMA]: 'Trauma',
+  [AttributeType.VALUE]: 'Valor',
+  [AttributeType.HOBBY]: 'Hobbie',
+  [AttributeType.FEAR]: 'Medo',
+  [AttributeType.MOTIVATION]: 'Motivação',
+  [AttributeType.ADDICTION]: 'Vicio',
+  [AttributeType.DESIRE]: 'Desejo',
+  [AttributeType.HABIT]: 'Habito',
+};
+
+export const attributeTypePathNameMapper = {
+  [AttributeType.APPEARENCE]: 'appearences',
+  [AttributeType.DREAM]: 'dreams',
+  [AttributeType.OBJECTIVE]: 'objectives',
+  [AttributeType.PERSONALITY]: 'personalities',
+  [AttributeType.TRAUMA]: 'traumas',
+  [AttributeType.VALUE]: 'values',
+  [AttributeType.HOBBY]: 'hobbies',
+  [AttributeType.FEAR]: 'fears',
+  [AttributeType.MOTIVATION]: 'motivations',
+  [AttributeType.ADDICTION]: 'addictions',
+  [AttributeType.DESIRE]: 'desires',
+  [AttributeType.HABIT]: 'habits',
+};
+
+interface MakeAttributeActionProps {
+  type: AttributeType;
+  createAttributeForPerson: (props: CreateAttributeForPersonProps) => void;
+  personId: string;
+  actionType: 'create';
+}
+
+function makeAttributeAction({
+  type,
+  createAttributeForPerson,
+  personId,
+  actionType,
+}: MakeAttributeActionProps) {
+  const actionTypeMessageMapper = {
+    create: 'Criar',
+  };
+
+  return {
+    label: `${actionTypeMessageMapper[actionType]} ${attributeTypeNameMapper[
+      type
+    ].toLowerCase()}`,
+    action: () =>
+      createAttributeForPerson({
+        personId,
+        type,
+      }),
+    Icon: attributeIconsMapper[type],
+  };
+}
+
+interface MakeAttributeChildNodeProps {
+  personId: string;
+  projectId: string;
+  type: AttributeType;
+  attributes: AttributePreviewResponse[];
+}
+
+function makeAttributeChildNode({
+  personId,
+  projectId,
+  type,
+  attributes,
+}: MakeAttributeChildNodeProps) {
+  const attributesThisNode = attributes.filter(
+    (attr) => attr.type === type && attr.personId === personId
+  );
+
+  return {
+    id: `${personId}-${type}`,
+    name: attributeTypeNameMapper[type],
+    icon: attributeIconsMapper[type],
+    isToShow: attributesThisNode.length > 0,
+    childs: attributesThisNode.map((attr) => ({
+      id: attr.id,
+      name: attr.file.title,
+      path: `/projects/${projectId}/persons/${personId}/attributes/${attributeTypePathNameMapper[type]}/${attr.id}`,
+      icon: FileEdit,
+    })),
+  };
+}
+
+interface MakeAttributeChildsProps {
+  personId: string;
+  projectId: string;
+  attributes: AttributePreviewResponse[];
+}
+
+function makeAttributeChilds({
+  personId,
+  projectId,
+  attributes,
+}: MakeAttributeChildsProps) {
+  const attributeTypes = Object.keys(attributeIconsMapper) as AttributeType[];
+
+  return attributeTypes.map((type) =>
+    makeAttributeChildNode({ personId, projectId, type, attributes })
+  );
+}
+
+interface MakePersonActionsProps {
+  personId: string;
+  createAttributeForPerson: (props: CreateAttributeForPersonProps) => void;
+}
+
+function makePersonActions({
+  createAttributeForPerson,
+  personId,
+}: MakePersonActionsProps) {
+  const attributeTypes = Object.keys(attributeIconsMapper) as AttributeType[];
+
+  return attributeTypes.map((type) =>
+    makeAttributeAction({
+      type,
+      createAttributeForPerson,
+      personId,
+      actionType: 'create',
+    })
+  );
 }
 
 export function makeTypePersonsFolderTreeNode({
@@ -53,6 +204,11 @@ export function makeTypePersonsFolderTreeNode({
       name: person.name,
       path: `/projects/${projectId}/persons/${person.id}`,
       icon: User,
+      actions: makePersonActions({
+        personId: person.id,
+        createAttributeForPerson,
+      }),
+
       childs: [
         {
           id: `${person.id}-id`,
@@ -60,177 +216,10 @@ export function makeTypePersonsFolderTreeNode({
           path: `/projects/${projectId}/persons/${person.id}/identity`,
           icon: Contact,
         },
-        {
-          id: `${person.id}-appearence`,
-          name: 'Aparência',
-          icon: ScanFace,
-          actions: [
-            {
-              label: 'Criar aparência',
-              action: () =>
-                createAttributeForPerson({
-                  personId: person.id,
-                  type: AttributeType.APPEARENCE,
-                }),
-              Icon: ScanFace,
-            },
-          ],
-          childs: attributes
-            .filter(
-              (attr) =>
-                attr.type === AttributeType.APPEARENCE &&
-                attr.personId === person.id,
-            )
-            .map((attr) => ({
-              id: attr.id,
-              name: attr.file.title,
-              path: `/projects/${projectId}/persons/${person.id}/appearences/${attr.file.id}`,
-              icon: FileEdit,
-            })),
-        },
-        {
-          id: `${person.id}-dream`,
-          name: 'Sonho',
-          icon: BedDouble,
-          actions: [
-            {
-              label: 'Criar sonho',
-              action: () =>
-                createAttributeForPerson({
-                  personId: person.id,
-                  type: AttributeType.DREAM,
-                }),
-              Icon: BedDouble,
-            },
-          ],
-          childs: attributes
-            .filter(
-              (attr) =>
-                attr.type === AttributeType.DREAM &&
-                attr.personId === person.id,
-            )
-            .map((attr) => ({
-              id: attr.id,
-              name: attr.file.title,
-              path: `/projects/${projectId}/persons/${person.id}/dreams/${attr.file.id}`,
-              icon: FileEdit,
-            })),
-        },
-        {
-          id: `${person.id}-objective`,
-          name: 'Objetivo',
-          icon: Target,
-          actions: [
-            {
-              label: 'Criar objetivo',
-              action: () =>
-                createAttributeForPerson({
-                  personId: person.id,
-                  type: AttributeType.OBJECTIVE,
-                }),
-              Icon: Target,
-            },
-          ],
-          childs: attributes
-            .filter(
-              (attr) =>
-                attr.type === AttributeType.OBJECTIVE &&
-                attr.personId === person.id,
-            )
-            .map((attr) => ({
-              id: attr.id,
-              name: attr.file.title,
-              path: `/projects/${projectId}/persons/${person.id}/objectives/${attr.file.id}`,
-              icon: FileEdit,
-            })),
-        },
-        {
-          id: `${person.id}-personality`,
-          name: 'Personalidade',
-          icon: Fingerprint,
-          actions: [
-            {
-              label: 'Criar personalidade',
-              action: () =>
-                createAttributeForPerson({
-                  personId: person.id,
-                  type: AttributeType.PERSONALITY,
-                }),
-              Icon: Fingerprint,
-            },
-          ],
-          childs: attributes
-            .filter(
-              (attr) =>
-                attr.type === AttributeType.PERSONALITY &&
-                attr.personId === person.id,
-            )
-            .map((attr) => ({
-              id: attr.id,
-              name: attr.file.title,
-              path: `/projects/${projectId}/persons/${person.id}/personalities/${attr.file.id}`,
-              icon: FileEdit,
-            })),
-        },
-        {
-          id: `${person.id}-trauma`,
-          name: 'Trauma',
-          icon: HeartCrack,
-          actions: [
-            {
-              label: 'Criar trauma',
-              action: () =>
-                createAttributeForPerson({
-                  personId: person.id,
-                  type: AttributeType.TRAUMA,
-                }),
-              Icon: HeartCrack,
-            },
-          ],
-          childs: attributes
-            .filter(
-              (attr) =>
-                attr.type === AttributeType.TRAUMA &&
-                attr.personId === person.id,
-            )
-            .map((attr) => ({
-              id: attr.id,
-              name: attr.file.title,
-              path: `/projects/${projectId}/persons/${person.id}/traumas/${attr.file.id}`,
-              icon: FileEdit,
-            })),
-        },
-        {
-          id: `${person.id}-value`,
-          name: 'Valor',
-          icon: Leaf,
-          actions: [
-            {
-              label: 'Criar valor',
-              action: () =>
-                createAttributeForPerson({
-                  personId: person.id,
-                  type: AttributeType.VALUE,
-                }),
-              Icon: Leaf,
-            },
-          ],
-          childs: attributes
-            .filter(
-              (attr) =>
-                attr.type === AttributeType.VALUE &&
-                attr.personId === person.id,
-            )
-            .map((attr) => ({
-              id: attr.id,
-              name: attr.file.title,
-              path: `/projects/${projectId}/persons/${person.id}/values/${attr.file.id}`,
-              icon: FileEdit,
-            })),
-        },
+        ...makeAttributeChilds({ personId: person.id, projectId, attributes }),
       ],
     })),
-  }
+  };
 
-  return personNode
+  return personNode;
 }
