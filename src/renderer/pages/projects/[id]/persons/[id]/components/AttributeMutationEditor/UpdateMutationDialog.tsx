@@ -1,28 +1,28 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Requester } from '@infra/requester/requester';
-import { Accessors } from '@infra/requester/types';
-import { CreatePersonAttributeMutationBody } from '@modules/persons/gateways/CreatePersonAttributeMutation.gateway';
-import { UpdatePersonAttributeMutationBody } from '@modules/persons/gateways/UpdatePersonAttributeMutation.gateway';
-import { MutationResponse } from '@modules/persons/presenters/Attribute.presenter';
-import { Button } from '@rComponents/application/Button';
-import { Input } from '@rComponents/application/Input';
-import { EventDateInput } from '@rComponents/timelines/EventDateInput';
-import { ImportanceLevelSelect } from '@rComponents/timelines/ImportanceLevelSelect';
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Requester } from '@infra/requester/requester'
+import { Accessors } from '@infra/requester/types'
+import { CreatePersonAttributeMutationBody } from '@modules/persons/gateways/CreatePersonAttributeMutation.gateway'
+import { UpdatePersonAttributeMutationBody } from '@modules/persons/gateways/UpdatePersonAttributeMutation.gateway'
+import { MutationResponse } from '@modules/persons/presenters/Attribute.presenter'
+import { Button } from '@rComponents/application/Button'
+import { Input } from '@rComponents/application/Input'
+import { EventDateInput } from '@rComponents/timelines/EventDateInput'
+import { ImportanceLevelSelect } from '@rComponents/timelines/ImportanceLevelSelect'
 import {
   Dialog,
   DialogContent,
   DialogPortal,
   DialogTrigger,
-} from '@rComponents/ui/dialog';
-import { useToast } from '@rComponents/ui/use-toast';
-import { useProject } from '@rHooks/useProject';
-import { useUser } from '@rHooks/useUser';
-import { StatusCode } from '@shared/core/types/StatusCode';
-import { Pencil } from 'lucide-react';
-import { useState } from 'react';
-import { FieldErrors, useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
-import { z } from 'zod';
+} from '@rComponents/ui/dialog'
+import { useToast } from '@rComponents/ui/use-toast'
+import { useProject } from '@rHooks/useProject'
+import { useUser } from '@rHooks/useUser'
+import { StatusCode } from '@shared/core/types/StatusCode'
+import { Pencil } from 'lucide-react'
+import { useState } from 'react'
+import { FieldErrors, useForm } from 'react-hook-form'
+import { useParams } from 'react-router-dom'
+import { z } from 'zod'
 
 const createMutationWithEventSchema = z.object({
   dateDay: z.coerce
@@ -65,20 +65,18 @@ const createMutationWithEventSchema = z.object({
     .max(120, 'O título deve ter no maximo 120 caracteres')
     .nullable()
     .optional(),
-});
+})
 
-type CreateMutationWithEventData = z.infer<
-  typeof createMutationWithEventSchema
->;
+type CreateMutationWithEventData = z.infer<typeof createMutationWithEventSchema>
 
 interface CreateAttributeMutationDialogProps {
-  mutation: MutationResponse;
+  mutation: MutationResponse
 }
 
 export function UpdateMutationDialog({
   mutation,
 }: CreateAttributeMutationDialogProps) {
-  const [isOpenUpdateMutation, setIsOpenUpdateMutation] = useState(false);
+  const [isOpenUpdateMutation, setIsOpenUpdateMutation] = useState(false)
 
   const {
     handleSubmit,
@@ -99,20 +97,20 @@ export function UpdateMutationDialog({
       title: mutation.title,
       importanceLevel: mutation.importanceLevel,
     },
-  });
+  })
 
-  const { personId, projectId, attributeId } = useParams();
-  const { toast } = useToast();
-  const { user } = useUser();
+  const { personId, projectId, attributeId } = useParams()
+  const { toast } = useToast()
+  const { user } = useUser()
   const { usePerson, useTimelines, project } = useProject({
     projectId,
-  });
-  const { makeEventDate, verifyEventDate } = useTimelines();
-  const { useAttribute } = usePerson({ personId });
-  const { refetchAttribute } = useAttribute({ attributeId });
+  })
+  const { makeEventDate, verifyEventDate } = useTimelines()
+  const { useAttribute } = usePerson({ personId })
+  const { refetchAttribute } = useAttribute({ attributeId })
 
-  const datePeriod = watch('datePeriod');
-  const importanceLevel = watch('importanceLevel');
+  const datePeriod = watch('datePeriod')
+  const importanceLevel = watch('importanceLevel')
 
   async function handleUpdateMutation(data: CreateMutationWithEventData) {
     const errorOfDate = verifyEventDate({
@@ -123,11 +121,11 @@ export function UpdateMutationDialog({
       hour: data.dateHour,
       minute: data.dateMinute,
       second: data.dateSecond,
-    });
+    })
 
     if (errorOfDate) {
-      toastError(errorOfDate);
-      return;
+      toastError(errorOfDate)
+      return
     }
 
     const date = makeEventDate({
@@ -138,12 +136,11 @@ export function UpdateMutationDialog({
       hour: data.dateHour,
       minute: data.dateMinute,
       second: data.dateSecond,
-    });
+    })
 
     const response =
       await Requester.requester<UpdatePersonAttributeMutationBody>({
         access: Accessors.UPDATE_PERSON_ATTRIBUTE_MUTATION,
-        isDebug: true,
         data: {
           personId: personId as string,
           attributeId: attributeId as string,
@@ -154,14 +151,15 @@ export function UpdateMutationDialog({
           title: data.title,
           mutationId: mutation.id,
         },
-      });
+      })
 
     if (response.status !== StatusCode.NO_CONTENT) {
-      return toast({
+      toast({
         title: response.title,
         description: response.message,
         variant: 'destructive',
-      });
+      })
+      return
     }
 
     if (response.status === StatusCode.NO_CONTENT) {
@@ -170,21 +168,21 @@ export function UpdateMutationDialog({
         description: `Alteração de atributo "Alteração ${mutation.position}" ${
           mutation.title ? `- ${mutation.title}` : ''
         } alterada com sucesso!`,
-      });
-      refetchAttribute();
-      setIsOpenUpdateMutation(false);
+      })
+      refetchAttribute()
+      setIsOpenUpdateMutation(false)
     }
   }
 
   function onErrors(errors: FieldErrors<CreatePersonAttributeMutationBody>) {
     const errorKeys = Object.keys(
-      errors
-    ) as (keyof CreatePersonAttributeMutationBody)[];
+      errors,
+    ) as (keyof CreatePersonAttributeMutationBody)[]
 
-    const firstError = errors[errorKeys[0]];
+    const firstError = errors[errorKeys[0]]
 
     if (firstError) {
-      toastError(firstError.message ?? '');
+      toastError(firstError.message ?? '')
     }
   }
 
@@ -193,17 +191,17 @@ export function UpdateMutationDialog({
       title: 'Erro no formulário',
       description: message,
       variant: 'destructive',
-    });
+    })
   }
 
   function clearDate() {
-    setValue('dateDay', null);
-    setValue('dateMonth', null);
-    setValue('dateYear', null);
-    setValue('dateHour', null);
-    setValue('dateMinute', null);
-    setValue('dateSecond', null);
-    setValue('datePeriod', null);
+    setValue('dateDay', null)
+    setValue('dateMonth', null)
+    setValue('dateYear', null)
+    setValue('dateHour', null)
+    setValue('dateMinute', null)
+    setValue('dateSecond', null)
+    setValue('datePeriod', null)
   }
 
   return (
@@ -268,5 +266,5 @@ export function UpdateMutationDialog({
         </DialogContent>
       </DialogPortal>
     </Dialog>
-  );
+  )
 }

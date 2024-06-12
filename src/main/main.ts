@@ -16,41 +16,6 @@ if (process.env.NODE_ENV === 'production') {
   sourceMapSupport.install()
 }
 
-// autoUpdater.on('update-available', ({ version }) => {
-//   dialog.showMessageBox({
-//     type: 'none',
-//     buttons: ['OK'],
-//     title: `Fictional update available ${version}`,
-//     message: `New version has created! Beta version: ${version} is coming soon!`,
-//     detail: 'A new version is being downloaded',
-//   });
-// });
-//
-// autoUpdater.on('update-downloaded', () => {
-//   dialog
-//     .showMessageBox({
-//       type: 'none',
-//       buttons: ['Close'],
-//       title: `Updating`,
-//       message: 'Close the app for use new version',
-//       detail: 'A new version is being installed',
-//     })
-//     .then(() => {
-//       app.quit();
-//     })
-//     .catch((err) => {
-//       throw err;
-//     });
-// });
-//
-// autoUpdater.on('checking-for-update', () => {
-//   Logger.info('INFO: Checking for update');
-// });
-//
-// autoUpdater.on('update-not-available', () => {
-//   Logger.info('INFO: Noting to update');
-// });
-
 log.transports.file.level = 'info'
 autoUpdater.logger = log
 autoUpdater.autoRunAppAfterInstall = true
@@ -65,6 +30,13 @@ app.on('window-all-closed', () => {
 app
   .whenReady()
   .then(async () => {
+    autoUpdater.on('update-downloaded', () => {
+      Logger.debug('update-downloaded')
+      autoUpdater.quitAndInstall(true, true)
+    })
+
+    const result = await autoUpdater.checkForUpdates()
+
     const RESOURCES_PATH = app.isPackaged
       ? path.join(process.resourcesPath, 'assets')
       : path.join(__dirname, '../assets')
@@ -73,33 +45,28 @@ app
       return path.join(RESOURCES_PATH, ...paths)
     }
 
-    const updatingWindow = new BrowserWindow({
-      height: 400,
-      width: 300,
-      resizable: false,
-      autoHideMenuBar: !!app.isPackaged,
-      frame: false,
-      minimizable: false,
-      maximizable: false,
-      closable: false,
-      icon: getAssetPath('icon.png'),
-      webPreferences: {
-        webSecurity: false,
-        contextIsolation: true,
-      },
-    })
-
-    updatingWindow.loadURL(resolveUpdatingHtmlPath())
-    updatingWindow.on('ready-to-show', async () => {
-      updatingWindow.show()
-    })
-
-    const result = await autoUpdater.checkForUpdates()
-    Logger.debug(result)
+    let updatingWindow: BrowserWindow | null = null
 
     if (result && result.updateInfo.version !== app.getVersion()) {
-      autoUpdater.on('update-downloaded', () => {
-        app.relaunch()
+      updatingWindow = new BrowserWindow({
+        height: 400,
+        width: 300,
+        resizable: false,
+        autoHideMenuBar: !!app.isPackaged,
+        frame: false,
+        minimizable: false,
+        maximizable: false,
+        closable: false,
+        icon: getAssetPath('icon.png'),
+        webPreferences: {
+          webSecurity: false,
+          contextIsolation: true,
+        },
+      })
+
+      updatingWindow.loadURL(resolveUpdatingHtmlPath())
+      updatingWindow.on('ready-to-show', async () => {
+        updatingWindow?.show()
       })
     }
 
@@ -107,7 +74,7 @@ app
       const database = new StarterDatabase()
       await database.migrate()
 
-      updatingWindow.hide()
+      updatingWindow?.hide()
       AppWindow.create()
 
       app.on('activate', () => {
