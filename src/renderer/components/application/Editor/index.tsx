@@ -8,6 +8,7 @@ import {
   FloatingMenuEditor,
 } from './components/FloatingMenuEditor';
 import { BubbleMenuEditor } from './components/BubbleMenuEditor';
+import { EditorSkeleton } from './components/EditorSkeleton';
 
 const editorStyles = tv({
   base: 'min-w-[45rem] max-w-[45rem] prose prose-purple group',
@@ -23,16 +24,21 @@ const editorStyles = tv({
 interface EditorProps {
   editor: EditorTipTap | null;
   menuOptions: EditorMenuOption[];
+  isLoading?: boolean;
 }
 
-export function Editor({ editor, menuOptions = [] }: EditorProps) {
+export function Editor({
+  editor,
+  menuOptions = [],
+  isLoading = false,
+}: EditorProps) {
   const { theme } = useTheme();
 
   // const { findPerson } = usePersons((state) => ({
   //   findPerson: state.findPerson,
   // }));
 
-  if (!editor) return null;
+  if (!editor || isLoading) return <EditorSkeleton />;
 
   function handleDoubleClick() {
     // if (!editor) return

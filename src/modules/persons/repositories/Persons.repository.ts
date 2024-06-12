@@ -3,7 +3,10 @@ import { Person } from '../entities/Person';
 import { PersonWithParents } from '../valuesObjects/PersonWithParents';
 import { PersonWithDetails } from '../valuesObjects/PersonWithDetails';
 
-export abstract class PersonsRepository extends Repository<Person> {
+export abstract class PersonsRepository<T = unknown> extends Repository<
+  Person,
+  T
+> {
   abstract findManyByProjectId(projectId: string): Promise<Person[]>;
   abstract findManyWithParentsByProjectId(
     projectId: string

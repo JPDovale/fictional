@@ -5,7 +5,11 @@ import { Theme } from '@rStores/useInterfaceStore';
 import { TextTransformers } from './TextTransformers';
 import { TextAligners } from './TextAligners';
 import { TextHighlighters } from './TextHighlighters';
-import { Popover, PopoverContent } from '@rComponents/ui/popover';
+import {
+  Popover,
+  PopoverContent,
+  PopoverPortal,
+} from '@rComponents/ui/popover';
 
 const bubbleMenuWrapperStyles = tv({
   base: 'shadow-lg border shadow-semiTransparentBack rounded-md overflow-hidden flex',
@@ -29,20 +33,22 @@ export function BubbleMenuEditor({ editor }: BubbleMenuEditorProps) {
 
   return (
     <Popover open>
-      <PopoverContent>
-        <BubbleMenu
-          tippyOptions={{
-            placement: 'top-start',
-            hideOnClick: true,
-          }}
-          className={bubbleMenuWrapperStyles({ theme })}
-          editor={editor}
-        >
-          <TextTransformers editor={editor} />
-          <TextAligners editor={editor} />
-          <TextHighlighters editor={editor} />
-        </BubbleMenu>
-      </PopoverContent>
+      <PopoverPortal>
+        <PopoverContent>
+          <BubbleMenu
+            tippyOptions={{
+              placement: 'top-start',
+              hideOnClick: true,
+            }}
+            className={bubbleMenuWrapperStyles({ theme })}
+            editor={editor}
+          >
+            <TextTransformers editor={editor} />
+            <TextAligners editor={editor} />
+            <TextHighlighters editor={editor} />
+          </BubbleMenu>
+        </PopoverContent>
+      </PopoverPortal>
     </Popover>
   );
 }

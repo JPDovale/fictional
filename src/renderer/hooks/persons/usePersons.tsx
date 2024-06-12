@@ -8,6 +8,8 @@ import { CreatePersonAttributeBody } from '@modules/persons/gateways/CreatePerso
 import { AttributeType } from '@modules/persons/entities/types';
 import { useUser } from '../useUser';
 import { usePersonsAttributes } from './usePersonsAttributes';
+import { useToast } from '@rComponents/ui/use-toast';
+import { attributeTypeNameMapper } from '@rConfigs/projectFolderTree/persons';
 
 interface UsePersonsProps {
   projectId?: string;
@@ -17,9 +19,9 @@ export interface CreateAttributeForPersonProps {
   personId: string;
   type: AttributeType;
 }
-
 export function usePersons({ projectId }: UsePersonsProps) {
   const { user } = useUser();
+  const { toast } = useToast();
   const { refetchAttributes } = usePersonsAttributes({ projectId });
 
   const { data, isLoading, refetch } = useQuery({
@@ -41,6 +43,14 @@ export function usePersons({ projectId }: UsePersonsProps) {
           projectId,
         },
       });
+
+      if (response.status !== StatusCode.OK) {
+        toast({
+          title: response.title,
+          description: response.message,
+          variant: 'destructive',
+        });
+      }
 
       if (response.status === StatusCode.OK && response.data) {
         return {
@@ -71,7 +81,20 @@ export function usePersons({ projectId }: UsePersonsProps) {
       },
     });
 
+    if (response.status !== StatusCode.CREATED) {
+      toast({
+        title: response.title,
+        description: response.message,
+        variant: 'destructive',
+      });
+    }
+
     if (response.status === StatusCode.CREATED) {
+      toast({
+        title: 'Atributo criado',
+        description: `${attributeTypeNameMapper[type]} criado(a) com sucesso!`,
+      });
+
       refetchAttributes();
     }
   }

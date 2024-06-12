@@ -9,6 +9,7 @@ const createPersonAttributeMutationSchema = z.object({
   attributeId: z.string().trim().uuid(),
   date: z.string().trim().optional(),
   importanceLevel: z.coerce.number().max(10).optional(),
+  title: z.string().trim().optional(),
 });
 
 export type CreatePersonAttributeMutationBody = z.infer<

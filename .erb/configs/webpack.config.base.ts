@@ -15,6 +15,10 @@ const configuration: webpack.Configuration = {
   module: {
     rules: [
       {
+        test: /\.md$/,
+        use: 'raw-loader',
+      },
+      {
         test: /\.[jt]sx?$/,
         exclude: /node_modules/,
         use: {

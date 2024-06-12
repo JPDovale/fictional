@@ -1,34 +1,49 @@
-import * as HoverCard from '@radix-ui/react-hover-card'
-import { Link, useLocation } from 'react-router-dom'
-import { Button as ButtonDefault } from '../Button'
-import { HeaderLink } from '.'
+import * as HoverCard from '@radix-ui/react-hover-card';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Button as ButtonDefault } from '../Button';
+import { HeaderLink } from '.';
+import { tv } from 'tailwind-variants';
+import { Theme } from '@rStores/useInterfaceStore';
+import { useTheme } from '@rHooks/useTheme';
 
 interface ButtonProps {
-  link: HeaderLink
+  link: HeaderLink;
 }
 
+const hoverCardContentStyles = tv({
+  base: 'p-2 border-[1px] rounded-lg max-w-xs shadow-lg shadow-semiTransparentBack',
+  variants: {
+    theme: {
+      [Theme.DARK]: 'bg-gray200 border-purple500 text-text100',
+      [Theme.LIGHT]: 'bg-gray800  border-purple900 text-text800',
+      [Theme.SYSTEM]: '',
+    },
+  },
+});
+
 export function Button({ link }: ButtonProps) {
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
+  const { theme } = useTheme();
+  const navigate = useNavigate();
 
   return (
     <HoverCard.Root openDelay={2000}>
       <HoverCard.Trigger>
         <ButtonDefault.Root
           className="shadow-none"
+          size="sm"
           active={pathname === link.pathname}
           disabled={link.disabled}
-          asChild
+          onClick={() => navigate(link.pathname)}
         >
-          <Link to={link.pathname}>
-            <ButtonDefault.Icon>
-              <link.Icon />
-            </ButtonDefault.Icon>
-          </Link>
+          <ButtonDefault.Icon>
+            <link.Icon />
+          </ButtonDefault.Icon>
         </ButtonDefault.Root>
       </HoverCard.Trigger>
 
       <HoverCard.Portal>
-        <HoverCard.Content className="p-2 border-[1px] border-purple900 rounded-lg max-w-xs shadow-lg bg-gray800 shadow-semiTransparentBack">
+        <HoverCard.Content className={hoverCardContentStyles({ theme })}>
           <div>
             {link.existesTo && (
               <p className="text-xs text-justify mt-1">{link.existesTo}</p>
@@ -55,5 +70,5 @@ export function Button({ link }: ButtonProps) {
         </HoverCard.Content>
       </HoverCard.Portal>
     </HoverCard.Root>
-  )
+  );
 }

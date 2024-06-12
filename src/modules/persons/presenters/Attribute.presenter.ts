@@ -3,12 +3,14 @@ import { StatusCode } from '@shared/core/types/StatusCode';
 import { injectable } from 'tsyringe';
 import { Attribute } from '../entities/Attribute';
 import { AttributeType } from '../entities/types';
+import { ImportanceLevel } from '@modules/timelines/entities/Event';
 
 export interface MutationResponse {
   id: string;
   fileId: string;
   position: number;
   eventId: string | null;
+  title?: string | null;
   date: {
     date: string;
     day: number;
@@ -19,6 +21,7 @@ export interface MutationResponse {
     minute: number;
     second: number;
   } | null;
+  importanceLevel: ImportanceLevel | null;
   createdAt: Date;
   updatedAt: Date | null;
 }
@@ -53,6 +56,8 @@ export class AttributePresenter
         id: mutation.id.toString(),
         fileId: mutation.fileId.toString(),
         position: mutation.position,
+        title: mutation.title,
+        importanceLevel: mutation.importanceLevel,
         eventId: mutation.eventId?.toString() ?? null,
         date: mutation.date
           ? {

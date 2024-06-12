@@ -7,7 +7,11 @@ import { Theme } from '@rStores/useInterfaceStore';
 import { useTheme } from '@rHooks/useTheme';
 import { MenuOption } from './MenuOption';
 import { ReactNode } from 'react';
-import { Popover, PopoverContent } from '@rComponents/ui/popover';
+import {
+  Popover,
+  PopoverContent,
+  PopoverPortal,
+} from '@rComponents/ui/popover';
 
 export const floatingMenuStyles = tv({
   base: 'shadow-lg border shadow-semiTransparentBack rounded-md overflow-hidden flex flex-col p-2 gap-1',
@@ -86,94 +90,98 @@ export function FloatingMenuEditor({
       .run();
   }
 
+  if (!editor) return null;
+
   return (
     <Popover open>
-      <PopoverContent>
-        <FloatingMenu
-          tippyOptions={{
-            hideOnClick: true,
-            placement: 'bottom-end',
-          }}
-          className={floatingMenuStyles({ theme })}
-          editor={editor}
-          shouldShow={itShouldShow}
-        >
-          {menuOptions.length > 0 && (
-            <>
-              {menuOptions.map((option) => (
-                <MenuOption
-                  key={option.title}
-                  {...option}
-                  handler={() => {
-                    option.handler();
-                    removeBackSlash();
-                  }}
-                />
-              ))}
-              <div className="w-full h-px bg-gray400"></div>
-            </>
-          )}
-          <MenuOption
-            title="Texto"
-            description="Comece com um texto simples"
-            icon={<RxText className="w-10 h-10 p-2" />}
-            handler={() => {
-              editor.chain().focus().setParagraph().run();
-              removeBackSlash();
+      <PopoverPortal>
+        <PopoverContent>
+          <FloatingMenu
+            tippyOptions={{
+              hideOnClick: true,
+              placement: 'bottom-end',
             }}
-          />
+            className={floatingMenuStyles({ theme })}
+            editor={editor}
+            shouldShow={itShouldShow}
+          >
+            {menuOptions.length > 0 && (
+              <>
+                {menuOptions.map((option) => (
+                  <MenuOption
+                    key={option.title}
+                    {...option}
+                    handler={() => {
+                      option.handler();
+                      removeBackSlash();
+                    }}
+                  />
+                ))}
+                <div className="w-full h-px bg-gray400"></div>
+              </>
+            )}
+            <MenuOption
+              title="Texto"
+              description="Comece com um texto simples"
+              icon={<RxText className="w-10 h-10 p-2" />}
+              handler={() => {
+                editor.chain().focus().setParagraph().run();
+                removeBackSlash();
+              }}
+            />
 
-          <MenuOption
-            title="Titulo 1"
-            description="Insira um bloco de titulo primário"
-            icon={<Heading1 className="w-10 h-10 p-2" />}
-            handler={() => {
-              editor.chain().focus().toggleHeading({ level: 1 }).run();
-              removeBackSlash();
-            }}
-          />
+            <MenuOption
+              title="Titulo 1"
+              description="Insira um bloco de titulo primário"
+              icon={<Heading1 className="w-10 h-10 p-2" />}
+              handler={() => {
+                editor.chain().focus().toggleHeading({ level: 1 }).run();
+                removeBackSlash();
+              }}
+            />
 
-          <MenuOption
-            title="Titulo 2"
-            description="Insira um bloco de titulo secundário"
-            icon={<Heading2 className="w-10 h-10 p-2" />}
-            handler={() => {
-              editor.chain().focus().toggleHeading({ level: 2 }).run();
-              removeBackSlash();
-            }}
-          />
+            <MenuOption
+              title="Titulo 2"
+              description="Insira um bloco de titulo secundário"
+              icon={<Heading2 className="w-10 h-10 p-2" />}
+              handler={() => {
+                editor.chain().focus().toggleHeading({ level: 2 }).run();
+                removeBackSlash();
+              }}
+            />
 
-          <MenuOption
-            title="Titulo 3"
-            description="Insira um bloco de titulo terciário"
-            icon={<Heading3 className="w-10 h-10 p-2" />}
-            handler={() => {
-              editor.chain().focus().toggleHeading({ level: 3 }).run();
-              removeBackSlash();
-            }}
-          />
+            <MenuOption
+              title="Titulo 3"
+              description="Insira um bloco de titulo terciário"
+              icon={<Heading3 className="w-10 h-10 p-2" />}
+              handler={() => {
+                editor.chain().focus().toggleHeading({ level: 3 }).run();
+                removeBackSlash();
+              }}
+            />
 
-          <MenuOption
-            title="Titulo 4"
-            description="Insira um bloco de titulo pequeno"
-            icon={<Heading4 className="w-10 h-10 p-2" />}
-            handler={() => {
-              editor.chain().focus().toggleHeading({ level: 4 }).run();
-              removeBackSlash();
-            }}
-          />
+            <MenuOption
+              title="Titulo 4"
+              description="Insira um bloco de titulo pequeno"
+              icon={<Heading4 className="w-10 h-10 p-2" />}
+              handler={() => {
+                editor.chain().focus().toggleHeading({ level: 4 }).run();
+                removeBackSlash();
+              }}
+            />
 
-          <MenuOption
-            title="Lista"
-            description="Insira uma lista numerada"
-            icon={<List className="w-10 h-10 p-2" />}
-            handler={() => {
-              editor.chain().focus().toggleOrderedList().run();
-              removeBackSlash();
-            }}
-          />
-        </FloatingMenu>
-      </PopoverContent>
+            <MenuOption
+              title="Lista"
+              description="Insira uma lista numerada"
+              icon={<List className="w-10 h-10 p-2" />}
+              handler={() => {
+                editor.chain().focus().toggleOrderedList().run();
+                removeBackSlash();
+              }}
+            />
+          </FloatingMenu>
+        </PopoverContent>
+      </PopoverPortal>
     </Popover>
   );
 }

@@ -13,10 +13,18 @@ interface UseProjectTreeFolderProps {
 }
 
 export function useProjectTreeFolder({ projectId }: UseProjectTreeFolderProps) {
-  const { project, usePersons, usePersonsAttributes, useTimelines } =
-    useProject({
-      projectId,
-    });
+  const {
+    project,
+    usePersons,
+    usePersonsAttributes,
+    useTimelines,
+    useDeletingPerson,
+    useDeletingPersonAttribute,
+  } = useProject({
+    projectId,
+  });
+  const { setDeletingPerson } = useDeletingPerson();
+  const { setDeletingPersonAttribute } = useDeletingPersonAttribute();
   const { persons, createAttributeForPerson } = usePersons();
   const { getName, getIcon, isBlockActive } = useBuildBlocks(
     project?.buildBlocks
@@ -79,6 +87,8 @@ export function useProjectTreeFolder({ projectId }: UseProjectTreeFolderProps) {
       projectId,
       personsType: key as PersonType,
       createAttributeForPerson,
+      openDeletePersonConfirmation: setDeletingPerson,
+      openDeletePersonAttributeConfirmation: setDeletingPersonAttribute,
       attributes,
     });
   });

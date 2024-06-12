@@ -12,6 +12,11 @@ import { TimelinePresenter } from '@modules/timelines/presenters/Timeline.presen
 import { TimelineWithEventsPresenter } from '@modules/timelines/presenters/TimelineWithEvents.presenter';
 import { PersonWithDetailsPresenter } from '@modules/persons/presenters/PersonWithDetails.presenter';
 import { AttributePresenter } from '@modules/persons/presenters/Attribute.presenter';
+import { EmptyPresenter } from '@infra/requester/presenters/Empty.presenter';
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++
+// Empty
+container.registerSingleton(EmptyPresenter);
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++
 // Errors

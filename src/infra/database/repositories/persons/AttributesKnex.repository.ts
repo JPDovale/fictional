@@ -5,6 +5,7 @@ import { Attribute } from '@modules/persons/entities/Attribute';
 import { AttributePreview } from '@modules/persons/valuesObjects/AttributePreview';
 import { AttributesKnexMapper } from './AttributesKnex.mapper';
 import { AttributeMutationsRepository } from '@modules/persons/repositories/AttributeMutations.repository';
+import { Logger } from '@utils/logger';
 
 @injectable()
 export class AttributesKnexRepository
@@ -48,10 +49,12 @@ export class AttributesKnexRepository
 
     const newAttributeMutations = data.mutations.getNewItems();
 
-    await this.attributeMutationsRepository.createMany(
-      newAttributeMutations,
-      ctx
-    );
+    if (newAttributeMutations.length !== 0) {
+      await this.attributeMutationsRepository.createMany(
+        newAttributeMutations,
+        ctx
+      );
+    }
   }
 
   delete(id: string, ctx?: KnexConfig): Promise<void> {
@@ -67,6 +70,8 @@ export class AttributesKnexRepository
     const attributes = await db('projects')
       .where({
         'projects.id': projectId,
+        'persons.trashed_at': null,
+        'persons_attributes.trashed_at': null,
       })
       .select(
         'persons.id as person_id',

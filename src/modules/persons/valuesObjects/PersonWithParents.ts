@@ -12,6 +12,7 @@ interface PersonWithParrentsProps {
   type: PersonType;
   createdAt: Date;
   updatedAt: Date | null;
+  trashedAt: Date | null;
   projectId: UniqueId;
 }
 
@@ -52,6 +53,10 @@ export class PersonWithParents extends ValueObject<PersonWithParrentsProps> {
 
   get updatedAt() {
     return this.props.updatedAt;
+  }
+
+  get trashedAt() {
+    return this.props.trashedAt;
   }
 
   get projectId() {

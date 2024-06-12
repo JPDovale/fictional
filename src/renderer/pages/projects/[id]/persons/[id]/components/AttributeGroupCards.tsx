@@ -1,15 +1,19 @@
-import { AttributePreviewResponse } from "@modules/persons/presenters/AttributesPreview.presenter";
-import { useTheme } from "@rHooks/useTheme";
-import { LucideIcon } from "lucide-react";
+import { AttributePreviewResponse } from '@modules/persons/presenters/AttributesPreview.presenter';
+import { useTheme } from '@rHooks/useTheme';
+import { LucideIcon } from 'lucide-react';
 
 interface AttributeGroupCardsProps {
-  Icon: LucideIcon
-  title: string
-  attributes: AttributePreviewResponse[]
+  Icon: LucideIcon;
+  title: string;
+  attributes: AttributePreviewResponse[];
 }
 
-export function AttributeGroupCards({ attributes, title, Icon }: AttributeGroupCardsProps) {
-  const { theme } = useTheme()
+export function AttributeGroupCards({
+  attributes,
+  title,
+  Icon,
+}: AttributeGroupCardsProps) {
+  const { theme } = useTheme();
 
   return (
     <div className="flex flex-col gap-2">
@@ -20,8 +24,9 @@ export function AttributeGroupCards({ attributes, title, Icon }: AttributeGroupC
 
       {attributes.length > 0 ? (
         <div className="grid grid-cols-3 gap-2">
-          {attributes.map(attr => (
+          {attributes.map((attr) => (
             <div
+              key={attr.file.id}
               data-theme={theme}
               className="flex flex-col gap-2 border border-purple500 rounded-lg p-1.5 bg-gray200 shadow-lg data-[theme=light]:bg-gray800"
             >
@@ -35,15 +40,18 @@ export function AttributeGroupCards({ attributes, title, Icon }: AttributeGroupC
                 />
               ) : (
                 <div className="text-xs flex max-h-24 overflow-hidden flex-col gap-1">
-                  <p className="opacity-30 text-center -mt-0.5">Sem preview de conteúdo</p>
+                  <p className="opacity-30 text-center -mt-0.5">
+                    Sem preview de conteúdo
+                  </p>
                 </div>
               )}
-
             </div>
           ))}
         </div>
       ) : (
-        <div className="text-center font-bold opacity-60 py-4">Não há nada por aqui!</div>
+        <div className="text-center font-bold opacity-60 py-4">
+          Não há nada por aqui!
+        </div>
       )}
     </div>
   );

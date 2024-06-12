@@ -7,6 +7,7 @@ import { GetTimelinesBody } from '@modules/timelines/gateways/GetTimelines.gatew
 import { TimelinesPresented } from '@modules/timelines/presenters/Timeline.presenter';
 import { verifyIsLeapYear } from '@rUtils/verifyIsLeepYear';
 import { maxDayForMonthsMapper } from '@rUtils/maxDaysForMonthsMapper';
+import { useToast } from '@rComponents/ui/use-toast';
 
 interface UseTimelinesProps {
   projectId?: string;
@@ -14,6 +15,7 @@ interface UseTimelinesProps {
 
 export function useTimelines({ projectId }: UseTimelinesProps) {
   const { user } = useUser();
+  const { toast } = useToast();
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: [`projects:${projectId}:timelines`],
@@ -35,6 +37,14 @@ export function useTimelines({ projectId }: UseTimelinesProps) {
         },
       });
 
+      if (response.status !== StatusCode.OK) {
+        toast({
+          title: response.title,
+          description: response.message,
+          variant: 'destructive',
+        });
+      }
+
       if (response.status === StatusCode.OK && response.data) {
         return {
           timelines: response.data.timelines,
@@ -48,15 +58,7 @@ export function useTimelines({ projectId }: UseTimelinesProps) {
     staleTime: 1000 * 60 * 5,
   });
 
-  function verifyEventDate({
-    day,
-    month,
-    year,
-    hour,
-    minute,
-    second,
-    period,
-  }: {
+  function verifyEventDate(props: {
     day?: number | null;
     month?: number | null;
     year?: number | null;
@@ -65,23 +67,28 @@ export function useTimelines({ projectId }: UseTimelinesProps) {
     second?: number | null;
     period?: number | null;
   }): string | null {
-    if (
-      day !== 0 ||
-      month !== 0 ||
-      year !== 0 ||
-      hour !== 0 ||
-      minute !== 0 ||
-      second !== 0
-    ) {
-      if (
-        day === 0 ||
-        month === 0 ||
-        year === 0 ||
-        (period && period !== -1 && period !== 0)
-      ) {
+    let day: number | null = null;
+    let month: number | null = null;
+    let year: number | null = null;
+    let period: -1 | 0 | null = null;
+    let hour: number | null = null;
+    let minute: number | null = null;
+    let second: number | null = null;
+
+    if (props.day && props.day !== 0) day = props.day;
+    if (props.month && props.month !== 0) month = props.month;
+    if (props.year && props.year !== 0) year = props.year;
+    if (props.period === -1 || props.period === 0) period = props.period;
+    if (props.hour) hour = props.hour;
+    if (props.minute) minute = props.minute;
+    if (props.second) second = props.second;
+
+    if (!!day || !!month || !!year || !!hour || !!minute || !!second) {
+      if (!day || !month || !year) {
         return 'Ao preencher um campo da data, os campo "Dia", "Mês", "Ano" e "Periodo" devem ser preenchidos"';
       }
 
+      if (period !== -1 && period !== 0) return 'Periodo inválido';
       if (day && day <= 0) return 'Dia inválido';
       if (month && month <= 0) return 'Mes inválido';
       if (year && year <= 0) return 'Ano inválido';

@@ -27,7 +27,8 @@ type Request = {
   projectId: string;
   userId: string;
   date?: string;
-  importanceLevel?: ImportanceLevel;
+  importanceLevel?: number;
+  title?: string;
 };
 
 type PossibleErrors =
@@ -63,6 +64,7 @@ export class CreatePersonAttributeMutationService
     personId,
     attributeId,
     date,
+    title,
     importanceLevel,
   }: Request): Promise<Either<UserNotFound, Response>> {
     const user = await this.usersRepository.findById(userId);
@@ -114,6 +116,7 @@ export class CreatePersonAttributeMutationService
       attributeId: attribute.id,
       fileId: file.id,
       position,
+      title,
     });
     const transaction = this.transactor.start();
 
@@ -129,7 +132,7 @@ export class CreatePersonAttributeMutationService
         timelineId: timeline.id,
         event: `Mudança em $=${attribute.id.toString()}=attr$= de $=${person.id.toString()}=pers$=`,
         date: EventDate.createFromString(date),
-        importanceLevel,
+        importanceLevel: importanceLevel as ImportanceLevel,
       });
 
       transaction.add((ctx) => this.eventsRepository.create(event, ctx));

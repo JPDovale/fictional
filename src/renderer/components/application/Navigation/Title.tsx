@@ -1,23 +1,23 @@
 interface NavigationTitleProps {
-  navIsOpen?: boolean
-  handleChangeOpenNav?: () => void
+  navIsOpen?: boolean;
+  handleChangeOpenNav?: () => void;
 }
 
 export function Title({
   navIsOpen = false,
   handleChangeOpenNav,
 }: NavigationTitleProps) {
-  if (navIsOpen) return <> Fictional</>
+  if (navIsOpen) return <> Fictional</>;
 
   return (
     <button
       type="button"
-      className="font-title focus:scale-[120%] rounded-full"
+      className="font-heading focus:scale-[120%] rounded-full"
       onClick={() => handleChangeOpenNav && handleChangeOpenNav()}
     >
       F
     </button>
-  )
+  );
 }
 
-Title.displayName = 'Navigation.Title'
+Title.displayName = 'Navigation.Title';

@@ -30,15 +30,17 @@ import { PersonMotivationAttributrePage } from '../pages/projects/[id]/persons/[
 import { PersonDesireAttributrePage } from '../pages/projects/[id]/persons/[id]/desires';
 import { PersonAddctionAttributrePage } from '../pages/projects/[id]/persons/[id]/addictions';
 import { PersonHabitAttributrePage } from '../pages/projects/[id]/persons/[id]/habits';
+import { HelpPage } from '../pages/help';
 
 export function AppRoutes() {
   const { isLoading } = usePreload();
-  if (isLoading) return <Loading />;
+  if (isLoading) return null;
   return (
     <Routes>
       <Route path="/" element={<WrapperLayout />}>
         <Route path="/" element={<DashboardLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/help" element={<HelpPage />} />
           <Route path="/projects/new" element={<NewProjectPage />} />
         </Route>
 

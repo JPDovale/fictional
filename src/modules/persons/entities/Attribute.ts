@@ -9,18 +9,23 @@ interface AttributeProps {
   mutations: AttributeMutationList;
   createdAt: Date;
   updatedAt: Date | null;
+  trashedAt: Date | null;
   type: AttributeType;
 }
 
 export class Attribute extends AggregateRoot<AttributeProps> {
   static create(
-    props: Optional<AttributeProps, 'createdAt' | 'updatedAt' | 'mutations'>,
+    props: Optional<
+      AttributeProps,
+      'createdAt' | 'updatedAt' | 'mutations' | 'trashedAt'
+    >,
     id?: UniqueId
   ) {
     const attributeProps: AttributeProps = {
       ...props,
       createdAt: props.createdAt ?? new Date(),
       updatedAt: props.updatedAt ?? null,
+      trashedAt: props.trashedAt ?? null,
       mutations: props.mutations ?? new AttributeMutationList(),
     };
 
@@ -49,7 +54,16 @@ export class Attribute extends AggregateRoot<AttributeProps> {
     return this.props.updatedAt;
   }
 
+  get trashedAt() {
+    return this.props.trashedAt;
+  }
+
   touch() {
     this.props.updatedAt = new Date();
+  }
+
+  moveToTrash() {
+    this.props.trashedAt = new Date();
+    this.touch();
   }
 }

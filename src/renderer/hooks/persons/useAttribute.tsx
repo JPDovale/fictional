@@ -8,6 +8,7 @@ import {
   AttributeResponse,
 } from '@modules/persons/presenters/Attribute.presenter';
 import { GetPersonAttributeBody } from '@modules/persons/gateways/GetPersonAttribute.gateway';
+import { useToast } from '@rComponents/ui/use-toast';
 
 interface UseAttributeProps {
   projectId?: string;
@@ -25,6 +26,7 @@ export function useAttribute({
   attributeId,
 }: UseAttributeProps) {
   const { user } = useUser();
+  const { toast } = useToast();
 
   const { data, isLoading, refetch } = useQuery<
     unknown,
@@ -46,7 +48,6 @@ export function useAttribute({
         AttributePresented
       >({
         access: Accessors.GET_PERSON_ATTRIBUTE,
-        isDebug: true,
         data: {
           userId: user?.id ?? '',
           projectId,
@@ -54,6 +55,14 @@ export function useAttribute({
           attributeId,
         },
       });
+
+      if (response.status !== StatusCode.OK) {
+        toast({
+          title: response.title,
+          description: response.message,
+          variant: 'destructive',
+        });
+      }
 
       if (response.status === StatusCode.OK && response.data) {
         const { attribute } = response.data;
@@ -74,7 +83,7 @@ export function useAttribute({
 
   return {
     attribute,
-    isLoading,
+    isLoadingAttribute: isLoading,
     refetchAttribute: refetch,
   };
 }

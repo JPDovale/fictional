@@ -6,13 +6,13 @@ import { useUser } from '../useUser';
 import { GetPersonBody } from '@modules/persons/gateways/GetPerson.gateway';
 import localstorageFunctions from '@rUtils/localstorageFunctions';
 import { usePersonsAttributes } from './usePersonsAttributes';
-import { AttributePreviewResponse } from '@modules/persons/presenters/AttributesPreview.presenter';
 import {
   PersonWithDetailsPresented,
   PersonWithDetailsResponse,
 } from '@modules/persons/presenters/PersonWithDetails.presenter';
 import { usePersonQueryMutation } from './usePersonQueryMutation';
 import { useAttribute } from './useAttribute';
+import { useToast } from '@rComponents/ui/use-toast';
 
 interface UsePersonProps {
   projectId?: string;
@@ -21,11 +21,15 @@ interface UsePersonProps {
 
 interface PersonQueryData {
   person: PersonWithDetailsResponse | null;
-  attributesThisPerson: AttributePreviewResponse[];
+}
+
+export interface DeletePersonProps {
+  personId: string;
 }
 
 export function usePerson({ projectId, personId }: UsePersonProps) {
   const { user } = useUser();
+  const { toast } = useToast();
   const { attributes } = usePersonsAttributes({ projectId });
   const { getTempPersistenceKey, getTempPersistence, updatePerson } =
     usePersonQueryMutation({ projectId, personId });
@@ -55,36 +59,39 @@ export function usePerson({ projectId, personId }: UsePersonProps) {
         },
       });
 
+      if (response.status !== StatusCode.OK) {
+        toast({
+          title: response.title,
+          description: response.message,
+          variant: 'destructive',
+        });
+      }
+
       if (response.status === StatusCode.OK && response.data) {
         const { person } = response.data;
 
         localstorageFunctions.Set(getTempPersistenceKey(), person.history);
 
-        const attributesThisPerson = attributes.filter(
-          (attr) => attr.personId === personId
-        );
-
         return {
           person,
-          attributesThisPerson,
         };
       }
 
       return {
         person: null,
-        attributesThisPerson: [],
       };
     },
     staleTime: 1000 * 60 * 5,
   });
 
   const person = data?.person ?? null;
-  const attributesThisPerson = data?.attributesThisPerson ?? [];
+  const attributesThisPerson =
+    attributes?.filter((a) => a.personId === personId) ?? [];
 
   return {
     person,
     attributesThisPerson,
-    isLoading,
+    isLoadingPerson: isLoading,
     refetchPerson: refetch,
     getTempPersistenceKey,
     getTempPersistence,

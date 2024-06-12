@@ -5,7 +5,10 @@ import { cn } from 'src/renderer/utils/cn';
 
 const Popover = PopoverPrimitive.Root;
 
-const PopoverTrigger = PopoverPrimitive.Trigger;
+const PopoverTrigger = React.forwardRef<
+  React.ElementRef<typeof PopoverPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Trigger>
+>((props, ref) => <PopoverPrimitive.Trigger {...props} ref={ref} />);
 
 const PopoverAnchor = PopoverPrimitive.Anchor;
 

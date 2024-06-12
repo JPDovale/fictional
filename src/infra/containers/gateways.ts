@@ -19,6 +19,12 @@ import { GetTimelineGateway } from '@modules/timelines/gateways/GetTimeline.gate
 import { UpdateProjectBuildBlocksGateway } from '@modules/projects/gateways/UpdateProjectBuildBlocks.gateway';
 import { CreatePersonAttributeMutationGateway } from '@modules/persons/gateways/CreatePersonAttributeMutation.gateway';
 import { GetPersonAttributeGateway } from '@modules/persons/gateways/GetPersonAttribute.gateway';
+import { DeleteProjectGateway } from '@modules/projects/gateways/DeleteProject.gateway';
+import { DeletePersonGateway } from '@modules/persons/gateways/DeletePerson.gateway';
+import { DeletePersonAttributeMutationGateway } from '@modules/persons/gateways/DeletePersonAttributeMutation.gateway';
+import { ChangePositionPersonAttributeMutationGateway } from '@modules/persons/gateways/ChangePositionPersonAttributeMutation.gateway';
+import { UpdatePersonAttributeMutationGateway } from '@modules/persons/gateways/UpdatePersonAttributeMutation.gateway';
+import { DeletePersonAttributeGateway } from '@modules/persons/gateways/DeletePersonAttribute.gateway';
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -31,6 +37,7 @@ container.registerSingleton(CreateProjectGateway);
 container.registerSingleton(GetProjectsGateway);
 container.registerSingleton(GetProjectGateway);
 container.registerSingleton(UpdateProjectBuildBlocksGateway);
+container.registerSingleton(DeleteProjectGateway);
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Foundations
@@ -47,6 +54,11 @@ container.registerSingleton(UpdatePersonGateway);
 container.registerSingleton(GetPersonGateway);
 container.registerSingleton(CreatePersonAttributeMutationGateway);
 container.registerSingleton(GetPersonAttributeGateway);
+container.registerSingleton(DeletePersonGateway);
+container.registerSingleton(DeletePersonAttributeMutationGateway);
+container.registerSingleton(ChangePositionPersonAttributeMutationGateway);
+container.registerSingleton(UpdatePersonAttributeMutationGateway);
+container.registerSingleton(DeletePersonAttributeGateway);
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Files

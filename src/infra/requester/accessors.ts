@@ -20,6 +20,12 @@ import { GetTimelineController } from '@modules/timelines/controllers/GetTimelin
 import { UpdateProjectBuildBlocksController } from '@modules/projects/controllers/UpdateProjectBuildBlocks.controller';
 import { CreatePersonAttributeMutationController } from '@modules/persons/controllers/CreatePersonAttributeMutation.controller';
 import { GetPersonAttributeController } from '@modules/persons/controllers/GetPersonAttribute.controller';
+import { DeleteProjectController } from '@modules/projects/controllers/DeleteProject.controller';
+import { DeletePersonController } from '@modules/persons/controllers/DeletePerson.controller';
+import { DeletePersonAttributeMutationController } from '@modules/persons/controllers/DeletePersonAttributeMutation.controller';
+import { ChangePositionPersonAttributeMutationController } from '@modules/persons/controllers/ChangePositionPersonAttributeMutation.controller';
+import { UpdatePersonAttributeMutationController } from '@modules/persons/controllers/UpdatePersonAttributeMutation.controller';
+import { DeletePersonAttributeController } from '@modules/persons/controllers/DeletePersonAttribute.controller';
 
 export const accessors = {
   [Accessors.CREATE_USER]: container.resolve(CreateUserController),
@@ -51,5 +57,19 @@ export const accessors = {
   ),
   [Accessors.GET_PERSON_ATTRIBUTE]: container.resolve(
     GetPersonAttributeController
+  ),
+  [Accessors.DELETE_PROJECT]: container.resolve(DeleteProjectController),
+  [Accessors.DELETE_PERSON]: container.resolve(DeletePersonController),
+  [Accessors.DELETE_PERSON_ATTRIBUTE_MUTATION]: container.resolve(
+    DeletePersonAttributeMutationController
+  ),
+  [Accessors.CHANGE_POSITION_PERSON_ATTRIBUTE_MUTATION]: container.resolve(
+    ChangePositionPersonAttributeMutationController
+  ),
+  [Accessors.UPDATE_PERSON_ATTRIBUTE_MUTATION]: container.resolve(
+    UpdatePersonAttributeMutationController
+  ),
+  [Accessors.DELETE_PERSON_ATTRIBUTE]: container.resolve(
+    DeletePersonAttributeController
   ),
 };

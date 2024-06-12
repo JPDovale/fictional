@@ -1,6 +1,6 @@
-import { Repository } from '@shared/core/contracts/Repository'
-import { Attribute } from '../entities/Attribute'
-import { AttributePreview } from '../valuesObjects/AttributePreview'
+import { Repository } from '@shared/core/contracts/Repository';
+import { Attribute } from '../entities/Attribute';
+import { AttributePreview } from '../valuesObjects/AttributePreview';
 
 export abstract class AttributesRepository<T = unknown> extends Repository<
   Attribute,
@@ -8,6 +8,6 @@ export abstract class AttributesRepository<T = unknown> extends Repository<
 > {
   abstract findManyPreviewByProjectId(
     projectId: string,
-    ctx?: T,
-  ): Promise<AttributePreview[]>
+    ctx?: T
+  ): Promise<AttributePreview[]>;
 }

@@ -5,6 +5,7 @@ import { StatusCode } from '@shared/core/types/StatusCode';
 import { useQuery } from '@tanstack/react-query';
 import { AttributesPreviewsPresented } from '@modules/persons/presenters/AttributesPreview.presenter';
 import { useUser } from '../useUser';
+import { useToast } from '@rComponents/ui/use-toast';
 
 interface UsePersonsAttributesPreviewProps {
   projectId?: string;
@@ -14,6 +15,7 @@ export function usePersonsAttributes({
   projectId,
 }: UsePersonsAttributesPreviewProps) {
   const { user } = useUser();
+  const { toast } = useToast();
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: [`projects:${projectId}:persons:attributes`],
@@ -34,6 +36,14 @@ export function usePersonsAttributes({
           projectId,
         },
       });
+
+      if (response.status !== StatusCode.OK) {
+        toast({
+          title: response.title,
+          description: response.message,
+          variant: 'destructive',
+        });
+      }
 
       if (response.status === StatusCode.OK && response.data) {
         return {

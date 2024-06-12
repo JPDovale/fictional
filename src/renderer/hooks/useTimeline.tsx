@@ -4,11 +4,9 @@ import { StatusCode } from '@shared/core/types/StatusCode';
 import { useQuery } from '@tanstack/react-query';
 import { useUser } from './useUser';
 import { GetTimelineBody } from '@modules/timelines/gateways/GetTimeline.gateways';
-import {
-  EventResponse,
-  TimelineWithEventsPresented,
-} from '@modules/timelines/presenters/TimelineWithEvents.presenter';
+import { TimelineWithEventsPresented } from '@modules/timelines/presenters/TimelineWithEvents.presenter';
 import { useTimelineEvents } from './useTimelineEvents';
+import { toast } from '@rComponents/ui/use-toast';
 
 interface UseTimelineProps {
   projectId?: string;
@@ -39,6 +37,14 @@ export function useTimeline({ projectId, timelineId }: UseTimelineProps) {
         },
       });
 
+      if (response.status !== StatusCode.OK) {
+        toast({
+          title: response.title,
+          description: response.message,
+          variant: 'destructive',
+        });
+      }
+
       if (response.status === StatusCode.OK && response.data) {
         const { timeline } = response.data;
 
@@ -59,7 +65,7 @@ export function useTimeline({ projectId, timelineId }: UseTimelineProps) {
 
   return {
     timeline,
-    isLoading,
+    isLoadingTimeline: isLoading,
     refetchTimeline: refetch,
     useEvents: () => useTimelineEvents({ events: timeline?.events ?? [] }),
   };

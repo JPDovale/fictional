@@ -102,6 +102,7 @@ export class Logger {
 
   static error(...args: unknown[]) {
     this.preLog(PreLog.ERROR, false, ...args);
+    console.error(...args);
   }
 
   static info(...args: unknown[]) {

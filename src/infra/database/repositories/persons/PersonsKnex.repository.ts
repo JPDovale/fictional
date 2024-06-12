@@ -2,7 +2,7 @@ import { injectable } from 'tsyringe';
 import { PersonsRepository } from '@modules/persons/repositories/Persons.repository';
 import { Person } from '@modules/persons/entities/Person';
 import { PersonWithParents } from '@modules/persons/valuesObjects/PersonWithParents';
-import { KnexConnection } from '../..';
+import { KnexConfig, KnexConnection } from '../..';
 import { PersonsKnexMapper } from './PersonsKnex.mapper';
 import { DomainEvents } from '@shared/core/events/DomainEvents';
 import { TimelinesRepository } from '@modules/timelines/repositories/Timelines.repository';
@@ -16,7 +16,7 @@ import { PersonWithDetails } from '@modules/persons/valuesObjects/PersonWithDeta
 import { EventToPersonType } from '@modules/timelines/entities/EventToPerson';
 
 @injectable()
-export class PersonsKnexRepository implements PersonsRepository {
+export class PersonsKnexRepository implements PersonsRepository<KnexConfig> {
   constructor(
     private readonly knexConnection: KnexConnection,
     private readonly mapper: PersonsKnexMapper,
@@ -47,9 +47,9 @@ export class PersonsKnexRepository implements PersonsRepository {
     throw new Error('Method not implemented.');
   }
 
-  async save(person: Person): Promise<void> {
-    await this.knexConnection
-      .db('persons')
+  async save(person: Person, ctx?: KnexConfig): Promise<void> {
+    const { db } = ctx ?? this.knexConnection;
+    await db('persons')
       .where({ id: person.id.toValue() })
       .update(this.mapper.toPersistence(person));
 
@@ -65,6 +65,7 @@ export class PersonsKnexRepository implements PersonsRepository {
       .db('persons')
       .where({
         project_id: projectId,
+        trashed_at: null,
       })
       .orderBy('created_at', 'desc');
 
@@ -78,6 +79,7 @@ export class PersonsKnexRepository implements PersonsRepository {
       .db('persons')
       .where({
         project_id: projectId,
+        'persons.trashed_at': null,
       })
       .leftJoin(
         'person_affiliations',
@@ -98,7 +100,7 @@ export class PersonsKnexRepository implements PersonsRepository {
   async findWithParentsById(id: string): Promise<PersonWithParents | null> {
     const person = await this.knexConnection
       .db('persons')
-      .where('persons.id', '=', id)
+      .where({ 'persons.id': id, 'persons.trashed_at': null })
       .leftJoin(
         'person_affiliations',
         'persons.affiliation_id',
@@ -120,7 +122,7 @@ export class PersonsKnexRepository implements PersonsRepository {
   async findWithDetailsById(id: string): Promise<PersonWithDetails | null> {
     const person = await this.knexConnection
       .db('persons')
-      .where('persons.id', '=', id)
+      .where({ 'persons.id': id, 'persons.trashed_at': null })
       .leftJoin(
         'person_affiliations',
         'persons.affiliation_id',

@@ -1,11 +1,11 @@
-import { useTheme } from '@rHooks/useTheme'
-import { Theme } from '@rStores/useInterfaceStore'
-import { Slot } from '@radix-ui/react-slot'
-import { HTMLAttributes } from 'react'
-import { tv } from 'tailwind-variants'
+import { useTheme } from '@rHooks/useTheme';
+import { Theme } from '@rStores/useInterfaceStore';
+import { Slot } from '@radix-ui/react-slot';
+import { HTMLAttributes } from 'react';
+import { tv } from 'tailwind-variants';
 
 const rootStyles = tv({
-  base: 'overflow-hidden rounded-lg shadow-default relative',
+  base: 'overflow-hidden rounded-lg shadow-default relative h-50',
   variants: {
     theme: {
       [Theme.LIGHT]: 'shadow-default bg-base200',
@@ -13,17 +13,17 @@ const rootStyles = tv({
       [Theme.SYSTEM]: '',
     },
   },
-})
+});
 
 interface RootProps extends HTMLAttributes<HTMLDivElement> {
-  asChild?: boolean
+  asChild?: boolean;
 }
 
 export function Root({ asChild = false, className, ...props }: RootProps) {
-  const { theme } = useTheme()
-  const Component = asChild ? Slot : 'div'
+  const { theme } = useTheme();
+  const Component = asChild ? Slot : 'div';
 
-  return <Component {...props} className={rootStyles({ className, theme })} />
+  return <Component {...props} className={rootStyles({ className, theme })} />;
 }
 
-Root.displayName = 'CardProject.Root'
+Root.displayName = 'CardProject.Root';

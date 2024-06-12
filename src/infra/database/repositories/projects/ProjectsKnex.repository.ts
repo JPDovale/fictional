@@ -54,8 +54,9 @@ export class ProjectsKnexRepository implements ProjectsRepository<KnexConfig> {
       .db('projects')
       .where({
         user_id: userId,
+        trashed_at: null,
       })
-      .orderBy('created_at', 'desc');
+      .orderBy('updated_at', 'desc');
 
     return projects.map(this.mapper.toDomain);
   }

@@ -20,8 +20,13 @@ const personTypeTargetMapper = {
 
 export function ProjectPage() {
   const { projectId } = useParams();
-  const { project, usePersons, useFoundation, usePersonsAttributes } =
-    useProject({ projectId });
+  const {
+    project,
+    usePersons,
+    useFoundation,
+    usePersonsAttributes,
+    isLoadingProject,
+  } = useProject({ projectId });
   const { foundation } = useFoundation();
   const { graphBaseColor } = useTheme();
   const { persons } = usePersons();
@@ -317,7 +322,7 @@ export function ProjectPage() {
     ],
   };
 
-  if (!project) return <NotFound />;
+  if (!project && !isLoadingProject) return <NotFound />;
 
   return (
     <main className="w-full absolute h-screen -top-48 overflow-hidden">

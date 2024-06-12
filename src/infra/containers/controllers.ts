@@ -19,6 +19,12 @@ import { GetTimelineController } from '@modules/timelines/controllers/GetTimelin
 import { UpdateProjectBuildBlocksController } from '@modules/projects/controllers/UpdateProjectBuildBlocks.controller';
 import { CreatePersonAttributeMutationController } from '@modules/persons/controllers/CreatePersonAttributeMutation.controller';
 import { GetPersonAttributeController } from '@modules/persons/controllers/GetPersonAttribute.controller';
+import { DeleteProjectController } from '@modules/projects/controllers/DeleteProject.controller';
+import { DeletePersonController } from '@modules/persons/controllers/DeletePerson.controller';
+import { DeletePersonAttributeMutationController } from '@modules/persons/controllers/DeletePersonAttributeMutation.controller';
+import { ChangePositionPersonAttributeMutationController } from '@modules/persons/controllers/ChangePositionPersonAttributeMutation.controller';
+import { UpdatePersonAttributeMutationController } from '@modules/persons/controllers/UpdatePersonAttributeMutation.controller';
+import { DeletePersonAttributeController } from '@modules/persons/controllers/DeletePersonAttribute.controller';
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -31,6 +37,7 @@ container.registerSingleton(CreateProjectController);
 container.registerSingleton(GetProjectsController);
 container.registerSingleton(GetProjectController);
 container.registerSingleton(UpdateProjectBuildBlocksController);
+container.registerSingleton(DeleteProjectController);
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Foundations
@@ -47,6 +54,11 @@ container.registerSingleton(UpdatePersonController);
 container.registerSingleton(GetPersonController);
 container.registerSingleton(CreatePersonAttributeMutationController);
 container.registerSingleton(GetPersonAttributeController);
+container.registerSingleton(DeletePersonController);
+container.registerSingleton(DeletePersonAttributeMutationController);
+container.registerSingleton(ChangePositionPersonAttributeMutationController);
+container.registerSingleton(UpdatePersonAttributeMutationController);
+container.registerSingleton(DeletePersonAttributeController);
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Files

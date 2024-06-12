@@ -46,6 +46,7 @@ interface BlockEditorProps {
   content?: ReactNode;
   editor: EditorTipTap | null;
   menuOptions?: EditorMenuOption[];
+  isLoading?: boolean;
 }
 
 export function BlockEditor({
@@ -53,34 +54,39 @@ export function BlockEditor({
   title = '',
   editor,
   menuOptions,
+  isLoading,
 }: BlockEditorProps) {
   const { theme } = useTheme();
 
   return (
-    <div className="pt-16 min-w-[38rem] max-w-[38rem] w-full flex flex-col">
-      <HoverCard.Root>
-        <h1 className={blockEditorTitleStyles({ theme })}>
-          {title}
-          {content && (
-            <HoverCard.Trigger>
-              <InfoIcon size={16} className="cursor-pointer" />
-            </HoverCard.Trigger>
-          )}
-        </h1>
+    <div className="pt-16  w-full flex flex-col">
+      {(content || title) && (
+        <HoverCard.Root>
+          <h1 className={blockEditorTitleStyles({ theme })}>
+            {title}
+            {content && (
+              <HoverCard.Trigger>
+                <InfoIcon size={16} className="cursor-pointer" />
+              </HoverCard.Trigger>
+            )}
+          </h1>
 
-        <HoverCard.Portal>
-          {content && (
+          <HoverCard.Portal>
             <HoverCard.Content className={hoverContentStyles({ theme })}>
               <span className={hoverInnerContentStyles({ theme })}>
                 {content}
               </span>
               <HoverCard.Arrow className="fill-purple900" />
             </HoverCard.Content>
-          )}
-        </HoverCard.Portal>
-      </HoverCard.Root>
+          </HoverCard.Portal>
+        </HoverCard.Root>
+      )}
 
-      <Editor editor={editor} menuOptions={menuOptions ?? []} />
+      <Editor
+        editor={editor}
+        menuOptions={menuOptions ?? []}
+        isLoading={isLoading}
+      />
     </div>
   );
 }

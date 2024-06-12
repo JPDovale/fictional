@@ -1,6 +1,6 @@
-import { LocalStorageKeys } from '@rConfigs/localstorageKeys'
-import localStorageFunctions from '@rUtils/localstorageFunctions'
-import { create } from 'zustand'
+import { LocalStorageKeys } from '@rConfigs/localstorageKeys';
+import localStorageFunctions from '@rUtils/localstorageFunctions';
+import { create } from 'zustand';
 
 export enum Theme {
   DARK = 'dark',
@@ -9,73 +9,87 @@ export enum Theme {
 }
 
 interface UseInterfaceStore {
-  navIsOpen: boolean
-  openNav: () => void
-  closeNav: () => void
-  handleChangeOpenNav: () => void
+  navIsOpen: boolean;
+  openNav: () => void;
+  closeNav: () => void;
+  handleChangeOpenNav: () => void;
+  deletingPerson: string | null;
+  setDeletingPerson: (newState: string | null) => void;
 
-  sideBarIsOpen: boolean
-  openSideBar: () => void
-  closeSideBar: () => void
-  handleChangeOpenSideBar: () => void
-  setSidBarIsOpen: (newState: boolean) => void
+  deletingPersonAttribute: string | null;
+  setDeletingPersonAttribute: (newState: string | null) => void;
 
-  nodeIdSelected: string
-  setNodeIdSelected: (newState: string) => void
+  sideBarIsOpen: boolean;
+  openSideBar: () => void;
+  closeSideBar: () => void;
+  handleChangeOpenSideBar: () => void;
+  setSidBarIsOpen: (newState: boolean) => void;
 
+  nodeIdSelected: string;
+  setNodeIdSelected: (newState: string) => void;
 
-  loadConfig: () => void
+  loadConfig: () => void;
 
-  theme: Theme
-  changeTheme: (newState: Theme) => void
+  theme: Theme;
+  changeTheme: (newState: Theme) => void;
 
-  commandKIsOpen: boolean
-  setCommandKIsOpen: (newState: boolean) => void
-  handleChangeOpenCommandK: () => void
+  commandKIsOpen: boolean;
+  setCommandKIsOpen: (newState: boolean) => void;
+  handleChangeOpenCommandK: () => void;
 }
 
 const useInterfaceStore = create<UseInterfaceStore>((set, get) => {
   return {
     navIsOpen: false,
+    deletingPerson: null,
+    deletingPersonAttribute: null,
     sideBarIsOpen: true,
     commandKIsOpen: false,
     theme: Theme.SYSTEM,
     nodeIdSelected: '3',
 
     setNodeIdSelected: (newState) => {
-      set({ nodeIdSelected: newState })
+      set({ nodeIdSelected: newState });
+    },
+
+    setDeletingPerson: (newState) => {
+      set({ deletingPerson: newState });
+    },
+
+    setDeletingPersonAttribute: (newState) => {
+      set({ deletingPersonAttribute: newState });
     },
 
     loadConfig: () => {
-      const theme = localStorageFunctions.Get<Theme>(LocalStorageKeys.THEME)
+      const theme = localStorageFunctions.Get<Theme>(LocalStorageKeys.THEME);
 
       if (theme && theme !== Theme.SYSTEM) {
-        set({ theme })
-        return
+        set({ theme });
+        return;
       }
 
       const prefersDark =
         window.matchMedia &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches
+        window.matchMedia('(prefers-color-scheme: dark)').matches;
 
       set({
         theme: prefersDark ? Theme.DARK : Theme.LIGHT,
-      })
+      });
     },
 
     changeTheme: (newState: Theme) => {
-      localStorageFunctions.Set(LocalStorageKeys.THEME, newState)
+      localStorageFunctions.Set(LocalStorageKeys.THEME, newState);
 
       if (newState !== Theme.SYSTEM) {
-        set({ theme: newState })
-        return
+        set({ theme: newState });
+        return;
       }
 
       const prefersDark =
         window.matchMedia &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches
+        window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-      set({ theme: prefersDark ? Theme.DARK : Theme.LIGHT })
+      set({ theme: prefersDark ? Theme.DARK : Theme.LIGHT });
     },
 
     setCommandKIsOpen: (newState: boolean) => set({ commandKIsOpen: newState }),
@@ -85,10 +99,10 @@ const useInterfaceStore = create<UseInterfaceStore>((set, get) => {
     openNav: () => set({ navIsOpen: true, sideBarIsOpen: false }),
 
     handleChangeOpenNav: () => {
-      const { navIsOpen, openNav, closeNav } = get()
+      const { navIsOpen, openNav, closeNav } = get();
 
-      if (navIsOpen) closeNav()
-      if (!navIsOpen) openNav()
+      if (navIsOpen) closeNav();
+      if (!navIsOpen) openNav();
     },
 
     closeSideBar: () => set({ sideBarIsOpen: false }),
@@ -96,27 +110,27 @@ const useInterfaceStore = create<UseInterfaceStore>((set, get) => {
     openSideBar: () => set({ navIsOpen: false, sideBarIsOpen: true }),
 
     handleChangeOpenSideBar: () => {
-      const { openSideBar, closeSideBar, sideBarIsOpen } = get()
+      const { openSideBar, closeSideBar, sideBarIsOpen } = get();
 
-      if (sideBarIsOpen) closeSideBar()
-      if (!sideBarIsOpen) openSideBar()
+      if (sideBarIsOpen) closeSideBar();
+      if (!sideBarIsOpen) openSideBar();
     },
 
     setSidBarIsOpen: (newSideBarIsOpen) => {
-      const { openSideBar, closeSideBar } = get()
+      const { openSideBar, closeSideBar } = get();
 
-      if (newSideBarIsOpen) openSideBar()
-      if (!newSideBarIsOpen) closeSideBar()
+      if (newSideBarIsOpen) openSideBar();
+      if (!newSideBarIsOpen) closeSideBar();
     },
 
     handleChangeOpenCommandK: () => {
-      const { commandKIsOpen } = get()
+      const { commandKIsOpen } = get();
 
       set({
         commandKIsOpen: !commandKIsOpen,
-      })
+      });
     },
-  }
-})
+  };
+});
 
-export { useInterfaceStore }
+export { useInterfaceStore };

@@ -12,6 +12,7 @@ import { Optional } from '@shared/core/types/Optional';
 import { LocalStorageKeys } from '@rConfigs/localstorageKeys';
 import localstorageFunctions from '@rUtils/localstorageFunctions';
 import { useUser } from './useUser';
+import { useToast } from '@rComponents/ui/use-toast';
 
 interface UseFoundationProps {
   projectId?: string;
@@ -23,6 +24,7 @@ interface FoundationQueryData {
 
 export function useFoundation({ projectId }: UseFoundationProps) {
   const { user } = useUser();
+  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const { data, isLoading, refetch } = useQuery<
@@ -48,6 +50,14 @@ export function useFoundation({ projectId }: UseFoundationProps) {
           projectId,
         },
       });
+
+      if (response.status !== StatusCode.OK) {
+        toast({
+          title: response.title,
+          description: response.message,
+          variant: 'destructive',
+        });
+      }
 
       if (response.status === StatusCode.OK && response.data) {
         const { foundation } = response.data;
@@ -101,7 +111,7 @@ export function useFoundation({ projectId }: UseFoundationProps) {
     mutationFn: async (variables) => {
       if (!user?.id || !projectId) return;
 
-      await Requester.requester<UpdateFoundationBody, void>({
+      const response = await Requester.requester<UpdateFoundationBody, void>({
         access: Accessors.UPDATE_FOUNDATION,
         data: {
           projectId,
@@ -110,6 +120,14 @@ export function useFoundation({ projectId }: UseFoundationProps) {
           ...variables,
         },
       });
+
+      if (response.status !== StatusCode.OK) {
+        toast({
+          title: response.title,
+          description: response.message,
+          variant: 'destructive',
+        });
+      }
     },
     onSuccess: (
       _,
@@ -182,7 +200,7 @@ export function useFoundation({ projectId }: UseFoundationProps) {
 
   return {
     foundation,
-    isLoading,
+    isLoadingFoundation: isLoading,
     refetchFoundation: refetch,
     updateFoundation,
     getTempPersistenceKey,

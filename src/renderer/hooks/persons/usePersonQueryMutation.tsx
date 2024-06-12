@@ -3,10 +3,12 @@ import { Accessors } from '@infra/requester/types';
 import { UpdatePersonBody } from '@modules/persons/gateways/UpdatePerson.gateway';
 import { AttributePreviewResponse } from '@modules/persons/presenters/AttributesPreview.presenter';
 import { PersonWithDetailsResponse } from '@modules/persons/presenters/PersonWithDetails.presenter';
+import { useToast } from '@rComponents/ui/use-toast';
 import { LocalStorageKeys } from '@rConfigs/localstorageKeys';
 import { useUser } from '@rHooks/useUser';
 import localstorageFunctions from '@rUtils/localstorageFunctions';
 import { Optional } from '@shared/core/types/Optional';
+import { StatusCode } from '@shared/core/types/StatusCode';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface UsePersonQueryMutationProps {
@@ -24,6 +26,7 @@ export function usePersonQueryMutation({
   personId,
 }: UsePersonQueryMutationProps) {
   const { user } = useUser();
+  const { toast } = useToast();
 
   const queryClient = useQueryClient();
 
@@ -35,7 +38,7 @@ export function usePersonQueryMutation({
     mutationFn: async (variables) => {
       if (!user?.id || !projectId || !personId) return;
 
-      await Requester.requester<UpdatePersonBody>({
+      const response = await Requester.requester<UpdatePersonBody>({
         access: Accessors.UPDATE_PERSON,
         data: {
           projectId,
@@ -44,6 +47,14 @@ export function usePersonQueryMutation({
           ...variables,
         },
       });
+
+      if (response.status !== StatusCode.OK) {
+        toast({
+          title: response.title,
+          description: response.message,
+          variant: 'destructive',
+        });
+      }
     },
     onSuccess: (
       _,

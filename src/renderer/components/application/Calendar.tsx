@@ -1,5 +1,6 @@
 import { CaretLeft, CaretRight } from '@phosphor-icons/react';
 import { Button } from './Button';
+import { SkeletonBase } from '@rComponents/ui/skeletonBase';
 
 interface CalendarDate {
   day: number;
@@ -25,6 +26,49 @@ interface CalendarProps {
   onSelectAvailable: (date: CalendarDate) => void;
   onNext: () => void;
   onPrev: () => void;
+  isLoading?: boolean;
+}
+
+function CalendarSkeleton() {
+  return (
+    <div className="flex flex-col gap-2 w-full">
+      <SkeletonBase className="h-4 w-32 rounded-full" />
+
+      <div className="grid grid-cols-3 w-full gap-2">
+        <SkeletonBase className="h-6 w-full rounded-lg" />
+        <SkeletonBase className="h-6 w-full rounded-lg" />
+        <SkeletonBase className="h-6 w-full rounded-lg" />
+      </div>
+
+      <table className="w-full realative font-body border-spacing-4 table-fixed mt-1">
+        <thead>
+          <tr>
+            <th className="text-gray500 text-xs">DOM</th>
+            <th className="text-gray500 text-xs">SEG</th>
+            <th className="text-gray500 text-xs">TER</th>
+            <th className="text-gray500 text-xs">QUA</th>
+            <th className="text-gray500 text-xs">QUI</th>
+            <th className="text-gray500 text-xs">SEX</th>
+            <th className="text-gray500 text-xs">SAB</th>
+          </tr>
+
+          <tbody>
+            {Array.from({ length: 5 }).map((_, i) => (
+              <tr key={i}>
+                {Array.from({ length: 7 }).map((_, j) => {
+                  return (
+                    <td className="box-border p-1" key={`${i}-${j}`}>
+                      <SkeletonBase className="w-[1.875rem] h-[1.875rem] aspect-square rounded-full " />
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </thead>
+      </table>
+    </div>
+  );
 }
 
 export function Calendar({
@@ -33,7 +77,9 @@ export function Calendar({
   onSelectAvailable,
   onNext,
   onPrev,
+  isLoading = false,
 }: CalendarProps) {
+  if (isLoading) return <CalendarSkeleton />;
   return (
     <div className="flex flex-col gap-2">
       <div className="grid grid-cols-[4fr_1fr]">
@@ -95,11 +141,14 @@ export function Calendar({
 
         {calendarWeeks.length > 0 && (
           <tbody>
-            {calendarWeeks.map(({ week, days }) => (
-              <tr key={week}>
-                {days.map(({ date, disabled }) => {
+            {calendarWeeks.map(({ week, days }, i) => (
+              <tr key={`${week}-${i}`}>
+                {days.map(({ date, disabled }, j) => {
                   return (
-                    <td className="box-border p-1">
+                    <td
+                      className="box-border p-1"
+                      key={`${date.dateString}-${j}`}
+                    >
                       <button
                         onClick={() => onSelectAvailable(date)}
                         disabled={date.numberEvents === 0 ?? disabled}
@@ -120,13 +169,13 @@ export function Calendar({
             ))}
           </tbody>
         )}
-
-        {calendarWeeks.length === 0 && (
-          <div className="flex text-gray500 flex-col justify-center items-center text-sm absolute -bottom-[100%] left-1/2 -translate-x-1/2 font-bold">
-            <span className="text-center">Não há eventos registrados</span>
-          </div>
-        )}
       </table>
+
+      {calendarWeeks.length === 0 && (
+        <div className="flex text-gray500 flex-col justify-center items-center text-sm absolute -bottom-[100%] left-1/2 -translate-x-1/2 font-bold">
+          <span className="text-center">Não há eventos registrados</span>
+        </div>
+      )}
     </div>
   );
 }

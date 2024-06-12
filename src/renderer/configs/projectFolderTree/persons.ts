@@ -18,6 +18,7 @@ import {
   ScanFace,
   Siren,
   Target,
+  Trash,
   User,
   Users,
 } from 'lucide-react';
@@ -28,6 +29,8 @@ interface MakeTypePersonsFolderTreeNodeProps {
   attributes: AttributePreviewResponse[];
   persons: PersonWithParentsResponse[];
   createAttributeForPerson: (props: CreateAttributeForPersonProps) => void;
+  openDeletePersonConfirmation: (personId: string) => void;
+  openDeletePersonAttributeConfirmation: (attributeId: string) => void;
 }
 
 export const personTypeNameMapper = {
@@ -122,6 +125,7 @@ interface MakeAttributeChildNodeProps {
   projectId: string;
   type: AttributeType;
   attributes: AttributePreviewResponse[];
+  openDeletePersonAttributeConfirmation: (attributeId: string) => void;
 }
 
 function makeAttributeChildNode({
@@ -129,6 +133,7 @@ function makeAttributeChildNode({
   projectId,
   type,
   attributes,
+  openDeletePersonAttributeConfirmation,
 }: MakeAttributeChildNodeProps) {
   const attributesThisNode = attributes.filter(
     (attr) => attr.type === type && attr.personId === personId
@@ -144,6 +149,15 @@ function makeAttributeChildNode({
       name: attr.file.title,
       path: `/projects/${projectId}/persons/${personId}/attributes/${attributeTypePathNameMapper[type]}/${attr.id}`,
       icon: FileEdit,
+      actions: [
+        {
+          Icon: Trash,
+          label: 'Mover para lixeira',
+          action: () => openDeletePersonAttributeConfirmation(attr.id),
+          isToShow: true,
+          type: 'danger',
+        },
+      ],
     })),
   };
 }
@@ -152,17 +166,25 @@ interface MakeAttributeChildsProps {
   personId: string;
   projectId: string;
   attributes: AttributePreviewResponse[];
+  openDeletePersonAttributeConfirmation: (attributeId: string) => void;
 }
 
 function makeAttributeChilds({
   personId,
   projectId,
   attributes,
+  openDeletePersonAttributeConfirmation,
 }: MakeAttributeChildsProps) {
   const attributeTypes = Object.keys(attributeIconsMapper) as AttributeType[];
 
   return attributeTypes.map((type) =>
-    makeAttributeChildNode({ personId, projectId, type, attributes })
+    makeAttributeChildNode({
+      personId,
+      projectId,
+      type,
+      attributes,
+      openDeletePersonAttributeConfirmation,
+    })
   );
 }
 
@@ -191,6 +213,8 @@ export function makeTypePersonsFolderTreeNode({
   persons,
   attributes,
   createAttributeForPerson,
+  openDeletePersonConfirmation,
+  openDeletePersonAttributeConfirmation,
   personsType,
   projectId,
 }: MakeTypePersonsFolderTreeNodeProps) {
@@ -204,10 +228,24 @@ export function makeTypePersonsFolderTreeNode({
       name: person.name,
       path: `/projects/${projectId}/persons/${person.id}`,
       icon: User,
-      actions: makePersonActions({
-        personId: person.id,
-        createAttributeForPerson,
-      }),
+      acctionGroups: [
+        {
+          title: 'Atributos',
+          actions: makePersonActions({
+            personId: person.id,
+            createAttributeForPerson,
+          }),
+        },
+      ],
+      actions: [
+        {
+          Icon: Trash,
+          label: 'Mover para lixeira',
+          action: () => openDeletePersonConfirmation(person.id),
+          isToShow: true,
+          type: 'danger',
+        },
+      ],
 
       childs: [
         {
@@ -216,7 +254,12 @@ export function makeTypePersonsFolderTreeNode({
           path: `/projects/${projectId}/persons/${person.id}/identity`,
           icon: Contact,
         },
-        ...makeAttributeChilds({ personId: person.id, projectId, attributes }),
+        ...makeAttributeChilds({
+          personId: person.id,
+          projectId,
+          attributes,
+          openDeletePersonAttributeConfirmation,
+        }),
       ],
     })),
   };

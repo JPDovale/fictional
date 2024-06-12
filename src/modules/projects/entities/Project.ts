@@ -19,6 +19,7 @@ export interface ProjectProps {
   structureType: ProjectStructureType;
   createdAt: Date;
   updatedAt: Date | null;
+  trashedAt: Date | null;
   buildBlocks: BuildBlocks;
   image: string | null;
   userId: UniqueId;
@@ -28,7 +29,12 @@ export class Project extends AggregateRoot<ProjectProps> {
   static create(
     props: Optional<
       ProjectProps,
-      'createdAt' | 'type' | 'updatedAt' | 'structureType' | 'image'
+      | 'createdAt'
+      | 'type'
+      | 'updatedAt'
+      | 'structureType'
+      | 'image'
+      | 'trashedAt'
     >,
     id?: UniqueId
   ) {
@@ -39,6 +45,7 @@ export class Project extends AggregateRoot<ProjectProps> {
       type: props.type ?? ProjectType.BOOK,
       structureType: props.structureType ?? ProjectStructureType.FICTIONAL_FLOW,
       updatedAt: props.updatedAt ?? null,
+      trashedAt: props.trashedAt ?? null,
     };
 
     const project = new Project(propsProject, id);
@@ -95,6 +102,10 @@ export class Project extends AggregateRoot<ProjectProps> {
     return this.props.structureType;
   }
 
+  get trashedAt() {
+    return this.props.trashedAt;
+  }
+
   touch() {
     this.props.updatedAt = new Date();
   }
@@ -115,5 +126,10 @@ export class Project extends AggregateRoot<ProjectProps> {
     if (buildBlock === BuildBlock.FOUNDATION) {
       this.addDomainEvent(new ProjectCreatedWithFoundationEvent(this));
     }
+  }
+
+  moveToTrash() {
+    this.props.trashedAt = new Date();
+    this.touch();
   }
 }

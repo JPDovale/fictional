@@ -8,11 +8,12 @@ import { Button } from '@rComponents/application/Button';
 import { Checkbox } from '@rComponents/application/Checkbox';
 import { DropZone } from '@rComponents/application/DropZone';
 import { Input } from '@rComponents/application/Input';
+import { useToast } from '@rComponents/ui/use-toast';
 import { useProjects } from '@rHooks/useProjects';
 import { useUser } from '@rHooks/useUser';
 import { StatusCode } from '@shared/core/types/StatusCode';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldErrors, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
@@ -20,7 +21,7 @@ const createProjectSchema = z.object({
   name: z
     .string()
     .trim()
-    .min(2, 'O nome precisa ter pelo menos 2 letras')
+    .min(3, 'O nome precisa ter pelo menos 3 letras')
     .max(255, 'O nome pode ter no máximo 255 letras'),
   buildBlocks: z
     .array(z.nativeEnum(BuildBlock))
@@ -37,13 +38,14 @@ type CreateProjectData = z.infer<typeof createProjectSchema>;
 export function NewProjectPage() {
   const { user } = useUser();
   const { refetchProjects } = useProjects();
+  const { toast } = useToast();
   const navigate = useNavigate();
   const [imageSelected, setImageSelected] = useState('');
 
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, isDirty, errors },
+    formState: { isSubmitting, isDirty },
     setValue,
     watch,
     reset,
@@ -74,24 +76,24 @@ export function NewProjectPage() {
     setImageSelected('');
   }
 
-  function addBuildBlock(buildBlock: BuildBlock) {
-    setValue('buildBlocks', [...buildBlocks, buildBlock]);
-  }
+  // function addBuildBlock(buildBlock: BuildBlock) {
+  //   setValue('buildBlocks', [...buildBlocks, buildBlock]);
+  // }
+  //
+  // function removeBuildBlock(buildBlock: BuildBlock) {
+  //   setValue(
+  //     'buildBlocks',
+  //     buildBlocks.filter((bb) => bb !== buildBlock)
+  //   );
+  // }
 
-  function removeBuildBlock(buildBlock: BuildBlock) {
-    setValue(
-      'buildBlocks',
-      buildBlocks.filter((bb) => bb !== buildBlock)
-    );
-  }
-
-  function handleToggleBuildBlock(buildBlock: BuildBlock, event: boolean) {
-    if (event) {
-      return addBuildBlock(buildBlock);
-    }
-
-    return removeBuildBlock(buildBlock);
-  }
+  // function handleToggleBuildBlock(buildBlock: BuildBlock, event: boolean) {
+  //   if (event) {
+  //     return addBuildBlock(buildBlock);
+  //   }
+  //
+  //   return removeBuildBlock(buildBlock);
+  // }
 
   async function handleCreateProject(data: CreateProjectData) {
     if (!user) return;
@@ -104,10 +106,37 @@ export function NewProjectPage() {
       },
     });
 
+    if (response.status !== StatusCode.CREATED) {
+      return toast({
+        title: response.title,
+        description: response.message,
+        variant: 'destructive',
+      });
+    }
+
     if (response.status === StatusCode.CREATED) {
-      reset();
       await refetchProjects();
+      toast({
+        title: 'Projeto criado com sucesso',
+        description: `O projeto ${data.name} foi criado com sucesso!`,
+      });
+
+      reset();
       navigate('/');
+    }
+  }
+
+  function onErrors(errors: FieldErrors<CreateProjectData>) {
+    const errorKeys = Object.keys(errors) as (keyof CreateProjectData)[];
+
+    const firstError = errors[errorKeys[0]];
+
+    if (firstError) {
+      toast({
+        title: 'Erro no formulário',
+        description: firstError.message,
+        variant: 'destructive',
+      });
     }
   }
 
@@ -119,13 +148,12 @@ export function NewProjectPage() {
 
       <form
         className="mt-4 grid grid-cols-2 gap-14 h-full"
-        onSubmit={handleSubmit(handleCreateProject)}
+        onSubmit={handleSubmit(handleCreateProject, onErrors)}
       >
         <Input.Root className="px-4">
           <Input.Header>
             <Input.Header>
               <Input.Label>Selecione uma imagem</Input.Label>
-              <Input.Error>{errors.image?.message}</Input.Error>
             </Input.Header>
           </Input.Header>
 
@@ -150,7 +178,6 @@ export function NewProjectPage() {
           <Input.Root>
             <Input.Header>
               <Input.Label>Nome do projeto</Input.Label>
-              <Input.Error>{errors.name?.message}</Input.Error>
             </Input.Header>
 
             <Input.Input>
@@ -161,19 +188,19 @@ export function NewProjectPage() {
           <Input.Root>
             <Input.Header>
               <Input.Label>Blocos de construção</Input.Label>
-              <Input.Error>{errors.buildBlocks?.message}</Input.Error>
             </Input.Header>
 
             <div className="grid grid-cols-2 gap-4 mt-2">
               <Checkbox.Root>
                 <Checkbox.CheckerRoot
+                  disabled
                   checked={buildBlocks.includes(BuildBlock.FOUNDATION)}
-                  onCheckedChange={(e) =>
-                    handleToggleBuildBlock(
-                      BuildBlock.FOUNDATION,
-                      e as unknown as boolean
-                    )
-                  }
+                  // onCheckedChange={(e) =>
+                  //   handleToggleBuildBlock(
+                  //     BuildBlock.FOUNDATION,
+                  //     e as unknown as boolean
+                  //   )
+                  // }
                 >
                   <Checkbox.CheckerIndicator />
                 </Checkbox.CheckerRoot>
@@ -187,13 +214,14 @@ export function NewProjectPage() {
 
               <Checkbox.Root>
                 <Checkbox.CheckerRoot
+                  disabled
                   checked={buildBlocks.includes(BuildBlock.PERSONS)}
-                  onCheckedChange={(e) =>
-                    handleToggleBuildBlock(
-                      BuildBlock.PERSONS,
-                      e as unknown as boolean
-                    )
-                  }
+                  // onCheckedChange={(e) =>
+                  //   handleToggleBuildBlock(
+                  //     BuildBlock.PERSONS,
+                  //     e as unknown as boolean
+                  //   )
+                  // }
                 >
                   <Checkbox.CheckerIndicator />
                 </Checkbox.CheckerRoot>
@@ -208,12 +236,13 @@ export function NewProjectPage() {
               <Checkbox.Root>
                 <Checkbox.CheckerRoot
                   checked={buildBlocks.includes(BuildBlock.TIME_LINES)}
-                  onCheckedChange={(e) =>
-                    handleToggleBuildBlock(
-                      BuildBlock.TIME_LINES,
-                      e as unknown as boolean
-                    )
-                  }
+                  disabled
+                  // onCheckedChange={(e) =>
+                  //   handleToggleBuildBlock(
+                  //     BuildBlock.TIME_LINES,
+                  //     e as unknown as boolean
+                  //   )
+                  // }
                 >
                   <Checkbox.CheckerIndicator />
                 </Checkbox.CheckerRoot>

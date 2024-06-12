@@ -7,6 +7,7 @@ import { Button } from '@rComponents/application/Button';
 import { DropZone } from '@rComponents/application/DropZone';
 import { Input } from '@rComponents/application/Input';
 import { NotFound } from '@rComponents/application/NotFound';
+import { EventDateInput } from '@rComponents/timelines/EventDateInput';
 import { Avatar, AvatarFallback, AvatarImage } from '@rComponents/ui/avatar';
 import {
   Command,
@@ -19,13 +20,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@rComponents/ui/popover';
+import { useToast } from '@rComponents/ui/use-toast';
 import { useProject } from '@rHooks/useProject';
 import { useTheme } from '@rHooks/useTheme';
 import { useUser } from '@rHooks/useUser';
 import { StatusCode } from '@shared/core/types/StatusCode';
 import { Check, Trash, VenetianMask, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldErrors, useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { z } from 'zod';
 
@@ -147,13 +149,9 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
   const [openFatherPicker, setOpenFatherPicker] = useState(false);
   const [openMotherPicker, setOpenMotherPicker] = useState(false);
   const [openTypePicker, setOpenTypePicker] = useState(false);
-  const [openBirthDatePeriodPicker, setOpenBirthDatePeriodPicker] =
-    useState(false);
-  const [openDeathDatePeriodPicker, setOpenDeathDatePeriodPicker] =
-    useState(false);
 
+  const { toast } = useToast();
   const { projectId, personId } = useParams();
-
   const { theme } = useTheme();
   const { user } = useUser();
   const { project, usePersons, usePerson, useTimelines } = useProject({
@@ -169,10 +167,9 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
     handleSubmit,
     register,
     setValue,
-    setError,
     reset,
     watch,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<UpdatePersonData>({
     resolver: zodResolver(updatePersonSchema),
     defaultValues: {
@@ -246,6 +243,11 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
     if (!personId) return;
     if (!user?.id) return;
 
+    if (fatherId === motherId && (fatherId || motherId)) {
+      toastError('A mãe deve ser diferente do pai');
+      return;
+    }
+
     const {
       birthDateDay,
       birthDateMonth,
@@ -288,12 +290,12 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
     });
 
     if (verificationOfBirthDateError) {
-      setError('birthDateDay', { message: verificationOfBirthDateError });
+      toastError(verificationOfBirthDateError);
       return;
     }
 
     if (verificationOfDeathDateError) {
-      setError('deathDateDay', { message: verificationOfDeathDateError });
+      toastError(verificationOfDeathDateError);
       return;
     }
 
@@ -334,15 +336,46 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
         deathDate,
         birthDate,
         ...rest,
+        image: person?.image.url !== data.image ? data.image : undefined,
       },
     });
 
+    if (response.status !== StatusCode.OK) {
+      toast({
+        title: response.title,
+        description: response.message,
+        variant: 'destructive',
+      });
+    }
+
     if (response.status === StatusCode.OK) {
+      toast({
+        title: `Personagem alterado(a)`,
+        description: `O personagem ${person?.name} foi alterado(a) com sucesso!`,
+      });
       refetchPersons();
       refetchPerson();
       onEdited();
       reset();
     }
+  }
+
+  function onErrors(errors: FieldErrors<UpdatePersonData>) {
+    const errorKeys = Object.keys(errors) as (keyof UpdatePersonData)[];
+
+    const firstError = errors[errorKeys[0]];
+
+    if (firstError) {
+      toastError(firstError.message ?? '');
+    }
+  }
+
+  function toastError(message: string) {
+    toast({
+      title: 'Erro no formulário',
+      description: message,
+      variant: 'destructive',
+    });
   }
 
   if (!person || !project) return <NotFound />;
@@ -351,7 +384,7 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
     <form
       data-theme={theme}
       className="flex flex-col bg-gray100/30 data-[theme=light]:bg-gray900/30 relative shadow-2xl backdrop-blur-sm rounded-lg gap-4 p-4"
-      onSubmit={handleSubmit(handleUpdatePerson)}
+      onSubmit={handleSubmit(handleUpdatePerson, onErrors)}
     >
       <span className="text-xs absolute top-2 font-bold opacity-60 right-4">
         Apenas o tipo é obrigatório
@@ -362,7 +395,6 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
           <Input.Header>
             <Input.Header>
               <Input.Label>Imagem</Input.Label>
-              <Input.Error>{errors.image?.message}</Input.Error>
             </Input.Header>
           </Input.Header>
 
@@ -378,7 +410,6 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
           <Input.Root>
             <Input.Header>
               <Input.Label>Nome completo</Input.Label>
-              <Input.Error>{errors.name?.message}</Input.Error>
             </Input.Header>
 
             <Input.Input size="sm">
@@ -388,242 +419,40 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
 
           {project.buildBlocks.TIME_LINES && (
             <>
-              <Input.Root>
-                <Input.Header>
-                  <Input.Label>Data de nascimento</Input.Label>
-                  <Input.Error>
-                    {errors.birthDateDay?.message ??
-                      errors.birthDateMonth?.message ??
-                      errors.birthDateYear?.message ??
-                      errors.birthDatePeriod?.message ??
-                      errors.birthDateHour?.message ??
-                      errors.birthDateMinute?.message ??
-                      errors.birthDateSecond?.message}
-                  </Input.Error>
-                </Input.Header>
+              <EventDateInput
+                label="Data de nascimento"
+                day={register('birthDateDay')}
+                month={register('birthDateMonth')}
+                year={register('birthDateYear')}
+                hour={register('birthDateHour')}
+                minute={register('birthDateMinute')}
+                second={register('birthDateSecond')}
+                period={birthDatePeriod}
+                setPeriod={(prd) => setValue('birthDatePeriod', prd)}
+                onClean={() => clearDate('birth')}
+                isWithCleaner
+              />
 
-                <div className="grid grid-cols-8 gap-1">
-                  <Input.Input size="sm">
-                    <Input.TextInput {...register('birthDateDay')} />
-                  </Input.Input>
-
-                  <Input.Input size="sm">
-                    <Input.TextInput {...register('birthDateMonth')} />
-                  </Input.Input>
-
-                  <Input.Input size="sm">
-                    <Input.TextInput {...register('birthDateYear')} />
-                  </Input.Input>
-
-                  <Popover
-                    open={openBirthDatePeriodPicker}
-                    onOpenChange={setOpenBirthDatePeriodPicker}
-                  >
-                    <PopoverTrigger>
-                      <Input.Input size="sm">
-                        <span className="text-xs">
-                          {birthDatePeriod === -1
-                            ? 'A.C.'
-                            : birthDatePeriod === 0
-                            ? 'D.C.'
-                            : 'Selec...'}
-                        </span>
-                      </Input.Input>
-                    </PopoverTrigger>
-
-                    <PopoverContent className="p-0 w-64 max-h-36">
-                      <Command>
-                        <CommandGroup>
-                          <CommandItem
-                            className="font-bold"
-                            value="-1"
-                            onSelect={() => {
-                              setValue('birthDatePeriod', -1);
-                              setOpenBirthDatePeriodPicker(false);
-                            }}
-                          >
-                            <Check
-                              data-hidden={birthDatePeriod !== -1}
-                              className="w-4 h-4 data-[hidden=true]:invisible mr-2"
-                            />
-
-                            <span className="text-xs">Antes de Cristo</span>
-                          </CommandItem>
-
-                          <CommandItem
-                            className="font-bold"
-                            value="0"
-                            onSelect={() => {
-                              setValue('birthDatePeriod', 0);
-                              setOpenBirthDatePeriodPicker(false);
-                            }}
-                          >
-                            <Check
-                              data-hidden={birthDatePeriod !== 0}
-                              className="w-4 h-4 data-[hidden=true]:invisible mr-2"
-                            />
-
-                            <span className="text-xs">Depois de Cristo</span>
-                          </CommandItem>
-                        </CommandGroup>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-
-                  <Input.Input size="sm">
-                    <Input.TextInput {...register('birthDateHour')} />
-                  </Input.Input>
-
-                  <Input.Input size="sm">
-                    <Input.TextInput {...register('birthDateMinute')} />
-                  </Input.Input>
-
-                  <Input.Input size="sm">
-                    <Input.TextInput {...register('birthDateSecond')} />
-                  </Input.Input>
-
-                  <Button.Root
-                    type="button"
-                    size="sm"
-                    className="shadow-none"
-                    onClick={() => clearDate('birth')}
-                  >
-                    <Button.Icon>
-                      <Trash />
-                    </Button.Icon>
-                  </Button.Root>
-
-                  <span className="text-xs font-bold opacity-60">Dia</span>
-                  <span className="text-xs font-bold opacity-60">Mês</span>
-                  <span className="text-xs font-bold opacity-60">Ano</span>
-                  <span className="text-xs font-bold opacity-60">Prd</span>
-                  <span className="text-xs font-bold opacity-60">Hora</span>
-                  <span className="text-xs font-bold opacity-60">Min</span>
-                  <span className="text-xs font-bold opacity-60">Sec</span>
-                </div>
-              </Input.Root>
-
-              <Input.Root>
-                <Input.Header>
-                  <Input.Label>Data de óbito</Input.Label>
-                  <Input.Error>
-                    {errors.deathDateDay?.message ??
-                      errors.deathDateMonth?.message ??
-                      errors.deathDateYear?.message ??
-                      errors.deathDatePeriod?.message ??
-                      errors.deathDateHour?.message ??
-                      errors.deathDateMinute?.message ??
-                      errors.deathDateSecond?.message}
-                  </Input.Error>
-                </Input.Header>
-
-                <div className="grid grid-cols-8 gap-1">
-                  <Input.Input size="sm">
-                    <Input.TextInput {...register('deathDateDay')} />
-                  </Input.Input>
-
-                  <Input.Input size="sm">
-                    <Input.TextInput {...register('deathDateMonth')} />
-                  </Input.Input>
-
-                  <Input.Input size="sm">
-                    <Input.TextInput {...register('deathDateYear')} />
-                  </Input.Input>
-
-                  <Popover
-                    open={openDeathDatePeriodPicker}
-                    onOpenChange={setOpenDeathDatePeriodPicker}
-                  >
-                    <PopoverTrigger>
-                      <Input.Input size="sm">
-                        <span className="text-xs">
-                          {deathDatePeriod === -1
-                            ? 'A.C.'
-                            : deathDatePeriod === 0
-                            ? 'D.C.'
-                            : 'Selec...'}
-                        </span>
-                      </Input.Input>
-                    </PopoverTrigger>
-
-                    <PopoverContent className="p-0 w-64 max-h-36">
-                      <Command>
-                        <CommandGroup>
-                          <CommandItem
-                            className="font-bold"
-                            value="-1"
-                            onSelect={() => {
-                              setValue('deathDatePeriod', -1);
-                              setOpenDeathDatePeriodPicker(false);
-                            }}
-                          >
-                            <Check
-                              data-hidden={deathDatePeriod !== -1}
-                              className="w-4 h-4 data-[hidden=true]:invisible mr-2"
-                            />
-
-                            <span className="text-xs">Antes de Cristo</span>
-                          </CommandItem>
-
-                          <CommandItem
-                            className="font-bold"
-                            value="0"
-                            onSelect={() => {
-                              setValue('deathDatePeriod', 0);
-                              setOpenDeathDatePeriodPicker(false);
-                            }}
-                          >
-                            <Check
-                              data-hidden={deathDatePeriod !== 0}
-                              className="w-4 h-4 data-[hidden=true]:invisible mr-2"
-                            />
-
-                            <span className="text-xs">Depois de Cristo</span>
-                          </CommandItem>
-                        </CommandGroup>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-
-                  <Input.Input size="sm">
-                    <Input.TextInput {...register('deathDateHour')} />
-                  </Input.Input>
-
-                  <Input.Input size="sm">
-                    <Input.TextInput {...register('deathDateMinute')} />
-                  </Input.Input>
-
-                  <Input.Input size="sm">
-                    <Input.TextInput {...register('deathDateSecond')} />
-                  </Input.Input>
-
-                  <Button.Root
-                    type="button"
-                    size="sm"
-                    className="shadow-none"
-                    onClick={() => clearDate('death')}
-                  >
-                    <Button.Icon>
-                      <Trash />
-                    </Button.Icon>
-                  </Button.Root>
-
-                  <span className="text-xs font-bold opacity-60">Dia</span>
-                  <span className="text-xs font-bold opacity-60">Mês</span>
-                  <span className="text-xs font-bold opacity-60">Ano</span>
-                  <span className="text-xs font-bold opacity-60">Prd</span>
-                  <span className="text-xs font-bold opacity-60">Hora</span>
-                  <span className="text-xs font-bold opacity-60">Min</span>
-                  <span className="text-xs font-bold opacity-60">Sec</span>
-                </div>
-              </Input.Root>
+              <EventDateInput
+                label="Data de óbito"
+                day={register('deathDateDay')}
+                month={register('deathDateMonth')}
+                year={register('deathDateYear')}
+                hour={register('deathDateHour')}
+                minute={register('deathDateMinute')}
+                second={register('deathDateSecond')}
+                period={deathDatePeriod}
+                setPeriod={(prd) => setValue('deathDatePeriod', prd)}
+                onClean={() => clearDate('death')}
+                isWithCleaner
+              />
             </>
           )}
+
           <div className="grid grid-cols-2 gap-4">
             <Input.Root>
               <Input.Header>
                 <Input.Label>Pai</Input.Label>
-                <Input.Error>{errors.fatherId?.message}</Input.Error>
               </Input.Header>
 
               <Popover
@@ -684,7 +513,6 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
             <Input.Root>
               <Input.Header>
                 <Input.Label>Mãe</Input.Label>
-                <Input.Error>{errors.motherId?.message}</Input.Error>
               </Input.Header>
 
               <Popover
@@ -745,7 +573,6 @@ export function UpdatePersonForm({ onEdited }: UpdatePersonFormProps) {
           <Input.Root>
             <Input.Header>
               <Input.Label>Tipo do personagem</Input.Label>
-              <Input.Error>{errors.type?.message}</Input.Error>
             </Input.Header>
 
             <Popover open={openTypePicker} onOpenChange={setOpenTypePicker}>

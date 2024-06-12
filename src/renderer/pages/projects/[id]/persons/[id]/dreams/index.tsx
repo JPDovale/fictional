@@ -1,7 +1,5 @@
-import { AttributeEditor } from "../components/AttributeEditor";
+import { AttributeGroupEditors } from '../components/AttributeGroupEditors';
 
 export function PersonDreamAttributrePage() {
-  return (
-    <AttributeEditor />
-  )
+  return <AttributeGroupEditors />;
 }

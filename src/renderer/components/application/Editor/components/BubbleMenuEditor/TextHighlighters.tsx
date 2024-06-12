@@ -4,7 +4,7 @@ import { useTheme } from '@rHooks/useTheme';
 import { colors } from '@rStyles/colors';
 import { tv } from 'tailwind-variants';
 import { Theme } from '@rStores/useInterfaceStore';
-import { BubbleOption } from './BubbleOption';
+import { BubbleOption, bubbleOptionStyles } from './BubbleOption';
 import { HighlighterOption } from './HighlighterOption';
 import {
   Popover,
@@ -32,12 +32,10 @@ export function TextHighlighters({ editor }: TextHighlightersProps) {
 
   return (
     <Popover>
-      <PopoverTrigger>
-        <BubbleOption
-          icon={<PaintBucket className="w-4 h-4" />}
-          isActive={false}
-          handler={() => {}}
-        />
+      <PopoverTrigger asChild>
+        <button type="button" className={bubbleOptionStyles({ theme })}>
+          <PaintBucket className="w-4 h-4" />
+        </button>
       </PopoverTrigger>
 
       <PopoverContent align="end" className={textHighlightersStyles({ theme })}>

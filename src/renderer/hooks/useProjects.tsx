@@ -5,9 +5,11 @@ import { StatusCode } from '@shared/core/types/StatusCode';
 import { useQuery } from '@tanstack/react-query';
 import { ProjectsPresented } from '@modules/projects/presenters/Project.presenter';
 import { useUser } from './useUser';
+import { useToast } from '@rComponents/ui/use-toast';
 
 export function useProjects() {
   const { user } = useUser();
+  const { toast } = useToast();
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['projects'],
@@ -21,6 +23,14 @@ export function useProjects() {
           userId: user?.id ?? '',
         },
       });
+
+      if (response.status !== StatusCode.OK) {
+        toast({
+          title: response.title,
+          description: response.message,
+          variant: 'destructive',
+        });
+      }
 
       if (response.status === StatusCode.OK && response.data) {
         return {

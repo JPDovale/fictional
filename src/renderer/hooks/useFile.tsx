@@ -12,6 +12,7 @@ import { LocalStorageKeys } from '@rConfigs/localstorageKeys';
 import localstorageFunctions from '@rUtils/localstorageFunctions';
 import { Optional } from '@shared/core/types/Optional';
 import { UpdateFileBody } from '@modules/files/gateways/UpdateFile.gateway';
+import { useToast } from '@rComponents/ui/use-toast';
 
 interface UseFileProps {
   fileId?: string;
@@ -24,6 +25,7 @@ interface FileQueryData {
 
 export function useFile({ projectId, fileId }: UseFileProps) {
   const { user } = useUser();
+  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const { data, isLoading, refetch } = useQuery<unknown, Error, FileQueryData>({
@@ -43,6 +45,14 @@ export function useFile({ projectId, fileId }: UseFileProps) {
           projectId,
         },
       });
+
+      if (response.status !== StatusCode.OK) {
+        toast({
+          title: response.title,
+          description: response.message,
+          variant: 'destructive',
+        });
+      }
 
       if (response.status === StatusCode.OK && response.data) {
         const { file } = response.data;
@@ -71,7 +81,7 @@ export function useFile({ projectId, fileId }: UseFileProps) {
     mutationFn: async (variables) => {
       if (!user?.id || !fileId || !projectId) return;
 
-      await Requester.requester<UpdateFileBody>({
+      const response = await Requester.requester<UpdateFileBody>({
         access: Accessors.UPDATE_FILE,
         data: {
           projectId,
@@ -80,6 +90,14 @@ export function useFile({ projectId, fileId }: UseFileProps) {
           ...variables,
         },
       });
+
+      if (response.status !== StatusCode.OK) {
+        toast({
+          title: response.title,
+          description: response.message,
+          variant: 'destructive',
+        });
+      }
     },
     onSuccess: (_, { title, content }) => {
       queryClient.setQueryData(
@@ -112,7 +130,7 @@ export function useFile({ projectId, fileId }: UseFileProps) {
 
   return {
     file,
-    isLoading,
+    isLoadingFile: isLoading,
     updateFile,
     refetchFile: refetch,
     getTempPersistenceKey,

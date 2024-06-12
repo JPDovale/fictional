@@ -1,6 +1,7 @@
 import { FolderTree } from '@rComponents/application/FolderTree';
 import { Loading } from '@rComponents/application/Loading';
-import { ScrollArea } from '@rComponents/application/ScrollArea';
+import { DeletingPersonAttributeModal } from '@rComponents/persons/DeletingPersonAttributeModal';
+import { DeletingPersonModal } from '@rComponents/persons/DeletingPersonModal';
 import {
   ResizableHandle,
   ResizablePanel,
@@ -20,7 +21,7 @@ const overlayImageStyles = tv({
   variants: {
     theme: {
       [Theme.DARK]: 'from-gray100 via-gray100/80',
-      [Theme.LIGHT]: 'from-gray900 via-gray900/50',
+      [Theme.LIGHT]: 'from-gray900 via-gray900/30',
       [Theme.SYSTEM]: '',
     },
   },
@@ -31,7 +32,7 @@ export function ProjectLayout() {
   const { projectId } = useParams();
   const { nodeIdSelected, setNodeIdSelected } = useFolderTree();
   const {
-    isLoading: isLoadingProject,
+    isLoadingProject,
     project,
     useHeader,
     useTreeFolder,
@@ -40,7 +41,7 @@ export function ProjectLayout() {
     useFoundation,
   } = useProject({ projectId });
   const { isLoading: isLoadingPersons } = usePersons();
-  const { isLoading: isLoadingFoundation } = useFoundation();
+  const { isLoadingFoundation } = useFoundation();
   const { isLoading: isLoadingPersonsAttributes } = usePersonsAttributes();
   const { paths, Header } = useHeader();
   const projectTree = useTreeFolder();
@@ -64,30 +65,42 @@ export function ProjectLayout() {
         }
       )} `}
     >
-      <ResizablePanelGroup direction="horizontal">
-        <ResizablePanel className="max-w-xs" defaultSize={280} maxSize={320}>
-          <ScrollArea>
-            <FolderTree
-              nodes={[
-                ...projectTree.childs,
-                { id: '1', name: 'Sair', path: '/', icon: LogOut },
-              ]}
-              nodeSelected={nodeIdSelected}
-              setNodeSelected={setNodeIdSelected}
-            />
-          </ScrollArea>
+      <ResizablePanelGroup
+        direction="horizontal"
+        className="animate-none transition-none"
+      >
+        <ResizablePanel
+          defaultSize={15}
+          className="animate-none transition-none"
+        >
+          <FolderTree
+            nodes={[
+              ...projectTree.childs,
+              { id: '1', name: 'Sair', path: '/', icon: LogOut },
+            ]}
+            title={project?.name}
+            nodeSelected={nodeIdSelected}
+            setNodeSelected={setNodeIdSelected}
+          />
+
+          <DeletingPersonModal projectId={projectId} />
+          <DeletingPersonAttributeModal projectId={projectId} />
         </ResizablePanel>
 
-        <ResizableHandle />
+        <ResizableHandle withHandle className="p-px" />
 
-        <ResizablePanel defaultSize={1200}>
+        <ResizablePanel
+          defaultSize={60}
+          className="animate-none transition-none"
+        >
           <div className="w-full min-h-full max-h-full overflow-y-auto relative flex flex-col ">
             <Header />
 
             <div className="w-full max-h-[38rem] min-h-[38rem] relative flex items-center overflow-hidden z-0">
               {imageUrl && (
                 <img
-                  className="w-full h-full object-cover"
+                  id="back"
+                  className="w-full h-full object-cover blur-sm opacity-80"
                   src={imageUrl}
                   alt={imageAlt}
                 />

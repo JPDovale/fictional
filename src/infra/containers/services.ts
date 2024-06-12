@@ -26,6 +26,12 @@ import { UpdateAllPersonEventsService } from '@modules/timelines/services/Update
 import { UpdateBirthAndDeathDateOfPersonInDeafultTimelineService } from '@modules/timelines/services/UpdateBirthAndDeathDateOfPersonInDefaultTimeline.service';
 import { CreatePersonAttributeMutationService } from '@modules/persons/services/CreatePersonAttributeMutation.service';
 import { GetPersonAttributeService } from '@modules/persons/services/GetPersonAttribute.service';
+import { DeleteProjectService } from '@modules/projects/services/DeleteProject.service';
+import { DeletePersonService } from '@modules/persons/services/DeletePerson.service';
+import { DeletePersonAttributeMutationService } from '@modules/persons/services/DeletePersonAttributeMutation.service';
+import { ChangePositionPersonAttributeMutationService } from '@modules/persons/services/ChagePositionPersonAttributeMutation.service';
+import { UpdatePersonAttributeMutationService } from '@modules/persons/services/UpdatePersonAttributeMutation.service';
+import { DeletePersonAttributeService } from '@modules/persons/services/DeletePersonAttribute.service';
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Users
@@ -38,6 +44,7 @@ container.registerSingleton(CreateProjectService);
 container.registerSingleton(GetProjectsService);
 container.registerSingleton(GetProjectService);
 container.registerSingleton(UpdateProjectBuildBlocksService);
+container.registerSingleton(DeleteProjectService);
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Foundations
@@ -55,6 +62,11 @@ container.registerSingleton(UpdatePersonService);
 container.registerSingleton(GetPersonService);
 container.registerSingleton(CreatePersonAttributeMutationService);
 container.registerSingleton(GetPersonAttributeService);
+container.registerSingleton(DeletePersonService);
+container.registerSingleton(DeletePersonAttributeMutationService);
+container.registerSingleton(ChangePositionPersonAttributeMutationService);
+container.registerSingleton(UpdatePersonAttributeMutationService);
+container.registerSingleton(DeletePersonAttributeService);
 
 // ++++++++++++++++++++++++++++++++++++++++++
 // Affiliations

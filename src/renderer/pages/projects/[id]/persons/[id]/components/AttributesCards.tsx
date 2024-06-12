@@ -19,12 +19,12 @@ export function AttributesCards() {
   if (!person) return null;
 
   return (
-    <div className="flex flex-col gap-4 pt-4 pb-40 border-t border-t-purple500">
+    <div className="flex flex-col gap-4 pt-4  border-t border-t-purple500">
       <h2 className="text-xl font-bold">Atributos do personagem</h2>
 
-      {attributeTypes.map((type) => (
+      {attributeTypes.map((type, i) => (
         <AttributeGroupCards
-          key={type}
+          key={`${type}-${i}`}
           title={attributeTypeNameMapper[type]}
           Icon={attributeIconsMapper[type]}
           attributes={attributesThisPerson.filter((attr) => attr.type === type)}

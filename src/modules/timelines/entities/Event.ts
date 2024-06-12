@@ -4,6 +4,7 @@ import { UniqueId } from '@shared/core/valueObjects/UniqueId';
 import { EventDate } from '../valueObjects/EventDate';
 import { PersonType } from '@modules/persons/entities/types';
 import { EventToPersonType } from './EventToPerson';
+import { isString } from 'lodash';
 
 export type ImportanceLevel = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
@@ -38,13 +39,23 @@ export class Event extends AggregateRoot<EventProps> {
     return event;
   }
 
-  get date() {
+  get date(): EventDate {
     return this.props.date;
   }
 
-  set date(eventDate: EventDate) {
-    if (eventDate.equals(this.date)) return;
-    this.props.date = eventDate;
+  set date(eventDate: EventDate | null | undefined | string) {
+    if (eventDate === undefined) return;
+    if (eventDate === null) {
+      this.moveToTrash();
+      return;
+    }
+
+    const newDate = isString(eventDate)
+      ? EventDate.createFromString(eventDate)
+      : eventDate;
+
+    if (newDate.equals(this.date)) return;
+    this.props.date = newDate;
     this.touch();
   }
 
@@ -62,12 +73,15 @@ export class Event extends AggregateRoot<EventProps> {
     return this.props.timelineId;
   }
 
-  get importanceLevel() {
+  get importanceLevel(): ImportanceLevel {
     return this.props.importanceLevel;
   }
 
-  set importanceLevel(importanceLevel: ImportanceLevel) {
+  set importanceLevel(importanceLevel: ImportanceLevel | undefined) {
+    if (!importanceLevel) return;
+    if (importanceLevel === this.importanceLevel) return;
     this.props.importanceLevel = importanceLevel;
+    this.touch();
   }
 
   get createdAt() {

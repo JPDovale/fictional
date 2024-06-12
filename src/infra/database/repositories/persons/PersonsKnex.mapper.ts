@@ -14,6 +14,7 @@ export interface PersonFile {
   type: PersonType;
   created_at: Date;
   updated_at: Date | null;
+  trashed_at: Date | null;
   project_id: string;
   affiliation_id: string | null;
   history: string | null;
@@ -43,6 +44,7 @@ export class PersonsKnexMapper extends RepositoryMapper<Person, PersonFile> {
         image: raw.image,
         createdAt: raw.created_at,
         updatedAt: raw.updated_at,
+        trashedAt: raw.trashed_at,
         history: raw.history,
       },
       UniqueId.create(raw.id)
@@ -59,6 +61,7 @@ export class PersonsKnexMapper extends RepositoryMapper<Person, PersonFile> {
       affiliation_id: entity.affiliationId?.toString() ?? null,
       created_at: entity.createdAt,
       updated_at: entity.updatedAt,
+      trashed_at: entity.trashedAt,
       history: entity.history,
     };
   }
@@ -73,6 +76,7 @@ export class PersonsKnexMapper extends RepositoryMapper<Person, PersonFile> {
       motherId: raw.mother_id ? UniqueId.create(raw.mother_id) : null,
       createdAt: raw.created_at,
       updatedAt: raw.updated_at,
+      trashedAt: raw.trashed_at,
       personId: UniqueId.create(raw.id),
       history: raw.history,
     });
@@ -90,6 +94,7 @@ export class PersonsKnexMapper extends RepositoryMapper<Person, PersonFile> {
       deathEvent: raw.deathEvent,
       createdAt: raw.created_at,
       updatedAt: raw.updated_at,
+      trashedAt: raw.trashed_at,
       personId: UniqueId.create(raw.id),
       history: raw.history,
     });

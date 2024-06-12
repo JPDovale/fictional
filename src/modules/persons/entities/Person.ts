@@ -4,7 +4,6 @@ import { UniqueId } from '@shared/core/valueObjects/UniqueId';
 import { PersonType } from './types';
 import { PersonCreatedWithTimelineEvent } from '../events/PersonCreatedWithTimelineEvent.event';
 import { EventToPersonType } from '@modules/timelines/entities/EventToPerson';
-import { DomainEvent } from '@shared/core/events/DomainEvent';
 import { PersonInfosUsedInEventUpdatedEvent } from '../events/PersonInfosUsedInEventsUpdated.event';
 import { PersonBirthOrDeathDateUpdatedEvent } from '../events/PersonBirthOrDeathDateUpdated.event';
 
@@ -15,19 +14,27 @@ interface PersonProps {
   type: PersonType;
   createdAt: Date;
   updatedAt: Date | null;
+  trashedAt: Date | null;
   projectId: UniqueId;
   affiliationId: UniqueId | null;
 }
 
 type CreatePersonProps = Optional<
   PersonProps,
-  'createdAt' | 'updatedAt' | 'name' | 'image' | 'affiliationId' | 'history'
+  | 'createdAt'
+  | 'updatedAt'
+  | 'name'
+  | 'image'
+  | 'affiliationId'
+  | 'history'
+  | 'trashedAt'
 >;
 
 export class Person extends AggregateRoot<PersonProps> {
   static create(props: CreatePersonProps, id?: UniqueId) {
     const personProps: PersonProps = {
       ...props,
+      trashedAt: props.trashedAt ?? null,
       name: props.name ?? null,
       image: props.image ?? null,
       affiliationId: props.affiliationId ?? null,
@@ -93,6 +100,10 @@ export class Person extends AggregateRoot<PersonProps> {
     return this.props.updatedAt;
   }
 
+  get trashedAt() {
+    return this.props.trashedAt;
+  }
+
   get projectId() {
     return this.props.projectId;
   }
@@ -134,5 +145,10 @@ export class Person extends AggregateRoot<PersonProps> {
         props.deathDate
       )
     );
+  }
+
+  moveToTrash() {
+    this.props.trashedAt = new Date();
+    this.touch();
   }
 }

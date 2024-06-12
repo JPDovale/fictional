@@ -38,6 +38,7 @@ export interface AttributeFile {
   type: AttributeType;
   created_at: Date;
   updated_at: Date | null;
+  trashed_at: Date | null;
 }
 
 interface AttributePreviewSelect {
@@ -66,6 +67,7 @@ export class AttributesKnexMapper extends RepositoryMapper<
         mutations: new AttributeMutationList(raw.mutations ?? []),
         createdAt: raw.created_at,
         updatedAt: raw.updated_at,
+        trashedAt: raw.trashed_at,
       },
       UniqueId.create(raw.id)
     );
@@ -73,6 +75,7 @@ export class AttributesKnexMapper extends RepositoryMapper<
 
   toPersistence(entity: Attribute): AttributeFile {
     return {
+      trashed_at: entity.trashedAt,
       id: entity.id.toString(),
       file_id: entity.fileId.toString(),
       type: entity.type,

@@ -1,8 +1,8 @@
-import { useTheme } from '@rHooks/useTheme'
-import { Theme } from '@rStores/useInterfaceStore'
-import { Slot } from '@radix-ui/react-slot'
-import { ButtonHTMLAttributes } from 'react'
-import { VariantProps, tv } from 'tailwind-variants'
+import { useTheme } from '@rHooks/useTheme';
+import { Theme } from '@rStores/useInterfaceStore';
+import { Slot } from '@radix-ui/react-slot';
+import { ButtonHTMLAttributes } from 'react';
+import { VariantProps, tv } from 'tailwind-variants';
 
 const buttonRootStyles = tv({
   base: 'flex items-center gap-3 group rounded-md shadow-default data-[active=true]:shadow-onActive data-[active=true]:cursor-default data-[disabled=false]:active:shadow-onActive data-[disabled=false]:hover:bg-purple500 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-70 data-[disabled=true]:shadow-none',
@@ -41,13 +41,13 @@ const buttonRootStyles = tv({
     width: 'hug',
     align: 'center',
   },
-})
+});
 
 interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonRootStyles> {
-  asChild?: boolean
-  active?: boolean
+  asChild?: boolean;
+  active?: boolean;
 }
 
 export function Root({
@@ -60,8 +60,8 @@ export function Root({
   asChild = false,
   ...props
 }: ButtonProps) {
-  const { theme } = useTheme()
-  const ButtonContainer = asChild ? Slot : 'button'
+  const { theme } = useTheme();
+  const ButtonContainer = asChild ? Slot : 'button';
 
   return (
     <ButtonContainer
@@ -76,9 +76,10 @@ export function Root({
         theme,
         className,
       })}
+      disabled={disabled}
       {...props}
     />
-  )
+  );
 }
 
-Root.displayName = 'Button.Root'
+Root.displayName = 'Button.Root';

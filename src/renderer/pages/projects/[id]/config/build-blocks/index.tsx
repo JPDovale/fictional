@@ -8,12 +8,13 @@ import { Button } from '@rComponents/application/Button';
 import { Checkbox } from '@rComponents/application/Checkbox';
 import { Input } from '@rComponents/application/Input';
 import { NotFound } from '@rComponents/application/NotFound';
+import { useToast } from '@rComponents/ui/use-toast';
 import { useProject } from '@rHooks/useProject';
 import { useProjects } from '@rHooks/useProjects';
 import { useUser } from '@rHooks/useUser';
 import { StatusCode } from '@shared/core/types/StatusCode';
 import { Clock, Users } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { FieldErrors, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
 
@@ -26,6 +27,7 @@ type UpdateBuildBlocksData = z.infer<typeof updateBuildBlocksFormSchema>;
 export function ProjectEditBuildBlocksPage() {
   const { projectId } = useParams();
 
+  const { toast } = useToast();
   const { user } = useUser();
   const { refetchProjects } = useProjects();
   const { project, usePersons, useFoundation, useTimelines, refetchProject } =
@@ -36,7 +38,7 @@ export function ProjectEditBuildBlocksPage() {
 
   const {
     handleSubmit,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting, isDirty },
     setValue,
     watch,
     reset,
@@ -86,6 +88,14 @@ export function ProjectEditBuildBlocksPage() {
       },
     });
 
+    if (response.status !== StatusCode.OK) {
+      return toast({
+        title: response.title,
+        description: response.message,
+        variant: 'destructive',
+      });
+    }
+
     if (response.status === StatusCode.OK) {
       if (buildBlocks.includes(BuildBlock.PERSONS)) {
         refetchPersons();
@@ -101,10 +111,32 @@ export function ProjectEditBuildBlocksPage() {
 
       refetchProjects();
       await refetchProject();
+      toast({
+        title: 'Projeto alterado com sucesso',
+        description: `O projeto ${project?.name} foi alterado com sucesso!`,
+      });
 
       navigate(`/projects/${projectId}/config`);
       reset();
     }
+  }
+
+  function onErrors(errors: FieldErrors<UpdateBuildBlocksData>) {
+    const errorKeys = Object.keys(errors) as (keyof UpdateBuildBlocksData)[];
+
+    const firstError = errors[errorKeys[0]];
+
+    if (firstError) {
+      toastError(firstError.message ?? '');
+    }
+  }
+
+  function toastError(message: string) {
+    toast({
+      title: 'Erro no formulário',
+      description: message,
+      variant: 'destructive',
+    });
   }
 
   if (!project) {
@@ -117,18 +149,18 @@ export function ProjectEditBuildBlocksPage() {
 
       <form
         className="flex flex-col gap-4"
-        onSubmit={handleSubmit(handleUpdateBuildBlocks)}
+        onSubmit={handleSubmit(handleUpdateBuildBlocks, onErrors)}
       >
         <Input.Root>
           <Input.Header>
             <Input.Label>Blocos de construção</Input.Label>
-            <Input.Error>{errors.buildBlocks?.message}</Input.Error>
           </Input.Header>
 
           <div className="grid grid-cols-3 gap-4 mt-2">
             <Checkbox.Root>
               <Checkbox.CheckerRoot
                 checked={buildBlocks.includes(BuildBlock.FOUNDATION)}
+                disabled
                 onCheckedChange={(e) =>
                   handleToggleBuildBlock(
                     BuildBlock.FOUNDATION,
@@ -149,6 +181,7 @@ export function ProjectEditBuildBlocksPage() {
             <Checkbox.Root>
               <Checkbox.CheckerRoot
                 checked={buildBlocks.includes(BuildBlock.PERSONS)}
+                disabled
                 onCheckedChange={(e) =>
                   handleToggleBuildBlock(
                     BuildBlock.PERSONS,
@@ -169,6 +202,7 @@ export function ProjectEditBuildBlocksPage() {
             <Checkbox.Root>
               <Checkbox.CheckerRoot
                 checked={buildBlocks.includes(BuildBlock.TIME_LINES)}
+                disabled
                 onCheckedChange={(e) =>
                   handleToggleBuildBlock(
                     BuildBlock.TIME_LINES,
@@ -188,7 +222,11 @@ export function ProjectEditBuildBlocksPage() {
           </div>
         </Input.Root>
 
-        <Button.Root className="mt-4" type="submit" disabled={isSubmitting}>
+        <Button.Root
+          className="mt-4"
+          type="submit"
+          disabled={isSubmitting || !isDirty}
+        >
           <Button.Text>Salvar alterações</Button.Text>
         </Button.Root>
       </form>
