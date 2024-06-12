@@ -1,19 +1,19 @@
-import '../infra/containers/index';
-import '../infra/requester/index';
-import { BrowserWindow, app, dialog } from 'electron';
-import { AppWindow } from './view/AppWindow';
-import { StarterDatabase } from './controller/StarterDatabase';
-import { Logger } from '@utils/logger';
-import { autoUpdater } from 'electron-updater';
-import log from 'electron-log';
-import path from 'path';
-import { resolveUpdatingHtmlPath } from './utils/resolveUpdatingHtmlPath';
+import '../infra/containers/index'
+import '../infra/requester/index'
+import { BrowserWindow, app } from 'electron'
+import { Logger } from '@utils/logger'
+import { autoUpdater } from 'electron-updater'
+import log from 'electron-log'
+import path from 'path'
+import { StarterDatabase } from './controller/StarterDatabase'
+import { AppWindow } from './view/AppWindow'
+import { resolveUpdatingHtmlPath } from './utils/resolveUpdatingHtmlPath'
 
-const { appWindow } = AppWindow;
+const { appWindow } = AppWindow
 
 if (process.env.NODE_ENV === 'production') {
-  const sourceMapSupport = require('source-map-support');
-  sourceMapSupport.install();
+  const sourceMapSupport = require('source-map-support')
+  sourceMapSupport.install()
 }
 
 // autoUpdater.on('update-available', ({ version }) => {
@@ -51,26 +51,26 @@ if (process.env.NODE_ENV === 'production') {
 //   Logger.info('INFO: Noting to update');
 // });
 
-log.transports.file.level = 'info';
-autoUpdater.logger = log;
-autoUpdater.autoRunAppAfterInstall = true;
-autoUpdater.autoInstallOnAppQuit = true;
+log.transports.file.level = 'info'
+autoUpdater.logger = log
+autoUpdater.autoRunAppAfterInstall = true
+autoUpdater.autoInstallOnAppQuit = true
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    app.quit();
+    app.quit()
   }
-});
+})
 
 app
   .whenReady()
   .then(async () => {
     const RESOURCES_PATH = app.isPackaged
       ? path.join(process.resourcesPath, 'assets')
-      : path.join(__dirname, '../assets');
+      : path.join(__dirname, '../assets')
 
     function getAssetPath(...paths: string[]): string {
-      return path.join(RESOURCES_PATH, ...paths);
+      return path.join(RESOURCES_PATH, ...paths)
     }
 
     const updatingWindow = new BrowserWindow({
@@ -84,38 +84,37 @@ app
       closable: false,
       icon: getAssetPath('icon.png'),
       webPreferences: {
-        preload: app.isPackaged
-          ? path.join(__dirname, 'preload.js')
-          : path.join(__dirname, '../../.erb/dll/preload.js'),
         webSecurity: false,
         contextIsolation: true,
       },
-    });
+    })
 
-    updatingWindow.loadURL(resolveUpdatingHtmlPath());
+    updatingWindow.loadURL(resolveUpdatingHtmlPath())
     updatingWindow.on('ready-to-show', async () => {
-      updatingWindow.show();
-    });
+      updatingWindow.show()
+    })
 
-    const result = await autoUpdater.checkForUpdates();
-    Logger.debug(result);
+    const result = await autoUpdater.checkForUpdates()
+    Logger.debug(result)
 
-    if (result) {
+    if (result && result.updateInfo.version !== app.getVersion()) {
       autoUpdater.on('update-downloaded', () => {
-        app.relaunch();
-      });
-
-      return;
+        app.relaunch()
+      })
     }
 
-    updatingWindow.hide();
-    new StarterDatabase();
-    AppWindow.create();
+    if (!result || result?.updateInfo.version === app.getVersion()) {
+      const database = new StarterDatabase()
+      await database.migrate()
 
-    app.on('activate', () => {
-      if (appWindow === null) AppWindow.create();
-    });
+      updatingWindow.hide()
+      AppWindow.create()
 
-    return true;
+      app.on('activate', () => {
+        if (appWindow === null) AppWindow.create()
+      })
+    }
+
+    return true
   })
-  .catch(Logger.panic);
+  .catch(Logger.panic)

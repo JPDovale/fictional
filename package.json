@@ -106,6 +106,7 @@
     "electron-log": "^4.4.8",
     "electron-updater": "^5.3.0",
     "iconv-lite": "0.6.3",
+    "jimp": "0.22.12",
     "knex": "^3.0.1",
     "lodash": "4.17.21",
     "lucide-react": "0.390.0",
@@ -120,7 +121,6 @@
     "react-resizable-panels": "2.0.13",
     "react-router-dom": "^6.11.2",
     "reflect-metadata": "0.1.13",
-    "sharp": "0.33.4",
     "tailwind-merge": "1.13.2",
     "tailwind-variants": "0.2.0",
     "tailwindcss-animate": "1.0.6",
@@ -283,8 +283,7 @@
     },
     "linux": {
       "target": [
-        "AppImage",
-        "deb"
+        "AppImage"
       ],
       "fileAssociations": [
         {
