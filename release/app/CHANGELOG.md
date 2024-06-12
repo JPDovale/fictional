@@ -1,5 +1,11 @@
 # magiscrita
 
+## 0.5.0
+
+### Minor Changes
+
+- First public beta version
+
 ## 0.4.0
 
 ### Minor Changes
