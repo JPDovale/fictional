@@ -1,27 +1,26 @@
-import Electron, { BrowserWindow } from 'electron';
-import { accessors } from './accessors';
-import { Accessors } from './types';
-
-import { Logger } from '@utils/logger';
+import Electron, { BrowserWindow } from 'electron'
+import { Logger } from '@utils/logger'
+import { accessors } from './accessors'
+import { Accessors } from './types'
 
 export interface ResolverData<T = unknown> {
-  access: Accessors;
-  isDebug?: boolean;
-  data: T;
+  access: Accessors
+  isDebug?: boolean
+  data: T
 }
 
 export class Resolver {
-  static readonly key: 'request' = 'request' as const;
+  static readonly key: 'request' = 'request' as const
 
   static async handler<T = unknown>(
     _e: Electron.IpcMainInvokeEvent,
     data: ResolverData<T>,
-    win: BrowserWindow | null
+    win: BrowserWindow | null,
   ) {
     const response = await accessors[data.access].handle({
       _data: data.data,
       win,
-    });
+    })
 
     if (data.isDebug) {
       Logger.debug(
@@ -29,10 +28,10 @@ export class Resolver {
         'DATA RECEIVED:',
         data.data,
         'DATA RESPONSE:',
-        response
-      );
+        response,
+      )
     }
 
-    return response;
+    return response
   }
 }

@@ -1,6 +1,7 @@
 import { Presenter, PresenterProps } from '@shared/core/contracts/Presenter'
 import { StatusCode } from '@shared/core/types/StatusCode'
 import { injectable } from 'tsyringe'
+import { makeImageLocation } from '@utils/makeImageLocation'
 import { Project, ProjectStructureType, ProjectType } from '../entities/Project'
 import { BuildBlocksJson } from '../valueObjects/BuildBlocks'
 
@@ -35,7 +36,7 @@ export class ProjectPresenter
       id: raw.id.toString(),
       name: raw.name,
       image: {
-        url: raw.image,
+        url: makeImageLocation(raw.image),
         alt: raw.name,
       },
       buildBlocks: raw.buildBlocks.toJSON(),

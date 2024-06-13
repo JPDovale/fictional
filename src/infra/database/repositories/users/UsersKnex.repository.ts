@@ -24,6 +24,14 @@ export class UsersKnexRepository implements UsersRepository {
     return this.mapper.toDomain(user)
   }
 
+  async findFirst(): Promise<User | null> {
+    const user = await this.knexConnection.db('users').first()
+
+    if (!user) return null
+
+    return this.mapper.toDomain(user)
+  }
+
   async create(data: User): Promise<void> {
     await this.knexConnection
       .db('users')
@@ -47,8 +55,11 @@ export class UsersKnexRepository implements UsersRepository {
     throw new Error('Method not implemented.')
   }
 
-  save(id: string): Promise<void> {
-    throw new Error('Method not implemented.')
+  async save(user: User): Promise<void> {
+    await this.knexConnection
+      .db('users')
+      .where({ id: user.id.toString() })
+      .update(this.mapper.toPersistence(user))
   }
 
   delete(id: string): Promise<void> {

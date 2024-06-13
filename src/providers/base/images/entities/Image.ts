@@ -1,5 +1,6 @@
 import { Entity } from '@shared/core/entities/Entity'
 import { UniqueId } from '@shared/core/valueObjects/UniqueId'
+import { Logger } from '@utils/logger'
 import fs from 'fs/promises'
 import jimp from 'jimp'
 
@@ -16,6 +17,10 @@ export class Image extends Entity<ImageProps> {
 
   get name() {
     return this.props.name
+  }
+
+  get savedName() {
+    return this.id.toString().concat(this.name)
   }
 
   get destination() {
@@ -41,11 +46,12 @@ export class Image extends Entity<ImageProps> {
       await fs.copyFile(this.path, this.destination)
       return
     }
-
-    const image = await jimp.read(this.path)
-
-    image.quality(30)
-
-    await image.writeAsync(this.destination)
+    try {
+      const image = await jimp.read(this.path)
+      image.quality(30)
+      await image.writeAsync(this.destination)
+    } catch (err) {
+      Logger.error('ERROR:', 'COPY IMAGE TO SECURE', err)
+    }
   }
 }

@@ -1,7 +1,7 @@
-import { useTheme } from '@rHooks/useTheme';
-import { Theme } from '@rStores/useInterfaceStore';
-import { HTMLAttributes } from 'react';
-import { tv } from 'tailwind-variants';
+import { useTheme } from '@rHooks/useTheme'
+import { Theme } from '@rStores/useInterfaceStore'
+import { HTMLAttributes } from 'react'
+import { tv } from 'tailwind-variants'
 
 export const rootStyles = tv({
   base: 'px-2 py-2 flex justify-center gap-4 border-b border-b-purple900',
@@ -12,11 +12,11 @@ export const rootStyles = tv({
       [Theme.SYSTEM]: '',
     },
   },
-});
-type RootProps = HTMLAttributes<HTMLElement>;
+})
+type RootProps = HTMLAttributes<HTMLElement>
 
 export function Root({ className, ...props }: RootProps) {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
 
   return (
     <header className={rootStyles({ theme, className })} {...props} />
@@ -30,5 +30,5 @@ export function Root({ className, ...props }: RootProps) {
     //     <HeaderButton link={link} key={link.pathname} />
     //   ))}
     // </header>
-  );
+  )
 }

@@ -2,6 +2,9 @@ import * as React from 'react'
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
 
 import { cn } from 'src/renderer/utils/cn'
+import { tv } from 'tailwind-variants'
+import { Theme } from '@rStores/useInterfaceStore'
+import { useTheme } from '@rHooks/useTheme'
 
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
@@ -30,19 +33,31 @@ const AvatarImage = React.forwardRef<
 ))
 AvatarImage.displayName = AvatarPrimitive.Image.displayName
 
+const avatarFallbackStyles = tv({
+  base: 'flex h-full w-full items-center border justify-center rounded-full bg-muted',
+  variants: {
+    theme: {
+      [Theme.DARK]: 'bg-gray200 border-purple900',
+      [Theme.LIGHT]: 'bg-gray800 border-l-purple200',
+      [Theme.SYSTEM]: '',
+    },
+  },
+})
+
 const AvatarFallback = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Fallback>,
   React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Fallback
-    ref={ref}
-    className={cn(
-      'flex h-full w-full items-center justify-center rounded-full bg-muted',
-      className,
-    )}
-    {...props}
-  />
-))
+>(({ className, ...props }, ref) => {
+  const { theme } = useTheme()
+
+  return (
+    <AvatarPrimitive.Fallback
+      ref={ref}
+      className={avatarFallbackStyles({ theme, className })}
+      {...props}
+    />
+  )
+})
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
 
 export { Avatar, AvatarImage, AvatarFallback }

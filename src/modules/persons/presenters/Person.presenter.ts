@@ -1,6 +1,7 @@
 import { Presenter, PresenterProps } from '@shared/core/contracts/Presenter'
 import { StatusCode } from '@shared/core/types/StatusCode'
 import { injectable } from 'tsyringe'
+import { makeImageLocation } from '@utils/makeImageLocation'
 import { Person } from '../entities/Person'
 import { PersonType } from '../entities/types'
 
@@ -11,9 +12,7 @@ export interface PersonResponse {
     url: string | null
     alt: string
   }
-  birthDate: string | null
   history: string | null
-  deathDate: string | null
   affiliationId: string | null
   projectId: string
   type: PersonType
@@ -31,20 +30,19 @@ export interface PersonsPresented {
 
 @injectable()
 export class PersonPresenter
-  implements Presenter<Person, PersonPresented, PersonsPresented> {
+  implements Presenter<Person, PersonPresented, PersonsPresented>
+{
   private parse(raw: Person): PersonResponse {
     return {
       id: raw.id.toString(),
       name: raw.name || '??????',
       image: {
-        url: raw.image,
+        url: makeImageLocation(raw.image),
         alt: raw.name ?? '',
       },
       history: raw.history,
       type: raw.type,
       affiliationId: raw.affiliationId?.toString() ?? null,
-      birthDate: raw.birthDate,
-      deathDate: raw.deathDate,
       projectId: raw.projectId.toString(),
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt,

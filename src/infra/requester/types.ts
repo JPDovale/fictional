@@ -1,6 +1,8 @@
 export enum Accessors {
   CREATE_USER = 'CU',
   GET_USER = 'GU',
+  UPDATE_USER = 'UU',
+  GET_FIRST_USER = 'GFU',
   CREATE_PROJECT = 'CP',
   GET_PROJECTS = 'GPs',
   GET_PROJECT = 'GP',

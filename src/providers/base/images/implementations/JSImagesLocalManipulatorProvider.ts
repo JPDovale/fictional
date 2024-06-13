@@ -11,16 +11,23 @@ export class JSImagesLocalManipulatorProvider
 {
   async getImage(originPath: string): Promise<Image | null> {
     if (!originPath) return null
-
+    const isUrl = originPath.startsWith('http')
     const imageId = UniqueId.create()
-    const destinationPath = path.join(
+
+    let basename = path.basename(originPath)
+    let destinationPath = path.join(
       getDatabaseImagesPath(),
-      imageId.toString().concat(path.basename(originPath)),
+      imageId.toString().concat(basename),
     )
+
+    if (isUrl) {
+      destinationPath = destinationPath.concat('.jpg')
+      basename = basename.concat('.jpg')
+    }
 
     const image = Image.create(
       {
-        name: path.basename(originPath),
+        name: basename,
         path: originPath,
         destination: destinationPath,
       },

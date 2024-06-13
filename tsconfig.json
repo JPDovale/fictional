@@ -43,7 +43,8 @@
       "@rStores/*": ["./src/renderer/stores/*"],
       "@rComponents/*": ["./src/renderer/components/*"],
       "@rConfigs/*": ["./src/renderer/configs/*"],
-      "@rUtils/*": ["./src/renderer/utils/*"]
+      "@rUtils/*": ["./src/renderer/utils/*"],
+      "@rLib/*": ["./src/renderer/lib/*"]
     },
     "types": ["vitest/globals", "vitest/importMeta"]
   },

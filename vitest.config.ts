@@ -1,6 +1,6 @@
-import swc from 'unplugin-swc';
-import { configDefaults, defineConfig } from 'vitest/config';
-import tsConfigPaths from 'vite-tsconfig-paths';
+import swc from 'unplugin-swc'
+import { configDefaults, defineConfig } from 'vitest/config'
+import tsConfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
   test: {
@@ -19,4 +19,4 @@ export default defineConfig({
       module: { type: 'es6' },
     }),
   ],
-});
+})

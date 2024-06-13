@@ -1,19 +1,19 @@
-import { Button } from '@rComponents/application/Button';
-import { CardProject } from '@rComponents/projects/CardProject';
-import { useProjects } from '@rHooks/useProjects';
-import { FilePlus } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Button } from '@rComponents/application/Button'
+import { CardProject } from '@rComponents/projects/CardProject'
+import { useProjects } from '@rHooks/useProjects'
+import { FilePlus } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 export function HomePage() {
-  const { projects, isLoading } = useProjects();
+  const { projects, isLoading } = useProjects()
 
   return (
     <main className="max-w-6xl mx-auto py-4 h-full flex-col flex w-full">
       <h3 className="text-2xl font-bold font-body px-4 opacity-60">Projetos</h3>
       <section className="grid px-4 grid-cols-3 gap-8 mt-4">
         {isLoading &&
-          Array.from({ length: 9 }).map((_, index) => (
-            <CardProject.Skeleton key={index} />
+          Array.from({ length: 9 }).map((_, i) => (
+            <CardProject.Skeleton key={i} />
           ))}
 
         {!isLoading &&
@@ -55,5 +55,5 @@ export function HomePage() {
         </div>
       )}
     </main>
-  );
+  )
 }

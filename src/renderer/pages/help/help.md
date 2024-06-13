@@ -48,8 +48,6 @@ Com planos ambiciosos para o futuro, o Fictional está sempre um passo à frente
 
 Não espere mais para transformar suas ideias em realidade. Junte-se a nós no Fictional e descubra um mundo de possibilidades ilimitadas para sua escrita. A revolução literária começa agora - e você está convidado a fazer parte dela.
 
-Claro, aqui está o resumo do Fictional Flow em Markdown:
-
 # Fictional Flow: Um Resumo
 
 O **Fictional Flow** é uma estrutura organizacional e criativa baseada em blocos desenvolvida para auxiliar escritores em todas as etapas do processo de escrita. Compreende ferramentas e recursos para conceber, desenvolver e organizar histórias de forma sistemática e integrada. Nós consideramos escrever um história como montar um grade LEGO, sendo assim existem blocos que precisamos para uma obra e alguns outros que não.

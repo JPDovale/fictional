@@ -1,13 +1,13 @@
-import * as HoverCard from '@radix-ui/react-hover-card';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Button as ButtonDefault } from '../Button';
-import { HeaderLink } from '.';
-import { tv } from 'tailwind-variants';
-import { Theme } from '@rStores/useInterfaceStore';
-import { useTheme } from '@rHooks/useTheme';
+import * as HoverCard from '@radix-ui/react-hover-card'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { tv } from 'tailwind-variants'
+import { Theme } from '@rStores/useInterfaceStore'
+import { useTheme } from '@rHooks/useTheme'
+import { HeaderLink } from '.'
+import { Button as ButtonDefault } from '../Button'
 
 interface ButtonProps {
-  link: HeaderLink;
+  link: HeaderLink
 }
 
 const hoverCardContentStyles = tv({
@@ -19,12 +19,12 @@ const hoverCardContentStyles = tv({
       [Theme.SYSTEM]: '',
     },
   },
-});
+})
 
 export function Button({ link }: ButtonProps) {
-  const { pathname } = useLocation();
-  const { theme } = useTheme();
-  const navigate = useNavigate();
+  const { pathname } = useLocation()
+  const { theme } = useTheme()
+  const navigate = useNavigate()
 
   return (
     <HoverCard.Root openDelay={2000}>
@@ -70,5 +70,5 @@ export function Button({ link }: ButtonProps) {
         </HoverCard.Content>
       </HoverCard.Portal>
     </HoverCard.Root>
-  );
+  )
 }

@@ -8,7 +8,12 @@ export interface UserFile {
   id: string
   name: string
   username: string
+  auth_id: string | null
+  access_token: string | null
   email: string
+  photo_url: string | null
+  skip_login: boolean
+  verified: boolean
   created_at: Date
   updated_at: Date | null
 }
@@ -21,6 +26,11 @@ export class UsersKnexMapper extends RepositoryMapper<User, UserFile> {
         name: raw.name,
         username: Username.create(raw.username),
         email: raw.email,
+        authId: raw.auth_id,
+        accessToken: raw.access_token,
+        photoUrl: raw.photo_url,
+        verified: raw.verified,
+        skipLogin: raw.skip_login,
         createdAt: raw.created_at,
         updatedAt: raw.updated_at,
       },
@@ -36,6 +46,11 @@ export class UsersKnexMapper extends RepositoryMapper<User, UserFile> {
       email: entity.email,
       created_at: entity.createdAt,
       updated_at: entity.updatedAt,
+      photo_url: entity.photoUrl,
+      skip_login: entity.skipLogin,
+      verified: entity.verified,
+      access_token: entity.accessToken,
+      auth_id: entity.authId,
     }
   }
 }

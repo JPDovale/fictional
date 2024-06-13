@@ -11,8 +11,6 @@ ipcMain.handle(Resolver.key, async (e, data) => {
   try {
     return await Resolver.handler(e, data, appWindow)
   } catch (error) {
-    Logger.error(error)
-
     if (error instanceof RequestError) {
       return {
         title: error.title,
@@ -21,6 +19,8 @@ ipcMain.handle(Resolver.key, async (e, data) => {
         errors: { ...error.details },
       }
     }
+
+    Logger.error(error)
 
     return {
       title: 'Erro interno',

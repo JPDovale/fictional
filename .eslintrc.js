@@ -38,6 +38,7 @@ module.exports = {
     'no-plusplus': 'off',
     'no-console': 'off',
     'no-new': "off",
+    'no-callback-literal': 'off',
 
     '@typescript-eslint/no-shadow': 'error',
     '@typescript-eslint/no-unused-vars': 'error',

@@ -2,7 +2,12 @@
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron'
 
-export type Channels = 'request' | 'clear-temp-editor'
+export type Channels =
+  | 'request'
+  | 'clear-temp-editor'
+  | 'open-url'
+  | 'auth-success'
+  | 'auth-error'
 
 const electronHandler = {
   ipcRenderer: {
@@ -23,6 +28,10 @@ const electronHandler = {
     },
     invoke(channel: Channels, ...args: unknown[]) {
       return ipcRenderer.invoke(channel, ...args)
+    },
+
+    removeListener(channel: Channels, func: (...args: unknown[]) => void) {
+      ipcRenderer.removeListener(channel, func)
     },
   },
 }

@@ -1,40 +1,40 @@
-import { Route, Routes } from 'react-router-dom';
-import { Loading } from '@rComponents/application/Loading';
-import { HomePage } from '../pages/home';
-import { DashboardLayout } from '../layouts/DashboardLayout';
-import { usePreload } from '../hooks/usePreload';
-import { NewProjectPage } from '../pages/projects/new';
-import { ProjectPage } from '../pages/projects/[id]';
-import { ProjectLayout } from '../layouts/ProjectLayout';
-import { ProjectTimeLinesPage } from '../pages/projects/[id]/time-lines';
-import { ProjectConfigPage } from '../pages/projects/[id]/config';
-import { ProjectFoundationFoundationPage } from '../pages/projects/[id]/foundation/foundation';
-import { ProjectFoundationWhatHappensPage } from '../pages/projects/[id]/foundation/whatHappens';
-import { ProjectFoundationWhereHappensPage } from '../pages/projects/[id]/foundation/whereHappens';
-import { ProjectFoundationWhyHappensPage } from '../pages/projects/[id]/foundation/whyHappens';
-import { ProjectFoundationWhoHappensPage } from '../pages/projects/[id]/foundation/whoHappens';
-import { ProjectNewPersonPage } from '../pages/projects/[id]/persons/new';
-import { PersonIdentityPage } from '../pages/projects/[id]/persons/[id]';
-import { WrapperLayout } from '../layouts/WrapperLayout';
-import { PersonAppearenceAttributrePage } from '../pages/projects/[id]/persons/[id]/appearences';
-import { PersonDreamAttributrePage } from '../pages/projects/[id]/persons/[id]/dreams';
-import { PersonObjectiveAttributrePage } from '../pages/projects/[id]/persons/[id]/objectives';
-import { PersonPersonalityAttributrePage } from '../pages/projects/[id]/persons/[id]/personalities';
-import { PersonTraumaAttributrePage } from '../pages/projects/[id]/persons/[id]/traumas';
-import { PersonValueAttributrePage } from '../pages/projects/[id]/persons/[id]/values';
-import { ProjectTimelinePage } from '../pages/projects/[id]/time-lines/[id]';
-import { ProjectEditBuildBlocksPage } from '../pages/projects/[id]/config/build-blocks';
-import { PersonHobbieAttributrePage } from '../pages/projects/[id]/persons/[id]/hobbies';
-import { PersonFearAttributrePage } from '../pages/projects/[id]/persons/[id]/fears';
-import { PersonMotivationAttributrePage } from '../pages/projects/[id]/persons/[id]/motivations';
-import { PersonDesireAttributrePage } from '../pages/projects/[id]/persons/[id]/desires';
-import { PersonAddctionAttributrePage } from '../pages/projects/[id]/persons/[id]/addictions';
-import { PersonHabitAttributrePage } from '../pages/projects/[id]/persons/[id]/habits';
-import { HelpPage } from '../pages/help';
+import { Route, Routes } from 'react-router-dom'
+import { Loading } from '@rComponents/application/Loading'
+import { useUser } from '@rHooks/useUser'
+import { HomePage } from '../pages/home'
+import { DashboardLayout } from '../layouts/DashboardLayout'
+import { usePreload } from '../hooks/usePreload'
+import { NewProjectPage } from '../pages/projects/new'
+import { ProjectPage } from '../pages/projects/[id]'
+import { ProjectLayout } from '../layouts/ProjectLayout'
+import { ProjectTimeLinesPage } from '../pages/projects/[id]/time-lines'
+import { ProjectConfigPage } from '../pages/projects/[id]/config'
+import { ProjectFoundationFoundationPage } from '../pages/projects/[id]/foundation/foundation'
+import { ProjectFoundationWhatHappensPage } from '../pages/projects/[id]/foundation/whatHappens'
+import { ProjectFoundationWhereHappensPage } from '../pages/projects/[id]/foundation/whereHappens'
+import { ProjectFoundationWhyHappensPage } from '../pages/projects/[id]/foundation/whyHappens'
+import { ProjectFoundationWhoHappensPage } from '../pages/projects/[id]/foundation/whoHappens'
+import { ProjectNewPersonPage } from '../pages/projects/[id]/persons/new'
+import { PersonIdentityPage } from '../pages/projects/[id]/persons/[id]'
+import { WrapperLayout } from '../layouts/WrapperLayout'
+import { PersonAppearenceAttributrePage } from '../pages/projects/[id]/persons/[id]/appearences'
+import { PersonDreamAttributrePage } from '../pages/projects/[id]/persons/[id]/dreams'
+import { PersonObjectiveAttributrePage } from '../pages/projects/[id]/persons/[id]/objectives'
+import { PersonPersonalityAttributrePage } from '../pages/projects/[id]/persons/[id]/personalities'
+import { PersonTraumaAttributrePage } from '../pages/projects/[id]/persons/[id]/traumas'
+import { PersonValueAttributrePage } from '../pages/projects/[id]/persons/[id]/values'
+import { ProjectTimelinePage } from '../pages/projects/[id]/time-lines/[id]'
+import { ProjectEditBuildBlocksPage } from '../pages/projects/[id]/config/build-blocks'
+import { PersonHobbieAttributrePage } from '../pages/projects/[id]/persons/[id]/hobbies'
+import { PersonFearAttributrePage } from '../pages/projects/[id]/persons/[id]/fears'
+import { PersonMotivationAttributrePage } from '../pages/projects/[id]/persons/[id]/motivations'
+import { PersonDesireAttributrePage } from '../pages/projects/[id]/persons/[id]/desires'
+import { PersonAddctionAttributrePage } from '../pages/projects/[id]/persons/[id]/addictions'
+import { PersonHabitAttributrePage } from '../pages/projects/[id]/persons/[id]/habits'
+import { HelpPage } from '../pages/help'
+import { LoginPage } from '../pages/login'
 
 export function AppRoutes() {
-  const { isLoading } = usePreload();
-  if (isLoading) return null;
   return (
     <Routes>
       <Route path="/" element={<WrapperLayout />}>
@@ -43,6 +43,8 @@ export function AppRoutes() {
           <Route path="/help" element={<HelpPage />} />
           <Route path="/projects/new" element={<NewProjectPage />} />
         </Route>
+
+        <Route path="/login" element={<LoginPage />} />
 
         <Route path="/projects/:projectId" element={<ProjectLayout />}>
           <Route path="/projects/:projectId" element={<ProjectPage />} />
@@ -164,5 +166,5 @@ export function AppRoutes() {
         </Route>
       </Route>
     </Routes>
-  );
+  )
 }

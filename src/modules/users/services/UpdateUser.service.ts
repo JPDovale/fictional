@@ -6,10 +6,12 @@ import { CannotGetSafeLocationForImage } from '@providers/base/images/errors/Con
 import { User } from '../entities/User'
 import { UsersRepository } from '../repositories/Users.repository'
 import { UserAlreadyExistsWithSameEmail } from '../errors/UserAlreadyExists.error'
+import { UserNotFound } from '../errors/UserNotFound.error'
 
 type Request = {
-  name: string
-  email: string
+  userId: string
+  name?: string
+  email?: string
   photoUrl?: string | null
   accessToken?: string | null
   skipLogin?: boolean
@@ -19,6 +21,7 @@ type Request = {
 
 type PossibleErrors =
   | UserAlreadyExistsWithSameEmail
+  | UserNotFound
   | CannotGetSafeLocationForImage
 
 type Response = {
@@ -26,7 +29,7 @@ type Response = {
 }
 
 @injectable()
-export class CreateUserService
+export class UpdateUserService
   implements Service<Request, PossibleErrors, Response>
 {
   constructor(
@@ -37,15 +40,23 @@ export class CreateUserService
   async execute({
     name,
     email,
+    userId,
     authId,
     photoUrl,
     skipLogin,
-    accessToken,
     verified,
+    accessToken,
   }: Request): Promise<Either<PossibleErrors, Response>> {
-    const _user = await this.userRepository.findByEmail(email)
-    if (_user) {
-      return left(new UserAlreadyExistsWithSameEmail())
+    const user = await this.userRepository.findById(userId)
+    if (!user) {
+      return left(new UserNotFound())
+    }
+
+    if (email) {
+      const userWithSameEmail = await this.userRepository.findByEmail(email)
+      if (userWithSameEmail && !user.equals(userWithSameEmail)) {
+        return left(new UserAlreadyExistsWithSameEmail())
+      }
     }
 
     const imageSecure = await this.imagesLocalManipulatorProvider.getImage(
@@ -60,17 +71,16 @@ export class CreateUserService
       await imageSecure.copyToSecure()
     }
 
-    const user = User.create({
-      name,
-      email,
-      authId,
-      photoUrl: imageSecure?.savedName ?? null,
-      verified,
-      skipLogin,
-      accessToken,
-    })
+    user.authId = authId
+    user.name = name
+    user.email = email
+    user.photoUrl = imageSecure?.savedName
+    user.skipLogin = skipLogin
+    user.verified = verified
+    user.username = name
+    user.accessToken = accessToken
 
-    await this.userRepository.create(user)
+    await this.userRepository.save(user)
 
     return right({ user })
   }
