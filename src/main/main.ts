@@ -18,6 +18,18 @@ import { resolveUpdatingHtmlPath } from './utils/resolveUpdatingHtmlPath'
 
 const { appWindow } = AppWindow
 
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: 'fictional',
+    privileges: {
+      secure: true,
+      standard: true,
+      supportFetchAPI: true,
+      bypassCSP: true,
+    },
+  },
+])
+
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support')
   sourceMapSupport.install()
