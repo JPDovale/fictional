@@ -1,5 +1,11 @@
 # magiscrita
 
+## 0.6.0
+
+### Minor Changes
+
+- add authentication
+
 ## 0.5.0
 
 ### Minor Changes
