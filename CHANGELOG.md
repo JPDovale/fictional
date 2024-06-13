@@ -1,5 +1,11 @@
 ## 0.2.0
 
+## 0.6.1
+
+### Patch Changes
+
+- Fixing deep link
+
 ## 0.6.0
 
 ### Minor Changes
