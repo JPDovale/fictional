@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['erb', "@rubykgen/eslint-config/node"],
+  extends: ['erb', '@rubykgen/eslint-config/node'],
   plugins: ['@typescript-eslint'],
   rules: {
     // A temporary hack related to IDE not resolving correct package.json
@@ -37,30 +37,30 @@ module.exports = {
     'no-empty-function': 'off',
     'no-plusplus': 'off',
     'no-console': 'off',
-    'no-new': "off",
+    'no-new': 'off',
     'no-callback-literal': 'off',
 
     '@typescript-eslint/no-shadow': 'error',
     '@typescript-eslint/no-unused-vars': 'error',
   },
-  parserOptions: {
-    ecmaVersion: 2020,
-    sourceType: 'module',
-    project: './tsconfig.json',
-    tsconfigRootDir: __dirname,
-    createDefaultProgram: true,
-  },
-  settings: {
-    'import/resolver': {
-      // See https://github.com/benmosher/eslint-plugin-import/issues/1396#issuecomment-575727774 for line below
-      node: {},
-      webpack: {
-        config: require.resolve('./.erb/configs/webpack.config.eslint.ts'),
-      },
-      typescript: {},
-    },
-    'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.tsx'],
-    },
-  },
-};
+  // parserOptions: {
+  //   ecmaVersion: 2021,
+  //   sourceType: 'module',
+  //   project: './tsconfig.json',
+  //   tsconfigRootDir: __dirname,
+  //   createDefaultProgram: true,
+  // },
+  // settings: {
+  //   'import/resolver': {
+  //     // See https://github.com/benmosher/eslint-plugin-import/issues/1396#issuecomment-575727774 for line below
+  //     node: {},
+  //     webpack: {
+  //       config: require.resolve('./.erb/configs/webpack.config.eslint.ts'),
+  //     },
+  //     typescript: {},
+  //   },
+  //   'import/parsers': {
+  //     '@typescript-eslint/parser': ['.ts', '.tsx'],
+  //   },
+  // },
+}

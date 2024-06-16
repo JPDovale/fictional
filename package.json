@@ -95,6 +95,7 @@
     "@tiptap/react": "^2.0.4",
     "@tiptap/starter-kit": "2.0.4",
     "@tiptap/suggestion": "2.0.4",
+    "axios": "1.7.2",
     "bcryptjs": "2.4.3",
     "cheerio": "1.0.0-rc.12",
     "class-validator": "0.14.0",

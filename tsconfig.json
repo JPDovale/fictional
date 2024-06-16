@@ -48,5 +48,6 @@
     },
     "types": ["vitest/globals", "vitest/importMeta"]
   },
-  "exclude": ["release/build", "release/app/dist", ".erb/dll", "legacy-src"]
+  "exclude": ["release/build", "release/app/dist", ".erb/dll", "legacy-src"],
+  "include": ["src/**/*"]
 }

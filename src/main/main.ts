@@ -5,8 +5,6 @@ import { Logger } from '@utils/logger'
 import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
 import path from 'path'
-import express from 'express'
-import { getDatabaseImagesPath } from '@utils/getDatabasePath'
 import { UserPresented } from '@modules/users/presenters/User.presenter'
 import { Accessors } from '@infra/requester/types'
 import { accessors } from '@infra/requester/accessors'
@@ -15,10 +13,7 @@ import { StatusCode } from '@shared/core/types/StatusCode'
 import { StarterDatabase } from './controller/StarterDatabase'
 import { AppWindow } from './view/AppWindow'
 import { resolveUpdatingHtmlPath } from './utils/resolveUpdatingHtmlPath'
-import portfinder from 'portfinder'
-import { Server } from 'http'
-
-const { appWindow } = AppWindow
+import { WebServer } from './view/WebServer'
 
 protocol.registerSchemesAsPrivileged([
   {
@@ -37,36 +32,11 @@ if (process.env.NODE_ENV === 'production') {
   sourceMapSupport.install()
 }
 
-const webServer = express()
-webServer.use('/images', express.static(getDatabaseImagesPath()))
-
-function portIsInUse(port: number, callback: (inUse: boolean) => void) {
-  portfinder.getPort({ port }, (err, port) => {
-    if (err) {
-      Logger.info(`Server already in use on port ${port}`)
-      callback(true);
-    } else {
-      callback(false);
-    }
-  })
-}
-
-let server: Server
-
-const serverPort = 4141
-
-portIsInUse(serverPort, (inUse) => {
-  if (!inUse) {
-    server = webServer.listen(serverPort, () => {
-      Logger.info(`Server listening on port ${serverPort}`)
-    })
-  }
-})
-
 log.transports.file.level = 'info'
 autoUpdater.logger = log
 autoUpdater.autoRunAppAfterInstall = true
 autoUpdater.autoInstallOnAppQuit = true
+WebServer.start()
 
 autoUpdater.on('update-downloaded', () => {
   Logger.debug('update-downloaded')
@@ -80,8 +50,8 @@ app.on('window-all-closed', () => {
 })
 
 app.on('before-quit', () => {
-  webServer.removeAllListeners()
-  server.close()
+  WebServer.server?.removeAllListeners()
+  WebServer.webServer?.close()
 })
 
 ipcMain.handle('open-url', (_, url) =>
@@ -117,9 +87,9 @@ if (!gotTheLock) {
 } else {
   app.on('second-instance', async (_, commandLine) => {
     // Someone tried to run a second instance, we should focus our window.
-    if (appWindow) {
-      if (appWindow.isMinimized()) appWindow.restore()
-      appWindow.focus()
+    if (AppWindow.appWindow) {
+      if (AppWindow.appWindow.isMinimized()) AppWindow.appWindow.restore()
+      AppWindow.appWindow.focus()
     }
 
     const url = commandLine.find((line) =>
@@ -154,7 +124,7 @@ if (!gotTheLock) {
               accessToken: token,
               skipLogin: true,
             },
-            win: appWindow as BrowserWindow,
+            win: AppWindow.appWindow as BrowserWindow,
           })
           .then((r) => r)
           .catch((error) => error)
@@ -178,7 +148,7 @@ if (!gotTheLock) {
               skipLogin: true,
               verified: verified === 'true',
             },
-            win: appWindow as BrowserWindow,
+            win: AppWindow.appWindow as BrowserWindow,
           })
           .then((r) => r)
           .catch((error) => error)
@@ -201,8 +171,6 @@ if (!gotTheLock) {
   app
     .whenReady()
     .then(async () => {
-
-
       const result = await autoUpdater.checkForUpdates()
 
       const RESOURCES_PATH = app.isPackaged
@@ -247,7 +215,7 @@ if (!gotTheLock) {
         AppWindow.create()
 
         app.on('activate', () => {
-          if (appWindow === null) AppWindow.create()
+          if (AppWindow.appWindow === null) AppWindow.create()
         })
       }
 
