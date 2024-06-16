@@ -1,5 +1,11 @@
 ## 0.2.0
 
+## 0.6.5
+
+### Patch Changes
+
+- Solving web server
+
 ## 0.6.4
 
 ### Patch Changes
