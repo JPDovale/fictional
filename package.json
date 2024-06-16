@@ -1,7 +1,7 @@
 {
   "name": "fictional",
   "description": "The magic occurs in here",
-  "version": "0.6.1",
+  "version": "0.6.4",
   "keywords": [
     "electron",
     "boilerplate",
@@ -29,9 +29,10 @@
     "postinstall": "ts-node .erb/scripts/check-native-dep.js && electron-builder install-app-deps && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.ts",
     "lint": "cross-env NODE_ENV=development eslint . --ext .js,.jsx,.ts,.tsx",
     "package": "ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish always -l -w",
-    "package:dev": "ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish never",
+    "package:dev": "ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish never -l -w",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir release/app",
     "start": "ts-node ./.erb/scripts/check-port-in-use.js && npm run start:renderer",
+    "publish": "./publish.sh",
     "start:main": "cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only -r tsconfig-paths/register .",
     "start:preload": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.preload.dev.ts",
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
@@ -113,6 +114,7 @@
     "lucide-react": "0.390.0",
     "marked": "12.0.2",
     "node-abi": "^3.45.0",
+    "portfinder": "1.0.32",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "14.2.3",
@@ -146,6 +148,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@types/bcryptjs": "2.4.2",
+    "@types/detect-port": "1.3.5",
     "@types/jest": "^29.5.2",
     "@types/lodash": "4.14.195",
     "@types/node": "20.2.5",
@@ -167,7 +170,7 @@
     "cross-env": "^7.0.3",
     "css-loader": "^6.8.1",
     "css-minimizer-webpack-plugin": "^5.0.0",
-    "detect-port": "^1.5.1",
+    "detect-port": "1.6.1",
     "electron": "^25.8.4",
     "electron-builder": "^24.2.1",
     "electron-devtools-installer": "^3.2.0",
@@ -226,8 +229,10 @@
     "webpack-merge": "^5.9.0"
   },
   "build": {
+    "appId": "app.vercel.vortex-fictional",
     "productName": "Fictional",
     "executableName": "fictional",
+    "copyright": "Copyright © 2024 Vortex Technology",
     "protocols": {
       "name": "Fictional",
       "schemes": [
@@ -272,9 +277,10 @@
       ]
     },
     "win": {
-      "appId": "com.github.JPDovale.ms-desktop",
+      "appId": "com.github.JPDovale.fictional",
       "target": [
-        "nsis"
+        "nsis",
+        "msi"
       ],
       "fileAssociations": [
         {
@@ -284,7 +290,7 @@
       ]
     },
     "nsis": {
-      "oneClick": false,
+      "oneClick": true,
       "perMachine": false,
       "license": "assets/eula.txt"
     },

@@ -1,5 +1,23 @@
 ## 0.2.0
 
+## 0.6.4
+
+### Patch Changes
+
+- Realy fixing web server error
+
+## 0.6.3
+
+### Patch Changes
+
+- Fixing error of web server
+
+## 0.6.2
+
+### Patch Changes
+
+- fixing some bugs
+
 ## 0.6.1
 
 ### Patch Changes
