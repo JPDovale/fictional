@@ -15,6 +15,8 @@ import { StatusCode } from '@shared/core/types/StatusCode'
 import { StarterDatabase } from './controller/StarterDatabase'
 import { AppWindow } from './view/AppWindow'
 import { resolveUpdatingHtmlPath } from './utils/resolveUpdatingHtmlPath'
+import portfinder from 'portfinder'
+import { Server } from 'http'
 
 const { appWindow } = AppWindow
 
@@ -35,10 +37,30 @@ if (process.env.NODE_ENV === 'production') {
   sourceMapSupport.install()
 }
 
-const server = express()
-server.use('/images', express.static(getDatabaseImagesPath()))
-server.listen(4141, () => {
-  Logger.info('Server listening on port 4141')
+const webServer = express()
+webServer.use('/images', express.static(getDatabaseImagesPath()))
+
+function portIsInUse(port: number, callback: (inUse: boolean) => void) {
+  portfinder.getPort({ port }, (err, port) => {
+    if (err) {
+      Logger.info(`Server already in use on port ${port}`)
+      callback(true);
+    } else {
+      callback(false);
+    }
+  })
+}
+
+let server: Server
+
+const serverPort = 4141
+
+portIsInUse(serverPort, (inUse) => {
+  if (!inUse) {
+    server = webServer.listen(serverPort, () => {
+      Logger.info(`Server listening on port ${serverPort}`)
+    })
+  }
 })
 
 log.transports.file.level = 'info'
@@ -46,10 +68,20 @@ autoUpdater.logger = log
 autoUpdater.autoRunAppAfterInstall = true
 autoUpdater.autoInstallOnAppQuit = true
 
+autoUpdater.on('update-downloaded', () => {
+  Logger.debug('update-downloaded')
+  autoUpdater.quitAndInstall(true, true)
+})
+
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+})
+
+app.on('before-quit', () => {
+  webServer.removeAllListeners()
+  server.close()
 })
 
 ipcMain.handle('open-url', (_, url) =>
@@ -169,10 +201,7 @@ if (!gotTheLock) {
   app
     .whenReady()
     .then(async () => {
-      autoUpdater.on('update-downloaded', () => {
-        Logger.debug('update-downloaded')
-        autoUpdater.quitAndInstall(true, true)
-      })
+
 
       const result = await autoUpdater.checkForUpdates()
 

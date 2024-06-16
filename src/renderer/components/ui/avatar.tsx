@@ -38,7 +38,7 @@ const avatarFallbackStyles = tv({
   variants: {
     theme: {
       [Theme.DARK]: 'bg-gray200 border-purple900',
-      [Theme.LIGHT]: 'bg-gray800 border-l-purple200',
+      [Theme.LIGHT]: 'bg-gray800 border-purple200',
       [Theme.SYSTEM]: '',
     },
   },

@@ -101,9 +101,10 @@ export function LoginPage() {
   if (isLoading) {
     return (
       <main
+        data-theme={theme}
         className={mainStyles({
           theme,
-          className: 'h-screen w-screen bg-gray100',
+          className: 'h-screen w-screen bg-gray900 data-[theme=dark]:bg-gray100',
         })}
       >
         <Loading />
@@ -113,12 +114,16 @@ export function LoginPage() {
 
   return (
     <main
+      data-theme={theme}
       className={mainStyles({
         theme,
-        className: 'grid grid-cols-2 h-screen w-screen bg-gray100',
+        className: 'grid grid-cols-2 h-screen w-screen bg-gray900 data-[theme=dark]:bg-gray100',
       })}
     >
-      <section className="bg-gray200 flex flex-col gap-8 px-20 justify-center">
+      <section 
+        data-theme={theme}
+        className="bg-gray800 data-[theme=dark]:bg-gray200 flex flex-col gap-8 px-20 justify-center"
+      >
         <div className="flex flex-col gap-4">
           <h2 className="text-7xl font-heading">Fictional</h2>
           <p className="text-lg font-bold">
