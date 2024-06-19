@@ -32,3 +32,7 @@ npm-debug.log.*
 .env
 github
 bun.lockb
+private.key
+*.crt
+*.csr
+*.pfx
