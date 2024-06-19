@@ -1,7 +1,7 @@
 {
   "name": "fictional",
   "description": "The magic occurs in here",
-  "version": "0.6.5",
+  "version": "0.7.0",
   "keywords": [
     "electron",
     "boilerplate",
@@ -32,7 +32,6 @@
     "package:dev": "ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish never -l -w",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir release/app",
     "start": "ts-node ./.erb/scripts/check-port-in-use.js && npm run start:renderer",
-    "publish": "./publish.sh",
     "start:main": "cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only -r tsconfig-paths/register .",
     "start:preload": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.preload.dev.ts",
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
@@ -95,6 +94,7 @@
     "@tiptap/react": "^2.0.4",
     "@tiptap/starter-kit": "2.0.4",
     "@tiptap/suggestion": "2.0.4",
+    "@vortecx/turnversion-cli": "0.0.3",
     "axios": "1.7.2",
     "bcryptjs": "2.4.3",
     "cheerio": "1.0.0-rc.12",
@@ -280,8 +280,7 @@
     "win": {
       "appId": "com.github.JPDovale.fictional",
       "target": [
-        "nsis",
-        "msi"
+        "nsis"
       ],
       "fileAssociations": [
         {
